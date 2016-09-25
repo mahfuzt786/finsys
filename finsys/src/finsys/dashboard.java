@@ -5,6 +5,8 @@
  */
 package finsys;
 
+import java.awt.*;
+
 /**
  *
  * @author pc1
@@ -16,6 +18,7 @@ public class dashboard extends javax.swing.JFrame {
      */
     public dashboard() {
         initComponents();
+        setIcon();
     }
 
     /**
@@ -29,23 +32,59 @@ public class dashboard extends javax.swing.JFrame {
 
         jSpinner1 = new javax.swing.JSpinner();
         jSplitPane1 = new javax.swing.JSplitPane();
-        jToolBar1 = new javax.swing.JToolBar();
+        jMenu3 = new javax.swing.JMenu();
+        jMenu4 = new javax.swing.JMenu();
+        jMenuItem2 = new javax.swing.JMenuItem();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
+        jMenuItem_issue = new javax.swing.JMenuItem();
+        jMenuItem_essential = new javax.swing.JMenuItem();
+        jMenuItem_store = new javax.swing.JMenuItem();
+        jMenuItem_account = new javax.swing.JMenuItem();
+        jMenu5 = new javax.swing.JMenu();
+        jMenuItem_itemwise = new javax.swing.JMenuItem();
+        jMenuItem_itemwisecc = new javax.swing.JMenuItem();
+
+        jMenu3.setText("jMenu3");
+
+        jMenu4.setText("jMenu4");
+
+        jMenuItem2.setText("jMenuItem2");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("FINSYS");
+        setTitle("FINSYS - 1.0");
         setExtendedState(6);
         setLocationByPlatform(true);
         setName("frame_dashboard"); // NOI18N
 
-        jToolBar1.setRollover(true);
-
         jMenu1.setText("File");
         jMenuBar1.add(jMenu1);
 
-        jMenu2.setText("Edit");
+        jMenu2.setText("Report");
+
+        jMenuItem_issue.setText("Issue Report");
+        jMenu2.add(jMenuItem_issue);
+
+        jMenuItem_essential.setText("Essential Report");
+        jMenu2.add(jMenuItem_essential);
+
+        jMenuItem_store.setText("Store Ledger");
+        jMenu2.add(jMenuItem_store);
+
+        jMenuItem_account.setText("Account wise store consumption");
+        jMenu2.add(jMenuItem_account);
+
+        jMenu5.setText("Item wise");
+
+        jMenuItem_itemwise.setText("Item wise store consumption");
+        jMenu5.add(jMenuItem_itemwise);
+
+        jMenuItem_itemwisecc.setText("Item wise cost center consumption");
+        jMenu5.add(jMenuItem_itemwisecc);
+
+        jMenu2.add(jMenu5);
+
         jMenuBar1.add(jMenu2);
 
         setJMenuBar(jMenuBar1);
@@ -54,13 +93,11 @@ public class dashboard extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, 500, Short.MAX_VALUE)
+            .addGap(0, 774, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 354, Short.MAX_VALUE))
+            .addGap(0, 420, Short.MAX_VALUE)
         );
 
         getAccessibleContext().setAccessibleName("FINSYS - 1.0");
@@ -108,9 +145,22 @@ public class dashboard extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenu jMenu3;
+    private javax.swing.JMenu jMenu4;
+    private javax.swing.JMenu jMenu5;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem_account;
+    private javax.swing.JMenuItem jMenuItem_essential;
+    private javax.swing.JMenuItem jMenuItem_issue;
+    private javax.swing.JMenuItem jMenuItem_itemwise;
+    private javax.swing.JMenuItem jMenuItem_itemwisecc;
+    private javax.swing.JMenuItem jMenuItem_store;
     private javax.swing.JSpinner jSpinner1;
     private javax.swing.JSplitPane jSplitPane1;
-    private javax.swing.JToolBar jToolBar1;
     // End of variables declaration//GEN-END:variables
+
+    private void setIcon() {
+        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("shivbari-23x23.png"))); 
+    }
 }
