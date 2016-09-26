@@ -6,6 +6,7 @@
 package finsys;
 
 import java.awt.*;
+import javax.swing.*;
 
 /**
  *
@@ -37,6 +38,10 @@ public class dashboard extends javax.swing.JFrame {
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
+        jMenu6 = new javax.swing.JMenu();
+        jMenuItem_uom = new javax.swing.JMenuItem();
+        jMenuItem_category = new javax.swing.JMenuItem();
+        jMenuItem_item = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jMenuItem_issue = new javax.swing.JMenuItem();
         jMenuItem_essential = new javax.swing.JMenuItem();
@@ -60,6 +65,24 @@ public class dashboard extends javax.swing.JFrame {
 
         jMenu1.setText("File");
         jMenuBar1.add(jMenu1);
+
+        jMenu6.setText("Master");
+
+        jMenuItem_uom.setText("Unit of measurement (UOM)");
+        jMenuItem_uom.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem_uomActionPerformed(evt);
+            }
+        });
+        jMenu6.add(jMenuItem_uom);
+
+        jMenuItem_category.setText("Item_category");
+        jMenu6.add(jMenuItem_category);
+
+        jMenuItem_item.setText("Item type");
+        jMenu6.add(jMenuItem_item);
+
+        jMenuBar1.add(jMenu6);
 
         jMenu2.setText("Report");
 
@@ -107,6 +130,15 @@ public class dashboard extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jMenuItem_uomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_uomActionPerformed
+        JFrame unit=new uom();
+        Container c=getContentPane();
+        c.removeAll();
+        unit.setBounds(5,5,500,500);
+        unit.setVisible(true);
+        c.add(unit);
+    }//GEN-LAST:event_jMenuItem_uomActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -148,14 +180,18 @@ public class dashboard extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
     private javax.swing.JMenu jMenu5;
+    private javax.swing.JMenu jMenu6;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem_account;
+    private javax.swing.JMenuItem jMenuItem_category;
     private javax.swing.JMenuItem jMenuItem_essential;
     private javax.swing.JMenuItem jMenuItem_issue;
+    private javax.swing.JMenuItem jMenuItem_item;
     private javax.swing.JMenuItem jMenuItem_itemwise;
     private javax.swing.JMenuItem jMenuItem_itemwisecc;
     private javax.swing.JMenuItem jMenuItem_store;
+    private javax.swing.JMenuItem jMenuItem_uom;
     private javax.swing.JSpinner jSpinner1;
     private javax.swing.JSplitPane jSplitPane1;
     // End of variables declaration//GEN-END:variables
