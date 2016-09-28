@@ -579,6 +579,15 @@ try
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jMenuItem_uomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_uomActionPerformed
+        JFrame unit=new uom();
+        Container c=getContentPane();
+        c.removeAll();
+        unit.setBounds(5,5,500,500);
+        unit.setVisible(true);
+        c.add(unit);
+    }//GEN-LAST:event_jMenuItem_uomActionPerformed
+
     /**
      * @param args the command line arguments
      */
