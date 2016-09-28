@@ -155,7 +155,7 @@ clsSettings settings 	= new clsSettings();
      
      setJMenuBar(CreateJMenuBar());
      setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-     setIconImage(new ImageIcon("./src/finsys/Business.png").getImage());
+     setIconImage(new ImageIcon("./src/images/Business.png").getImage());
      setSize(700,700);
      setLocation(2,2);
      show();
@@ -170,15 +170,15 @@ clsSettings settings 	= new clsSettings();
         
         // creating Submenu
         // Menu File
-        menuFile.add(settings.setJMenuItem(itemExit,"Quit","./src/finsys/exit.png"));
+        menuFile.add(settings.setJMenuItem(itemExit,"Quit","./src/images/exit.png"));
         
         itemExit.addActionListener(this);
         
         // MEnu Employee
-        menuUom.add(settings.setJMenuItem(itemAdd,"Add UOM","./src/finsys/info.png"));
-        menuUom.add(settings.setJMenuItem(itemEdit,"Edit UOM","./src/finsys/edit.png"));
+        menuUom.add(settings.setJMenuItem(itemAdd,"Add UOM","./src/images/info.png"));
+        menuUom.add(settings.setJMenuItem(itemEdit,"Edit UOM","./src/images/edit.png"));
         menuUom.addSeparator();
-        menuUom.add(settings.setJMenuItem(itemDelete,"Delete UOM","./src/finsys/delete.png"));
+        menuUom.add(settings.setJMenuItem(itemDelete,"Delete UOM","./src/images/delete.png"));
         
         
         itemAdd.addActionListener(this);
@@ -186,10 +186,10 @@ clsSettings settings 	= new clsSettings();
         itemDelete.addActionListener(this);
         
         // setting tool bar
-        menuTools.add(settings.setJMenuItem(itemSettings,"Settings","./src/finsys/setting.png"));
-        menuTools.add(settings.setJMenuItem(itemCalculator,"Calculator","./src/finsys/calc.png"));
+        menuTools.add(settings.setJMenuItem(itemSettings,"Settings","./src/images/setting.png"));
+        menuTools.add(settings.setJMenuItem(itemCalculator,"Calculator","./src/images/calc.png"));
         menuTools.addSeparator();
-        menuTools.add(settings.setJMenuItem(itemNotePad,"NotePad","./src/finsys/notepad.png"));
+        menuTools.add(settings.setJMenuItem(itemNotePad,"NotePad","./src/images/notepad.png"));
         
         
         itemSettings.addActionListener(this);
@@ -198,15 +198,15 @@ clsSettings settings 	= new clsSettings();
         
         // setting Reports bar
           
-        menuReports.add(settings.setJMenuItem(itemEmprpt,"Issue Report","./src/finsys/emp_rpt.png"));
+        menuReports.add(settings.setJMenuItem(itemEmprpt,"Issue Report","./src/images/emp_rpt.png"));
          menuTools.addSeparator();
           menuTools.addSeparator();
         itemEmprpt.addActionListener(this);
         
         // setting Help
         
-        menuHelp.add(settings.setJMenuItem(itemAuthor,"About System","./src/finsys/xp.png"));
-        menuHelp.add(settings.setJMenuItem(itemHelp,"Help","./src/finsys/help.png"));
+        menuHelp.add(settings.setJMenuItem(itemAuthor,"About System","./src/images/xp.png"));
+        menuHelp.add(settings.setJMenuItem(itemHelp,"Help","./src/images/help.png"));
         
         itemAuthor.addActionListener(this);
         itemHelp.addActionListener(this);
@@ -226,44 +226,44 @@ clsSettings settings 	= new clsSettings();
     {
         JToolBar toolbar = new JToolBar("Toolbar");
         
-        toolbar.add(settings.CreateJToolbarButton("Exit", "./src/finsys/exit.png", "File_Exit",
+        toolbar.add(settings.CreateJToolbarButton("Exit", "./src/images/exit.png", "File_Exit",
                 JToolBarActionListener));
 			toolbar.addSeparator();
 			toolbar.addSeparator();
 
-        toolbar.add(settings.CreateJToolbarButton("Add - UOM", "./src/finsys/info.png", "Emp_Add",
+        toolbar.add(settings.CreateJToolbarButton("Add - UOM", "./src/images/info.png", "Emp_Add",
                 JToolBarActionListener));
         
-        toolbar.add(settings.CreateJToolbarButton("Edit - UOM", "./src/finsys/edit.png", "Emp_Edit",
+        toolbar.add(settings.CreateJToolbarButton("Edit - UOM", "./src/images/edit.png", "Emp_Edit",
                 JToolBarActionListener));
         		toolbar.addSeparator();
 
-        toolbar.add(settings.CreateJToolbarButton("Delete - UOM", "./src/finsys/delete.png","Emp_Delete",
+        toolbar.add(settings.CreateJToolbarButton("Delete - UOM", "./src/images/delete.png","Emp_Delete",
                 JToolBarActionListener));
 		toolbar.addSeparator();
 		toolbar.addSeparator();
 		
 
         
-        toolbar.add(settings.CreateJToolbarButton("FinSYS Settings", "./src/finsys/setting.png","Settings",
+        toolbar.add(settings.CreateJToolbarButton("FinSYS Settings", "./src/images/setting.png","Settings",
                 JToolBarActionListener));
-        toolbar.add(settings.CreateJToolbarButton("FinSYS calculator", "./src/finsys/calc.png","Tools_Calculator",
+        toolbar.add(settings.CreateJToolbarButton("FinSYS calculator", "./src/images/calc.png","Tools_Calculator",
                 JToolBarActionListener));
-        toolbar.add(settings.CreateJToolbarButton("NotePad", "./src/finsys/notepad.png","Tools_NotePad",
+        toolbar.add(settings.CreateJToolbarButton("NotePad", "./src/images/notepad.png","Tools_NotePad",
                 JToolBarActionListener));
 				toolbar.addSeparator();
 				toolbar.addSeparator();
 
         
-        toolbar.add(settings.CreateJToolbarButton("FinSYS - Report", "./src/finsys/emp_rpt.png","Reports_Employee",
+        toolbar.add(settings.CreateJToolbarButton("FinSYS - Report", "./src/images/emp_rpt.png","Reports_Employee",
                 JToolBarActionListener));
         
 
         
-        toolbar.add(settings.CreateJToolbarButton("Help ", "./src/finsys/xp.png","Help_Author",
+        toolbar.add(settings.CreateJToolbarButton("Help ", "./src/images/xp.png","Help_Author",
                 JToolBarActionListener));
         
-        toolbar.add(settings.CreateJToolbarButton("Help - Help", "./src/finsys/help.png","Help_Help",
+        toolbar.add(settings.CreateJToolbarButton("Help - Help", "./src/images/help.png","Help_Help",
                 JToolBarActionListener));
         return toolbar;
         
