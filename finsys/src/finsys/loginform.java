@@ -155,6 +155,7 @@ public class loginform extends javax.swing.JFrame {
             System.out.println("Username,Pwd:" + jTextField_username.getText() + "," + pwd);
             if (db.checkLogin(jTextField_username.getText(), pwd)) {
                 JOptionPane.showMessageDialog(null, "You have Successfully Logged In", "Success", JOptionPane.INFORMATION_MESSAGE);
+                //new dashboard().setVisible(true);
                 new dashboard(jTextField_username.getText(),dt).setVisible(true);
                 dispose();
             } else {
