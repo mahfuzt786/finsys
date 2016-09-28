@@ -5,6 +5,7 @@
  */
 package finsys;
 
+import java.util.Date;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 
@@ -18,6 +19,7 @@ public class loginform extends javax.swing.JFrame {
      * Creates new form loginform
      */
     database db;
+    static Date dt= new Date();
     public loginform() {
         initComponents();
         db=new database();
@@ -148,11 +150,12 @@ public class loginform extends javax.swing.JFrame {
         if (evt.getSource() == jButton_login) {
             char[] temp_pwd = jPasswordField_password.getPassword();
             String pwd = null;
+            
             pwd = String.copyValueOf(temp_pwd);
             System.out.println("Username,Pwd:" + jTextField_username.getText() + "," + pwd);
             if (db.checkLogin(jTextField_username.getText(), pwd)) {
                 JOptionPane.showMessageDialog(null, "You have Successfully Logged In", "Success", JOptionPane.INFORMATION_MESSAGE);
-                new dashboard().setVisible(true);
+                new dashboard(jTextField_username.getText(),dt).setVisible(true);
                 dispose();
             } else {
                 JOptionPane.showMessageDialog(null, "Login Failed", "Failed", JOptionPane.ERROR_MESSAGE);
