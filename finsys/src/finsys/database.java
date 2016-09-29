@@ -1,48 +1,52 @@
 package finsys;
+
 import java.sql.*;
+
 public class database {
+
     Connection conn;
     PreparedStatement pst;
     ResultSet rs;
-    database(){
-        try{
+
+    database() {
+        try {
            Class.forName("org.postgresql.Driver");
-           conn=DriverManager.getConnection("jdbc:postgresql://localhost:5432/finsys","finsys","finsys");
-           pst=conn.prepareStatement("select * from finsys.mt_userlogin where userid=? and userpassword=?");
-        }catch(Exception e){
+            conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/finsys", "finsys", "finsys");
+            pst = conn.prepareStatement("select * from finsys.mt_userlogin where userid=? and userpassword=?");
+        } catch (Exception e) {
             System.out.println(e);
         }
     }
-    public Boolean checkLogin(String uname,String pwd){
-      try{
+
+    public Boolean checkLogin(String uname, String pwd) {
+        try {
           pst.setString(1, uname);
           pst.setString(2, pwd);
-          rs=pst.executeQuery();
-          if(rs.next()){
+            rs = pst.executeQuery();
+            if (rs.next()) {
               return true;
-          }else{
+            } else {
               return false;
           }
-      }catch (Exception e){
+        } catch (Exception e) {
           System.out.println("Error while validating" + e);
           return false;
-      }  
     }
-    
-    public int insertemp(Issue_item i){
-        int flag=0;
-      try{
-          pst=conn.prepareStatement("INSERT INTO finsys.m_uom(uomname,uomabbr) values(?,?)");
-        
+    }
+
+    public int insertemp(Issue_item i) {
+        int flag = 0;
+        try {
+            pst = conn.prepareStatement("INSERT INTO finsys.m_uom(uom_name,uom_abbr) values(?,?)");
+
           pst.setString(1, i.getItemcode());
           pst.setString(2, i.getItemname());
-           flag=pst.executeUpdate();
+            flag = pst.executeUpdate();
           return flag;
-      }catch (Exception e){
+        } catch (Exception e) {
           System.out.println("Error while validating" + e);
           return flag;
-      }  
     }
-    
-    
+    }
+
 }
