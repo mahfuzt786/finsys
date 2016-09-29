@@ -16,6 +16,7 @@ import java.sql.*;
 import javax.swing.*;
 import java.util.*;
 import java.net.*;
+import net.proteanit.sql.DbUtils;
 
 public class uom extends javax.swing.JInternalFrame {
 
@@ -26,11 +27,21 @@ public class uom extends javax.swing.JInternalFrame {
     String dialogmessage;
     String dialogs;
     int dialogtype = JOptionPane.PLAIN_MESSAGE;
+    database data = new database();
+
     /**
      * Creates new form uom
      */
     public uom() {
-        initComponents();
+        try {
+            String query = "select uomname,uomabbr from finsys.t_uom";
+            PreparedStatement pst = data.conn.prepareStatement(query);
+            ResultSet rs = pst.executeQuery();
+            initComponents();
+            uomtable.setModel(DbUtils.resultSetToTableModel(rs));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void ResetRecord() {
@@ -59,7 +70,7 @@ public class uom extends javax.swing.JInternalFrame {
         btnclear = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        uomtable = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
         search = new javax.swing.JTextField();
         btndelete = new javax.swing.JButton();
@@ -69,7 +80,7 @@ public class uom extends javax.swing.JInternalFrame {
         setForeground(java.awt.Color.white);
         setTitle("Unit of Measurement");
         setToolTipText("");
-        setFrameIcon(null);
+        setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/finsys/shivbari-23x23.png"))); // NOI18N
 
         jPanel1.setBackground(new java.awt.Color(153, 204, 255));
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -145,15 +156,30 @@ public class uom extends javax.swing.JInternalFrame {
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("UOM Table"));
         jPanel3.setOpaque(false);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        uomtable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
                 "UOM", "Abbreviation"
             }
-        ));
-        jScrollPane1.setViewportView(jTable1);
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(uomtable);
 
         jLabel1.setText("Search : ");
 
@@ -166,12 +192,12 @@ public class uom extends javax.swing.JInternalFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 394, Short.MAX_VALUE)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(search, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(search)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btndelete, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
@@ -284,9 +310,9 @@ public class uom extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JTextField search;
     private javax.swing.JTextField uomabbr;
     private javax.swing.JTextField uomname;
+    private javax.swing.JTable uomtable;
     // End of variables declaration//GEN-END:variables
 }
