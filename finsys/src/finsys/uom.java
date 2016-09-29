@@ -234,15 +234,17 @@ public class uom extends javax.swing.JInternalFrame {
     private void btnaddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnaddActionPerformed
         Uomname = "";
         Uomabbr = "";
-
+        
         Uomname = uomname.getText().trim();
         Uomabbr = uomabbr.getText().trim();
+        
+        db=new database();
         try {
 
             if (!Uomname.equals("") && !Uomabbr.equals("")) {
                 i.setItemcode(Uomname);
                 i.setItemname(Uomabbr);
-                System.out.println(i);
+                //System.out.println("values"+i);
                 int result = db.insertemp(i);
                 System.out.println(result);
                 if (result == 1) {
@@ -267,6 +269,7 @@ public class uom extends javax.swing.JInternalFrame {
             }
 
         } catch (Exception ex) {
+            System.out.println("Error while validating :" + ex);
             JOptionPane.showMessageDialog(null, "GENERAL EXCEPTION", "WARNING!!!", JOptionPane.INFORMATION_MESSAGE);
         }
     }//GEN-LAST:event_btnaddActionPerformed

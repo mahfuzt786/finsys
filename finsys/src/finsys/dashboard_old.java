@@ -464,7 +464,7 @@ public class dashboard_old extends javax.swing.JFrame implements ActionListener 
     }// </editor-fold>//GEN-END:initComponents
 
     private void jMenuItem_uomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_uomActionPerformed
-        JFrame unit = new uom();
+        uom unit = new uom();
         Container c = getContentPane();
         c.removeAll();
         unit.setBounds(5, 5, 500, 500);
