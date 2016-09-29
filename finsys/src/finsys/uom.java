@@ -33,17 +33,19 @@ public class uom extends javax.swing.JInternalFrame {
      * Creates new form uom
      */
     public uom() {
+        initComponents();
+        ReloadTable();
+    }
+    private void ReloadTable(){
         try {
             String query = "select uomname,uomabbr from finsys.t_uom";
             PreparedStatement pst = data.conn.prepareStatement(query);
             ResultSet rs = pst.executeQuery();
-            initComponents();
             uomtable.setModel(DbUtils.resultSetToTableModel(rs));
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-
     private void ResetRecord() {
         uomname.setText("");
         uomabbr.setText("");
@@ -279,6 +281,7 @@ public class uom extends javax.swing.JInternalFrame {
                             "SUCCESSFULL!!", JOptionPane.INFORMATION_MESSAGE);
                     System.out.println("Record Added");
                     ResetRecord();
+                    ReloadTable();
 
                 } else {
                     dialogmessage = "Failed To Insert";
