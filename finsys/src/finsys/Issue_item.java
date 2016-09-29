@@ -10,7 +10,9 @@ package finsys;
  * @author hp
  */
 public class Issue_item {
+
     private String itemcode;
+    private String itemname;
 
     public String getItemcode() {
         return itemcode;
@@ -27,7 +29,4 @@ public class Issue_item {
     public void setItemname(String itemname) {
         this.itemname = itemname;
     }
-    private String itemname;
-    
-    
 }

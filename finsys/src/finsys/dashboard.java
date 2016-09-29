@@ -78,8 +78,12 @@ public class dashboard extends javax.swing.JFrame {
 
             case 3:
                 try {
-            Addwindow FormAddwindow = new Addwindow(this);
-                    loadForm("Add UOM", FormAddwindow);
+                //Addwindow FormAddwindow = new Addwindow(this);
+                    //loadForm("Add UOM", FormAddwindow);
+                    uom unit = new uom();
+                    loadForm("Add UOM",unit);
+                    //desktop.add(unit);
+                    //unit.show();
                 } catch (Exception e) {
                     System.out.println("\nError");
                 }
@@ -207,6 +211,7 @@ public class dashboard extends javax.swing.JFrame {
         jMenuItem4 = new javax.swing.JMenuItem();
         jMenuItem5 = new javax.swing.JMenuItem();
         jInternalFrame1 = new javax.swing.JInternalFrame();
+        jInternalFrame2 = new javax.swing.JInternalFrame();
         jPanel1 = new javax.swing.JPanel();
         jToolBar = new javax.swing.JToolBar();
         jButton1 = new javax.swing.JButton();
@@ -264,6 +269,19 @@ public class dashboard extends javax.swing.JFrame {
         );
         jInternalFrame1Layout.setVerticalGroup(
             jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+
+        jInternalFrame2.setVisible(true);
+
+        javax.swing.GroupLayout jInternalFrame2Layout = new javax.swing.GroupLayout(jInternalFrame2.getContentPane());
+        jInternalFrame2.getContentPane().setLayout(jInternalFrame2Layout);
+        jInternalFrame2Layout.setHorizontalGroup(
+            jInternalFrame2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        jInternalFrame2Layout.setVerticalGroup(
+            jInternalFrame2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 0, Short.MAX_VALUE)
         );
 
@@ -597,6 +615,7 @@ public class dashboard extends javax.swing.JFrame {
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JInternalFrame jInternalFrame1;
+    private javax.swing.JInternalFrame jInternalFrame2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JMenu jMenu1;
