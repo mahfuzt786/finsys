@@ -100,6 +100,7 @@ public class Addwindow extends JInternalFrame implements ActionListener {
 
                     i.setItemcode(Uomname);
                     i.setItemname(Uomabbr);
+                    System.out.println(i);
                     int result = db.insertemp(i);
 
                     if (result == 1) {
