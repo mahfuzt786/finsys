@@ -32,7 +32,7 @@ public class database {
     public int insertemp(Issue_item i){
         int flag=0;
       try{
-          pst=conn.prepareStatement("INSERT INTO finsys.m_uom(uom_name,uom_abbr) values(?,?)");
+          pst=conn.prepareStatement("INSERT INTO finsys.m_uom(uomname,uomabbr) values(?,?)");
         
           pst.setString(1, i.getItemcode());
           pst.setString(2, i.getItemname());
