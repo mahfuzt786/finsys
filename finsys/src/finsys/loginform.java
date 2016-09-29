@@ -56,13 +56,17 @@ public class loginform extends javax.swing.JFrame {
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/finsys/icons/User_16x16.png"))); // NOI18N
         jLabel2.setText("Username ");
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/finsys/icons/Key_16x16.png"))); // NOI18N
         jLabel3.setText("Password");
 
+        jButton_login.setIcon(new javax.swing.ImageIcon(getClass().getResource("/finsys/icons/Check_16x16.png"))); // NOI18N
         jButton_login.setText("Login");
+        jButton_login.setOpaque(false);
         jButton_login.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton_loginActionPerformed(evt);
