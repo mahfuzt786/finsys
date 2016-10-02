@@ -10,15 +10,12 @@ package finsys;
  * @author pc1
  */
 import java.awt.*;
-import java.awt.event.*;
-import java.io.*;
 import java.sql.*;
 import javax.swing.*;
 import java.util.*;
-import java.net.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
-import net.proteanit.sql.DbUtils;
+import javax.swing.table.TableRowSorter;
 
 public class uom extends javax.swing.JInternalFrame {
 
@@ -31,6 +28,7 @@ public class uom extends javax.swing.JInternalFrame {
     int dialogtype = JOptionPane.PLAIN_MESSAGE;
     database data = new database();
     public String ID;
+    DefaultTableModel model;
 
     /**
      * Creates new form uom
@@ -63,7 +61,7 @@ public class uom extends javax.swing.JInternalFrame {
 
     private void ReloadTable() {
         ArrayList<uomtable> uomitemlist = getUomTable();
-        DefaultTableModel model = (DefaultTableModel) jtable_uomtable.getModel();
+        model = (DefaultTableModel) jtable_uomtable.getModel();
         model.setRowCount(0);
         Object[] row = new Object[3];
         for (int i = 0; i < uomitemlist.size(); i++) {
@@ -74,7 +72,11 @@ public class uom extends javax.swing.JInternalFrame {
             model.addRow(row);
         }
     }
-
+    public void filter(String query){
+        TableRowSorter<DefaultTableModel> tr=new TableRowSorter<DefaultTableModel>(model);
+        jtable_uomtable.setRowSorter(tr);
+        tr.setRowFilter(RowFilter.regexFilter(query));
+    }
     public void executeSqlQuery(String query, String message) {
         try {
             PreparedStatement pst = data.conn.prepareStatement(query);
@@ -241,8 +243,8 @@ public class uom extends javax.swing.JInternalFrame {
         jLabel1.setText("Search : ");
 
         search.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                searchKeyTyped(evt);
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                searchKeyReleased(evt);
             }
         });
 
@@ -321,7 +323,7 @@ public class uom extends javax.swing.JInternalFrame {
 
     private void btnupdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnupdateActionPerformed
         // update
-        String query = "update finsys.t_uom set uomname='" + uomname.getText() + "',uomabbr='" + uomabbr.getText() + "' where uomcode='" + ID + "'";
+        String query = "update finsys.t_uom set uomname='" + uomname.getText().toUpperCase() + "',uomabbr='" + uomabbr.getText().toUpperCase() + "' where uomcode='" + ID + "'";
         executeSqlQuery(query, "updated");
         ResetRecord();
     }//GEN-LAST:event_btnupdateActionPerformed
@@ -334,8 +336,8 @@ public class uom extends javax.swing.JInternalFrame {
         Uomname = "";
         Uomabbr = "";
 
-        Uomname = uomname.getText().trim();
-        Uomabbr = uomabbr.getText().trim();
+        Uomname = uomname.getText().trim().toUpperCase();
+        Uomabbr = uomabbr.getText().trim().toUpperCase();
 
         db = new database();
         try {
@@ -390,9 +392,11 @@ public class uom extends javax.swing.JInternalFrame {
         ResetRecord();
     }//GEN-LAST:event_btndeleteActionPerformed
 
-    private void searchKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchKeyTyped
-        // search
-    }//GEN-LAST:event_searchKeyTyped
+    private void searchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchKeyReleased
+        // TODO add your handling code here:
+        String query=search.getText().toUpperCase();
+        filter(query);
+    }//GEN-LAST:event_searchKeyReleased
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

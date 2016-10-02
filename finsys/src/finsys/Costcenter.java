@@ -10,15 +10,11 @@ package finsys;
  * @author rupa
  */
 import java.awt.*;
-import java.awt.event.*;
-import java.io.*;
 import java.sql.*;
 import javax.swing.*;
 import java.util.*;
-import java.net.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
-import net.proteanit.sql.DbUtils;
 
 public class Costcenter extends javax.swing.JInternalFrame {
 
