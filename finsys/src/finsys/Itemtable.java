@@ -10,14 +10,14 @@ package finsys;
  * @author hp
  */
 public class Itemtable {
-  private int categoryid,subcategoryid,itemid,ledgerid; 
+  private int categoryid,itemid,ledgerid; 
  
   private String itemcode ,itemname,uomcode;
   private double itemcost ;
 
-    public Itemtable(int categoryid,int subcategoryid, int itemid, int ledgerid, String itemcode, String itemname, String uomcode, double itemcost) {
+    public Itemtable(int categoryid, int itemid, int ledgerid, String itemcode, String itemname, String uomcode, double itemcost) {
         this.categoryid = categoryid;
-        this.subcategoryid = subcategoryid;
+       
         this.itemid = itemid;
         this.ledgerid = ledgerid;
         this.itemcode = itemcode;
@@ -28,7 +28,7 @@ public class Itemtable {
     
      public Itemtable() {
         this.categoryid =0;
-        this.subcategoryid = 0;
+       
         this.itemid = 0;
         this.ledgerid = 0;
         this.itemcode = "";
@@ -46,15 +46,7 @@ public class Itemtable {
     }
 
      
-     
-    public int getSubcategoryid() {
-        return subcategoryid;
-    }
-
-    public void setSubcategoryid(int subcategoryid) {
-        this.subcategoryid = subcategoryid;
-    }
-
+   
     public int getItemid() {
         return itemid;
     }

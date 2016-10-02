@@ -372,7 +372,7 @@ public class Soemaingroup extends javax.swing.JInternalFrame {
             } else {
                 dialogmessage = "Empty Record !!!";
                 dialogtype = JOptionPane.WARNING_MESSAGE;
-                JOptionPane.showMessageDialog((Component) null, dialogmessage, dialogs, dialogtype);
+                JOptionPane.showMessageDialog(null, dialogmessage, dialogs, dialogtype);
 
             }
 

@@ -131,29 +131,7 @@ public class database {
     
     
      
-        public int insertSubCategory(Subitemcategorytable i) {
-        int flag = 0;
-        String sql;
-        int catid;
-        System.out.println("Values: " + i.getCategoryid());
-        try {
-            sql = "SELECT MAX(subcategoryid) as max FROM finsys.m_itemsubcategory";
-            catid = getmax(sql);
-            String categorycode="SUBCAT"+catid;
-            System.out.println("sub catcode: " + catid);
-            pst = conn.prepareStatement("INSERT INTO finsys.m_itemsubcategory(categoryid,subcategoryid,subcategorycode,subcategoryname) values(?,?,?,?)");
-            pst.setInt(1,i.getCategoryid());
-            pst.setInt(2, catid);
-            pst.setString(3,categorycode );
-            pst.setString(4,i.getSubcategoryname());
-           // System.out.println("centercode1: " + centerid);
-            flag = pst.executeUpdate();
-            return flag;
-        } catch (Exception e) {
-            System.out.println("Error while validating :" + e);
-            return flag;
-        }
-    }
+       
       
         
        public int insertSoemaingroup(Soemaingrouptable i) {
@@ -190,17 +168,17 @@ public class database {
             sql = "SELECT MAX(itemid) as max FROM finsys.m_item";
             itemid = getmax(sql);
             itemcode="ITEM"+itemid;
-            pst = conn.prepareStatement("INSERT INTO finsys.m_item(categoryid,subcategoryid,ledgerid,uomcode,itemid,itemcode,itemname,itemcost) values(?,?,?,?,?,?,?,?)");
+            pst = conn.prepareStatement("INSERT INTO finsys.m_item(categoryid,ledgerid,uomcode,itemid,itemcode,itemname,itemcost) values(?,?,?,?,?,?,?)");
 
             
             pst.setInt(1,i.getCategoryid() );
-            pst.setInt(2,i.getSubcategoryid() );
-            pst.setInt(3,i.getLedgerid() );
-            pst.setInt(4,uomcd);
-            pst.setInt(5,itemid );
-            pst.setString(6,itemcode);
-            pst.setString(7,i.getItemname());
-            pst.setDouble(8,i.getItemcost());
+           
+            pst.setInt(2,i.getLedgerid() );
+            pst.setInt(3,uomcd);
+            pst.setInt(4,itemid );
+            pst.setString(5,itemcode);
+            pst.setString(6,i.getItemname());
+            pst.setDouble(7,i.getItemcost());
            // System.out.println("centercode1: " + centerid);
             flag = pst.executeUpdate();
             return flag;
@@ -281,22 +259,7 @@ public class database {
         return catTable;
     }
      
-      public ArrayList<Subitemcategorytable> getSubcategory(int catid) {
-        ArrayList<Subitemcategorytable> catTable = new ArrayList<Subitemcategorytable>();
-        String query = "select * from finsys.m_itemsubcategory where categoryid='"+catid+"'";
-        try {
-            PreparedStatement pst = conn.prepareStatement(query);
-            ResultSet rs = pst.executeQuery();
-            Subitemcategorytable centerTab;
-            while (rs.next()) {
-                centerTab = new Subitemcategorytable(rs.getInt("categoryid"),rs.getInt("subcategoryid"), rs.getString("subcategorycode"), rs.getString("subcategoryname"));
-                catTable.add(centerTab);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return catTable;
-    }
+     
       
       
       
@@ -335,22 +298,7 @@ public class database {
     }
      
        
-        public ArrayList<Subitemcategorytable> getSubcategory1() {
-        ArrayList<Subitemcategorytable> catTable = new ArrayList<Subitemcategorytable>();
-        String query = "select * from finsys.m_itemsubcategory ";
-        try {
-            PreparedStatement pst = conn.prepareStatement(query);
-            ResultSet rs = pst.executeQuery();
-            Subitemcategorytable centerTab;
-            while (rs.next()) {
-                centerTab = new Subitemcategorytable(rs.getInt("categoryid"),rs.getInt("subcategoryid"), rs.getString("subcategorycode"), rs.getString("subcategoryname"));
-                catTable.add(centerTab);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return catTable;
-    }
+   
 
         
         public ArrayList<Soemaingrouptable> getSoemain() {

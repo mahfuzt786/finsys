@@ -9,7 +9,7 @@ package finsys;
  *
  * @author hp
  */
-public class Comboitem {
+public class Comboitem  {
     private  int key;
     private  String value;
 

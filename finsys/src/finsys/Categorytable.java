@@ -9,7 +9,7 @@ package finsys;
  *
  * @author hp
  */
-public class Categorytable {
+public class Categorytable  {
     private  int categoryid;
     private String categorycode;
     private String categoryname;

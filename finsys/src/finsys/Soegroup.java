@@ -10,12 +10,9 @@ package finsys;
  * @author rupa
  */
 import java.awt.*;
-import java.awt.event.*;
-import java.io.*;
 import java.sql.*;
 import javax.swing.*;
 import java.util.*;
-import java.net.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
@@ -397,7 +394,7 @@ public class Soegroup extends javax.swing.JInternalFrame {
             } else {
                 dialogmessage = "Empty Record !!!";
                 dialogtype = JOptionPane.WARNING_MESSAGE;
-                JOptionPane.showMessageDialog((Component) null, dialogmessage, dialogs, dialogtype);
+                JOptionPane.showMessageDialog(null, dialogmessage, dialogs, dialogtype);
 
             }
 

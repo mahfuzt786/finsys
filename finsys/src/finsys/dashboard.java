@@ -6,16 +6,11 @@
 package finsys;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.*;
 import java.awt.Toolkit;
 import java.io.*;
-import java.sql.*;
-import java.util.*;
 import java.text.DateFormat;
 import java.util.Date;
-import java.text.*;
-import java.lang.*;
 import java.beans.PropertyVetoException;
 
 /**
@@ -109,8 +104,8 @@ public class dashboard extends javax.swing.JFrame {
 
             case 6:
                 try {
-                	Subitemcategory s = new Subitemcategory();
-               loadForm("Sub Item Category", s);
+//                	Subitemcategory s = new Subitemcategory();
+//               loadForm("Sub Item Category", s);
                 } catch (Exception e) {
                     System.out.println("\nError");
                 }
@@ -261,7 +256,6 @@ public class dashboard extends javax.swing.JFrame {
         jMenu_master = new javax.swing.JMenu();
         jMenuItem_uom = new javax.swing.JMenuItem();
         jMenuItem_category = new javax.swing.JMenuItem();
-        jMenuItem_subcategory = new javax.swing.JMenuItem();
         jMenuItem_item = new javax.swing.JMenuItem();
         jMenuItem_soemaingroup = new javax.swing.JMenuItem();
         jMenuItem_soegroup = new javax.swing.JMenuItem();
@@ -505,14 +499,6 @@ public class dashboard extends javax.swing.JFrame {
         });
         jMenu_master.add(jMenuItem_category);
 
-        jMenuItem_subcategory.setText("Item Sub Category");
-        jMenuItem_subcategory.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem_subcategoryActionPerformed(evt);
-            }
-        });
-        jMenu_master.add(jMenuItem_subcategory);
-
         jMenuItem_item.setText("Item");
         jMenuItem_item.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -664,11 +650,6 @@ public class dashboard extends javax.swing.JFrame {
         loadJInternalFrame(4);
     }//GEN-LAST:event_jMenuItem_costcenterActionPerformed
 
-    private void jMenuItem_subcategoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_subcategoryActionPerformed
-        // TODO add your handling code here:
-         loadJInternalFrame(6);
-    }//GEN-LAST:event_jMenuItem_subcategoryActionPerformed
-
     private void jMenuItem_soemaingroupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_soemaingroupActionPerformed
         // TODO add your handling code here:
         loadJInternalFrame(9);
@@ -751,7 +732,6 @@ public class dashboard extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem_settings;
     private javax.swing.JMenuItem jMenuItem_soegroup;
     private javax.swing.JMenuItem jMenuItem_soemaingroup;
-    private javax.swing.JMenuItem jMenuItem_subcategory;
     private javax.swing.JMenuItem jMenuItem_uom;
     private javax.swing.JMenu jMenu_master;
     private javax.swing.JPanel jPanel1;

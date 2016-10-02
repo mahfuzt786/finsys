@@ -9,7 +9,7 @@ package finsys;
  *
  * @author hp
  */
-public class Soegrouptable {
+public class Soegrouptable  {
     private int soemaingroupid;
     private int soegroupid;
     private String soegroupcode,soegroupname;

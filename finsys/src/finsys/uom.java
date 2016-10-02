@@ -9,7 +9,6 @@ package finsys;
  *
  * @author pc1
  */
-import java.awt.*;
 import java.sql.*;
 import javax.swing.*;
 import java.util.*;
@@ -366,7 +365,7 @@ public class uom extends javax.swing.JInternalFrame {
             } else {
                 dialogmessage = "Empty Record !!!";
                 dialogtype = JOptionPane.WARNING_MESSAGE;
-                JOptionPane.showMessageDialog((Component) null, dialogmessage, dialogs, dialogtype);
+                JOptionPane.showMessageDialog(null, dialogmessage, dialogs, dialogtype);
 
             }
 

@@ -9,7 +9,7 @@ package finsys;
  *
  * @author hp
  */
-public class Issue_item {
+public class Issue_item  {
 
     private String itemcode;
     private String itemname;

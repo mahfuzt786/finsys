@@ -9,7 +9,7 @@ package finsys;
  *
  * @author hp
  */
-public class Costcentertable {
+public class Costcentertable  {
      private int centerid;
     private String centercode;
     private String centername;

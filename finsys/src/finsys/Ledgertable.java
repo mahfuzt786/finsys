@@ -9,7 +9,7 @@ package finsys;
  *
  * @author hp
  */
-public class Ledgertable {
+public class Ledgertable  {
     
     private int ledgerid,soegroupid , soemaingroupid;
     private String ledgercode,ledgername ;

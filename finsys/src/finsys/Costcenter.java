@@ -9,7 +9,6 @@ package finsys;
  *
  * @author rupa
  */
-import java.awt.*;
 import java.sql.*;
 import javax.swing.*;
 import java.util.*;
@@ -374,7 +373,7 @@ public class Costcenter extends javax.swing.JInternalFrame {
             } else {
                 dialogmessage = "Empty Record !!!";
                 dialogtype = JOptionPane.WARNING_MESSAGE;
-                JOptionPane.showMessageDialog((Component) null, dialogmessage, dialogs, dialogtype);
+                JOptionPane.showMessageDialog(null, dialogmessage, dialogs, dialogtype);
 
             }
 
