@@ -49,14 +49,52 @@ public class Ledger extends javax.swing.JInternalFrame {
            // Comboitem combo =new Comboitem(c.getCategorycode(),c.getCategoryname());
             jComboBox_soemain.addItem(new Comboitem(c.getSoemaingroupid(),c.getSoemaingroupname()));
         }
-        
         jComboBox_soe.addItem(new Comboitem(0,"Select SOE Group"));
         
-        for(Soegrouptable c:soe){
-           // Comboitem combo =new Comboitem(c.getCategorycode(),c.getCategoryname());
-            jComboBox_soe.addItem(new Comboitem(c.getSoegroupid(),c.getSoegroupname()));
-        }
+          //checking
+        jComboBox_soemain.addItemListener(new ItemListener() {
+            //
+            // Listening if a new items of the combo box has been selected.
+            //
+            public void itemStateChanged(ItemEvent event) {
+                JComboBox comboBox = (JComboBox) event.getSource();
+
+                // The item affected by the event.
+                Object item = event.getItem();
         
+                
+                System.out.println("Affected items: " + item.toString());
+                if (event.getStateChange() == ItemEvent.SELECTED) {
+                     Comboitem g =(Comboitem) jComboBox_soemain.getSelectedItem();
+                     int catid=g.getKey();
+                     db=new database();
+                     soe=db.getSoe1(catid);
+                     
+                     for(Soegrouptable c:soe){
+          
+                             jComboBox_soe.addItem(new Comboitem(c.getSoegroupid(),c.getSoegroupname()));
+                     }
+     
+                   
+                }
+
+                if (event.getStateChange() == ItemEvent.DESELECTED) {
+                     jComboBox_soe.setSelectedIndex(0);
+                }
+            }
+        });
+
+        
+        //checking end
+        
+        
+//        jComboBox_soe.addItem(new Comboitem(0,"Select SOE Group"));
+//        
+//        for(Soegrouptable c:soe){
+//           
+//            jComboBox_soe.addItem(new Comboitem(c.getSoegroupid(),c.getSoegroupname()));
+//        }
+//        
     }
 
     /**

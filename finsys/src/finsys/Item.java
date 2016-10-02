@@ -56,12 +56,50 @@ public class Item extends javax.swing.JInternalFrame {
         
             jComboBox_category.addItem(new Comboitem(c.getCategoryid(),c.getCategoryname()));
         }
-        
         jComboBox_subcategory.addItem(new Comboitem(0,"Select Sub Category"));
-        for(Subitemcategorytable c:subcat){
+        //checking
+        jComboBox_category.addItemListener(new ItemListener() {
+            //
+            // Listening if a new items of the combo box has been selected.
+            //
+            public void itemStateChanged(ItemEvent event) {
+                JComboBox comboBox = (JComboBox) event.getSource();
+
+                // The item affected by the event.
+                Object item = event.getItem();
         
-            jComboBox_subcategory.addItem(new Comboitem(c.getSubcategoryid(),c.getSubcategoryname()));
-        }
+                
+                System.out.println("Affected items: " + item.toString());
+                if (event.getStateChange() == ItemEvent.SELECTED) {
+                     Comboitem g =(Comboitem) jComboBox_category.getSelectedItem();
+                     int catid=g.getKey();
+                     db=new database();
+                     subcat=db.getSubcategory(catid);
+                     
+                     for(Subitemcategorytable c:subcat){
+          
+                             jComboBox_subcategory.addItem(new Comboitem(c.getSubcategoryid(),c.getSubcategoryname()));
+                     }
+     
+                   
+                }
+
+                if (event.getStateChange() == ItemEvent.DESELECTED) {
+                     jComboBox_subcategory.setSelectedIndex(0);
+                }
+            }
+        });
+
+        
+        //checking end
+        
+        
+        
+//        jComboBox_subcategory.addItem(new Comboitem(0,"Select Sub Category"));
+//        for(Subitemcategorytable c:subcat){
+//        
+//            jComboBox_subcategory.addItem(new Comboitem(c.getSubcategoryid(),c.getSubcategoryname()));
+//        }
         System.out.println("Line2");
         jComboBox_ledger.addItem(new Comboitem(0,"Select Ledger"));
         for(Ledgertable c:ledger){
@@ -174,7 +212,6 @@ public class Item extends javax.swing.JInternalFrame {
         jLabel1 = new javax.swing.JLabel();
         search = new javax.swing.JTextField();
         btndelete = new javax.swing.JButton();
-        jScrollBar1 = new javax.swing.JScrollBar();
 
         setBorder(null);
         setClosable(true);
@@ -413,11 +450,12 @@ public class Item extends javax.swing.JInternalFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
-                .addComponent(jScrollBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -427,7 +465,6 @@ public class Item extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addComponent(jScrollBar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -435,12 +472,14 @@ public class Item extends javax.swing.JInternalFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 37, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         bindingGroup.bind();
@@ -581,16 +620,7 @@ public class Item extends javax.swing.JInternalFrame {
 
     private void jComboBox_categoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox_categoryActionPerformed
         // TODO add your handling code here:
-//        Comboitem g =(Comboitem) jComboBox_category.getSelectedItem();
-//        int catid=g.getKey();
-//        db=new database();
-//        subcat=db.getSubcategory(catid);
-//         jComboBox_subcategory.addItem(new Comboitem(0,"Select Sub Category"));
-//        for(Subitemcategorytable c:subcat){
-//           // Comboitem combo =new Comboitem(c.getCategorycode(),c.getCategoryname());
-//            jComboBox_subcategory.addItem(new Comboitem(c.getSubcategoryid(),c.getSubcategoryname()));
-//        }
-        
+    
     }//GEN-LAST:event_jComboBox_categoryActionPerformed
 
     private void jComboBox_subcategoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox_subcategoryActionPerformed
@@ -630,7 +660,6 @@ public class Item extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JScrollBar jScrollBar1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jtable_subcattable;
     private javax.swing.JTextField search;
