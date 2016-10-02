@@ -118,23 +118,59 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItem_category">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Category"/>
+                <Property name="text" type="java.lang.String" value="Item Category"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem_categoryActionPerformed"/>
+              </Events>
             </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="jMenuItem_type">
+            <MenuItem class="javax.swing.JMenuItem" name="jMenuItem_subcategory">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Type"/>
+                <Property name="text" type="java.lang.String" value="Item Sub Category"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem_subcategoryActionPerformed"/>
+              </Events>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="jMenuItem_item">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Item"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem_itemActionPerformed"/>
+              </Events>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="jMenuItem_soemaingroup">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="SOE Main Group"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem_soemaingroupActionPerformed"/>
+              </Events>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="jMenuItem_soegroup">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="SOE Group"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem_soegroupActionPerformed"/>
+              </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItem_ledger">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Ledger"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem_ledgerActionPerformed"/>
+              </Events>
             </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="jMenuItem_group">
+            <MenuItem class="javax.swing.JMenuItem" name="jMenuItem_costcenter">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Group"/>
+                <Property name="text" type="java.lang.String" value="Cost Center"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem_costcenterActionPerformed"/>
+              </Events>
             </MenuItem>
           </SubComponents>
         </Menu>

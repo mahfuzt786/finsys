@@ -91,8 +91,8 @@ public class dashboard extends javax.swing.JFrame {
 
             case 4:
                 try {
-//                	FormEditwindow = new Editwindow(this);
-//               loadForm("Edit Employee", FormEditwindow);
+                    Costcenter center=new Costcenter();
+                    loadForm("Add Cost Center",center);
                 } catch (Exception e) {
                     System.out.println("\nError");
                 }
@@ -100,17 +100,17 @@ public class dashboard extends javax.swing.JFrame {
 
             case 5:
                 try {
-//                	FormDeletewindow = new Deletewindow(this);
-//               loadForm("Delete Employee", FormDeletewindow);
-                } catch (Exception e) {
+                    Itemcategory cat=new Itemcategory();
+                    loadForm("Add Category",cat);
+               } catch (Exception e) {
                     System.out.println("\nError");
                 }
                 break;
 
             case 6:
                 try {
-//                	FormSettingswindow = new Settingswindow(this);
-//               loadForm("Settings of Employee", FormSettingswindow);
+                	Subitemcategory s = new Subitemcategory();
+               loadForm("Sub Item Category", s);
                 } catch (Exception e) {
                     System.out.println("\nError");
                 }
@@ -126,11 +126,38 @@ public class dashboard extends javax.swing.JFrame {
 
             case 9:
                 try {
-//            		FormEmprptwindow = new Emprptwindow(this);
-//               		loadForm("Employee PaySlip", FormEmprptwindow);
+           		Soemaingroup soemain= new Soemaingroup();
+               		loadForm("SOE Main Group", soemain);
 
                 } catch (Exception e) {
                     System.out.println("\nError" + e);
+                }
+                break;
+             case 10:
+                try {
+           		Item item= new Item();
+               		loadForm("Item", item);
+
+                } catch (Exception e) {
+                    System.out.println("\nError :" + e);
+                }
+                break;
+                 case 11:
+                try {
+           		Soegroup soe= new Soegroup();
+               		loadForm("SOE Group", soe);
+
+                } catch (Exception e) {
+                    System.out.println("\nError :" + e);
+                }
+                break;
+                  case 14:
+                try {
+           		Ledger ledger= new Ledger();
+               		loadForm("Ledger", ledger);
+
+                } catch (Exception e) {
+                    System.out.println("\nError :" + e);
                 }
                 break;
 
@@ -234,9 +261,12 @@ public class dashboard extends javax.swing.JFrame {
         jMenu_master = new javax.swing.JMenu();
         jMenuItem_uom = new javax.swing.JMenuItem();
         jMenuItem_category = new javax.swing.JMenuItem();
-        jMenuItem_type = new javax.swing.JMenuItem();
+        jMenuItem_subcategory = new javax.swing.JMenuItem();
+        jMenuItem_item = new javax.swing.JMenuItem();
+        jMenuItem_soemaingroup = new javax.swing.JMenuItem();
+        jMenuItem_soegroup = new javax.swing.JMenuItem();
         jMenuItem_ledger = new javax.swing.JMenuItem();
-        jMenuItem_group = new javax.swing.JMenuItem();
+        jMenuItem_costcenter = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
         jMenuItem_settings = new javax.swing.JMenuItem();
         jMenuItem_calculator = new javax.swing.JMenuItem();
@@ -467,17 +497,62 @@ public class dashboard extends javax.swing.JFrame {
         });
         jMenu_master.add(jMenuItem_uom);
 
-        jMenuItem_category.setText("Category");
+        jMenuItem_category.setText("Item Category");
+        jMenuItem_category.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem_categoryActionPerformed(evt);
+            }
+        });
         jMenu_master.add(jMenuItem_category);
 
-        jMenuItem_type.setText("Type");
-        jMenu_master.add(jMenuItem_type);
+        jMenuItem_subcategory.setText("Item Sub Category");
+        jMenuItem_subcategory.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem_subcategoryActionPerformed(evt);
+            }
+        });
+        jMenu_master.add(jMenuItem_subcategory);
+
+        jMenuItem_item.setText("Item");
+        jMenuItem_item.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem_itemActionPerformed(evt);
+            }
+        });
+        jMenu_master.add(jMenuItem_item);
+
+        jMenuItem_soemaingroup.setText("SOE Main Group");
+        jMenuItem_soemaingroup.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem_soemaingroupActionPerformed(evt);
+            }
+        });
+        jMenu_master.add(jMenuItem_soemaingroup);
+
+        jMenuItem_soegroup.setText("SOE Group");
+        jMenuItem_soegroup.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem_soegroupActionPerformed(evt);
+            }
+        });
+        jMenu_master.add(jMenuItem_soegroup);
 
         jMenuItem_ledger.setText("Ledger");
+        jMenuItem_ledger.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem_ledgerActionPerformed(evt);
+            }
+        });
         jMenu_master.add(jMenuItem_ledger);
 
-        jMenuItem_group.setText("Group");
-        jMenu_master.add(jMenuItem_group);
+        jMenuItem_costcenter.setText("Cost Center");
+        jMenuItem_costcenter.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem_costcenterActionPerformed(evt);
+            }
+        });
+        jMenu_master.add(jMenuItem_costcenter);
+        jMenuItem_costcenter.getAccessibleContext().setAccessibleName("Cost Center");
 
         jMenuBar1.add(jMenu_master);
 
@@ -571,6 +646,41 @@ public class dashboard extends javax.swing.JFrame {
         loadJInternalFrame(3);
     }//GEN-LAST:event_jMenuItem_uomActionPerformed
 
+    private void jMenuItem_soegroupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_soegroupActionPerformed
+        // TODO add your handling code here:
+         loadJInternalFrame(11);
+    }//GEN-LAST:event_jMenuItem_soegroupActionPerformed
+
+    private void jMenuItem_ledgerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_ledgerActionPerformed
+       loadJInternalFrame(14);
+    }//GEN-LAST:event_jMenuItem_ledgerActionPerformed
+
+    private void jMenuItem_categoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_categoryActionPerformed
+        // TODO add your handling code here:
+        loadJInternalFrame(5);
+    }//GEN-LAST:event_jMenuItem_categoryActionPerformed
+
+    private void jMenuItem_costcenterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_costcenterActionPerformed
+        // TODO add your handling code here:
+        loadJInternalFrame(4);
+    }//GEN-LAST:event_jMenuItem_costcenterActionPerformed
+
+    private void jMenuItem_subcategoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_subcategoryActionPerformed
+        // TODO add your handling code here:
+         loadJInternalFrame(6);
+    }//GEN-LAST:event_jMenuItem_subcategoryActionPerformed
+
+    private void jMenuItem_soemaingroupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_soemaingroupActionPerformed
+        // TODO add your handling code here:
+        loadJInternalFrame(9);
+    }//GEN-LAST:event_jMenuItem_soemaingroupActionPerformed
+
+    private void jMenuItem_itemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_itemActionPerformed
+        // TODO add your handling code here:
+        
+        loadJInternalFrame(10);
+    }//GEN-LAST:event_jMenuItem_itemActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -631,15 +741,18 @@ public class dashboard extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem_calculator;
     private javax.swing.JMenuItem jMenuItem_category;
+    private javax.swing.JMenuItem jMenuItem_costcenter;
     private javax.swing.JMenuItem jMenuItem_exit;
-    private javax.swing.JMenuItem jMenuItem_group;
     private javax.swing.JMenuItem jMenuItem_help;
     private javax.swing.JMenuItem jMenuItem_help2;
     private javax.swing.JMenuItem jMenuItem_issue_report;
+    private javax.swing.JMenuItem jMenuItem_item;
     private javax.swing.JMenuItem jMenuItem_ledger;
     private javax.swing.JMenuItem jMenuItem_notepad;
     private javax.swing.JMenuItem jMenuItem_settings;
-    private javax.swing.JMenuItem jMenuItem_type;
+    private javax.swing.JMenuItem jMenuItem_soegroup;
+    private javax.swing.JMenuItem jMenuItem_soemaingroup;
+    private javax.swing.JMenuItem jMenuItem_subcategory;
     private javax.swing.JMenuItem jMenuItem_uom;
     private javax.swing.JMenu jMenu_master;
     private javax.swing.JPanel jPanel1;
