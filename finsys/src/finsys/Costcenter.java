@@ -338,7 +338,7 @@ public class Costcenter extends javax.swing.JInternalFrame {
                             "WARNING!!", JOptionPane.WARNING_MESSAGE);
         }
         else{
-        String query = "update finsys.m_costcenter set centercode='" + txtcentercode.getText() + "',centername='" + txtcentername.getText().toUpperCase() + "' where centerid='" + ID + "'";
+        String query = "update finsys.m_costcenter set centercode='" + txtcentercode.getText().toUpperCase() + "',centername='" + txtcentername.getText().toUpperCase() + "' where centerid='" + ID + "'";
         executeSqlQuery(query, "updated");
         ResetRecord();
         
@@ -352,8 +352,8 @@ public class Costcenter extends javax.swing.JInternalFrame {
     private void btnaddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnaddActionPerformed
        
 
-        centercode = txtcentercode.getText().trim();
-        centername = txtcentername.getText().trim().toUpperCase();;
+        centercode = txtcentercode.getText().trim().toUpperCase();
+        centername = txtcentername.getText().trim().toUpperCase();
 
         db = new database();
         try {

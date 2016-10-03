@@ -339,7 +339,7 @@ public class Soemaingroup extends javax.swing.JInternalFrame {
                             "WARNING!!", JOptionPane.WARNING_MESSAGE);
         }
         else{
-        String query = "update finsys.m_soemaingroup set soemaingroupcode='" + txtsoecode.getText() + "',soemaingroupname='" + txtsoename.getText().toUpperCase() + "' where soemaingroupcode='" + ID + "'";
+        String query = "update finsys.m_soemaingroup set soemaingroupcode='" + txtsoecode.getText().toUpperCase() + "',soemaingroupname='" + txtsoename.getText().toUpperCase() + "' where soemaingroupcode='" + ID + "'";
         executeSqlQuery(query, "updated");
         ResetRecord();
         
@@ -353,7 +353,7 @@ public class Soemaingroup extends javax.swing.JInternalFrame {
     private void btnaddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnaddActionPerformed
        
 
-        soecode = txtsoecode.getText().trim();
+        soecode = txtsoecode.getText().trim().toUpperCase();
         soename = txtsoename.getText().trim().toUpperCase();
 
         db = new database();
