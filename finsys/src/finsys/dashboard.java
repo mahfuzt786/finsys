@@ -73,10 +73,10 @@ public class dashboard extends javax.swing.JFrame {
 
             case 3:
                 try {
-                //Addwindow FormAddwindow = new Addwindow(this);
+                    //Addwindow FormAddwindow = new Addwindow(this);
                     //loadForm("Add UOM", FormAddwindow);
                     uom unit = new uom();
-                    loadForm("Add UOM",unit);
+                    loadForm("Add UOM", unit);
                     //desktop.add(unit);
                     //unit.show();
                 } catch (Exception e) {
@@ -86,8 +86,8 @@ public class dashboard extends javax.swing.JFrame {
 
             case 4:
                 try {
-                    Costcenter center=new Costcenter();
-                    loadForm("Add Cost Center",center);
+                    Costcenter center = new Costcenter();
+                    loadForm("Add Cost Center", center);
                 } catch (Exception e) {
                     System.out.println("\nError");
                 }
@@ -95,9 +95,9 @@ public class dashboard extends javax.swing.JFrame {
 
             case 5:
                 try {
-                    Itemcategory cat=new Itemcategory();
-                    loadForm("Add Category",cat);
-               } catch (Exception e) {
+                    Itemcategory cat = new Itemcategory();
+                    loadForm("Add Category", cat);
+                } catch (Exception e) {
                     System.out.println("\nError");
                 }
                 break;
@@ -121,47 +121,55 @@ public class dashboard extends javax.swing.JFrame {
 
             case 9:
                 try {
-           		Soemaingroup soemain= new Soemaingroup();
-               		loadForm("SOE Main Group", soemain);
+                    Soemaingroup soemain = new Soemaingroup();
+                    loadForm("SOE Main Group", soemain);
 
                 } catch (Exception e) {
                     System.out.println("\nError" + e);
                 }
                 break;
-             case 10:
+            case 10:
                 try {
-           		Item item= new Item();
-               		loadForm("Item", item);
+                    Item item = new Item();
+                    loadForm("Item", item);
 
                 } catch (Exception e) {
                     System.out.println("\nError :" + e);
                 }
                 break;
-                 case 11:
+            case 11:
                 try {
-           		Soegroup soe= new Soegroup();
-               		loadForm("SOE Group", soe);
+                    Soegroup soe = new Soegroup();
+                    loadForm("SOE Group", soe);
 
                 } catch (Exception e) {
                     System.out.println("\nError :" + e);
                 }
                 break;
-                  case 14:
-                try {
-           		Ledger ledger= new Ledger();
-               		loadForm("Ledger", ledger);
-
-                } catch (Exception e) {
-                    System.out.println("\nError :" + e);
-                }
-                break;
-
             case 12:
                 //FormAuthorwindow = new Authorwindow(this);
                 break;
 
             case 13:
                 //FormHelpwindow = new Helpwindow(this);
+                break;
+            case 14:
+                try {
+                    Ledger ledger = new Ledger();
+                    loadForm("Ledger", ledger);
+
+                } catch (Exception e) {
+                    System.out.println("\nError :" + e);
+                }
+                break;
+            case 15:
+                try {
+                    stockIn in = new stockIn();
+                    loadForm("stockIn", in);
+
+                } catch (Exception e) {
+                    System.out.println("\nError :" + e);
+                }
                 break;
 
         }
@@ -253,6 +261,9 @@ public class dashboard extends javax.swing.JFrame {
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem_exit = new javax.swing.JMenuItem();
+        jMenu8 = new javax.swing.JMenu();
+        jMenuItem2 = new javax.swing.JMenuItem();
+        jMenuItem3 = new javax.swing.JMenuItem();
         jMenu_master = new javax.swing.JMenu();
         jMenuItem_uom = new javax.swing.JMenuItem();
         jMenuItem_category = new javax.swing.JMenuItem();
@@ -481,6 +492,21 @@ public class dashboard extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu1);
 
+        jMenu8.setText("Stock");
+
+        jMenuItem2.setText("Stock In");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
+        jMenu8.add(jMenuItem2);
+
+        jMenuItem3.setText("Stock Out");
+        jMenu8.add(jMenuItem3);
+
+        jMenuBar1.add(jMenu8);
+
         jMenu_master.setText("Master");
 
         jMenuItem_uom.setText("Unit of measurement");
@@ -633,11 +659,11 @@ public class dashboard extends javax.swing.JFrame {
 
     private void jMenuItem_soegroupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_soegroupActionPerformed
         // TODO add your handling code here:
-         loadJInternalFrame(11);
+        loadJInternalFrame(11);
     }//GEN-LAST:event_jMenuItem_soegroupActionPerformed
 
     private void jMenuItem_ledgerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_ledgerActionPerformed
-       loadJInternalFrame(14);
+        loadJInternalFrame(14);
     }//GEN-LAST:event_jMenuItem_ledgerActionPerformed
 
     private void jMenuItem_categoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_categoryActionPerformed
@@ -651,15 +677,20 @@ public class dashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem_costcenterActionPerformed
 
     private void jMenuItem_soemaingroupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_soemaingroupActionPerformed
-        // TODO add your handling code here:
+        // TODO add your handling code here:raj
         loadJInternalFrame(9);
     }//GEN-LAST:event_jMenuItem_soemaingroupActionPerformed
 
     private void jMenuItem_itemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_itemActionPerformed
         // TODO add your handling code here:
-        
+
         loadJInternalFrame(10);
     }//GEN-LAST:event_jMenuItem_itemActionPerformed
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        // TODO add your handling code here:
+        loadJInternalFrame(15);
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -715,8 +746,11 @@ public class dashboard extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu5;
     private javax.swing.JMenu jMenu6;
     private javax.swing.JMenu jMenu7;
+    private javax.swing.JMenu jMenu8;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem_calculator;
