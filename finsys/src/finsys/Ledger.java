@@ -16,6 +16,7 @@ import javax.swing.*;
 import java.util.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 
 public class Ledger extends javax.swing.JInternalFrame {
     
@@ -30,7 +31,8 @@ public class Ledger extends javax.swing.JInternalFrame {
     database data = new database();
     public String ID;
     ArrayList<Soemaingrouptable> soemain;
-     ArrayList<Soegrouptable> soe;
+    ArrayList<Soegrouptable> soe;
+     DefaultTableModel model;
     /**
      * Creates new form cost center
      */
@@ -82,16 +84,7 @@ public class Ledger extends javax.swing.JInternalFrame {
         });
 
         
-        //checking end
-        
-        
-//        jComboBox_soe.addItem(new Comboitem(0,"Select SOE Group"));
-//        
-//        for(Soegrouptable c:soe){
-//           
-//            jComboBox_soe.addItem(new Comboitem(c.getSoegroupid(),c.getSoegroupname()));
-//        }
-//        
+      
     }
 
     /**
@@ -119,7 +112,7 @@ public class Ledger extends javax.swing.JInternalFrame {
 
     private void ReloadTable() {
         ArrayList<Ledgertable> subcatitemlist = getLedgerTable();
-        DefaultTableModel model = (DefaultTableModel) jtable_ledger.getModel();
+        model = (DefaultTableModel) jtable_ledger.getModel();
         model.setRowCount(0);
         Object[] row = new Object[5];
         for (int i = 0; i < subcatitemlist.size(); i++) {
@@ -306,14 +299,19 @@ public class Ledger extends javax.swing.JInternalFrame {
                 jtable_ledgerMouseClicked(evt);
             }
         });
+        jtable_ledger.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jtable_ledgerKeyReleased(evt);
+            }
+        });
         jScrollPane1.setViewportView(jtable_ledger);
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/finsys/icons/Search_16x16.png"))); // NOI18N
         jLabel1.setText("Search : ");
 
         search.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                searchKeyTyped(evt);
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                searchKeyReleased(evt);
             }
         });
 
@@ -401,7 +399,7 @@ public class Ledger extends javax.swing.JInternalFrame {
         
         Comboitem g1 =(Comboitem) jComboBox_soe.getSelectedItem();
         int catid1=g1.getKey();
-        ledgername = txtledger.getText().trim();
+        ledgername = txtledger.getText().trim().toUpperCase();
         if(ID==null){
             dialogmessage = "Please Select Record To Update";
                     JOptionPane.showMessageDialog(null,dialogmessage,
@@ -432,7 +430,7 @@ public class Ledger extends javax.swing.JInternalFrame {
         int catid=g.getKey();
         Comboitem g1 =(Comboitem) jComboBox_soe.getSelectedItem();
         int catid1=g1.getKey();
-        ledgername = txtledger.getText().trim();
+        ledgername = txtledger.getText().trim().toUpperCase();
         db = new database();
         try {
 
@@ -494,12 +492,24 @@ public class Ledger extends javax.swing.JInternalFrame {
         ResetRecord();
          }
     }//GEN-LAST:event_btndeleteActionPerformed
+   
+    private void jtable_ledgerKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtable_ledgerKeyReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jtable_ledgerKeyReleased
 
-    private void searchKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchKeyTyped
-        // search
-    }//GEN-LAST:event_searchKeyTyped
+    private void searchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchKeyReleased
+        // TODO add your handling code here:
+        String query=search.getText().toUpperCase();
+        filter(query);
+    }//GEN-LAST:event_searchKeyReleased
     
+  
     
+     public void filter(String query){
+        TableRowSorter<DefaultTableModel> tr=new TableRowSorter<DefaultTableModel>(model);
+        jtable_ledger.setRowSorter(tr);
+        tr.setRowFilter(RowFilter.regexFilter(query));
+    }
     public void setSelectedValue(JComboBox combobox,int value){
             Comboitem item;
             for(int i=0;i<combobox.getItemCount();i++){

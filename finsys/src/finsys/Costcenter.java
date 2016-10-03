@@ -14,6 +14,7 @@ import javax.swing.*;
 import java.util.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 
 public class Costcenter extends javax.swing.JInternalFrame {
 
@@ -26,6 +27,7 @@ public class Costcenter extends javax.swing.JInternalFrame {
     int dialogtype = JOptionPane.PLAIN_MESSAGE;
     database data = new database();
     public String ID;
+    DefaultTableModel model;
 
     /**
      * Creates new form cost center
@@ -39,6 +41,15 @@ public class Costcenter extends javax.swing.JInternalFrame {
      *
      * @return
      */
+    
+  
+    
+    
+     public void filter(String query){
+        TableRowSorter<DefaultTableModel> tr=new TableRowSorter<DefaultTableModel>(model);
+        jtable_centertable.setRowSorter(tr);
+        tr.setRowFilter(RowFilter.regexFilter(query));
+    }
     public ArrayList<Costcentertable> getCostCenterTable() {
         ArrayList<Costcentertable> costTable = new ArrayList<Costcentertable>();
         String query = "select * from finsys.m_costcenter";
@@ -58,7 +69,7 @@ public class Costcenter extends javax.swing.JInternalFrame {
 
     private void ReloadTable() {
         ArrayList<Costcentertable> centeritemlist = getCostCenterTable();
-        DefaultTableModel model = (DefaultTableModel) jtable_centertable.getModel();
+        model = (DefaultTableModel) jtable_centertable.getModel();
         model.setRowCount(0);
         Object[] row = new Object[3];
         for (int i = 0; i < centeritemlist.size(); i++) {
@@ -236,8 +247,8 @@ public class Costcenter extends javax.swing.JInternalFrame {
         jLabel1.setText("Search : ");
 
         search.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                searchKeyTyped(evt);
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                searchKeyReleased(evt);
             }
         });
 
@@ -300,8 +311,6 @@ public class Costcenter extends javax.swing.JInternalFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jPanel2.getAccessibleContext().setAccessibleName("COST CENTER");
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -329,7 +338,7 @@ public class Costcenter extends javax.swing.JInternalFrame {
                             "WARNING!!", JOptionPane.WARNING_MESSAGE);
         }
         else{
-        String query = "update finsys.m_costcenter set centercode='" + txtcentercode.getText() + "',centername='" + txtcentername.getText() + "' where centerid='" + ID + "'";
+        String query = "update finsys.m_costcenter set centercode='" + txtcentercode.getText() + "',centername='" + txtcentername.getText().toUpperCase() + "' where centerid='" + ID + "'";
         executeSqlQuery(query, "updated");
         ResetRecord();
         
@@ -344,7 +353,7 @@ public class Costcenter extends javax.swing.JInternalFrame {
        
 
         centercode = txtcentercode.getText().trim();
-        centername = txtcentername.getText().trim();
+        centername = txtcentername.getText().trim().toUpperCase();;
 
         db = new database();
         try {
@@ -406,9 +415,12 @@ public class Costcenter extends javax.swing.JInternalFrame {
          }
     }//GEN-LAST:event_btndeleteActionPerformed
 
-    private void searchKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchKeyTyped
-        // search
-    }//GEN-LAST:event_searchKeyTyped
+    private void searchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchKeyReleased
+        // TODO add your handling code here:
+        
+        String query=search.getText().toUpperCase();
+        filter(query);
+    }//GEN-LAST:event_searchKeyReleased
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -15,6 +15,7 @@ import javax.swing.*;
 import java.util.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 
 public class Soegroup extends javax.swing.JInternalFrame {
     
@@ -29,6 +30,8 @@ public class Soegroup extends javax.swing.JInternalFrame {
     database data = new database();
     public String ID;
     ArrayList<Soemaingrouptable> soemaingp;
+    DefaultTableModel model;
+    
     /**
      * Creates new form cost center
      */
@@ -49,6 +52,15 @@ public class Soegroup extends javax.swing.JInternalFrame {
      *
      * @return
      */
+    
+   
+    
+    
+     public void filter(String query){
+        TableRowSorter<DefaultTableModel> tr=new TableRowSorter<DefaultTableModel>(model);
+        jtable_soetable.setRowSorter(tr);
+        tr.setRowFilter(RowFilter.regexFilter(query));
+    }
     public ArrayList<Soegrouptable> getSoeTable() {
         ArrayList<Soegrouptable> soeTable = new ArrayList<Soegrouptable>();
         String query = "select * from finsys.m_soegroup";
@@ -70,7 +82,7 @@ public class Soegroup extends javax.swing.JInternalFrame {
 
     private void ReloadTable() {
         ArrayList<Soegrouptable> subcatitemlist = getSoeTable();
-        DefaultTableModel model = (DefaultTableModel) jtable_soetable.getModel();
+        model = (DefaultTableModel) jtable_soetable.getModel();
         model.setRowCount(0);
         Object[] row = new Object[4];
         for (int i = 0; i < subcatitemlist.size(); i++) {
@@ -252,8 +264,8 @@ public class Soegroup extends javax.swing.JInternalFrame {
         jLabel1.setText("Search : ");
 
         search.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                searchKeyTyped(evt);
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                searchKeyReleased(evt);
             }
         });
 
@@ -336,7 +348,7 @@ public class Soegroup extends javax.swing.JInternalFrame {
         // update
         Comboitem g =(Comboitem) jComboBox_soemain.getSelectedItem();
         int soemainid=g.getKey();
-      soename = txtsoename.getText().trim();
+      soename = txtsoename.getText().trim().toUpperCase();;
         if(ID==null){
             dialogmessage = "Please Select Record To Update";
                     JOptionPane.showMessageDialog(null,dialogmessage,
@@ -365,7 +377,7 @@ public class Soegroup extends javax.swing.JInternalFrame {
 
         Comboitem g =(Comboitem) jComboBox_soemain.getSelectedItem();
         int soemainid=g.getKey();
-        soename = txtsoename.getText().trim();
+        soename = txtsoename.getText().trim().toUpperCase();;
         
         db = new database();
         try {
@@ -428,9 +440,12 @@ public class Soegroup extends javax.swing.JInternalFrame {
          }
     }//GEN-LAST:event_btndeleteActionPerformed
 
-    private void searchKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchKeyTyped
-        // search
-    }//GEN-LAST:event_searchKeyTyped
+    private void searchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchKeyReleased
+        // TODO add your handling code here:
+        
+        String query=search.getText().toUpperCase();
+        filter(query);
+    }//GEN-LAST:event_searchKeyReleased
     
     
     public void setSelectedValue(JComboBox combobox,int value){

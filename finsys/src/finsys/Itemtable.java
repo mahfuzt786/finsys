@@ -13,9 +13,8 @@ public class Itemtable {
   private int categoryid,itemid,ledgerid; 
  
   private String itemcode ,itemname,uomcode;
-  private double itemcost ;
-
-    public Itemtable(int categoryid, int itemid, int ledgerid, String itemcode, String itemname, String uomcode, double itemcost) {
+ 
+    public Itemtable(int categoryid, int itemid, int ledgerid, String itemcode, String itemname, String uomcode) {
         this.categoryid = categoryid;
        
         this.itemid = itemid;
@@ -23,7 +22,7 @@ public class Itemtable {
         this.itemcode = itemcode;
         this.itemname = itemname;
         this.uomcode = uomcode;
-        this.itemcost = itemcost;
+        
     }
     
      public Itemtable() {
@@ -34,7 +33,7 @@ public class Itemtable {
         this.itemcode = "";
         this.itemname = "";
         this.uomcode = "";
-        this.itemcost = 0.0;
+        
     }
 
     public int getCategoryid() {
@@ -87,13 +86,7 @@ public class Itemtable {
         this.uomcode = uomcode;
     }
 
-    public double getItemcost() {
-        return itemcost;
-    }
-
-    public void setItemcost(double itemcost) {
-        this.itemcost = itemcost;
-    }
+ 
   
   
   

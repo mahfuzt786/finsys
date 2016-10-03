@@ -282,7 +282,7 @@
             </Component>
             <Component class="javax.swing.JTextField" name="search">
               <Events>
-                <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="searchKeyTyped"/>
+                <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="searchKeyReleased"/>
               </Events>
             </Component>
             <Component class="javax.swing.JButton" name="btndelete">

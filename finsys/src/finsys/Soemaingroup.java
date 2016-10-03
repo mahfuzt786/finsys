@@ -15,6 +15,7 @@ import javax.swing.*;
 import java.util.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 
 public class Soemaingroup extends javax.swing.JInternalFrame {
 
@@ -27,6 +28,7 @@ public class Soemaingroup extends javax.swing.JInternalFrame {
     int dialogtype = JOptionPane.PLAIN_MESSAGE;
     database data = new database();
     public String ID;
+    DefaultTableModel model;
 
     /**
      * Creates new form cost center
@@ -40,6 +42,15 @@ public class Soemaingroup extends javax.swing.JInternalFrame {
      *
      * @return
      */
+    
+   
+    
+    
+     public void filter(String query){
+        TableRowSorter<DefaultTableModel> tr=new TableRowSorter<DefaultTableModel>(model);
+        jtable_soetable.setRowSorter(tr);
+        tr.setRowFilter(RowFilter.regexFilter(query));
+    }
     public ArrayList<Soemaingrouptable> getCostCenterTable() {
         ArrayList<Soemaingrouptable> soeTable = new ArrayList<Soemaingrouptable>();
         String query = "select * from finsys.m_soemaingroup";
@@ -59,7 +70,7 @@ public class Soemaingroup extends javax.swing.JInternalFrame {
 
     private void ReloadTable() {
         ArrayList<Soemaingrouptable> soelist = getCostCenterTable();
-        DefaultTableModel model = (DefaultTableModel) jtable_soetable.getModel();
+        model = (DefaultTableModel) jtable_soetable.getModel();
         model.setRowCount(0);
         Object[] row = new Object[2];
         for (int i = 0; i < soelist.size(); i++) {
@@ -237,8 +248,8 @@ public class Soemaingroup extends javax.swing.JInternalFrame {
         jLabel1.setText("Search : ");
 
         search.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                searchKeyTyped(evt);
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                searchKeyReleased(evt);
             }
         });
 
@@ -328,7 +339,7 @@ public class Soemaingroup extends javax.swing.JInternalFrame {
                             "WARNING!!", JOptionPane.WARNING_MESSAGE);
         }
         else{
-        String query = "update finsys.m_soemaingroup set soemaingroupcode='" + txtsoecode.getText() + "',soemaingroupname='" + txtsoename.getText() + "' where soemaingroupcode='" + ID + "'";
+        String query = "update finsys.m_soemaingroup set soemaingroupcode='" + txtsoecode.getText() + "',soemaingroupname='" + txtsoename.getText().toUpperCase() + "' where soemaingroupcode='" + ID + "'";
         executeSqlQuery(query, "updated");
         ResetRecord();
         
@@ -343,7 +354,7 @@ public class Soemaingroup extends javax.swing.JInternalFrame {
        
 
         soecode = txtsoecode.getText().trim();
-        soename = txtsoename.getText().trim();
+        soename = txtsoename.getText().trim().toUpperCase();
 
         db = new database();
         try {
@@ -405,9 +416,11 @@ public class Soemaingroup extends javax.swing.JInternalFrame {
          }
     }//GEN-LAST:event_btndeleteActionPerformed
 
-    private void searchKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchKeyTyped
-        // search
-    }//GEN-LAST:event_searchKeyTyped
+    private void searchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchKeyReleased
+        // TODO add your handling code here:
+        String query=search.getText().toUpperCase();
+        filter(query);
+    }//GEN-LAST:event_searchKeyReleased
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -14,6 +14,7 @@ import javax.swing.*;
 import java.util.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 
 public class Itemcategory extends javax.swing.JInternalFrame {
 
@@ -26,6 +27,7 @@ public class Itemcategory extends javax.swing.JInternalFrame {
     int dialogtype = JOptionPane.PLAIN_MESSAGE;
     database data = new database();
     public String ID;
+    DefaultTableModel model;
 
     /**
      * Creates new form cost center
@@ -58,7 +60,7 @@ public class Itemcategory extends javax.swing.JInternalFrame {
 
     private void ReloadTable() {
         ArrayList<Categorytable> centeritemlist = getCategoryTable();
-        DefaultTableModel model = (DefaultTableModel) jtable_categorytable.getModel();
+         model = (DefaultTableModel) jtable_categorytable.getModel();
         model.setRowCount(0);
         Object[] row = new Object[3];
         for (int i = 0; i < centeritemlist.size(); i++) {
@@ -226,8 +228,8 @@ public class Itemcategory extends javax.swing.JInternalFrame {
         jLabel1.setText("Search : ");
 
         search.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                searchKeyTyped(evt);
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                searchKeyReleased(evt);
             }
         });
 
@@ -319,7 +321,7 @@ public class Itemcategory extends javax.swing.JInternalFrame {
                             "WARNING!!", JOptionPane.WARNING_MESSAGE);
         }
         else{
-        String query = "update finsys.m_itemcategory set categoryname='" + txtcategoryname.getText() + "' where categoryid='" + ID + "'";
+        String query = "update finsys.m_itemcategory set categoryname='" + txtcategoryname.getText().toUpperCase() + "' where categoryid='" + ID + "'";
         executeSqlQuery(query, "updated");
         ResetRecord();
         
@@ -334,7 +336,7 @@ public class Itemcategory extends javax.swing.JInternalFrame {
        
 
        
-        categoryname = txtcategoryname.getText().trim();
+        categoryname = txtcategoryname.getText().trim().toUpperCase();
 
         db = new database();
         try {
@@ -398,10 +400,21 @@ public class Itemcategory extends javax.swing.JInternalFrame {
          }
     }//GEN-LAST:event_btndeleteActionPerformed
 
-    private void searchKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchKeyTyped
-        // search
-    }//GEN-LAST:event_searchKeyTyped
+    private void searchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchKeyReleased
+        // TODO add your handling code here:
+        
+        String query=search.getText().toUpperCase();
+        filter(query);
+    }//GEN-LAST:event_searchKeyReleased
 
+    
+    
+    
+     public void filter(String query){
+        TableRowSorter<DefaultTableModel> tr=new TableRowSorter<DefaultTableModel>(model);
+        jtable_categorytable.setRowSorter(tr);
+        tr.setRowFilter(RowFilter.regexFilter(query));
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnadd;

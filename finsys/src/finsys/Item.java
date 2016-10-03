@@ -9,13 +9,12 @@ package finsys;
  *
  * @author rupa
  */
-import java.awt.*;
-import java.awt.event.*;
 import java.sql.*;
 import javax.swing.*;
 import java.util.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 
 public class Item extends javax.swing.JInternalFrame {
     
@@ -24,7 +23,7 @@ public class Item extends javax.swing.JInternalFrame {
     String ledgerid="";
     String itemname="";
     String uomcode="";
-    String itemcost="";
+   
     database db;
     Itemtable i = new Itemtable();
     String dialogmessage;
@@ -33,7 +32,7 @@ public class Item extends javax.swing.JInternalFrame {
     database data = new database();
     public String ID;
     ArrayList<Categorytable> category;
-  
+    DefaultTableModel model;
     ArrayList<uomtable> uom;
     ArrayList<Ledgertable> ledger;
     /**
@@ -73,6 +72,14 @@ public class Item extends javax.swing.JInternalFrame {
      *
      * @return
      */
+    
+  
+    
+     public void filter(String query){
+        TableRowSorter<DefaultTableModel> tr=new TableRowSorter<DefaultTableModel>(model);
+        jtable_subcattable.setRowSorter(tr);
+        tr.setRowFilter(RowFilter.regexFilter(query));
+    }
     public ArrayList<Itemtable> getItemTable() {
         ArrayList<Itemtable> iTable = new ArrayList<Itemtable>();
         String query = "select * from finsys.m_item";
@@ -81,7 +88,7 @@ public class Item extends javax.swing.JInternalFrame {
             ResultSet rs = pst.executeQuery();
             Itemtable iTab;
             while (rs.next()) {
-                iTab = new Itemtable(rs.getInt("categoryid"),rs.getInt("itemid"),rs.getInt("ledgerid"), rs.getString("itemcode"), rs.getString("itemname"),rs.getString("uomcode"),rs.getDouble("itemcost") );
+                iTab = new Itemtable(rs.getInt("categoryid"),rs.getInt("itemid"),rs.getInt("ledgerid"), rs.getString("itemcode"), rs.getString("itemname"),rs.getString("uomcode") );
                 
                 iTable.add(iTab);
             }
@@ -94,9 +101,9 @@ public class Item extends javax.swing.JInternalFrame {
 
     private void ReloadTable() {
         ArrayList<Itemtable> subcatitemlist = getItemTable();
-        DefaultTableModel model = (DefaultTableModel) jtable_subcattable.getModel();
+         model = (DefaultTableModel) jtable_subcattable.getModel();
         model.setRowCount(0);
-        Object[] row = new Object[6];
+        Object[] row = new Object[5];
         for (int i = 0; i < subcatitemlist.size(); i++) {
             row[0] = subcatitemlist.get(i).getCategoryid();
             
@@ -104,7 +111,7 @@ public class Item extends javax.swing.JInternalFrame {
             row[2] = subcatitemlist.get(i).getItemid();
             row[3] = subcatitemlist.get(i).getItemname();
             row[4] = subcatitemlist.get(i).getUomcode();
-            row[5] = subcatitemlist.get(i).getItemcost();
+            
             model.addRow(row);
         }
     }
@@ -129,8 +136,7 @@ public class Item extends javax.swing.JInternalFrame {
         jComboBox_ledger.setSelectedIndex(0);
         jComboBox_uom.setSelectedIndex(0);
         txtitemname.setText("");
-        txtitemcost.setText("");
-
+   
     }
 
     /**
@@ -156,8 +162,6 @@ public class Item extends javax.swing.JInternalFrame {
         jLabel5 = new javax.swing.JLabel();
         jComboBox_uom = new javax.swing.JComboBox<>();
         jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
-        txtitemcost = new javax.swing.JTextField();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jtable_subcattable = new javax.swing.JTable();
@@ -228,14 +232,6 @@ public class Item extends javax.swing.JInternalFrame {
 
         jLabel6.setText("Unit Of Measurement :");
 
-        jLabel7.setText("Item Price(Per Unit in Rs.)");
-
-        txtitemcost.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtitemcostActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -243,29 +239,24 @@ public class Item extends javax.swing.JInternalFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(133, 133, 133)
                         .addComponent(btnadd, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnupdate, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnclear, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel5)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jComboBox_uom, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(txtitemname)
-                            .addComponent(jComboBox_ledger, 0, 280, Short.MAX_VALUE)
-                            .addComponent(txtitemcost)
-                            .addComponent(jComboBox_category, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(0, 0, Short.MAX_VALUE))))
+                        .addComponent(btnclear, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jComboBox_uom, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(txtitemname)
+                        .addComponent(jComboBox_ledger, 0, 280, Short.MAX_VALUE)
+                        .addComponent(jComboBox_category, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -286,16 +277,12 @@ public class Item extends javax.swing.JInternalFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jComboBox_uom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel6))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel7)
-                    .addComponent(txtitemcost, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnadd)
                     .addComponent(btnupdate)
                     .addComponent(btnclear))
-                .addGap(41, 41, 41))
+                .addGap(72, 72, 72))
         );
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Item Table"));
@@ -306,14 +293,14 @@ public class Item extends javax.swing.JInternalFrame {
 
             },
             new String [] {
-                "Category ID", "Ledger", "Item ID", "Item Name", "UOM", "Item Price(in Rs.)"
+                "Category ID", "Ledger", "Item ID", "Item Name", "UOM"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.String.class, java.lang.Object.class, java.lang.String.class
+                java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.String.class, java.lang.Object.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
+                false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -334,14 +321,9 @@ public class Item extends javax.swing.JInternalFrame {
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/finsys/icons/Search_16x16.png"))); // NOI18N
         jLabel1.setText("Search : ");
 
-        search.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                searchActionPerformed(evt);
-            }
-        });
         search.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                searchKeyTyped(evt);
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                searchKeyReleased(evt);
             }
         });
 
@@ -373,14 +355,13 @@ public class Item extends javax.swing.JInternalFrame {
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(search, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btndelete))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 274, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 291, Short.MAX_VALUE)
+                .addGap(22, 22, 22))
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -398,10 +379,10 @@ public class Item extends javax.swing.JInternalFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(27, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -432,22 +413,22 @@ public class Item extends javax.swing.JInternalFrame {
         int uomid=g1.getKey();
          Comboitem g2 =(Comboitem) jComboBox_ledger.getSelectedItem();
         int ledid=g2.getKey();
-        itemname = txtitemname.getText().trim();
-        itemcost=txtitemcost.getText().trim();
-        double cost=Double.valueOf(itemcost);
+        itemname = txtitemname.getText().trim().toUpperCase();;
+        
+        
         if(ID==null){
             dialogmessage = "Please Select Record To Update";
                     JOptionPane.showMessageDialog(null,dialogmessage,
                             "WARNING!!", JOptionPane.WARNING_MESSAGE);
         }
        
-        else if( catid==0&& uomid==0 && ledid==0 && itemname.equals("")&& itemcost.equals("")){
+        else if( catid==0&& uomid==0 && ledid==0 && itemname.equals("")){
             dialogmessage = "Empty Record!!!";
                     JOptionPane.showMessageDialog(null,dialogmessage,
                             "WARNING!!", JOptionPane.WARNING_MESSAGE);
         }
         else{
-        String query = "update finsys.m_item set ledgerid='" + ledid+ "',categoryid='" + catid  + "',uomcode='" + uomid + "',itemname='" + itemname+ "',itemcost='" + itemcost   + "' where itemid='" + ID + "'";
+        String query = "update finsys.m_item set ledgerid='" + ledid+ "',categoryid='" + catid  + "',uomcode='" + uomid + "',itemname='" + itemname  + "' where itemid='" + ID + "'";
         executeSqlQuery(query, "updated");
         ResetRecord();
         
@@ -469,20 +450,20 @@ public class Item extends javax.swing.JInternalFrame {
         String uomcd=g1.getKey()+"";
         Comboitem g2 =(Comboitem) jComboBox_ledger.getSelectedItem();
         int ledid=g2.getKey();
-        itemname = txtitemname.getText().trim();
-        itemcost=txtitemcost.getText().trim();
-        double cost=Double.valueOf(itemcost);
+        itemname = txtitemname.getText().trim().toUpperCase();;
+        
+      
         
         db = new database();
         try {
 
-            if( !(catid==0)  && !(uomid==0) && !(ledid==0) && !itemname.equals("")&& !itemcost.equals("")) {
+            if( !(catid==0)  && !(uomid==0) && !(ledid==0) && !itemname.equals("")) {
                 i.setCategoryid(g.getKey());
                
                 i.setLedgerid(ledid);
                 i.setUomcode(uomcd);
                 i.setItemname(itemname);
-                i.setItemcost(cost);
+                
                 //System.out.println("values"+i);
                 int result = db.insertItem(i);
                 System.out.println(result);
@@ -524,7 +505,7 @@ public class Item extends javax.swing.JInternalFrame {
         setSelectedValue(jComboBox_uom,Integer.valueOf(model.getValueAt(i, 4).toString()));
         //jComboBox_category.setSelectedItem(model.getValueAt(i, 0).toString());
         txtitemname.setText(model.getValueAt(i, 3).toString());
-        txtitemcost.setText(model.getValueAt(i, 5).toString());
+        
         ID = model.getValueAt(i, 2).toString();
     }//GEN-LAST:event_jtable_subcattableMouseClicked
 
@@ -542,26 +523,20 @@ public class Item extends javax.swing.JInternalFrame {
          }
     }//GEN-LAST:event_btndeleteActionPerformed
 
-    private void searchKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchKeyTyped
-        // search
-    }//GEN-LAST:event_searchKeyTyped
-
     private void txtitemnameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtitemnameActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtitemnameActionPerformed
-
-    private void txtitemcostActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtitemcostActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtitemcostActionPerformed
 
     private void jComboBox_categoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox_categoryActionPerformed
         // TODO add your handling code here:
     
     }//GEN-LAST:event_jComboBox_categoryActionPerformed
 
-    private void searchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchActionPerformed
+    private void searchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchKeyReleased
         // TODO add your handling code here:
-    }//GEN-LAST:event_searchActionPerformed
+        String query=search.getText().toUpperCase();
+        filter(query);
+    }//GEN-LAST:event_searchKeyReleased
     
     
     public void setSelectedValue(JComboBox combobox,int value){
@@ -590,14 +565,12 @@ public class Item extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jtable_subcattable;
     private javax.swing.JTextField search;
-    private javax.swing.JTextField txtitemcost;
     private javax.swing.JTextField txtitemname;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables

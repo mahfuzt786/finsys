@@ -168,7 +168,7 @@ public class database {
             sql = "SELECT MAX(itemid) as max FROM finsys.m_item";
             itemid = getmax(sql);
             itemcode="ITEM"+itemid;
-            pst = conn.prepareStatement("INSERT INTO finsys.m_item(categoryid,ledgerid,uomcode,itemid,itemcode,itemname,itemcost) values(?,?,?,?,?,?,?)");
+            pst = conn.prepareStatement("INSERT INTO finsys.m_item(categoryid,ledgerid,uomcode,itemid,itemcode,itemname) values(?,?,?,?,?,?)");
 
             
             pst.setInt(1,i.getCategoryid() );
@@ -178,7 +178,7 @@ public class database {
             pst.setInt(4,itemid );
             pst.setString(5,itemcode);
             pst.setString(6,i.getItemname());
-            pst.setDouble(7,i.getItemcost());
+            
            // System.out.println("centercode1: " + centerid);
             flag = pst.executeUpdate();
             return flag;
