@@ -186,6 +186,15 @@ public class dashboard extends javax.swing.JFrame {
                     System.out.println("\nError :" + e);
                 }
                 break;
+            case 17:
+                try {
+                    stockOut out = new stockOut();
+                    loadForm("stockOut", out);
+
+                } catch (Exception e) {
+                    System.out.println("\nError :" + e);
+                }
+                break;
 
         }
 
@@ -520,6 +529,11 @@ public class dashboard extends javax.swing.JFrame {
         jMenu8.add(jMenuItem2);
 
         jMenuItem3.setText("Stock Out");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
         jMenu8.add(jMenuItem3);
 
         jMenuBar1.add(jMenu8);
@@ -722,6 +736,11 @@ public class dashboard extends javax.swing.JFrame {
         // TODO add your handling code here:
         loadJInternalFrame(12);
     }//GEN-LAST:event_jMenuItem6ActionPerformed
+
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+        // TODO add your handling code here:
+        loadJInternalFrame(17);
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     /**
      * @param args the command line arguments
