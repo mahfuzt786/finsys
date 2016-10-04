@@ -117,7 +117,7 @@
                           <Group type="103" groupAlignment="0" max="-2" attributes="0">
                               <Component id="jComboBox_uom" max="32767" attributes="0"/>
                               <Component id="txtitemname" max="32767" attributes="0"/>
-                              <Component id="jComboBox_ledger" alignment="0" pref="280" max="32767" attributes="0"/>
+                              <Component id="jComboBox_itemtype" alignment="0" pref="280" max="32767" attributes="0"/>
                               <Component id="jComboBox_category" max="32767" attributes="0"/>
                           </Group>
                       </Group>
@@ -135,7 +135,7 @@
                       </Group>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jComboBox_ledger" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jComboBox_itemtype" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel5" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
@@ -227,7 +227,7 @@
                 <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;Comboitem&gt;"/>
               </AuxValues>
             </Component>
-            <Component class="javax.swing.JComboBox" name="jComboBox_ledger">
+            <Component class="javax.swing.JComboBox" name="jComboBox_itemtype">
               <Properties>
                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                   <StringArray count="0"/>
@@ -317,7 +317,7 @@
                     <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
                       <Table columnCount="5" rowCount="0">
                         <Column editable="false" title="Category ID" type="java.lang.Object"/>
-                        <Column editable="false" title="Ledger" type="java.lang.Object"/>
+                        <Column editable="false" title="Item Type ID" type="java.lang.Object"/>
                         <Column editable="false" title="Item ID" type="java.lang.Object"/>
                         <Column editable="false" title="Item Name" type="java.lang.String"/>
                         <Column editable="false" title="UOM" type="java.lang.Object"/>

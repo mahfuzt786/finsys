@@ -18,10 +18,10 @@ import javax.swing.table.TableRowSorter;
 
 public class itemtype extends javax.swing.JInternalFrame {
 
-    String categorycode = "";
-    String categoryname = "";
+    
+    String itemtypename = "";
     database db;
-    Categorytable i = new Categorytable();
+    Itemtypetable i = new Itemtypetable();
     String dialogmessage;
     String dialogs;
     int dialogtype = JOptionPane.PLAIN_MESSAGE;
@@ -41,32 +41,32 @@ public class itemtype extends javax.swing.JInternalFrame {
      *
      * @return
      */
-    public ArrayList<Categorytable> getCategoryTable() {
-        ArrayList<Categorytable> categoryTable = new ArrayList<Categorytable>();
-        String query = "select * from finsys.m_itemcategory";
+    public ArrayList<Itemtypetable> getItemtypeTable() {
+        ArrayList<Itemtypetable> iTable = new ArrayList<Itemtypetable>();
+        String query = "select * from finsys.m_itemtype";
         try {
             PreparedStatement pst = data.conn.prepareStatement(query);
             ResultSet rs = pst.executeQuery();
-            Categorytable categoryTab;
+            Itemtypetable iTab;
             while (rs.next()) {
-                categoryTab = new Categorytable(rs.getInt("categoryid"), rs.getString("categorycode"), rs.getString("categoryname"));
-                categoryTable.add(categoryTab);
+                iTab = new Itemtypetable(rs.getInt("itemtypeid"), rs.getString("itemtypename"));
+                iTable.add(iTab);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return categoryTable;
+        return iTable;
     }
 
     private void ReloadTable() {
-        ArrayList<Categorytable> centeritemlist = getCategoryTable();
-         model = (DefaultTableModel) jtable_categorytable.getModel();
+        ArrayList<Itemtypetable> centeritemlist = getItemtypeTable();
+         model = (DefaultTableModel) jtable_itemtypetable.getModel();
         model.setRowCount(0);
-        Object[] row = new Object[3];
+        Object[] row = new Object[2];
         for (int i = 0; i < centeritemlist.size(); i++) {
-            row[0] = centeritemlist.get(i).getCategoryid();
-            row[1] = centeritemlist.get(i).getCategorycode();
-            row[2] = centeritemlist.get(i).getCategoryname();
+            row[0] = centeritemlist.get(i).getItemtypeid();
+            row[1] = centeritemlist.get(i).getItemtypename();
+      
 
             model.addRow(row);
         }
@@ -88,7 +88,7 @@ public class itemtype extends javax.swing.JInternalFrame {
 
     private void ResetRecord() {
         
-        txtcategoryname.setText("");
+        txtitemtype.setText("");
 
     }
 
@@ -104,13 +104,13 @@ public class itemtype extends javax.swing.JInternalFrame {
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
-        txtcategoryname = new javax.swing.JTextField();
+        txtitemtype = new javax.swing.JTextField();
         btnadd = new javax.swing.JButton();
         btnupdate = new javax.swing.JButton();
         btnclear = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jtable_categorytable = new javax.swing.JTable();
+        jtable_itemtypetable = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
         search = new javax.swing.JTextField();
         btndelete = new javax.swing.JButton();
@@ -118,17 +118,17 @@ public class itemtype extends javax.swing.JInternalFrame {
         setBorder(null);
         setClosable(true);
         setForeground(java.awt.Color.white);
-        setTitle("Item Category");
+        setTitle("Item Type");
         setToolTipText("");
         setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/finsys/shivbari-23x23.png"))); // NOI18N
 
         jPanel1.setBackground(new java.awt.Color(153, 204, 255));
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("ITEM CATEGORY"));
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("ITEM TYPE"));
         jPanel2.setOpaque(false);
 
-        jLabel3.setText("Category Name :");
+        jLabel3.setText("Item Type Name :");
 
         btnadd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/finsys/icons/Add_16x16.png"))); // NOI18N
         btnadd.setText("add");
@@ -173,7 +173,7 @@ public class itemtype extends javax.swing.JInternalFrame {
                         .addGap(18, 18, 18)
                         .addComponent(btnclear, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(txtcategoryname))
+                    .addComponent(txtitemtype))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -182,7 +182,7 @@ public class itemtype extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(txtcategoryname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtitemtype, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(28, 28, 28)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnadd)
@@ -191,22 +191,22 @@ public class itemtype extends javax.swing.JInternalFrame {
                 .addGap(0, 14, Short.MAX_VALUE))
         );
 
-        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Item Category Table"));
+        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Item Type Table"));
         jPanel3.setOpaque(false);
 
-        jtable_categorytable.setModel(new javax.swing.table.DefaultTableModel(
+        jtable_itemtypetable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Category ID", "Category Code", "Category Name"
+                "Item Type ID", "Item Type Name"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Object.class, java.lang.String.class, java.lang.String.class
+                java.lang.Object.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false
+                false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -217,12 +217,12 @@ public class itemtype extends javax.swing.JInternalFrame {
                 return canEdit [columnIndex];
             }
         });
-        jtable_categorytable.addMouseListener(new java.awt.event.MouseAdapter() {
+        jtable_itemtypetable.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jtable_categorytableMouseClicked(evt);
+                jtable_itemtypetableMouseClicked(evt);
             }
         });
-        jScrollPane1.setViewportView(jtable_categorytable);
+        jScrollPane1.setViewportView(jtable_itemtypetable);
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/finsys/icons/Search_16x16.png"))); // NOI18N
         jLabel1.setText("Search : ");
@@ -315,13 +315,13 @@ public class itemtype extends javax.swing.JInternalFrame {
                     JOptionPane.showMessageDialog(null,dialogmessage,
                             "WARNING!!", JOptionPane.WARNING_MESSAGE);
         }
-        else if( txtcategoryname.getText().trim().equals("")){
+        else if( txtitemtype.getText().trim().equals("")){
             dialogmessage = "Empty Record!!!";
                     JOptionPane.showMessageDialog(null,dialogmessage,
                             "WARNING!!", JOptionPane.WARNING_MESSAGE);
         }
         else{
-        String query = "update finsys.m_itemcategory set categoryname='" + txtcategoryname.getText().toUpperCase() + "' where categoryid='" + ID + "'";
+        String query = "update finsys.m_itemtype set itemtypename='" + txtitemtype.getText().toUpperCase() + "' where itemtypeid='" + ID + "'";
         executeSqlQuery(query, "updated");
         ResetRecord();
         
@@ -336,21 +336,21 @@ public class itemtype extends javax.swing.JInternalFrame {
        
 
        
-        categoryname = txtcategoryname.getText().trim().toUpperCase();
+        itemtypename = txtitemtype.getText().trim().toUpperCase();
 
         db = new database();
         try {
 
-            if ( !categoryname.equals("")) {
+            if ( !itemtypename.equals("")) {
 //                String categorycode=categoryname.substring(0, 2);
 //                categorycode+=
                 
-                i.setCategoryname(categoryname);
+                i.setItemtypename(itemtypename);
                 //System.out.println("values"+i);
-                int result = db.insertCategory(i);
+                int result = db.insertItemtype(i);
                 System.out.println(result);
                 if (result == 1) {
-                    dialogmessage = "ITEM CATEGORY ADDED SUCCESSFULLY";
+                    dialogmessage = "ITEM TYPE ADDED SUCCESSFULLY";
                     JOptionPane.showMessageDialog(null, dialogmessage,
                             "SUCCESSFULL!!", JOptionPane.INFORMATION_MESSAGE);
                     System.out.println("Record Added");
@@ -377,14 +377,14 @@ public class itemtype extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_btnaddActionPerformed
 
-    private void jtable_categorytableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtable_categorytableMouseClicked
+    private void jtable_itemtypetableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtable_itemtypetableMouseClicked
         //Display selected row in textbox
-        int i = jtable_categorytable.getSelectedRow();
-        TableModel model = jtable_categorytable.getModel();
+        int i = jtable_itemtypetable.getSelectedRow();
+        TableModel model = jtable_itemtypetable.getModel();
         
-        txtcategoryname.setText(model.getValueAt(i, 2).toString());
+        txtitemtype.setText(model.getValueAt(i, 1).toString());
         ID = model.getValueAt(i, 0).toString();
-    }//GEN-LAST:event_jtable_categorytableMouseClicked
+    }//GEN-LAST:event_jtable_itemtypetableMouseClicked
 
     private void btndeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btndeleteActionPerformed
         //delete
@@ -394,7 +394,7 @@ public class itemtype extends javax.swing.JInternalFrame {
                             "WARNING!!", JOptionPane.WARNING_MESSAGE);
         }
          else{
-        String query = "delete from finsys.m_itemcategory where categoryid='" + ID + "'";
+        String query = "delete from finsys.m_itemtype where itemtypeid='" + ID + "'";
         executeSqlQuery(query, "deleted");
         ResetRecord();
          }
@@ -412,7 +412,7 @@ public class itemtype extends javax.swing.JInternalFrame {
     
      public void filter(String query){
         TableRowSorter<DefaultTableModel> tr=new TableRowSorter<DefaultTableModel>(model);
-        jtable_categorytable.setRowSorter(tr);
+        jtable_itemtypetable.setRowSorter(tr);
         tr.setRowFilter(RowFilter.regexFilter(query));
     }
 
@@ -427,9 +427,9 @@ public class itemtype extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jtable_categorytable;
+    private javax.swing.JTable jtable_itemtypetable;
     private javax.swing.JTextField search;
-    private javax.swing.JTextField txtcategoryname;
+    private javax.swing.JTextField txtitemtype;
     // End of variables declaration//GEN-END:variables
 
 }

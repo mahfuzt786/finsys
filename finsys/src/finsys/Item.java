@@ -34,7 +34,7 @@ public class Item extends javax.swing.JInternalFrame {
     ArrayList<Categorytable> category;
     DefaultTableModel model;
     ArrayList<uomtable> uom;
-    ArrayList<Ledgertable> ledger;
+    ArrayList<Itemtypetable> itemtype;
     /**
      * Creates new form cost center
      */
@@ -43,7 +43,7 @@ public class Item extends javax.swing.JInternalFrame {
         ReloadTable();
         db=new database();
         category=db.getCategory();
-        ledger=db.getLedger();
+        itemtype=db.getItemtype();
         uom=db.getUom();
       
          System.out.println("Line1");
@@ -54,10 +54,10 @@ public class Item extends javax.swing.JInternalFrame {
         }
        
         System.out.println("Line2");
-        jComboBox_ledger.addItem(new Comboitem(0,"Select Ledger"));
-        for(Ledgertable c:ledger){
+        jComboBox_itemtype.addItem(new Comboitem(0,"Select Item Type"));
+        for(Itemtypetable c:itemtype){
            
-            jComboBox_ledger.addItem(new Comboitem(c.getLedgerid(),c.getLedgername()));
+            jComboBox_itemtype.addItem(new Comboitem(c.getItemtypeid(),c.getItemtypename()));
         }
         System.out.println("Line3");
         jComboBox_uom.addItem(new Comboitem(0,"Select UOM"));
@@ -88,7 +88,7 @@ public class Item extends javax.swing.JInternalFrame {
             ResultSet rs = pst.executeQuery();
             Itemtable iTab;
             while (rs.next()) {
-                iTab = new Itemtable(rs.getInt("categoryid"),rs.getInt("itemid"),rs.getInt("ledgerid"), rs.getString("itemcode"), rs.getString("itemname"),rs.getString("uomcode") );
+                iTab = new Itemtable(rs.getInt("categoryid"),rs.getInt("itemid"),rs.getInt("itemtypeid"), rs.getString("itemcode"), rs.getString("itemname"),rs.getString("uomcode") );
                 
                 iTable.add(iTab);
             }
@@ -106,7 +106,7 @@ public class Item extends javax.swing.JInternalFrame {
         Object[] row = new Object[5];
         for (int i = 0; i < subcatitemlist.size(); i++) {
             row[0] = subcatitemlist.get(i).getCategoryid();
-            row[1] = subcatitemlist.get(i).getLedgerid();
+            row[1] = subcatitemlist.get(i).getItemtypeid();
             row[2] = subcatitemlist.get(i).getItemid();
             row[3] = subcatitemlist.get(i).getItemname();
             row[4] = subcatitemlist.get(i).getUomcode();
@@ -132,7 +132,7 @@ public class Item extends javax.swing.JInternalFrame {
     private void ResetRecord() {
         jComboBox_category.setSelectedIndex(0);
         
-        jComboBox_ledger.setSelectedIndex(0);
+        jComboBox_itemtype.setSelectedIndex(0);
         jComboBox_uom.setSelectedIndex(0);
         txtitemname.setText("");
    
@@ -157,7 +157,7 @@ public class Item extends javax.swing.JInternalFrame {
         btnupdate = new javax.swing.JButton();
         btnclear = new javax.swing.JButton();
         jComboBox_category = new javax.swing.JComboBox<>();
-        jComboBox_ledger = new javax.swing.JComboBox<>();
+        jComboBox_itemtype = new javax.swing.JComboBox<>();
         jLabel5 = new javax.swing.JLabel();
         jComboBox_uom = new javax.swing.JComboBox<>();
         jLabel6 = new javax.swing.JLabel();
@@ -253,7 +253,7 @@ public class Item extends javax.swing.JInternalFrame {
                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addComponent(jComboBox_uom, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(txtitemname)
-                        .addComponent(jComboBox_ledger, 0, 280, Short.MAX_VALUE)
+                        .addComponent(jComboBox_itemtype, 0, 280, Short.MAX_VALUE)
                         .addComponent(jComboBox_category, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addGap(0, 255, Short.MAX_VALUE))
         );
@@ -266,7 +266,7 @@ public class Item extends javax.swing.JInternalFrame {
                     .addComponent(jComboBox_category, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jComboBox_ledger, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jComboBox_itemtype, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel5))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -292,7 +292,7 @@ public class Item extends javax.swing.JInternalFrame {
 
             },
             new String [] {
-                "Category ID", "Ledger", "Item ID", "Item Name", "UOM"
+                "Category ID", "Item Type ID", "Item ID", "Item Name", "UOM"
             }
         ) {
             Class[] types = new Class [] {
@@ -409,8 +409,8 @@ public class Item extends javax.swing.JInternalFrame {
         int catid=g.getKey();
          Comboitem g1 =(Comboitem) jComboBox_uom.getSelectedItem();
         int uomid=g1.getKey();
-         Comboitem g2 =(Comboitem) jComboBox_ledger.getSelectedItem();
-        int ledid=g2.getKey();
+         Comboitem g2 =(Comboitem) jComboBox_itemtype.getSelectedItem();
+        int iid=g2.getKey();
         itemname = txtitemname.getText().trim().toUpperCase();;
         
         
@@ -420,13 +420,13 @@ public class Item extends javax.swing.JInternalFrame {
                             "WARNING!!", JOptionPane.WARNING_MESSAGE);
         }
        
-        else if( catid==0&& uomid==0 && ledid==0 && itemname.equals("")){
+        else if( catid==0&& uomid==0 && iid==0 && itemname.equals("")){
             dialogmessage = "Empty Record!!!";
                     JOptionPane.showMessageDialog(null,dialogmessage,
                             "WARNING!!", JOptionPane.WARNING_MESSAGE);
         }
         else{
-        String query = "update finsys.m_item set ledgerid='" + ledid+ "',categoryid='" + catid  + "',uomcode='" + uomid + "',itemname='" + itemname  + "' where itemid='" + ID + "'";
+        String query = "update finsys.m_item set itemtypeid='" + iid+ "',categoryid='" + catid  + "',uomcode='" + uomid + "',itemname='" + itemname  + "' where itemid='" + ID + "'";
         executeSqlQuery(query, "updated");
         ResetRecord();
         
@@ -446,8 +446,8 @@ public class Item extends javax.swing.JInternalFrame {
         Comboitem g1 =(Comboitem) jComboBox_uom.getSelectedItem();
         int uomid=g1.getKey();
         String uomcd=g1.getKey()+"";
-        Comboitem g2 =(Comboitem) jComboBox_ledger.getSelectedItem();
-        int ledid=g2.getKey();
+        Comboitem g2 =(Comboitem) jComboBox_itemtype.getSelectedItem();
+        int iid=g2.getKey();
         itemname = txtitemname.getText().trim().toUpperCase();;
         
       
@@ -455,10 +455,10 @@ public class Item extends javax.swing.JInternalFrame {
         db = new database();
         try {
 
-            if( !(catid==0)  && !(uomid==0) && !(ledid==0) && !itemname.equals("")) {
+            if( !(catid==0)  && !(uomid==0) && !(iid==0) && !itemname.equals("")) {
                 i.setCategoryid(g.getKey());
                
-                i.setLedgerid(ledid);
+                i.setItemtypeid(iid);
                 i.setUomcode(uomcd);
                 i.setItemname(itemname);
                 
@@ -499,7 +499,7 @@ public class Item extends javax.swing.JInternalFrame {
         TableModel model = jtable_subcattable.getModel();
         setSelectedValue(jComboBox_category,Integer.valueOf(model.getValueAt(i, 0).toString()));
        
-        setSelectedValue(jComboBox_ledger,Integer.valueOf(model.getValueAt(i, 1).toString()));
+        setSelectedValue(jComboBox_itemtype,Integer.valueOf(model.getValueAt(i, 1).toString()));
         setSelectedValue(jComboBox_uom,Integer.valueOf(model.getValueAt(i, 4).toString()));
         //jComboBox_category.setSelectedItem(model.getValueAt(i, 0).toString());
         txtitemname.setText(model.getValueAt(i, 3).toString());
@@ -556,7 +556,7 @@ public class Item extends javax.swing.JInternalFrame {
     private javax.swing.JButton btndelete;
     private javax.swing.JButton btnupdate;
     private javax.swing.JComboBox<Comboitem> jComboBox_category;
-    private javax.swing.JComboBox<Comboitem> jComboBox_ledger;
+    private javax.swing.JComboBox<Comboitem> jComboBox_itemtype;
     private javax.swing.JComboBox<Comboitem> jComboBox_uom;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

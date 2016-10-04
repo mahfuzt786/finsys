@@ -8,7 +8,7 @@ public class database {
     Connection conn;
     PreparedStatement pst;
     ResultSet rs;
-
+//DB CONNECTION
     database() {
         try {
             Class.forName("org.postgresql.Driver");
@@ -18,7 +18,7 @@ public class database {
             System.out.println(e);
         }
     }
-
+//CHECKING LOGINN CREDENTIALS
     public Boolean checkLogin(String uname, String pwd) {
         try {
             pst.setString(1, uname);
@@ -35,6 +35,8 @@ public class database {
         }
     }
 
+    
+    //INSERT FUNCTION FOR MASTER TABLE
     public int insertemp(Issue_item i) {
         int flag = 0;
         String sql;
@@ -168,12 +170,12 @@ public class database {
             sql = "SELECT MAX(itemid) as max FROM finsys.m_item";
             itemid = getmax(sql);
             itemcode="ITEM"+itemid;
-            pst = conn.prepareStatement("INSERT INTO finsys.m_item(categoryid,ledgerid,uomcode,itemid,itemcode,itemname) values(?,?,?,?,?,?)");
+            pst = conn.prepareStatement("INSERT INTO finsys.m_item(categoryid,itemtypeid,uomcode,itemid,itemcode,itemname) values(?,?,?,?,?,?)");
 
             
             pst.setInt(1,i.getCategoryid() );
            
-            pst.setInt(2,i.getLedgerid() );
+            pst.setInt(2,i.getItemtypeid());
             pst.setInt(3,uomcd);
             pst.setInt(4,itemid );
             pst.setString(5,itemcode);
@@ -240,7 +242,32 @@ public class database {
         }
     }
      
-       
+        
+        public int insertItemtype(Itemtypetable i) {
+        int flag = 0;
+        String sql;
+        int iid;
+        System.out.println("Values: " + i.getItemtypename());
+        try {
+            sql = "SELECT MAX(itemtypeid) as max FROM finsys.m_itemtype";
+            iid = getmax(sql);
+           
+            System.out.println("centercode: " + iid);
+            pst = conn.prepareStatement("INSERT INTO finsys.m_itemtype(itemtypeid,itemtypename) values(?,?)");
+
+            pst.setInt(1, iid);
+            pst.setString(2,i.getItemtypename());
+            
+           // System.out.println("centercode1: " + centerid);
+            flag = pst.executeUpdate();
+            return flag;
+        } catch (Exception e) {
+            System.out.println("Error while validating :" + e);
+            return flag;
+        }
+    }
+     
+        //GET FUNCTION FOR MASTER TABLE
        
      public ArrayList<Categorytable> getCategory() {
         ArrayList<Categorytable> catTable = new ArrayList<Categorytable>();
@@ -352,5 +379,22 @@ public class database {
             e.printStackTrace();
         }
         return catTable;
+    }
+         
+           public ArrayList<Itemtypetable> getItemtype() {
+        ArrayList<Itemtypetable> iTable = new ArrayList<Itemtypetable>();
+        String query = "select * from finsys.m_itemtype";
+        try {
+            PreparedStatement pst = conn.prepareStatement(query);
+            ResultSet rs = pst.executeQuery();
+            Itemtypetable iTab;
+            while (rs.next()) {
+                iTab = new Itemtypetable(rs.getInt("itemtypeid"),rs.getString("itemtypename"));
+                iTable.add(iTab);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return iTable;
     }
 }

@@ -147,7 +147,13 @@ public class dashboard extends javax.swing.JFrame {
                 }
                 break;
             case 12:
-                //FormAuthorwindow = new Authorwindow(this);
+                try {
+                    itemtype i= new itemtype();
+                    loadForm("ITEM TYPE",i);
+
+                } catch (Exception e) {
+                    System.out.println("\nError :" + e);
+                }
                 break;
 
             case 13:
@@ -537,6 +543,11 @@ public class dashboard extends javax.swing.JFrame {
         jMenu_master.add(jMenuItem_category);
 
         jMenuItem6.setText("Type");
+        jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem6ActionPerformed(evt);
+            }
+        });
         jMenu_master.add(jMenuItem6);
 
         jMenuItem_item.setText("Item");
@@ -706,6 +717,11 @@ public class dashboard extends javax.swing.JFrame {
         // TODO add your handling code here:
         loadJInternalFrame(15);
     }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
+        // TODO add your handling code here:
+        loadJInternalFrame(12);
+    }//GEN-LAST:event_jMenuItem6ActionPerformed
 
     /**
      * @param args the command line arguments
