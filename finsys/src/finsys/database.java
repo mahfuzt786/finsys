@@ -1,8 +1,12 @@
 package finsys;
 
+import static java.lang.String.format;
 import java.sql.*;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-
+import java.util.Date;
 public class database {
 
     Connection conn;
@@ -190,6 +194,47 @@ public class database {
         }
     }
      
+      public int insertStockIn(Stockintable i) {
+        int flag = 0;
+        String sql;
+        int slno;
+       System.out.println("Values: " );
+        try {
+            sql = "SELECT MAX(slno) as max FROM finsys.t_stockin";
+            slno = getmax(sql);
+            
+            pst = conn.prepareStatement("INSERT INTO finsys.t_stockin(slno,invoiceno"
+          +",transportation_amt,less_per,from_company_id,tax_invoice_no ,tax_invoice_date ,challan_no"
+          + " ,challan_date,purchase_order_no,purchase_order_date,vat_per,invoiceid) values("
+          +"?,?,"
+          +"?,?,?,?,?,?,"
+          +"?,?,?,?,?)");
+
+            
+            pst.setInt(1,slno );
+           
+            pst.setString(2,i.getInvoiceid());
+            pst.setDouble(3,Double.valueOf(i.getTransportation_amt()));
+            pst.setDouble(4,Double.valueOf(i.getLess_per()) );
+            pst.setInt(5,Integer.valueOf(i.getFrom_company_id()));
+            pst.setString(6,i.getTax_invoice_no());
+            pst.setDate(7, UtilDate.convertStringToSqlDate("dd-MM-yyyy",i.getTax_invoice_date()));
+            pst.setString(8,i.getChallan_no());
+            pst.setDate(9, UtilDate.convertStringToSqlDate("dd-MM-yyyy",i.getChallan_date()));
+            pst.setString(10,i.getPurchase_order_no());
+            pst.setDate(11, UtilDate.convertStringToSqlDate("dd-MM-yyyy",i.getPurchase_order_date()));
+            pst.setDouble(12,Double.valueOf(i.getVat_per()));
+            pst.setString(13, i.getInvoiceid());
+          
+            flag = pst.executeUpdate();
+            return flag;
+        } catch (Exception e) {
+            System.out.println("Error while validating in insert :" + e);
+            return flag;
+        }
+    }
+    
+     
        public int insertSoe(Soegrouptable i) {
         int flag = 0;
         String sql;
@@ -263,6 +308,32 @@ public class database {
             return flag;
         } catch (Exception e) {
             System.out.println("Error while validating :" + e);
+            return flag;
+        }
+    }
+        
+         public int insertStockinitem(Stockinitemtable i) {
+        int flag = 0;
+        String sql;
+     
+        System.out.println("Values: " + i.getItemid());
+        try {
+           
+            pst = conn.prepareStatement("INSERT INTO finsys.t_stockin_items(invoiceid,itemid,item_rate,quantity) values(?,?,?,?)");
+
+            
+            pst.setString(1,i.getInvoiceid() );
+           
+            pst.setInt(2,i.getItemid());
+           
+            pst.setDouble(3,Double.valueOf(i.getItem_rate()));
+            pst.setInt(4,Integer.valueOf(i.getQuantity()));
+            
+           // System.out.println("centercode1: " + centerid);
+            flag = pst.executeUpdate();
+            return flag;
+        } catch (Exception e) {
+            System.out.println("Error while validating in insert :" + e);
             return flag;
         }
     }
@@ -396,5 +467,65 @@ public class database {
             e.printStackTrace();
         }
         return iTable;
+    }
+           
+     public ArrayList<Itemtable> getItem() {
+        ArrayList<Itemtable> iTable = new ArrayList<Itemtable>();
+        String query = "select * from finsys.m_item";
+        try {
+            PreparedStatement pst = conn.prepareStatement(query);
+            ResultSet rs = pst.executeQuery();
+            Itemtable iTab;
+            while (rs.next()) {
+                iTab = new Itemtable(rs.getInt("categoryid"),rs.getInt("itemid"),rs.getInt("itemtypeid"),
+                        rs.getString("itemcode"),rs.getString("itemname"),rs.getString("uomcode"));
+                iTable.add(iTab);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return iTable;
+    }
+     
+     public ArrayList<Companytable> getCompany() {
+        ArrayList<Companytable> cTable = new ArrayList<Companytable>();
+        String query = "select * from finsys.m_fromcompany";
+        try {
+            PreparedStatement pst = conn.prepareStatement(query);
+            ResultSet rs = pst.executeQuery();
+            Companytable cTab;
+            while (rs.next()) {
+                cTab = new Companytable(rs.getInt("companyid"),rs.getString("companyname"));
+                cTable.add(cTab);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return cTable;
+    }
+     public ArrayList<Stockintable> getStockIn(String inv) {
+        ArrayList<Stockintable> cTable = new ArrayList<Stockintable>();
+         String query = "select t.slno,t.invoiceno,t.total_amt_value,to_char(t.entrydate,'dd-MM-yyyy') AS entrydate ,t.transportation_amt,t.less_per,t.from_company_id "
+                + ",t.tax_invoice_no ,to_char(t.tax_invoice_date,'dd-MM-yyyy')AS tax_invoice_date ,t.challan_no ,to_char(t.challan_date,'dd-MM-yyyy') AS challan_date,t.purchase_order_no,to_char(t.purchase_order_date,'dd-MM-yyyy') AS purchase_order_date,"
+                + "t.vat_per,invoiceid,t.total_gross_amt ,m.companyname"
+                + " from finsys.t_stockin t inner join m_fromcompany m on m.companyid=t.from_company_id "
+                 + "where t.invoiceid='"+inv+"'";
+        try {
+            PreparedStatement pst = conn.prepareStatement(query);
+            ResultSet rs = pst.executeQuery();
+            Stockintable sTab;
+            while (rs.next()) {
+                sTab = new Stockintable(rs.getString("slno"), rs.getString("invoiceno"),rs.getString("total_amt_value"), 
+                        rs.getString("entrydate"),rs.getString("transportation_amt"), rs.getString("less_per"),
+                        rs.getString("from_company_id"), rs.getString("tax_invoice_no"), rs.getString("tax_invoice_date"), rs.getString("challan_no"),
+                        rs.getString("challan_date"), rs.getString("purchase_order_no"), rs.getString("purchase_order_date"), 
+                        rs.getString("vat_per"), rs.getString("invoiceid"),rs.getString("total_gross_amt"), rs.getString("companyname"));
+                
+                cTable.add(sTab);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return cTable;
     }
 }

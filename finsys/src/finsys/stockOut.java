@@ -91,8 +91,8 @@ public class stockOut extends javax.swing.JInternalFrame {
     }
 
     private void ResetRecord() {
-        uomname.setText("");
-        uomabbr.setText("");
+//        uomname.setText("");
+//        uomabbr.setText("");
 
     }
 
@@ -372,9 +372,9 @@ public class stockOut extends javax.swing.JInternalFrame {
 
     private void btnupdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnupdateActionPerformed
         // update
-        String query = "update finsys.t_uom set uomname='" + uomname.getText().toUpperCase() + "',uomabbr='" + uomabbr.getText().toUpperCase() + "' where uomcode='" + ID + "'";
-        executeSqlQuery(query, "updated");
-        ResetRecord();
+//        String query = "update finsys.t_uom set uomname='" + uomname.getText().toUpperCase() + "',uomabbr='" + uomabbr.getText().toUpperCase() + "' where uomcode='" + ID + "'";
+//        executeSqlQuery(query, "updated");
+//        ResetRecord();
     }//GEN-LAST:event_btnupdateActionPerformed
 
     private void btnclearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnclearActionPerformed
@@ -385,8 +385,8 @@ public class stockOut extends javax.swing.JInternalFrame {
         Uomname = "";
         Uomabbr = "";
 
-        Uomname = uomname.getText().trim().toUpperCase();
-        Uomabbr = uomabbr.getText().trim().toUpperCase();
+//        Uomname = uomname.getText().trim().toUpperCase();
+//        Uomabbr = uomabbr.getText().trim().toUpperCase();
 
         db = new database();
         try {
@@ -429,9 +429,9 @@ public class stockOut extends javax.swing.JInternalFrame {
         //Display selected row in textbox
         int i = tableStockOut.getSelectedRow();
         TableModel model = tableStockOut.getModel();
-        uomname.setText(model.getValueAt(i, 1).toString());
-        uomabbr.setText(model.getValueAt(i, 2).toString());
-        ID = model.getValueAt(i, 0).toString();
+//        uomname.setText(model.getValueAt(i, 1).toString());
+//        uomabbr.setText(model.getValueAt(i, 2).toString());
+//        ID = model.getValueAt(i, 0).toString();
     }//GEN-LAST:event_tableStockOutMouseClicked
 
     private void btndeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btndeleteActionPerformed

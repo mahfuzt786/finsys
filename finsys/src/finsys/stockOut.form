@@ -93,9 +93,6 @@
             </Property>
             <Property name="opaque" type="boolean" value="false"/>
           </Properties>
-          <AccessibilityProperties>
-            <Property name="AccessibleContext.accessibleName" type="java.lang.String" value="Stock Out Form"/>
-          </AccessibilityProperties>
 
           <Layout>
             <DimensionLayout dim="0">
@@ -123,10 +120,8 @@
                           <Component id="issueId" min="-2" max="-2" attributes="0"/>
                           <Component id="categoryCombo" alignment="0" max="32767" attributes="0"/>
                           <Component id="jComboBox1" max="32767" attributes="0"/>
-                          <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
-                              <Component id="txtIssue" alignment="0" max="32767" attributes="0"/>
-                              <Component id="txtReq" alignment="0" min="-2" pref="91" max="-2" attributes="0"/>
-                          </Group>
+                          <Component id="txtIssue" alignment="0" max="32767" attributes="0"/>
+                          <Component id="txtReq" alignment="0" min="-2" pref="91" max="-2" attributes="0"/>
                           <Component id="comboCC" alignment="0" max="32767" attributes="0"/>
                           <Component id="comboLedger" min="-2" pref="277" max="-2" attributes="0"/>
                       </Group>

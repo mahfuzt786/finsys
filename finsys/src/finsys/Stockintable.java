@@ -10,61 +10,90 @@ package finsys;
  * @author 320
  */
 public class Stockintable {
+     private String slno;
+     private String invoiceno;
+     private String total_amt_value;
+     
+     private String entrydate;
+     private String transportation_amt;
+     private String less_per;
+     private  String from_company_id;
+     private String tax_invoice_no;
     
-     private String invoiceid="";
-     private String entrydate="";
-     private String taxinvdate="";
-     private  String fromcompany="";
-     private String taxinvoiceno="";
-    
-     private String challanno="";
-     private String challandate="";
-     private String orderno="";
-     private String orderdate="";
-     private String vat_per="";
-     private String less_per="";
-     private String transportation="";
+     private String tax_invoice_date;
+     private String challan_no;
+     private String challan_date;
+     private String purchase_order_no;
+     private String purchase_order_date;
+     private String vat_per;
+     private String invoiceid;
+     private String total_gross_amt;
+     private String companyname;
+
+    public Stockintable(String slno, String invoiceno, String total_amt_value, String entrydate, String transportation_amt,String less_per,
+            String from_company_id, String tax_invoice_no, String tax_invoice_date, String challan_no, String challan_date,
+            String purchase_order_no, String purchase_order_date, String vat_per, String invoiceid, String total_gross_amt, String companyname) {
+        this.slno = slno;
+        this.invoiceno = invoiceno;
+        this.total_amt_value = total_amt_value;
+        this.entrydate = entrydate;
+        this.transportation_amt = transportation_amt;
+        this.from_company_id = from_company_id;
+        this.tax_invoice_no = tax_invoice_no;
+        this.tax_invoice_date = tax_invoice_date;
+        this.challan_no = challan_no;
+        this.challan_date = challan_date;
+        this.purchase_order_no = purchase_order_no;
+        this.purchase_order_date = purchase_order_date;
+        this.vat_per = vat_per;
+        this.invoiceid = invoiceid;
+        this.total_gross_amt = total_gross_amt;
+        this.companyname = companyname;
+        this.less_per = less_per;
+    }
 
     public Stockintable() {
-        
-        this.invoiceid="";
-        this.entrydate="";
-        this.challanno="";
-        this.challandate="";
-        this.fromcompany="";
-       
-        this.taxinvoiceno="";
-        this.taxinvdate="";
-        this.less_per="";
-        this.transportation="";
-        this.vat_per="";
-    }
-     
-     
-
-    public Stockintable(String invoiceid,String entrydate,String taxinvdate,String fromcompany,String taxinvoiceno,String challanno,String challandate,String orderno
-    ,String orderdate,String vat_per,String less_per,String transportation) {
-        this.invoiceid=invoiceid;
-        this.entrydate=entrydate;
-        this.challanno=challanno;
-        this.challandate=challandate;
-        this.fromcompany=fromcompany;
-        
-        this.taxinvoiceno=taxinvoiceno;
-        this.taxinvdate=taxinvdate;
-        this.less_per=less_per;
-        this.transportation=transportation;
-        this.vat_per=vat_per;
-        
-        
+        this.slno = "";
+        this.invoiceno = "";
+        this.total_amt_value = "";
+        this.entrydate = "";
+        this.transportation_amt = "";
+        this.from_company_id = "";
+        this.tax_invoice_no = "";
+        this.tax_invoice_date = "";
+        this.challan_no = "";
+        this.challan_date = "";
+        this.purchase_order_no = "";
+        this.purchase_order_date = "";
+        this.vat_per = "";
+        this.invoiceid = "";
+        this.total_gross_amt = "";
+        this.companyname = "";
+        this.less_per ="";
     }
 
-    public String getInvoiceid() {
-        return invoiceid;
+    public String getSlno() {
+        return slno;
     }
 
-    public void setInvoiceid(String invoiceid) {
-        this.invoiceid = invoiceid;
+    public void setSlno(String slno) {
+        this.slno = slno;
+    }
+
+    public String getInvoiceno() {
+        return invoiceno;
+    }
+
+    public void setInvoiceno(String invoiceno) {
+        this.invoiceno = invoiceno;
+    }
+
+    public String getTotal_amt_value() {
+        return total_amt_value;
+    }
+
+    public void setTotal_amt_value(String total_amt_value) {
+        this.total_amt_value = total_amt_value;
     }
 
     public String getEntrydate() {
@@ -74,65 +103,69 @@ public class Stockintable {
     public void setEntrydate(String entrydate) {
         this.entrydate = entrydate;
     }
-    
-    
 
-    public String getTaxinvdate() {
-        return taxinvdate;
+    public String getTransportation_amt() {
+        return transportation_amt;
     }
 
-    public void setTaxinvdate(String taxinvdate) {
-        this.taxinvdate = taxinvdate;
+    public void setTransportation_amt(String transportation_amt) {
+        this.transportation_amt = transportation_amt;
     }
 
-    public String getFromcompany() {
-        return fromcompany;
+    public String getFrom_company_id() {
+        return from_company_id;
     }
 
-    public void setFromcompany(String fromcompany) {
-        this.fromcompany = fromcompany;
+    public void setFrom_company_id(String from_company_id) {
+        this.from_company_id = from_company_id;
     }
 
-    public String getTaxinvoiceno() {
-        return taxinvoiceno;
+    public String getTax_invoice_no() {
+        return tax_invoice_no;
     }
 
-    public void setTaxinvoiceno(String taxinvoiceno) {
-        this.taxinvoiceno = taxinvoiceno;
+    public void setTax_invoice_no(String tax_invoice_no) {
+        this.tax_invoice_no = tax_invoice_no;
     }
 
-   
-
-    public String getChallanno() {
-        return challanno;
+    public String getTax_invoice_date() {
+        return tax_invoice_date;
     }
 
-    public void setChallanno(String challanno) {
-        this.challanno = challanno;
+    public void setTax_invoice_date(String tax_invoice_date) {
+        this.tax_invoice_date = tax_invoice_date;
     }
 
-    public String getChallandate() {
-        return challandate;
+    public String getChallan_no() {
+        return challan_no;
     }
 
-    public void setChallandate(String challandate) {
-        this.challandate = challandate;
+    public void setChallan_no(String challan_no) {
+        this.challan_no = challan_no;
     }
 
-    public String getOrderno() {
-        return orderno;
+    public String getChallan_date() {
+        return challan_date;
     }
 
-    public void setOrderno(String orderno) {
-        this.orderno = orderno;
+    public void setChallan_date(String challan_date) {
+        this.challan_date = challan_date;
     }
 
-    public String getOrderdate() {
-        return orderdate;
+    public String getPurchase_order_no() {
+        return purchase_order_no;
     }
 
-    public void setOrderdate(String orderdate) {
-        this.orderdate = orderdate;
+    public void setPurchase_order_no(String purchase_order_no) {
+        this.purchase_order_no = purchase_order_no;
+    }
+
+    public String getPurchase_order_date() {
+        return purchase_order_date;
+    }
+
+    public void setPurchase_order_date(String purchase_order_date) {
+        this.purchase_order_date = purchase_order_date;
     }
 
     public String getVat_per() {
@@ -143,6 +176,30 @@ public class Stockintable {
         this.vat_per = vat_per;
     }
 
+    public String getInvoiceid() {
+        return invoiceid;
+    }
+
+    public void setInvoiceid(String invoiceid) {
+        this.invoiceid = invoiceid;
+    }
+
+    public String getTotal_gross_amt() {
+        return total_gross_amt;
+    }
+
+    public void setTotal_gross_amt(String total_gross_amt) {
+        this.total_gross_amt = total_gross_amt;
+    }
+
+    public String getCompanyname() {
+        return companyname;
+    }
+
+    public void setCompanyname(String companyname) {
+        this.companyname = companyname;
+    }
+
     public String getLess_per() {
         return less_per;
     }
@@ -151,18 +208,8 @@ public class Stockintable {
         this.less_per = less_per;
     }
 
-    public String getTransportation() {
-        return transportation;
-    }
-
-    public void setTransportation(String transportation) {
-        this.transportation = transportation;
-    }
-
     
     
-    
-     
-     
+   
     
 }
