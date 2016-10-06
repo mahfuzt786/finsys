@@ -59,6 +59,7 @@ public class stockIn extends javax.swing.JInternalFrame {
     public String ID;
     public String ID1;
     DefaultTableModel model;
+    DefaultTableModel model1;
     ArrayList<Itemtable> item;
     ArrayList<Companytable> ms;
     //for items jpanel2
@@ -93,11 +94,7 @@ public class stockIn extends javax.swing.JInternalFrame {
             msCombo.addItem(new Comboitem(c.getCompanyid(),c.getCompanyname()));
         }
         System.out.println("Line3");
-        quantityCombo.addItem("Select");
-        for(int j=1;j<1000;j++){
        
-            quantityCombo.addItem(j+"");
-        }
        
         
     }
@@ -199,12 +196,16 @@ public class stockIn extends javax.swing.JInternalFrame {
         challnodate.setDate(null);
         taxinvoicedate.setDate(null);
         purchasedate.setDate(null);
-        quantityCombo.setSelectedIndex(0);
+        txtquantity.setText("");
         itemCombo.setSelectedIndex(0);
         txtvat.setText("");
         txtless.setText("");
         txttransport.setText("");
         txtorderNo.setText("");
+         labelInvoiceId.setText("");
+        invoiceId.setText("");
+        date.setText("");
+        labelEntryDate.setText("");
 
     }
 
@@ -232,8 +233,8 @@ public class stockIn extends javax.swing.JInternalFrame {
     
      private void ReloadTableItem() {
         ArrayList<Stockinitemtable> sitemlist = getStockinitemtable();
-        model = (DefaultTableModel) tableItem.getModel();
-        model.setRowCount(0);
+        model1 = (DefaultTableModel) tableItem.getModel();
+        model1.setRowCount(0);
         ArrayList<Stockintable> s=db.getStockIn(invoiceid);
         String l="",v="",t="";
         for (int i = 0; i < s.size(); i++) {
@@ -255,7 +256,7 @@ public class stockIn extends javax.swing.JInternalFrame {
             TOTALITEMS+=1;
             TOTALGROSS+=Double.valueOf(sitemlist.get(i).getGrossvalue());
             
-            model.addRow(row);
+            model1.addRow(row);
         }
         
         TOTALLESS=((Double.valueOf(l)/100)*TOTALGROSS);
@@ -274,7 +275,7 @@ public class stockIn extends javax.swing.JInternalFrame {
      private void ResetRecordItem() {
         
         itemCombo.setSelectedIndex(0);
-        quantityCombo.setSelectedIndex(0);
+        txtquantity.setText("");
         rate.setText("");
        
 
@@ -333,7 +334,6 @@ public class stockIn extends javax.swing.JInternalFrame {
         jLabel18 = new javax.swing.JLabel();
         rate = new javax.swing.JTextField();
         jLabel19 = new javax.swing.JLabel();
-        quantityCombo = new javax.swing.JComboBox<>();
         jScrollPane2 = new javax.swing.JScrollPane();
         tableItem = new javax.swing.JTable();
         jSeparator3 = new javax.swing.JSeparator();
@@ -360,6 +360,7 @@ public class stockIn extends javax.swing.JInternalFrame {
         labelless = new javax.swing.JLabel();
         btndone = new javax.swing.JButton();
         jLabel31 = new javax.swing.JLabel();
+        txtquantity = new javax.swing.JTextField();
 
         setBorder(null);
         setClosable(true);
@@ -755,14 +756,15 @@ public class stockIn extends javax.swing.JInternalFrame {
                                         .addComponent(btnadditem, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                         .addComponent(btnupdateitem, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(18, 213, Short.MAX_VALUE)
+                                        .addGap(18, 18, Short.MAX_VALUE)
                                         .addComponent(btnclearitem, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(jPanel2Layout.createSequentialGroup()
                                         .addComponent(rate, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                         .addComponent(jLabel19)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(quantityCombo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(txtquantity, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(0, 0, Short.MAX_VALUE))))
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(jLabel17)
                                 .addGap(10, 10, 10)
@@ -853,12 +855,11 @@ public class stockIn extends javax.swing.JInternalFrame {
                             .addComponent(jLabel17)
                             .addComponent(itemCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(quantityCombo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(rate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabel18)
-                                .addComponent(jLabel19)))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(rate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel18)
+                            .addComponent(jLabel19)
+                            .addComponent(txtquantity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnadditem)
@@ -1004,6 +1005,8 @@ public class stockIn extends javax.swing.JInternalFrame {
                      + " where invoiceid='" + ID + "'";
                  executeSqlQuery(query, "updated");
                 ResetRecord();
+                ReloadTable();
+                ResetForm();
          } catch (ParseException ex) {
              Logger.getLogger(stockIn.class.getName()).log(Level.SEVERE, null, ex);
          }
@@ -1074,7 +1077,7 @@ public class stockIn extends javax.swing.JInternalFrame {
            && !challan_no.equals("")&& !ch_date.equals("")&& !purchase_order_no.equals("")&& !pur_date.equals("")
            && !vat_per.equals("")) {
                
-                  System.out.println(tax_invoice_date+""+challan_date+""+purchase_order_date);
+                  //System.out.println(tax_invoice_date+""+challan_date+""+purchase_order_date);
                   String inv=tax_invoice_no+"/"+company.substring(0, 5)+"/"+year+"-"+(year+1);
         
                   invoiceno=inv;
@@ -1128,48 +1131,56 @@ public class stockIn extends javax.swing.JInternalFrame {
 
     private void invoicetableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_invoicetableMouseClicked
         //Display selected row in textbox
+        ResetForm();
+        Refresh();
+        TableModel mod = invoicetable.getModel();
         setEnabledAll(jPanel2,true);
          DateFormat oDateFormat = new SimpleDateFormat("dd-MM-yyyy");
         Date dt=new Date();
         String today=oDateFormat.format(dt);
       
         int i = invoicetable.getSelectedRow();
+        System.out.println(i);
         //GLOBAL INVOICE ID
-        invoiceid=(model.getValueAt(i, 0).toString()).trim();
+        invoiceid=(mod.getValueAt(i, 0).toString()).trim();
         //from company
-        String s[]= model.getValueAt(i, 1).toString().split(":");
+        String s[]= mod.getValueAt(i, 1).toString().split(":");
+        for(String d:s){
+        System.out.println(d);
+        }
+       System.out.println(s[1]);
         companyid=s[0];
         cname=s[1];
         
         //Invoice 
-        String in[]= model.getValueAt(i, 2).toString().split(":");
+        String in[]= mod.getValueAt(i, 2).toString().split(":");
         invoice=in[0];
         invoicedt=in[1];
         //Challan 
-        String c[]= model.getValueAt(i, 3).toString().split(":");
+        String c[]= mod.getValueAt(i, 3).toString().split(":");
         challan=c[0];
         challandt=c[1];
          //Order 
-        String o[]= model.getValueAt(i, 4).toString().split(":");
+        String o[]= mod.getValueAt(i, 4).toString().split(":");
         order=o[0];
         orderdt=o[1];
         
-        TableModel model = invoicetable.getModel();
+        
         setSelectedValue(msCombo,Integer.valueOf(companyid));
        
         txtinvoiceNo.setText(invoice);
         txtchalanNo.setText(challan);
         txtorderNo.setText(order);
-        txttransport.setText(model.getValueAt(i, 6).toString());
-        txtless.setText(model.getValueAt(i, 7).toString());
-        txtvat.setText(model.getValueAt(i, 5).toString());
+        txttransport.setText(mod.getValueAt(i, 6).toString());
+        txtless.setText(mod.getValueAt(i, 7).toString());
+        txtvat.setText(mod.getValueAt(i, 5).toString());
         
-        labelInvoiceId.setText(model.getValueAt(i, 0).toString());
-        invoiceId.setText(model.getValueAt(i, 0).toString());
+        labelInvoiceId.setText(mod.getValueAt(i, 0).toString());
+        invoiceId.setText(mod.getValueAt(i, 0).toString());
         date.setText(today);
-        labelEntryDate.setText(model.getValueAt(i, 8).toString());
+        labelEntryDate.setText(mod.getValueAt(i, 8).toString());
         purchaseOrder.setText(order+", Date: "+orderdt);
-        ID = model.getValueAt(i, 0).toString();
+        ID = mod.getValueAt(i, 0).toString();
         ReloadTableItem();
          try {
              taxinvoicedate.setDate(UtilDate.convertStringToSqlDate("dd-MM-yyyy",invoicedt));
@@ -1202,7 +1213,7 @@ public class stockIn extends javax.swing.JInternalFrame {
          
        invid=invoiceId.getText().trim();
        item_rate=rate.getText().trim();
-       quantity=(String)quantityCombo.getSelectedItem();
+       quantity=txtquantity.getText().trim();
       
        
        
@@ -1226,6 +1237,7 @@ public class stockIn extends javax.swing.JInternalFrame {
                     System.out.println("Record Added");
                     
                     ResetRecordItem();
+                    ResetForm();
                     ReloadTableItem();
 
                 } else {
@@ -1257,7 +1269,7 @@ public class stockIn extends javax.swing.JInternalFrame {
          
        invid=invoiceId.getText().trim();
        item_rate=rate.getText().trim();
-       quantity=(String)quantityCombo.getSelectedItem();
+       quantity=txtquantity.getText().trim();
       
        
        
@@ -1275,9 +1287,15 @@ public class stockIn extends javax.swing.JInternalFrame {
                             "WARNING!!", JOptionPane.WARNING_MESSAGE);
         }
         else{
-        String query = "update finsys.t_stockin_items set itemrate='" + item_rate+ "',quantity='" + quantity + "' where invoiceid='" +invid+ "' and itemid='" + ID1 + "'";
+        String query = "update finsys.t_stockin_items set item_rate='" + item_rate+ "',quantity='" + quantity + "' where invoiceid='" +invid+ "' and itemid='" + ID1 + "'";
         executeSqlQuery(query, "updated");
-        ResetRecord();
+        
+        ResetRecordItem();
+        System.out.println("1");
+         ResetForm();
+         System.out.println("2");
+        ReloadTableItem();
+        System.out.println("3");
         
         }
         
@@ -1291,6 +1309,7 @@ public class stockIn extends javax.swing.JInternalFrame {
 
     private void btnclearitemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnclearitemActionPerformed
         // TODO add your handling code here:
+        ResetRecordItem();
     }//GEN-LAST:event_btnclearitemActionPerformed
 
     private void tableItemMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableItemMouseClicked
@@ -1298,11 +1317,13 @@ public class stockIn extends javax.swing.JInternalFrame {
           //Display selected row in textbox
         
          int i = tableItem.getSelectedRow();
-        TableModel model = tableItem.getModel();
-        setSelectedValue(itemCombo,Integer.valueOf(model.getValueAt(i, 0).toString()));
-        setSelectedValue(quantityCombo,Integer.valueOf(model.getValueAt(i, 4).toString()));
-     
-        ID1 = model.getValueAt(i, 0).toString();
+        TableModel mo = tableItem.getModel();
+       
+        setSelectedValue(itemCombo,Integer.valueOf(mo.getValueAt(i, 0).toString()));
+        txtquantity.setText(mo.getValueAt(i, 4).toString());
+        
+        rate.setText(mo.getValueAt(i, 3).toString());
+        ID1 = mo.getValueAt(i, 0).toString();
        
         
     }//GEN-LAST:event_tableItemMouseClicked
@@ -1330,23 +1351,11 @@ public class stockIn extends javax.swing.JInternalFrame {
        int res= executeSqlQuery1(query, "updated");
        if(res==1){
         ResetRecord();
-        ResetRecordItem();
-        labelInvoiceId.setText("");
-        invoiceId.setText("");
-        date.setText("");
-        labelEntryDate.setText("");
-        TOTALITEMS=0;
-        TOTALGROSS=0.0;
-        TOTALLESS=0.0;
-        TOTALVAT=0.0;
-        TRANSPORT=0.0;
-        TOTALAMOUNT=0.0;
-        ID1="";
-        ID="";
-        invoiceid="";
-        setEnabledAll(jPanel2,false);
-        model = (DefaultTableModel) tableItem.getModel();
-        model.setRowCount(0);
+         ResetForm();
+        ReloadTable();
+       
+        Refresh();
+        
        }
        
         }
@@ -1387,6 +1396,24 @@ public class stockIn extends javax.swing.JInternalFrame {
         }
     }
 }
+   public void ResetForm(){
+       
+        TOTALITEMS=0;
+        TOTALGROSS=0.0;
+        TOTALLESS=0.0;
+        TOTALVAT=0.0;
+        TRANSPORT=0.0;
+        TOTALAMOUNT=0.0;
+        ID1="";
+        ID="";
+        
+        
+   }
+   public void Refresh(){
+        setEnabledAll(jPanel2,false);
+        model1 = (DefaultTableModel) tableItem.getModel();
+        model1.setRowCount(0);
+   }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnadd;
@@ -1449,7 +1476,6 @@ public class stockIn extends javax.swing.JInternalFrame {
     private javax.swing.JComboBox<Comboitem> msCombo;
     private javax.swing.JLabel purchaseOrder;
     private org.jdesktop.swingx.JXDatePicker purchasedate;
-    private javax.swing.JComboBox<String> quantityCombo;
     private javax.swing.JTextField rate;
     private javax.swing.JTextField search;
     private javax.swing.JTable tableItem;
@@ -1459,6 +1485,7 @@ public class stockIn extends javax.swing.JInternalFrame {
     private javax.swing.JTextField txtinvoiceNo;
     private javax.swing.JTextField txtless;
     private javax.swing.JTextField txtorderNo;
+    private javax.swing.JTextField txtquantity;
     private javax.swing.JTextField txttransport;
     private javax.swing.JTextField txtvat;
     // End of variables declaration//GEN-END:variables
