@@ -62,6 +62,8 @@ public class stockIn extends javax.swing.JInternalFrame {
     DefaultTableModel model1;
     ArrayList<Itemtable> item;
     ArrayList<Companytable> ms;
+    //for update items
+    String tempinvoiceid,tempitemid,tempquantity,temprate;
     //for items jpanel2
     int TOTALITEMS=0;
     Double TOTALGROSS=0.0,TOTALLESS=0.0,TOTALVAT=0.0,TRANSPORT=0.0,TOTALAMOUNT=0.0;
@@ -277,7 +279,10 @@ public class stockIn extends javax.swing.JInternalFrame {
         itemCombo.setSelectedIndex(0);
         txtquantity.setText("");
         rate.setText("");
-       
+        tempinvoiceid="";
+        tempitemid="";
+        tempquantity="";
+        temprate="";
 
     }
     /**
@@ -948,10 +953,7 @@ public class stockIn extends javax.swing.JInternalFrame {
         Comboitem g1 =(Comboitem) msCombo.getSelectedItem();
         int companyid=g1.getKey();
        String company=g1.getValue();
-//       SimpleDateFormat formater = new SimpleDateFormat("dd-MM-yyyy");
-//       formater.format(taxinvoicedate.getDate());
-      // System.out.println("Formated :"+formater);
-       
+
         Date tx = taxinvoicedate.getDate();        
         DateFormat oDateFormat = new SimpleDateFormat("dd-MM-yyyy");
         DateFormat y = new SimpleDateFormat("yyyy");
@@ -1263,9 +1265,28 @@ public class stockIn extends javax.swing.JInternalFrame {
 
     private void btnupdateitemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnupdateitemActionPerformed
         // TODO add your handling code here:
-        
-          Comboitem g1 =(Comboitem) itemCombo.getSelectedItem();
-      itemid=g1.getKey();
+        //first deduct from the total stock
+       Comboitem g1 =(Comboitem) itemCombo.getSelectedItem();
+       itemid=g1.getKey();
+       invid=invoiceId.getText().trim();
+        Double prevquantity=0.0,prevrate=0.0, totalamt=0.0,totalstockamount=0.0,totalstockquantity=0.0,updatestockamount=0.0,updatestockquantity=0.0;
+        ArrayList<Stocktable> d=db.getStock(itemid);
+         for(Stocktable c:d){
+             totalstockamount=Double.valueOf(c.getAmount());
+             totalstockquantity=Double.valueOf(c.getQuantity());
+        }
+         System.out.println(totalstockamount+"before update "+totalstockquantity);
+        ArrayList<Stockinitemtable> temp=db.getStockinitemtable(invid, String.valueOf(itemid)) ;
+         for(Stockinitemtable c:temp){
+             totalamt=Double.valueOf(c.getQuantity())*Double.valueOf(c.getItem_rate());
+             prevquantity=Double.valueOf(c.getQuantity());
+        }
+         System.out.println(totalamt+"revert back stock "+prevquantity);
+         updatestockamount=totalstockamount-totalamt;
+         updatestockquantity=totalstockquantity-prevquantity;
+         System.out.println(updatestockamount+"  in"+updatestockamount);
+         
+       
          
        invid=invoiceId.getText().trim();
        item_rate=rate.getText().trim();
@@ -1275,6 +1296,14 @@ public class stockIn extends javax.swing.JInternalFrame {
        
         db = new database();
         try {
+            
+             String query = "update finsys.t_stock set quantity='" + updatestockquantity+ "',amount='" +updatestockamount+ "' where itemid='" +itemid+ "'";
+              PreparedStatement  pst = data.conn.prepareStatement(query);
+               int flag = pst.executeUpdate();
+               System.out.println(flag+"  in");
+         
+        if(flag==1){
+            
         if(ID1==null){
             dialogmessage = "Please Select Record To Update";
                     JOptionPane.showMessageDialog(null,dialogmessage,
@@ -1287,9 +1316,17 @@ public class stockIn extends javax.swing.JInternalFrame {
                             "WARNING!!", JOptionPane.WARNING_MESSAGE);
         }
         else{
-        String query = "update finsys.t_stockin_items set item_rate='" + item_rate+ "',quantity='" + quantity + "' where invoiceid='" +invid+ "' and itemid='" + ID1 + "'";
-        executeSqlQuery(query, "updated");
-        
+         query = "update finsys.t_stockin_items set item_rate='" + item_rate+ "',quantity='" + quantity + "' where invoiceid='" +invid+ "' and itemid='" + ID1 + "'";
+         executeSqlQuery(query, "updated");
+         ArrayList<Stocktable> d1=db.getStock(itemid);
+         for(Stocktable c:d1){
+             totalstockamount=Double.valueOf(c.getAmount());
+             totalstockquantity=Double.valueOf(c.getQuantity());
+        }
+          System.out.println(totalstockamount+"  after update "+totalstockquantity);
+             query = "update finsys.t_stock set quantity='" +( totalstockquantity+Double.valueOf(quantity))+ "',amount='" +(totalstockamount+Double.valueOf(item_rate)*Double.valueOf(quantity))+ "' where itemid='" +itemid+ "'";
+                pst = data.conn.prepareStatement(query);
+                flag = pst.executeUpdate();
         ResetRecordItem();
         System.out.println("1");
          ResetForm();
@@ -1298,12 +1335,18 @@ public class stockIn extends javax.swing.JInternalFrame {
         System.out.println("3");
         
         }
-        
+        }
+        else{
+            dialogmessage = "Failed to Update";
+                    JOptionPane.showMessageDialog(null,dialogmessage,
+                            "WARNING!!", JOptionPane.WARNING_MESSAGE);
+        }
 
         } catch (Exception ex) {
             System.out.println("Error while validating :" + ex);
             JOptionPane.showMessageDialog(null, "GENERAL EXCEPTION", "WARNING!!!", JOptionPane.INFORMATION_MESSAGE);
         }
+        
         
     }//GEN-LAST:event_btnupdateitemActionPerformed
 
@@ -1324,6 +1367,10 @@ public class stockIn extends javax.swing.JInternalFrame {
         
         rate.setText(mo.getValueAt(i, 3).toString());
         ID1 = mo.getValueAt(i, 0).toString();
+        tempinvoiceid=invoiceId.getText().trim();
+        tempitemid=ID1;
+        tempquantity=mo.getValueAt(i, 4).toString();
+        temprate=mo.getValueAt(i, 3).toString();
        
         
     }//GEN-LAST:event_tableItemMouseClicked

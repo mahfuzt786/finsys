@@ -187,6 +187,14 @@ public class database {
             
            // System.out.println("centercode1: " + centerid);
             flag = pst.executeUpdate();
+            if(flag==1){
+                  pst = conn.prepareStatement("INSERT INTO finsys.t_stock(itemid,quantity,amount) values(?,?,?)");
+                   pst.setInt(1,itemid );
+           
+                    pst.setDouble(2,0);
+                    pst.setDouble(3,0);
+                    flag=pst.executeUpdate();
+            }
             return flag;
         } catch (Exception e) {
             System.out.println("Error while validating in insert :" + e);
@@ -227,6 +235,7 @@ public class database {
             pst.setString(13, i.getInvoiceid());
           
             flag = pst.executeUpdate();
+           
             return flag;
         } catch (Exception e) {
             System.out.println("Error while validating in insert :" + e);
@@ -312,10 +321,10 @@ public class database {
         }
     }
         
-         public int insertStockinitem(Stockinitemtable i) {
+        public int insertStockinitem(Stockinitemtable i) {
         int flag = 0;
         String sql;
-     
+        Double totalstockamount=0.0,totalstockquantity=0.0;
         System.out.println("Values: " + i.getItemid());
         try {
            
@@ -331,6 +340,94 @@ public class database {
             
            // System.out.println("centercode1: " + centerid);
             flag = pst.executeUpdate();
+             if(flag==1){
+                  ArrayList<Stocktable> d=getStock(Integer.valueOf(i.getItemid()));
+                 for(Stocktable c:d){
+                 totalstockamount=Double.valueOf(c.getAmount());
+                 totalstockquantity=Double.valueOf(c.getQuantity());
+                 }
+               String query = "update finsys.t_stock set quantity='" +( totalstockquantity+Double.valueOf(i.getQuantity()))+ "',amount='" +(totalstockamount+Double.valueOf(i.getItem_rate())*Double.valueOf(i.getQuantity()))+ "' where itemid='" +i.getItemid()+ "'";
+                pst = conn.prepareStatement(query);
+                flag = pst.executeUpdate();
+            }
+            return flag;
+        } catch (Exception e) {
+            System.out.println("Error while validating in insert :" + e);
+            return flag;
+        }
+    }
+        
+       public int insertStockout(Stockouttable i) {
+        int flag = 0;
+        String sql;
+        int slno;
+        String issue_return_code="";
+       System.out.println("Values: " );
+        try {
+            sql = "SELECT MAX(slno) as max FROM finsys.t_issue_return";
+            slno = getmax(sql);
+            issue_return_code="BO"+i.getCostcenterid()+slno;
+            pst = conn.prepareStatement("INSERT INTO finsys.t_issue_return(slno,issue_returncode"
+          +",acc_post,receiptno,issue_or_return,costcenterid ,"
+                    + "issueamt_value ,transportation_amt"
+          + " ) values(?,?,"
+          +"?,?,?,?,"
+         
+          +"?,?)");
+
+            
+            pst.setInt(1,slno );
+           
+            pst.setString(2,issue_return_code);
+           
+            pst.setString(3,i.getAcc_post());
+            pst.setString(4, issue_return_code);
+            pst.setString(5,i.getIssue_or_return());
+            pst.setInt(6,i.getCostcenterid());
+            pst.setDouble(7,i.getIssueamt_value());
+            pst.setDouble(8, 0);
+          
+            flag = pst.executeUpdate();
+           
+            return flag;
+        } catch (Exception e) {
+            System.out.println("Error while validating in insert :" + e);
+            return flag;
+        }
+    }
+    
+       
+         public int insertStockoutitem(Stockoutitemtable i) {
+        int flag = 0;
+        String sql;
+        Double totalstockamount=0.0,totalstockquantity=0.0;
+        System.out.println("Values: " + i.getItemid());
+        try {
+          
+            pst = conn.prepareStatement("INSERT INTO finsys.t_issue_items(itemid,reqquantity,issuequantity,issue_returncode,itemvalue,ledgerid) values(?,?,?,?,?,?)");
+
+            
+            pst.setInt(1,i.getItemid());
+           
+            pst.setDouble(2,i.getReqquantity());
+           
+            pst.setDouble(3,i.getIssuequantity());
+            pst.setString(4,i.getIssue_returncode());
+            pst.setDouble(5,i.getItemvalue());
+            pst.setInt(6,i.getLedgerid());
+            
+           // System.out.println("centercode1: " + centerid);
+            flag = pst.executeUpdate();
+             if(flag==1){
+                  ArrayList<Stocktable> d=getStock(i.getItemid());
+                 for(Stocktable c:d){
+                 totalstockamount=Double.valueOf(c.getAmount());
+                 totalstockquantity=Double.valueOf(c.getQuantity());
+                 }
+               String query = "update finsys.t_stock set quantity='" +( totalstockquantity-i.getIssuequantity())+ "',amount='" +(totalstockamount-(i.getItemvalue()*i.getIssuequantity()))+ "' where itemid='" +i.getItemid()+ "'";
+                pst = conn.prepareStatement(query);
+                flag = pst.executeUpdate();
+            }
             return flag;
         } catch (Exception e) {
             System.out.println("Error while validating in insert :" + e);
@@ -527,5 +624,115 @@ public class database {
             e.printStackTrace();
         }
         return cTable;
+    }
+     
+      public ArrayList<Stockinitemtable> getStockinitemtable(String inv,String iid) {
+        ArrayList<Stockinitemtable> sTable = new ArrayList<Stockinitemtable>();
+        String query = "select t.invoiceid,t.itemid,t.item_rate,t.quantity ,m.itemcode,m.itemname,(t.item_rate*t.quantity) as grossvalue"
+               
+                + " from finsys.t_stockin_items t inner join m_item m on m.itemid=t.itemid where t.invoiceid='"+inv+"' and t.itemid='"+iid+"'";
+        try {
+            PreparedStatement pst = conn.prepareStatement(query);
+            ResultSet rs = pst.executeQuery();
+            Stockinitemtable siTab;
+        
+            while (rs.next()) {
+                siTab = new Stockinitemtable(rs.getInt("itemid"), rs.getString("itemcode"),rs.getString("itemname"),rs.getString("invoiceid"), 
+                        rs.getString("item_rate"),rs.getString("quantity"), rs.getString("grossvalue"));
+                      
+                sTable.add(siTab);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return sTable;
+    }
+      
+      public ArrayList<Stocktable> getStock(int itemid) {
+        ArrayList<Stocktable> cTable = new ArrayList<Stocktable>();
+        String query = "select * from finsys.t_stock where itemid='"+itemid+"'";
+        try {
+            PreparedStatement pst = conn.prepareStatement(query);
+            ResultSet rs = pst.executeQuery();
+            Stocktable cTab;
+            while (rs.next()) {
+                cTab = new Stocktable(rs.getInt("itemid"),rs.getString("amount"),rs.getString("quantity"));
+                cTable.add(cTab);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return cTable;
+    }
+      
+       public ArrayList<Costcentertable> getCC() {
+        ArrayList<Costcentertable> cTable = new ArrayList<Costcentertable>();
+        String query = "select * from finsys.m_costcenter ";
+        try {
+            PreparedStatement pst = conn.prepareStatement(query);
+            ResultSet rs = pst.executeQuery();
+            Costcentertable cTab;
+            while (rs.next()) {
+                cTab = new Costcentertable(rs.getInt("centerid"),rs.getString("centercode"),rs.getString("centername"));
+                cTable.add(cTab);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return cTable;
+    }
+       
+       public ArrayList<Stockouttable> getStockout(String issue_returncode) {
+        ArrayList<Stockouttable> cTable = new ArrayList<Stockouttable>();
+        String query = "select * from finsys.t_issue_return where issue_returncode='"+issue_returncode+"'";
+        try {
+            PreparedStatement pst = conn.prepareStatement(query);
+            ResultSet rs = pst.executeQuery();
+            Stockouttable cTab;
+            while (rs.next()) {
+                cTab = new Stockouttable(rs.getString("issue_returncode"), rs.getString("acc_post"), rs.getString("issuedate"),
+               rs.getString("receiptno"), rs.getString("issue_or_return"), rs.getInt("costcenterid"),rs.getDouble("issueamt_value"),rs.getDouble("transportation_amt") );
+               cTable.add(cTab);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return cTable;
+    }
+       
+    public ArrayList<Stockoutitemtable> getStockoutitem(String issue_returncode,int itemid) {
+        ArrayList<Stockoutitemtable> cTable = new ArrayList<Stockoutitemtable>();
+        String query = "select * from finsys.t_issue_items t inner join finsys.m_item m on m.itemid=m.itemid where issue_returncode='"+issue_returncode+"' and t.itemid='"+itemid+"'";
+        try {
+            PreparedStatement pst = conn.prepareStatement(query);
+            ResultSet rs = pst.executeQuery();
+            Stockoutitemtable cTab;
+            while (rs.next()) {
+                cTab =new Stockoutitemtable(rs.getString("issue_returncode"),rs.getString("itemcode"),rs.getString("itemcode"),rs.getInt("itemid"), rs.getInt("ledgerid"),
+               rs.getDouble("reqquantity"), rs.getDouble("issuequantity"), rs.getDouble("itemvalue"),rs.getInt("categoryid") );
+                cTable.add(cTab);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return cTable;
+    }
+    
+     public ArrayList<Itemtable> getItem1(int catid) {
+        ArrayList<Itemtable> iTable = new ArrayList<Itemtable>();
+        String query = "select * from finsys.m_item where categoryid='"+catid+"'";
+        try {
+            PreparedStatement pst = conn.prepareStatement(query);
+            ResultSet rs = pst.executeQuery();
+            Itemtable iTab;
+            while (rs.next()) {
+                iTab = new Itemtable(rs.getInt("categoryid"),rs.getInt("itemid"),rs.getInt("itemtypeid"),
+                        rs.getString("itemcode"),rs.getString("itemname"),rs.getString("uomcode"));
+                iTable.add(iTab);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return iTable;
     }
 }
