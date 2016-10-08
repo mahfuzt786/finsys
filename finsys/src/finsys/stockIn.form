@@ -117,10 +117,7 @@
                                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="0" attributes="0">
                                           <Component id="msCombo" max="32767" attributes="0"/>
-                                          <Group type="102" alignment="0" attributes="0">
-                                              <Component id="labelInvoiceId" min="-2" max="-2" attributes="0"/>
-                                              <EmptySpace max="32767" attributes="0"/>
-                                          </Group>
+                                          <Component id="labelInvoiceId" alignment="0" min="-2" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
                                   <Group type="103" groupAlignment="0" attributes="0">
@@ -647,6 +644,8 @@
                                       </Group>
                                   </Group>
                               </Group>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <Component id="btndeleteitem" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                           </Group>
                       </Group>
@@ -692,6 +691,7 @@
                           <Component id="btnadditem" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="btnupdateitem" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="btnclearitem" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="btndeleteitem" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="jScrollPane2" min="-2" pref="190" max="-2" attributes="0"/>
@@ -730,9 +730,9 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jSeparator4" min="-2" pref="2" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
+                      <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="jLabel22" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="labelTotal" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="labelTotal" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="4" max="-2" attributes="0"/>
                       <Component id="btndone" min="-2" max="-2" attributes="0"/>
@@ -987,6 +987,18 @@
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="txtquantity">
+            </Component>
+            <Component class="javax.swing.JButton" name="btndeleteitem">
+              <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/finsys/icons/Delete_16x16.png"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="delete"/>
+                <Property name="opaque" type="boolean" value="false"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btndeleteitemActionPerformed"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>

@@ -509,6 +509,7 @@ public class Item extends javax.swing.JInternalFrame {
 
     private void btndeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btndeleteActionPerformed
         //delete
+        Double totalstockamount,totalstockquantity,prevquantity,prevrate;
          if(ID==null){
             dialogmessage = "Please Select Record To Delete";
                     JOptionPane.showMessageDialog(null,dialogmessage,
@@ -517,7 +518,7 @@ public class Item extends javax.swing.JInternalFrame {
          else{
         String query = "delete from finsys.m_item where itemid='" + ID + "'";
         executeSqlQuery(query, "deleted");
-        ResetRecord();
+         ResetRecord();
          }
     }//GEN-LAST:event_btndeleteActionPerformed
 

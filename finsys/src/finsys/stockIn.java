@@ -365,6 +365,7 @@ public class stockIn extends javax.swing.JInternalFrame {
         btndone = new javax.swing.JButton();
         jLabel31 = new javax.swing.JLabel();
         txtquantity = new javax.swing.JTextField();
+        btndeleteitem = new javax.swing.JButton();
 
         setBorder(null);
         setClosable(true);
@@ -506,9 +507,7 @@ public class stockIn extends javax.swing.JInternalFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(msCombo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addGroup(jPanel3Layout.createSequentialGroup()
-                                        .addComponent(labelInvoiceId)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                                    .addComponent(labelInvoiceId)))
                             .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addGroup(jPanel3Layout.createSequentialGroup()
@@ -748,6 +747,15 @@ public class stockIn extends javax.swing.JInternalFrame {
 
         jLabel31.setText("-");
 
+        btndeleteitem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/finsys/icons/Delete_16x16.png"))); // NOI18N
+        btndeleteitem.setText("delete");
+        btndeleteitem.setOpaque(false);
+        btndeleteitem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btndeleteitemActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -831,6 +839,8 @@ public class stockIn extends javax.swing.JInternalFrame {
                                             .addComponent(jLabel19)
                                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                             .addComponent(txtquantity))))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btndeleteitem)
                         .addGap(0, 0, Short.MAX_VALUE))))
             .addComponent(jSeparator3, javax.swing.GroupLayout.Alignment.TRAILING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
@@ -866,7 +876,8 @@ public class stockIn extends javax.swing.JInternalFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnadditem)
                     .addComponent(btnupdateitem)
-                    .addComponent(btnclearitem))
+                    .addComponent(btnclearitem)
+                    .addComponent(btndeleteitem))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -898,7 +909,7 @@ public class stockIn extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, 2, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel22)
                     .addComponent(labelTotal))
                 .addGap(4, 4, 4)
@@ -1192,7 +1203,46 @@ public class stockIn extends javax.swing.JInternalFrame {
     private void btndeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btndeleteActionPerformed
         //delete
         String query = "delete from finsys.t_stockin where invoiceid='" + ID + "'";
+        Double gross=0.0,qty=0.0;
         executeSqlQuery(query, "deleted");
+        ArrayList<Stockinitemtable> sitemlist = getStockinitemtable();
+       
+       Double prevquantity=0.0,prevrate=0.0, totalamt=0.0,totalstockamount=0.0,totalstockquantity=0.0,updatestockamount=0.0,updatestockquantity=0.0;
+        
+        for (int i = 0; i < sitemlist.size(); i++) {
+            int iid=sitemlist.get(i).getItemid();
+            qty=Double.valueOf(sitemlist.get(i).getQuantity());
+            gross=Double.valueOf(sitemlist.get(i).getGrossvalue());
+            ArrayList<Stocktable> d=db.getStock(iid);
+            for(Stocktable c:d){
+             totalstockamount=Double.valueOf(c.getAmount());
+             totalstockquantity=Double.valueOf(c.getQuantity());
+            }
+            prevquantity=totalstockquantity-qty;
+            prevrate=totalstockamount-gross;
+            query = "update finsys.t_stock set quantity='" + prevquantity+ "',amount='" +prevrate+ "' where itemid='" +iid+ "'";
+             PreparedStatement  pst=null;
+            try {
+                pst = data.conn.prepareStatement(query);
+                 int flag = pst.executeUpdate();
+                 if(flag==1){
+                      query = "delete from finsys.t_stockin_items where invoiceid='" + ID + "' and itemid='"+iid+"'";
+                      pst = data.conn.prepareStatement(query);
+                      flag = pst.executeUpdate();
+                 }
+                 
+            } catch (SQLException ex) {
+                Logger.getLogger(stockIn.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            
+            
+   
+        }
+        
+        
+        
+        
         ResetRecord();
     }//GEN-LAST:event_btndeleteActionPerformed
 
@@ -1411,6 +1461,34 @@ public class stockIn extends javax.swing.JInternalFrame {
         
     }//GEN-LAST:event_btndoneActionPerformed
 
+    private void btndeleteitemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btndeleteitemActionPerformed
+        // TODO add your handling code here:
+        Double prevquantity=0.0,prevrate=0.0, totalamt=0.0,totalstockamount=0.0,totalstockquantity=0.0,updatestockamount=0.0,updatestockquantity=0.0;
+       
+        String query = "delete from finsys.t_stockin_items where invoiceid='" + ID + "' and itemid='"+ID1+"'";
+     
+        executeSqlQuery(query, "deleted");
+        
+         ArrayList<Stocktable> d=db.getStock(Integer.valueOf(ID1));
+            for(Stocktable c:d){
+             totalstockamount=Double.valueOf(c.getAmount());
+             totalstockquantity=Double.valueOf(c.getQuantity());
+            }
+            prevquantity=totalstockquantity-Double.valueOf(tempquantity);
+            prevrate=totalstockamount-Double.valueOf(tempquantity)*Double.valueOf(temprate);
+            query = "update finsys.t_stock set quantity='" + prevquantity+ "',amount='" +prevrate+ "' where itemid='" +ID1+ "'";
+             PreparedStatement  pst=null;
+            try {
+                pst = data.conn.prepareStatement(query);
+                 int flag = pst.executeUpdate();
+                
+                 
+            } catch (SQLException ex) {
+                Logger.getLogger(stockIn.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+    }//GEN-LAST:event_btndeleteitemActionPerformed
+
       public void setSelectedValue(JComboBox combobox,int value){
             Comboitem item;
             for(int i=0;i<combobox.getItemCount();i++){
@@ -1463,6 +1541,7 @@ public class stockIn extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnclear;
     private javax.swing.JButton btnclearitem;
     private javax.swing.JButton btndelete;
+    private javax.swing.JButton btndeleteitem;
     private javax.swing.JButton btndone;
     private javax.swing.JButton btnupdate;
     private javax.swing.JButton btnupdateitem;

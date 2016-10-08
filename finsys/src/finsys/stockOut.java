@@ -27,7 +27,7 @@ import javax.swing.table.TableRowSorter;
 
 public class stockOut extends javax.swing.JInternalFrame {
 //Stickout
-     String issue_returncode ,acc_post,issuedate,receiptno,issue_or_return ,costcenterid  ;
+     String issue_returncode ,acc_post,issuedate,receiptno,issue_or_return ,costcenterid,tempqty,tempamt  ;
      Double issueamt_value,transportation_amt ;
      //Items
        String itemreceiptno; 
@@ -50,7 +50,7 @@ public class stockOut extends javax.swing.JInternalFrame {
     ArrayList<Categorytable> cat;
     ArrayList<Costcentertable> cc;
     //for update items
-    String tempinvoiceid,tempitemid,tempquantity,temprate;
+    String tempinvoiceid,tempitemid,tempquantity,temprate,iss;
     //for items jpanel2
     int TOTALITEMS=0;
     Double TOTALGROSS=0.0,TOTALLESS=0.0,TOTALVAT=0.0,TRANSPORT=0.0,TOTALAMOUNT=0.0,totalstockamount,totalstockquantity;
@@ -120,10 +120,10 @@ public class stockOut extends javax.swing.JInternalFrame {
                     
                 }
 
-                if (event.getStateChange() == ItemEvent.DESELECTED) {
-                     categoryCombo.setSelectedIndex(0);
-                   
-                }
+//                if (event.getStateChange() == ItemEvent.DESELECTED) {
+//                     categoryCombo.setSelectedIndex(0);
+//                   
+//                }
             }
         });
               
@@ -133,32 +133,46 @@ public class stockOut extends javax.swing.JInternalFrame {
             //
             public void itemStateChanged(ItemEvent event) {
                 JComboBox comboBox = (JComboBox) event.getSource();
-
+                itemstock.setText("");
+                  ivalue.setText("");
                 // The item affected by the event.
                 Object item = event.getItem();
         
                 
                 System.out.println("Affected items: " + item.toString());
                 if (event.getStateChange() == ItemEvent.SELECTED) {
-                     
+                    itemstock.setText("");
+                  ivalue.setText("");
+                     Comboitem h=(Comboitem)item;
                      Comboitem g =(Comboitem) itemCombo.getSelectedItem();
                      int itid=g.getKey();
+                      System.out.println("item id: " + itid+"h: "+h.getKey());
                      db=new database();
                       ArrayList<Stocktable> d=db.getStock(itid);
+                      if(d==null){
+                            System.out.println("item id: " + d+"h: "+h.getKey());
+                          itemstock.setText("0");
+                          ivalue.setText("0");
+                      }else{
          for(Stocktable c:d){
              totalstockamount=Double.valueOf(c.getAmount());
              totalstockquantity=Double.valueOf(c.getQuantity());
+               System.out.println("item id: " + totalstockamount+"h: "+totalstockquantity);
         }
+         if(totalstockquantity!=0.0){
          Double ival=totalstockamount/totalstockquantity;
+         itemstock.setText(String.valueOf(totalstockquantity));
+           ivalue.setText(String.valueOf(ival));
+         }else{
                   itemstock.setText(String.valueOf(totalstockquantity));
-                  ivalue.setText(String.valueOf(ival));
+                  ivalue.setText(String.valueOf(0));}
                 }
-
-                if (event.getStateChange() == ItemEvent.DESELECTED) {
-                     itemCombo.setSelectedIndex(0);
-                     itemstock.setText("");
-                  ivalue.setText("");
                 }
+//                if (event.getStateChange() == ItemEvent.DESELECTED) {
+//                     itemCombo.setSelectedIndex(0);
+//                     itemstock.setText("");
+//                  ivalue.setText("");
+//                }
             }
         });
     }
@@ -193,7 +207,7 @@ public class stockOut extends javax.swing.JInternalFrame {
     public ArrayList<Stockoutitemtable> getStockoutitemTable() {
          
         ArrayList<Stockoutitemtable> sTable = new ArrayList<Stockoutitemtable>();
-        String query = "select * from finsys.t_issue_items inner join finsys.m_item on m_item.itemid=finsys.t_issue_items.itemid";
+        String query = "select * from finsys.t_issue_items inner join finsys.m_item on m_item.itemid=finsys.t_issue_items.itemid where issue_returncode='"+ID+"'";
         try {
             PreparedStatement pst = data.conn.prepareStatement(query);
             ResultSet rs = pst.executeQuery();
@@ -371,6 +385,7 @@ public class stockOut extends javax.swing.JInternalFrame {
         totalitems = new javax.swing.JLabel();
         jLabel24 = new javax.swing.JLabel();
         grandtotal = new javax.swing.JLabel();
+        btndeleteitem = new javax.swing.JButton();
 
         setBorder(null);
         setClosable(true);
@@ -635,11 +650,11 @@ public class stockOut extends javax.swing.JInternalFrame {
             }
         });
 
-        jLabel10.setText("Item in Stock: ");
+        jLabel10.setText("Item in Stock:: ");
 
         itemstock.setText("itemstock");
 
-        jLabel13.setText("Item Value : ");
+        jLabel13.setText("Item Value ::");
 
         ivalue.setText("itemvalue");
 
@@ -651,67 +666,25 @@ public class stockOut extends javax.swing.JInternalFrame {
 
         grandtotal.setText("grandtotal");
 
+        btndeleteitem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/finsys/icons/Delete_16x16.png"))); // NOI18N
+        btndeleteitem.setText("delete");
+        btndeleteitem.setOpaque(false);
+        btndeleteitem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btndeleteitemActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(21, 21, 21)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel8)
-                            .addComponent(jLabel6)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(btnadditem, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnupdateitem, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnclearitem, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(comboLedger, javax.swing.GroupLayout.Alignment.LEADING, 0, 198, Short.MAX_VALUE)
-                        .addComponent(txtIssue, javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(txtReq)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(29, 29, 29)
-                        .addComponent(jLabel9))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(21, 21, 21)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(21, 21, 21)
-                        .addComponent(itemissueid)
-                        .addGap(53, 53, 53)
-                        .addComponent(jLabel10)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(itemstock))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(12, 12, 12)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(itemCombo, 0, 198, Short.MAX_VALUE)
-                            .addComponent(categoryCombo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 105, Short.MAX_VALUE)
-                .addComponent(jLabel13)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(ivalue)
-                .addGap(54, 54, 54))
-            .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGap(0, 194, Short.MAX_VALUE)
                         .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 453, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jLabel23)
@@ -721,17 +694,67 @@ public class stockOut extends javax.swing.JInternalFrame {
                         .addComponent(jLabel24)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(grandtotal, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))))
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addGap(21, 21, 21)
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel8)
+                                    .addComponent(jLabel6)))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addComponent(btnadditem, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btnupdateitem, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btnclearitem, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btndeleteitem, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(comboLedger, javax.swing.GroupLayout.Alignment.LEADING, 0, 198, Short.MAX_VALUE)
+                                .addComponent(txtIssue, javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(txtReq))))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addGap(29, 29, 29)
+                                .addComponent(jLabel9))
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addGap(21, 21, 21)
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addGap(21, 21, 21)
+                                .addComponent(itemissueid))
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addGap(12, 12, 12)
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(itemCombo, 0, 198, Short.MAX_VALUE)
+                                    .addComponent(categoryCombo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLabel13)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(ivalue)
+                                .addGap(40, 40, 40)
+                                .addComponent(jLabel10)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(itemstock)))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel9)
-                    .addComponent(itemissueid)
-                    .addComponent(jLabel10)
-                    .addComponent(itemstock)
-                    .addComponent(jLabel13)
-                    .addComponent(ivalue))
+                    .addComponent(itemissueid))
                 .addGap(9, 9, 9)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(categoryCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -739,7 +762,13 @@ public class stockOut extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(itemCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(itemCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel13)
+                        .addComponent(ivalue)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel10)
+                            .addComponent(itemstock))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(txtReq, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -756,7 +785,8 @@ public class stockOut extends javax.swing.JInternalFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnadditem)
                     .addComponent(btnupdateitem)
-                    .addComponent(btnclearitem))
+                    .addComponent(btnclearitem)
+                    .addComponent(btndeleteitem))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -917,7 +947,8 @@ public class stockOut extends javax.swing.JInternalFrame {
         issueId.setText(issue_returncode);
         issuedt.setText(mod.getValueAt(i, 2).toString().trim());
         itemissueid.setText(issue_returncode);
-        ID = mod.getValueAt(i, 0).toString();
+        ID = mod.getValueAt(i, 0).toString().trim();
+        iss=mod.getValueAt(i, 1).toString().trim();
         ReloadTableItem();
     }//GEN-LAST:event_tableStockOutMouseClicked
 
@@ -926,7 +957,42 @@ public class stockOut extends javax.swing.JInternalFrame {
         //delete
         String query = "delete from finsys.t_issue_return where issue_returncode='" + ID + "'";
         executeSqlQuery(query, "deleted");
+        
+         Double gross=0.0,qty=0.0,iva;
+        
+        ArrayList<Stockoutitemtable> sitemlist = getStockoutitemTable();
+       
+       Double prevquantity=0.0,prevrate=0.0, totalamt=0.0,totalstockamount=0.0,totalstockquantity=0.0,updatestockamount=0.0,updatestockquantity=0.0;
+        
+        for (int i = 0; i < sitemlist.size(); i++) {
+            int iid=sitemlist.get(i).getItemid();
+            qty=sitemlist.get(i).getIssuequantity();
+            iva=sitemlist.get(i).getItemvalue();
+            gross=qty*iva;
+            ArrayList<Stocktable> d=db.getStock(iid);
+            for(Stocktable c:d){
+             totalstockamount=Double.valueOf(c.getAmount());
+             totalstockquantity=Double.valueOf(c.getQuantity());
+            }
+            prevquantity=totalstockquantity+qty;
+            prevrate=totalstockamount+gross;
+            query = "update finsys.t_stock set quantity='" + prevquantity+ "',amount='" +prevrate+ "' where itemid='" +iid+ "'";
+             PreparedStatement  pst=null;
+            try {
+                pst = data.conn.prepareStatement(query);
+                 int flag = pst.executeUpdate();
+                 if(flag==1){
+                      query = "delete from finsys.t_issue_items where issue_returncode='" + ID + "' and itemid='"+iid+"'";
+                      pst = data.conn.prepareStatement(query);
+                      flag = pst.executeUpdate();
+                 }
+                 
+            } catch (SQLException ex) {
+                Logger.getLogger(stockIn.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
         ResetRecord();
+        }
     }//GEN-LAST:event_btndeleteActionPerformed
 
     private void searchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchKeyReleased
@@ -968,6 +1034,8 @@ public class stockOut extends javax.swing.JInternalFrame {
                   itemstock.setText(String.valueOf(totalstockquantity));
                   ivalue.setText(String.valueOf(ival));
         ID1 = mod1.getValueAt(i, 2).toString();
+        tempqty=mod1.getValueAt(i, 6).toString();
+        tempamt=mod1.getValueAt(i, 8).toString();
         ReloadTableItem();
     }//GEN-LAST:event_tableitemMouseClicked
 
@@ -980,7 +1048,7 @@ public class stockOut extends javax.swing.JInternalFrame {
        itemid=g1.getKey();
        itemreceiptno=itemissueid.getText().trim();
        
-        Comboitem g2 =(Comboitem) comboLedger.getSelectedItem();
+       Comboitem g2 =(Comboitem) comboLedger.getSelectedItem();
        ledgerid=g2.getKey();
          
        
@@ -989,7 +1057,11 @@ public class stockOut extends javax.swing.JInternalFrame {
        itemvalue=Double.valueOf(ivalue.getText().trim());
        issuequantity=Double.valueOf(txtIssue.getText().trim());
        reqquantity=Double.valueOf(txtReq.getText().trim());
-       
+       if(iss.equals("R")){
+            
+       itemvalue=itemvalue;
+       issuequantity=-issuequantity;
+       }
        
         db = new database();
         
@@ -1014,7 +1086,16 @@ public class stockOut extends javax.swing.JInternalFrame {
                     JOptionPane.showMessageDialog(null, dialogmessage,
                             "SUCCESSFULL!!", JOptionPane.INFORMATION_MESSAGE);
                     System.out.println("Record Added");
-                    ResetRecordItem();
+                    //ResetRecordItem();
+                    comboLedger.setSelectedIndex(0);
+                    txtReq.setText("");
+                    txtIssue.setText("");
+                    itemstock.setText("");
+                    ivalue.setText("");
+                    tempinvoiceid="";
+                    tempitemid="";
+                    tempquantity="";
+                    temprate="";
                     ReloadTableItem();
 
                 } else {
@@ -1058,6 +1139,11 @@ public class stockOut extends javax.swing.JInternalFrame {
              totalamt=c.getIssuequantity()*c.getItemvalue();
              prevquantity=c.getIssuequantity();
         }
+          if(iss.equals("R")){
+            
+       totalamt=-totalamt;
+       prevquantity=-prevquantity;
+       }
          System.out.println(totalamt+"revert back stock "+prevquantity);
          updatestockamount=totalstockamount+totalamt;
          updatestockquantity=totalstockquantity+prevquantity;
@@ -1109,6 +1195,12 @@ public class stockOut extends javax.swing.JInternalFrame {
              totalstockquantity=Double.valueOf(c.getQuantity());
         }
           System.out.println(totalstockamount+"  after update "+totalstockquantity);
+           if(iss.equals("R")){
+            
+       totalamt=-totalamt;
+       issuequantity=-issuequantity;
+       }
+          
              query = "update finsys.t_stock set quantity='" +( totalstockquantity-issuequantity)+ "',amount='" +(totalstockamount-itemvalue*issuequantity)+ "' where itemid='" +itemid+ "'";
                 pst = data.conn.prepareStatement(query);
                 flag = pst.executeUpdate();
@@ -1118,6 +1210,7 @@ public class stockOut extends javax.swing.JInternalFrame {
         ivalue.setText("");
         txtReq.setText("");
         txtIssue.setText("");
+        comboLedger.setSelectedIndex(0);
         
         ResetForm();
         System.out.println("1");
@@ -1146,6 +1239,33 @@ public class stockOut extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         ResetRecordItem();
     }//GEN-LAST:event_btnclearitemActionPerformed
+
+    private void btndeleteitemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btndeleteitemActionPerformed
+        // TODO add your handling code here:
+         Double prevquantity=0.0,prevrate=0.0, totalamt=0.0,totalstockamount=0.0,totalstockquantity=0.0,updatestockamount=0.0,updatestockquantity=0.0;
+       
+        String query = "delete from finsys.t_stockin_items where invoiceid='" + ID + "' and itemid='"+ID1+"'";
+     
+        executeSqlQuery(query, "deleted");
+        
+         ArrayList<Stocktable> d=db.getStock(Integer.valueOf(ID1));
+            for(Stocktable c:d){
+             totalstockamount=Double.valueOf(c.getAmount());
+             totalstockquantity=Double.valueOf(c.getQuantity());
+            }
+            prevquantity=totalstockquantity+Double.valueOf(tempqty);
+            prevrate=totalstockamount+Double.valueOf(tempamt);
+            query = "update finsys.t_stock set quantity='" + prevquantity+ "',amount='" +prevrate+ "' where itemid='" +ID1+ "'";
+             PreparedStatement  pst=null;
+            try {
+                pst = data.conn.prepareStatement(query);
+                 int flag = pst.executeUpdate();
+                
+                 
+            } catch (SQLException ex) {
+                Logger.getLogger(stockIn.class.getName()).log(Level.SEVERE, null, ex);
+            }
+    }//GEN-LAST:event_btndeleteitemActionPerformed
 
     
        public void setSelectedValue(JComboBox combobox,int value){
@@ -1202,6 +1322,7 @@ public class stockOut extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnclear;
     private javax.swing.JButton btnclearitem;
     private javax.swing.JButton btndelete;
+    private javax.swing.JButton btndeleteitem;
     private javax.swing.JButton btnupdate;
     private javax.swing.JButton btnupdateitem;
     private javax.swing.JComboBox<Comboitem> categoryCombo;

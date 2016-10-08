@@ -424,6 +424,8 @@ public class database {
                  totalstockamount=Double.valueOf(c.getAmount());
                  totalstockquantity=Double.valueOf(c.getQuantity());
                  }
+                
+                
                String query = "update finsys.t_stock set quantity='" +( totalstockquantity-i.getIssuequantity())+ "',amount='" +(totalstockamount-(i.getItemvalue()*i.getIssuequantity()))+ "' where itemid='" +i.getItemid()+ "'";
                 pst = conn.prepareStatement(query);
                 flag = pst.executeUpdate();
