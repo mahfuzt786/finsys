@@ -172,7 +172,7 @@ public class dashboard extends javax.swing.JFrame {
                 try {
                     stockIn in = new stockIn();
                     loadForm("stockIn", in);
-                    in.setMaximum(true);
+                    //in.setMaximum(true);
 
                 } catch (Exception e) {
                     System.out.println("\nError :" + e);
