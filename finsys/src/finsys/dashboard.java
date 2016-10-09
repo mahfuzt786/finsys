@@ -205,6 +205,15 @@ public class dashboard extends javax.swing.JFrame {
                     System.out.println("\nError :" + e);
                 }
                 break;
+            case 19:
+                try {
+                    mstore ms = new mstore();
+                    loadForm("issueReport", ms);
+
+                } catch (Exception e) {
+                    System.out.println("\nError :" + e);
+                }
+                break;
 
         }
 
@@ -305,8 +314,11 @@ public class dashboard extends javax.swing.JFrame {
         jMenuItem6 = new javax.swing.JMenuItem();
         jMenuItem_item = new javax.swing.JMenuItem();
         jSeparator3 = new javax.swing.JPopupMenu.Separator();
+        jMenuItem7 = new javax.swing.JMenuItem();
+        jSeparator4 = new javax.swing.JPopupMenu.Separator();
         jMenuItem_costcenter = new javax.swing.JMenuItem();
         jMenuItem_ledger = new javax.swing.JMenuItem();
+        jMenu9 = new javax.swing.JMenu();
         jMenuItem_soemaingroup = new javax.swing.JMenuItem();
         jMenuItem_soegroup = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
@@ -511,7 +523,7 @@ public class dashboard extends javax.swing.JFrame {
         desktop.setLayout(desktopLayout);
         desktopLayout.setHorizontalGroup(
             desktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 946, Short.MAX_VALUE)
         );
         desktopLayout.setVerticalGroup(
             desktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -587,6 +599,15 @@ public class dashboard extends javax.swing.JFrame {
         jMenu_master.add(jMenuItem_item);
         jMenu_master.add(jSeparator3);
 
+        jMenuItem7.setText("M/S Store");
+        jMenuItem7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem7ActionPerformed(evt);
+            }
+        });
+        jMenu_master.add(jMenuItem7);
+        jMenu_master.add(jSeparator4);
+
         jMenuItem_costcenter.setText("Cost Center");
         jMenuItem_costcenter.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -603,13 +624,15 @@ public class dashboard extends javax.swing.JFrame {
         });
         jMenu_master.add(jMenuItem_ledger);
 
+        jMenu9.setText("Summary of Expenditure (SOE)");
+
         jMenuItem_soemaingroup.setText("SOE Main Group");
         jMenuItem_soemaingroup.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem_soemaingroupActionPerformed(evt);
             }
         });
-        jMenu_master.add(jMenuItem_soemaingroup);
+        jMenu9.add(jMenuItem_soemaingroup);
 
         jMenuItem_soegroup.setText("SOE Group");
         jMenuItem_soegroup.addActionListener(new java.awt.event.ActionListener() {
@@ -617,7 +640,9 @@ public class dashboard extends javax.swing.JFrame {
                 jMenuItem_soegroupActionPerformed(evt);
             }
         });
-        jMenu_master.add(jMenuItem_soegroup);
+        jMenu9.add(jMenuItem_soegroup);
+
+        jMenu_master.add(jMenu9);
 
         jMenuBar1.add(jMenu_master);
 
@@ -773,6 +798,11 @@ public class dashboard extends javax.swing.JFrame {
         loadJInternalFrame(18);
     }//GEN-LAST:event_jMenuItem_issue_reportActionPerformed
 
+    private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
+        // TODO add your handling code here:
+        loadJInternalFrame(19);
+    }//GEN-LAST:event_jMenuItem7ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -829,6 +859,7 @@ public class dashboard extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu6;
     private javax.swing.JMenu jMenu7;
     private javax.swing.JMenu jMenu8;
+    private javax.swing.JMenu jMenu9;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
@@ -836,6 +867,7 @@ public class dashboard extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
+    private javax.swing.JMenuItem jMenuItem7;
     private javax.swing.JMenuItem jMenuItem_calculator;
     private javax.swing.JMenuItem jMenuItem_category;
     private javax.swing.JMenuItem jMenuItem_costcenter;
@@ -856,6 +888,7 @@ public class dashboard extends javax.swing.JFrame {
     private javax.swing.JToolBar.Separator jSeparator1;
     private javax.swing.JToolBar.Separator jSeparator2;
     private javax.swing.JPopupMenu.Separator jSeparator3;
+    private javax.swing.JPopupMenu.Separator jSeparator4;
     private javax.swing.JToolBar jToolBar;
     private javax.swing.JLabel jdate;
     private javax.swing.JLabel juser;

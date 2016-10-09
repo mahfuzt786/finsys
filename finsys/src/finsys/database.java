@@ -63,6 +63,29 @@ public class database {
             return flag;
         }
     }
+    public int insertms(ms_item i) {
+        int flag = 0;
+        String sql;
+        int msid;
+        System.out.println("Values: " + i.getMsname() + " " + i.getMsaddress() +" " + i.getMsphone());
+        try {
+            sql = "SELECT MAX(companyid) as max FROM finsys.m_fromcompany";
+            msid = getmax(sql);
+            System.out.println("MS id: " + msid);
+            pst = conn.prepareStatement("INSERT INTO finsys.m_fromcompany(companyid,companyname,companyaddress,companyphone) values(?,?,?,?)");
+
+            pst.setInt(1, msid);
+            pst.setString(2, i.getMsname());
+            pst.setString(3, i.getMsaddress());
+            pst.setString(4, i.getMsphone());
+            System.out.println("Ms id: " + msid);
+            flag = pst.executeUpdate();
+            return flag;
+        } catch (Exception e) {
+            System.out.println("Error while validating :" + e);
+            return flag;
+        }
+    }
     
     
         public int insertCostcenter(Costcentertable i) {
