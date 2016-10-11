@@ -48,7 +48,7 @@ public class Ledger extends javax.swing.JInternalFrame {
            // Comboitem combo =new Comboitem(c.getCategorycode(),c.getCategoryname());
             jComboBox_soemain.addItem(new Comboitem(c.getSoemaingroupid(),c.getSoemaingroupname()));
         }
-        jComboBox_soe.addItem(new Comboitem(0,"Select SOE Group"));
+       
         
           //checking
         jComboBox_soemain.addItemListener(new ItemListener() {
@@ -60,8 +60,8 @@ public class Ledger extends javax.swing.JInternalFrame {
 
                 // The item affected by the event.
                 Object item = event.getItem();
-        
-                
+                jComboBox_soe.removeAllItems();
+                jComboBox_soe.addItem(new Comboitem(0,"Select SOE Group"));
                 System.out.println("Affected items: " + item.toString());
                 if (event.getStateChange() == ItemEvent.SELECTED) {
                      Comboitem g =(Comboitem) jComboBox_soemain.getSelectedItem();

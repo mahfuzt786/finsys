@@ -11,6 +11,8 @@ package finsys;
  */
 import java.awt.Component;
 import java.awt.Container;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.sql.*;
@@ -26,12 +28,12 @@ import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
 public class stockOut extends javax.swing.JInternalFrame {
-//Stickout
+//Stockout
      String issue_returncode ,acc_post,issuedate,receiptno,issue_or_return ,costcenterid,tempqty,tempamt  ;
      Double issueamt_value,transportation_amt ;
      //Items
        String itemreceiptno; 
-    int itemid,ledgerid;
+    int itemid,ledgerid,iitd;
     Double reqquantity,issuequantity,itemvalue;
     //DB
     database db;
@@ -39,6 +41,7 @@ public class stockOut extends javax.swing.JInternalFrame {
     Stockoutitemtable j=new Stockoutitemtable();
     String dialogmessage;
     String dialogs;
+    Comboitem g;
     int dialogtype = JOptionPane.PLAIN_MESSAGE;
     database data = new database();
     public String ID;
@@ -59,6 +62,7 @@ public class stockOut extends javax.swing.JInternalFrame {
      * Creates new form stock out
      */
     public stockOut() {
+        this.cat = new ArrayList<>();
         
         initComponents();
         
@@ -69,14 +73,6 @@ public class stockOut extends javax.swing.JInternalFrame {
         cc=db.getCC();
         led=db.getLedger();
         cat=db.getCategory();
-      
-         System.out.println("For item");
-        itemCombo.addItem(new Comboitem(0,"Select Item"));
-//        for(Itemtable c:item){
-//        
-//            itemCombo.addItem(new Comboitem(c.getItemid(),c.getItemname()));
-//        }
-       
         System.out.println("For CC");
         comboCC.addItem(new Comboitem(0,"Select"));
         for(Costcentertable c:cc){
@@ -84,97 +80,25 @@ public class stockOut extends javax.swing.JInternalFrame {
             comboCC.addItem(new Comboitem(c.getCenterid(),c.getCentername()));
         }
         System.out.println("For ledger");
-       comboLedger.addItem(new Comboitem(0,"Select"));
+        comboLedger.addItem(new Comboitem(0,"Select"));
         for(Ledgertable c:led){
            
             comboLedger.addItem(new Comboitem(c.getLedgerid(),c.getLedgername()));
         }
         
         System.out.println("For Category");
+        //categoryCombo=new JComboBox<Comboitem>();
         categoryCombo.addItem(new Comboitem(0,"Select"));
         for(Categorytable c:cat){
            
             categoryCombo.addItem(new Comboitem(c.getCategoryid(),c.getCategoryname()));
         }
-        
-              categoryCombo.addItemListener(new ItemListener() {
-            //
-            // Listening if a new items of the combo box has been selected.
-            //
-            public void itemStateChanged(ItemEvent event) {
-                JComboBox comboBox = (JComboBox) event.getSource();
+      
+     
+     
+                   
+             
 
-                // The item affected by the event.
-                Object item = event.getItem();
-        
-                
-                System.out.println("Affected items: " + item.toString());
-                if (event.getStateChange() == ItemEvent.SELECTED) {
-                     Comboitem g1=(Comboitem) categoryCombo.getSelectedItem();
-                     int cat1=g1.getKey();
-                     item1=db.getItem1(cat1);
-                     for(Itemtable c:item1){
-        
-            itemCombo.addItem(new Comboitem(c.getItemid(),c.getItemname()));
-        }
-                    
-                }
-
-//                if (event.getStateChange() == ItemEvent.DESELECTED) {
-//                     categoryCombo.setSelectedIndex(0);
-//                   
-//                }
-            }
-        });
-              
-                 itemCombo.addItemListener(new ItemListener() {
-            //
-            // Listening if a new items of the combo box has been selected.
-            //
-            public void itemStateChanged(ItemEvent event) {
-                JComboBox comboBox = (JComboBox) event.getSource();
-                itemstock.setText("");
-                  ivalue.setText("");
-                // The item affected by the event.
-                Object item = event.getItem();
-        
-                
-                System.out.println("Affected items: " + item.toString());
-                if (event.getStateChange() == ItemEvent.SELECTED) {
-                    itemstock.setText("");
-                  ivalue.setText("");
-                     Comboitem h=(Comboitem)item;
-                     Comboitem g =(Comboitem) itemCombo.getSelectedItem();
-                     int itid=g.getKey();
-                      System.out.println("item id: " + itid+"h: "+h.getKey());
-                     db=new database();
-                      ArrayList<Stocktable> d=db.getStock(itid);
-                      if(d==null){
-                            System.out.println("item id: " + d+"h: "+h.getKey());
-                          itemstock.setText("0");
-                          ivalue.setText("0");
-                      }else{
-         for(Stocktable c:d){
-             totalstockamount=Double.valueOf(c.getAmount());
-             totalstockquantity=Double.valueOf(c.getQuantity());
-               System.out.println("item id: " + totalstockamount+"h: "+totalstockquantity);
-        }
-         if(totalstockquantity!=0.0){
-         Double ival=totalstockamount/totalstockquantity;
-         itemstock.setText(String.valueOf(totalstockquantity));
-           ivalue.setText(String.valueOf(ival));
-         }else{
-                  itemstock.setText(String.valueOf(totalstockquantity));
-                  ivalue.setText(String.valueOf(0));}
-                }
-                }
-//                if (event.getStateChange() == ItemEvent.DESELECTED) {
-//                     itemCombo.setSelectedIndex(0);
-//                     itemstock.setText("");
-//                  ivalue.setText("");
-//                }
-            }
-        });
     }
 
     /**
@@ -214,7 +138,7 @@ public class stockOut extends javax.swing.JInternalFrame {
             Stockoutitemtable sTab;
             while (rs.next()) {
                 
-                sTab = new Stockoutitemtable(rs.getString("issue_returncode"),rs.getString("itemcode"),rs.getString("name"),rs.getInt("itemid"), rs.getInt("ledgerid"),
+                sTab = new Stockoutitemtable(rs.getString("issue_returncode"),rs.getString("itemcode"),rs.getString("itemname"),rs.getInt("itemid"), rs.getInt("ledgerid"),
                rs.getDouble("reqquantity"), rs.getDouble("issuequantity"), rs.getDouble("itemvalue"),rs.getInt("categoryid") );
                 sTable.add(sTab);
             }
@@ -360,7 +284,6 @@ public class stockOut extends javax.swing.JInternalFrame {
         issuedt = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
-        categoryCombo = new javax.swing.JComboBox<>();
         jLabel4 = new javax.swing.JLabel();
         itemCombo = new javax.swing.JComboBox<>();
         jLabel5 = new javax.swing.JLabel();
@@ -386,6 +309,7 @@ public class stockOut extends javax.swing.JInternalFrame {
         jLabel24 = new javax.swing.JLabel();
         grandtotal = new javax.swing.JLabel();
         btndeleteitem = new javax.swing.JButton();
+        categoryCombo = new javax.swing.JComboBox<>();
 
         setBorder(null);
         setClosable(true);
@@ -591,6 +515,12 @@ public class stockOut extends javax.swing.JInternalFrame {
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel4.setText("Item Name :");
 
+        itemCombo.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                itemComboItemStateChanged(evt);
+            }
+        });
+
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel5.setText("Required Quantity :");
 
@@ -691,6 +621,12 @@ public class stockOut extends javax.swing.JInternalFrame {
             }
         });
 
+        categoryCombo.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                categoryComboItemStateChanged(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -737,10 +673,11 @@ public class stockOut extends javax.swing.JInternalFrame {
                                                 .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                         .addGap(10, 10, 10)))
                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(itemissueid, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGroup(jPanel3Layout.createSequentialGroup()
                                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                            .addComponent(itemCombo, 0, 198, Short.MAX_VALUE)
-                                            .addComponent(categoryCombo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                            .addComponent(categoryCombo, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(itemCombo, javax.swing.GroupLayout.Alignment.LEADING, 0, 198, Short.MAX_VALUE))
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                         .addComponent(jLabel13)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -748,8 +685,7 @@ public class stockOut extends javax.swing.JInternalFrame {
                                         .addGap(18, 18, 18)
                                         .addComponent(jLabel10)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(itemstock))
-                                    .addComponent(itemissueid, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                        .addComponent(itemstock)))))
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addContainerGap()
@@ -773,8 +709,8 @@ public class stockOut extends javax.swing.JInternalFrame {
                     .addComponent(itemissueid))
                 .addGap(9, 9, 9)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(categoryCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3))
+                    .addComponent(jLabel3)
+                    .addComponent(categoryCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
@@ -1278,6 +1214,62 @@ public class stockOut extends javax.swing.JInternalFrame {
                 Logger.getLogger(stockIn.class.getName()).log(Level.SEVERE, null, ex);
             }
     }//GEN-LAST:event_btndeleteitemActionPerformed
+
+    private void categoryComboItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_categoryComboItemStateChanged
+        // TODO add your handling code here:
+         Object it = evt.getItem();
+                itemCombo.removeAllItems();
+                System.out.println("Affected items: " + it.toString());
+                if (evt.getStateChange() == ItemEvent.SELECTED) {
+                     
+                    itemCombo.addItem(new Comboitem(0,"Select Item"));
+                
+                     Comboitem g1=(Comboitem) categoryCombo.getSelectedItem();
+                     int cat1=g1.getKey();
+                     System.out.println("cat selected: "+cat1);
+                     item1=db.getItem1(cat1);
+                     for(Itemtable c:item1){
+                          System.out.println("items selected: "+c.getItemname());
+                          itemCombo.addItem(new Comboitem(c.getItemid(),c.getItemname()));
+                     }
+                   
+                }
+
+                
+    }//GEN-LAST:event_categoryComboItemStateChanged
+
+    private void itemComboItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_itemComboItemStateChanged
+        // TODO add your handling code here:
+          if (evt.getStateChange() == ItemEvent.SELECTED) {
+         g =(Comboitem) itemCombo.getSelectedItem();
+         iitd=g.getKey();
+         
+         ArrayList<Stocktable> d=db.getStock(iitd);
+                      if(d==null){
+                            System.out.println("item id: " );
+                          itemstock.setText("0");
+                          ivalue.setText("0");
+                      }
+                      else{
+                        for(Stocktable c:d){
+                        totalstockamount=Double.valueOf(c.getAmount());
+                        totalstockquantity=Double.valueOf(c.getQuantity());
+                        System.out.println("item id: " + totalstockamount+"h: "+totalstockquantity);
+                             }
+                        
+                        if(totalstockquantity!=null){
+                            
+                        itemstock.setText(String.valueOf(totalstockquantity));
+                        ivalue.setText(String.valueOf(totalstockamount/totalstockquantity));
+                        
+                        }
+                        }
+                       
+                      
+
+          }      //System.out.println("item id: " + itid);
+        
+    }//GEN-LAST:event_itemComboItemStateChanged
 
     
        public void setSelectedValue(JComboBox combobox,int value){
