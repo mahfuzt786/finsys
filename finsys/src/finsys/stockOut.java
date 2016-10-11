@@ -214,7 +214,7 @@ public class stockOut extends javax.swing.JInternalFrame {
             Stockoutitemtable sTab;
             while (rs.next()) {
                 
-                sTab = new Stockoutitemtable(rs.getString("issue_returncode"),rs.getString("itemcode"),rs.getString("itemcode"),rs.getInt("itemid"), rs.getInt("ledgerid"),
+                sTab = new Stockoutitemtable(rs.getString("issue_returncode"),rs.getString("itemcode"),rs.getString("name"),rs.getInt("itemid"), rs.getInt("ledgerid"),
                rs.getDouble("reqquantity"), rs.getDouble("issuequantity"), rs.getDouble("itemvalue"),rs.getInt("categoryid") );
                 sTable.add(sTab);
             }
