@@ -214,6 +214,15 @@ public class dashboard extends javax.swing.JFrame {
                     System.out.println("\nError :" + e);
                 }
                 break;
+                case 20:
+                try {
+                    ledgerReport ms = new ledgerReport();
+                    loadForm("ledgerReport", ms);
+
+                } catch (Exception e) {
+                    System.out.println("\nError :" + e);
+                }
+                break;
 
         }
 
@@ -327,6 +336,7 @@ public class dashboard extends javax.swing.JFrame {
         jMenuItem_notepad = new javax.swing.JMenuItem();
         jMenu6 = new javax.swing.JMenu();
         jMenuItem_issue_report = new javax.swing.JMenuItem();
+        Ledgermenu = new javax.swing.JMenuItem();
         jMenu7 = new javax.swing.JMenu();
         jMenuItem_help = new javax.swing.JMenuItem();
         jMenuItem_help2 = new javax.swing.JMenuItem();
@@ -683,6 +693,15 @@ public class dashboard extends javax.swing.JFrame {
         });
         jMenu6.add(jMenuItem_issue_report);
 
+        Ledgermenu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/finsys/icons/Notepad-icon.png"))); // NOI18N
+        Ledgermenu.setText("Ledger Wise Menu");
+        Ledgermenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                LedgermenuActionPerformed(evt);
+            }
+        });
+        jMenu6.add(Ledgermenu);
+
         jMenuBar1.add(jMenu6);
 
         jMenu7.setText("Help");
@@ -803,6 +822,11 @@ public class dashboard extends javax.swing.JFrame {
         loadJInternalFrame(19);
     }//GEN-LAST:event_jMenuItem7ActionPerformed
 
+    private void LedgermenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LedgermenuActionPerformed
+        // TODO add your handling code here:
+        loadJInternalFrame(20);
+    }//GEN-LAST:event_LedgermenuActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -839,6 +863,7 @@ public class dashboard extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem Ledgermenu;
     private javax.swing.JDesktopPane desktop;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;

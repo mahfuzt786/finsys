@@ -37,12 +37,21 @@ import net.sf.jasperreports.view.JasperViewer;
 
 
 public class Report  {
-  
+    String reportName="";
     public void issue_slip(String s,String e) throws ParseException, JRException{
         Date st=UtilDate.convertStringToSqlDate("dd-MM-yyyy",s);
         Date et=UtilDate.convertStringToSqlDate("dd-MM-yyyy",e);
         HashMap params= new HashMap();
-        
+        reportName="issue_slip.jrxml";
+        params.put("startdate",st);
+        params.put("enddate",et);
+        printreport(params);
+    }
+     public void ledger_wise(String s,String e) throws ParseException, JRException{
+        Date st=UtilDate.convertStringToSqlDate("dd-MM-yyyy",s);
+        Date et=UtilDate.convertStringToSqlDate("dd-MM-yyyy",e);
+        HashMap params= new HashMap();
+        reportName="ledger_wise.jrxml";
         params.put("startdate",st);
         params.put("enddate",et);
         printreport(params);
@@ -51,7 +60,7 @@ public void printreport(HashMap params) throws JRException{
      
         ArrayList al = new ArrayList();
         String m=new String();
-        String  reportName="";
+       
         
     String filePath=System.getProperty("user.dir");
     System.out.println(filePath);
@@ -60,8 +69,8 @@ public void printreport(HashMap params) throws JRException{
    
      String dir=System.getProperty("user.dir");
 
-    JasperDesign jd  = JRXmlLoader.load(dir+"/src/reports/issue_slip.jrxml");
-    JasperReport jr = JasperCompileManager.compileReport(dir+"/src/reports/issue_slip.jrxml");
+    JasperDesign jd  = JRXmlLoader.load(dir+"/src/reports/"+reportName);
+    JasperReport jr = JasperCompileManager.compileReport(dir+"/src/reports/"+reportName);
     JasperPrint  jp = JasperFillManager.fillReport(jr, params,db.conn);
     JasperViewer.viewReport(jp);
 

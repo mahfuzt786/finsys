@@ -8,7 +8,7 @@
 	<parameter name="startdate" class="java.util.Date"/>
 	<parameter name="enddate" class="java.util.Date"/>
 	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
-		<defaultValueExpression><![CDATA["E:\\downloads\\exam\\finsys_12_10_2016\\finsys\\src\\reports\\"]]></defaultValueExpression>
+		<defaultValueExpression><![CDATA["C:\\Users\\hp\\Desktop\\reports\\"]]></defaultValueExpression>
 	</parameter>
 	<queryString>
 		<![CDATA[select ir.issue_returncode ,ir.acc_post,ir.issueamt_value,to_char(ir.issuedate,'dd-MM-yyyy') as issuedate,ir.receiptno,ir.transportation_amt,ir.issue_or_return,ir.costcenterid,ir.slno,SUM(t.issuequantity *t.itemvalue) as s from finsys.t_issue_return ir
@@ -90,7 +90,7 @@ group by ir.issue_returncode ,ir.acc_post,ir.issueamt_value,ir.issuedate,ir.rece
 					<subreportParameterExpression><![CDATA[$F{issue_returncode}]]></subreportParameterExpression>
 				</subreportParameter>
 				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-				<subreportExpression class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "issue_slip_subreport.jasper"]]></subreportExpression>
+				<subreportExpression class="java.lang.String"><![CDATA["C:\\Users\\hp\\Desktop\\reports\\issue_slip_subreport.jasper"]]></subreportExpression>
 			</subreport>
 		</band>
 	</detail>
