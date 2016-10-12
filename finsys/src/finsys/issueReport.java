@@ -10,8 +10,15 @@ package finsys;
  * @author pc1
  */
 import java.sql.*;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import javax.swing.*;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import net.sf.jasperreports.engine.JRException;
+import java.util.Date;
 
 public class issueReport extends javax.swing.JInternalFrame {
 
@@ -21,8 +28,8 @@ public class issueReport extends javax.swing.JInternalFrame {
 
 
     private void ResetRecord() {
-        uomname.setText("");
-        uomabbr.setText("");
+        txtstartdate.setDate(null);
+        txtenddate.setDate(null);
 
     }
 
@@ -39,10 +46,10 @@ public class issueReport extends javax.swing.JInternalFrame {
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        uomname = new javax.swing.JTextField();
-        uomabbr = new javax.swing.JTextField();
         btnadd = new javax.swing.JButton();
         btnclear = new javax.swing.JButton();
+        txtstartdate = new org.jdesktop.swingx.JXDatePicker();
+        txtenddate = new org.jdesktop.swingx.JXDatePicker();
 
         setBorder(null);
         setClosable(true);
@@ -94,8 +101,8 @@ public class issueReport extends javax.swing.JInternalFrame {
                         .addComponent(btnadd, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnclear, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(uomabbr)
-                    .addComponent(uomname))
+                    .addComponent(txtstartdate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(txtenddate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -104,11 +111,14 @@ public class issueReport extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(uomname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(uomabbr, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtstartdate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel3))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(5, 5, 5)
+                        .addComponent(txtenddate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnadd)
@@ -152,7 +162,20 @@ public class issueReport extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnclearActionPerformed
 
     private void btnaddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnaddActionPerformed
-
+         Report r=new Report();
+        Date tx = txtstartdate.getDate();  
+        Date end=txtenddate.getDate();
+        DateFormat oDateFormat = new SimpleDateFormat("dd-MM-yyyy");
+      
+        String tax_date = oDateFormat.format(tx);
+        System.out.println("Formated :"+tax_date);
+        String startdate=oDateFormat.format(tx);
+        String enddate=oDateFormat.format(end);
+        try {
+            r.issue_slip(startdate,enddate);
+        } catch (ParseException|JRException ex) {
+            Logger.getLogger(issueReport.class.getName()).log(Level.SEVERE, null, ex);
+        } 
     }//GEN-LAST:event_btnaddActionPerformed
 
 
@@ -163,8 +186,8 @@ public class issueReport extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JTextField uomabbr;
-    private javax.swing.JTextField uomname;
+    private org.jdesktop.swingx.JXDatePicker txtenddate;
+    private org.jdesktop.swingx.JXDatePicker txtstartdate;
     // End of variables declaration//GEN-END:variables
 
 }

@@ -102,8 +102,8 @@
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="btnclear" min="-2" pref="80" max="-2" attributes="0"/>
                           </Group>
-                          <Component id="uomabbr" alignment="0" max="32767" attributes="0"/>
-                          <Component id="uomname" alignment="0" max="32767" attributes="0"/>
+                          <Component id="txtstartdate" alignment="0" max="32767" attributes="0"/>
+                          <Component id="txtenddate" alignment="0" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace max="32767" attributes="0"/>
                   </Group>
@@ -115,12 +115,17 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="uomname" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="txtstartdate" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="uomabbr" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" attributes="0">
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
+                              <Component id="txtenddate" min="-2" max="-2" attributes="0"/>
+                          </Group>
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
@@ -142,10 +147,6 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="End Date :"/>
               </Properties>
-            </Component>
-            <Component class="javax.swing.JTextField" name="uomname">
-            </Component>
-            <Component class="javax.swing.JTextField" name="uomabbr">
             </Component>
             <Component class="javax.swing.JButton" name="btnadd">
               <Properties>
@@ -170,6 +171,10 @@
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnclearActionPerformed"/>
               </Events>
+            </Component>
+            <Component class="org.jdesktop.swingx.JXDatePicker" name="txtstartdate">
+            </Component>
+            <Component class="org.jdesktop.swingx.JXDatePicker" name="txtenddate">
             </Component>
           </SubComponents>
         </Container>
