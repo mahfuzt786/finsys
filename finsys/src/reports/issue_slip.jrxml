@@ -3,18 +3,23 @@
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
-	<style name="b" fontName="Times New Roman" fontSize="14" isItalic="false" isStrikeThrough="false"/>
+	<style name="head" fontName="Times New Roman" fontSize="15" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold"/>
 	<style name="n" fontName="Times New Roman" fontSize="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="b" fontName="Times New Roman" fontSize="12" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold"/>
 	<parameter name="startdate" class="java.util.Date"/>
 	<parameter name="enddate" class="java.util.Date"/>
 	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
-		<defaultValueExpression><![CDATA["C:\\Users\\hp\\Desktop\\reports\\"]]></defaultValueExpression>
+		<defaultValueExpression><![CDATA["E:\\reports\\"]]></defaultValueExpression>
 	</parameter>
 	<queryString>
-		<![CDATA[select ir.issue_returncode ,ir.acc_post,ir.issueamt_value,to_char(ir.issuedate,'dd-MM-yyyy') as issuedate,ir.receiptno,ir.transportation_amt,ir.issue_or_return,ir.costcenterid,ir.slno,SUM(t.issuequantity *t.itemvalue) as s from finsys.t_issue_return ir
+		<![CDATA[select ir.issue_returncode ,ir.acc_post,ir.issueamt_value,to_char(ir.issuedate,'dd-MM-yyyy') as issuedate,ir.receiptno,ir.transportation_amt,
+ir.issue_or_return,ir.costcenterid,ir.slno,m.categoryid from finsys.t_issue_return ir
 inner join finsys.t_issue_items t on t.issue_returncode=ir.issue_returncode
+inner join finsys.m_item m on m.itemid=t.itemid
 where ir.issue_or_return='I' and ir.issuedate>=$P{startdate} and ir.issuedate<=$P{enddate}
-group by ir.issue_returncode ,ir.acc_post,ir.issueamt_value,ir.issuedate,ir.receiptno,ir.transportation_amt,ir.issue_or_return,ir.costcenterid,ir.slno]]>
+group by ir.issue_returncode,ir.acc_post,ir.issueamt_value, issuedate,ir.receiptno,ir.transportation_amt,
+ir.issue_or_return,ir.costcenterid,ir.slno,m.categoryid
+]]>
 	</queryString>
 	<field name="issue_returncode" class="java.lang.String"/>
 	<field name="acc_post" class="java.lang.String"/>
@@ -25,72 +30,44 @@ group by ir.issue_returncode ,ir.acc_post,ir.issueamt_value,ir.issuedate,ir.rece
 	<field name="issue_or_return" class="java.lang.String"/>
 	<field name="costcenterid" class="java.lang.Integer"/>
 	<field name="slno" class="java.lang.Integer"/>
-	<field name="s" class="java.math.BigDecimal"/>
+	<field name="categoryid" class="java.lang.Integer"/>
 	<title>
-		<band height="80" splitType="Stretch">
+		<band height="69" splitType="Stretch">
 			<staticText>
-				<reportElement style="b" x="141" y="11" width="238" height="24"/>
+				<reportElement style="b" x="139" y="25" width="238" height="24"/>
 				<textElement textAlignment="Center"/>
 				<text><![CDATA[ ISSUE SLIP]]></text>
 			</staticText>
+			<textField>
+				<reportElement style="n" x="0" y="49" width="555" height="20"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[new SimpleDateFormat("dd/MM/yyyy").format($P{startdate})+"  To  "+new SimpleDateFormat("dd/MM/yyyy").format($P{enddate})]]></textFieldExpression>
+			</textField>
 			<staticText>
-				<reportElement style="n" x="243" y="46" width="48" height="20"/>
+				<reportElement style="head" x="139" y="1" width="238" height="24"/>
 				<textElement textAlignment="Center"/>
-				<text><![CDATA[TO]]></text>
+				<text><![CDATA[COMPANY NAME]]></text>
 			</staticText>
-			<textField>
-				<reportElement style="n" x="143" y="46" width="100" height="20"/>
-				<textElement textAlignment="Center"/>
-				<textFieldExpression class="java.util.Date"><![CDATA[$P{startdate}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement style="n" x="295" y="46" width="100" height="20"/>
-				<textElement textAlignment="Center"/>
-				<textFieldExpression class="java.util.Date"><![CDATA[$P{enddate}]]></textFieldExpression>
-			</textField>
 		</band>
 	</title>
 	<detail>
-		<band height="29" splitType="Stretch">
-			<staticText>
-				<reportElement style="n" x="18" y="6" width="100" height="20"/>
-				<textElement/>
-				<text><![CDATA[Issue / Return code:]]></text>
-			</staticText>
-			<staticText>
-				<reportElement style="n" x="231" y="6" width="60" height="20"/>
-				<textElement/>
-				<text><![CDATA[Issue Date:]]></text>
-			</staticText>
-			<staticText>
-				<reportElement style="n" x="434" y="6" width="53" height="20"/>
-				<textElement/>
-				<text><![CDATA[Acc Post:]]></text>
-			</staticText>
-			<textField>
-				<reportElement style="n" x="117" y="6" width="100" height="20"/>
-				<textElement/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{issue_returncode}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement style="n" x="291" y="6" width="100" height="20"/>
-				<textElement/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{issuedate}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement style="n" x="487" y="6" width="68" height="20"/>
-				<textElement/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{acc_post}]]></textFieldExpression>
-			</textField>
-		</band>
-		<band height="50">
+		<band height="67" splitType="Stretch">
 			<subreport>
-				<reportElement x="2" y="0" width="553" height="50"/>
+				<reportElement x="3" y="2" width="552" height="65"/>
+				<subreportParameter name="startdate">
+					<subreportParameterExpression><![CDATA[$P{startdate}]]></subreportParameterExpression>
+				</subreportParameter>
 				<subreportParameter name="code">
 					<subreportParameterExpression><![CDATA[$F{issue_returncode}]]></subreportParameterExpression>
 				</subreportParameter>
+				<subreportParameter name="enddate">
+					<subreportParameterExpression><![CDATA[$P{enddate}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="catid">
+					<subreportParameterExpression><![CDATA[$F{categoryid}]]></subreportParameterExpression>
+				</subreportParameter>
 				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-				<subreportExpression class="java.lang.String"><![CDATA["C:\\Users\\hp\\Desktop\\reports\\issue_slip_subreport.jasper"]]></subreportExpression>
+				<subreportExpression class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "issue_slip_subreport.jasper"]]></subreportExpression>
 			</subreport>
 		</band>
 	</detail>

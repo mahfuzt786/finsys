@@ -3,16 +3,24 @@
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
+	<style name="head" fontName="Times New Roman" fontSize="15" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold"/>
+	<style name="n" fontName="Times New Roman" fontSize="11" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="b" fontName="Times New Roman" fontSize="12" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold"/>
+	<style name="n1" fontName="Times New Roman" fontSize="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<parameter name="catid" class="java.lang.Integer"/>
+	<parameter name="startdate" class="java.util.Date"/>
+	<parameter name="enddate" class="java.util.Date"/>
 	<parameter name="code" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[select *,t.itemvalue*t.issuequantity as tot from finsys.t_issue_items t
 inner join finsys.t_issue_return mt on mt.issue_returncode=t.issue_returncode
 inner join finsys.m_item i on i.itemid=t.itemid
-inner join m_itemcategory c on c.categoryid=i.categoryid
-inner join t_uom u on u.uomcode=i.uomcode
-inner join m_ledger l on l.ledgerid=t.ledgerid
-inner join m_costcenter cc on cc.centerid=mt.costcenterid
- where t.issue_returncode=$P{code}]]>
+inner join finsys.m_itemcategory c on c.categoryid=i.categoryid
+inner join finsys.t_uom u on u.uomcode=i.uomcode
+inner join finsys.m_ledger l on l.ledgerid=t.ledgerid
+inner join finsys.m_costcenter cc on cc.centerid=mt.costcenterid
+where i.categoryid=$P{catid} and t.issue_returncode=$P{code}
+order by c.categoryid]]>
 	</queryString>
 	<field name="itemid" class="java.lang.Integer"/>
 	<field name="reqquantity" class="java.math.BigDecimal"/>
@@ -54,195 +62,207 @@ inner join m_costcenter cc on cc.centerid=mt.costcenterid
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="31" splitType="Stretch">
+		<band height="105" splitType="Stretch">
 			<rectangle>
-				<reportElement x="0" y="0" width="550" height="31"/>
+				<reportElement x="4" y="74" width="546" height="31"/>
 			</rectangle>
 			<line>
-				<reportElement x="56" y="0" width="1" height="31"/>
+				<reportElement x="326" y="74" width="1" height="31"/>
 			</line>
 			<line>
-				<reportElement x="322" y="0" width="1" height="31"/>
+				<reportElement x="157" y="74" width="1" height="31"/>
 			</line>
 			<line>
-				<reportElement x="136" y="0" width="1" height="31"/>
+				<reportElement x="200" y="74" width="1" height="31"/>
 			</line>
 			<line>
-				<reportElement x="197" y="0" width="1" height="31"/>
+				<reportElement x="262" y="74" width="1" height="31"/>
 			</line>
 			<line>
-				<reportElement x="259" y="0" width="1" height="31"/>
+				<reportElement x="394" y="74" width="1" height="31"/>
 			</line>
 			<line>
-				<reportElement x="391" y="0" width="1" height="31"/>
+				<reportElement x="451" y="74" width="1" height="31"/>
 			</line>
 			<line>
-				<reportElement x="448" y="0" width="1" height="31"/>
-			</line>
-			<line>
-				<reportElement x="499" y="0" width="1" height="31"/>
+				<reportElement x="502" y="74" width="1" height="31"/>
 			</line>
 			<staticText>
-				<reportElement x="0" y="1" width="56" height="30"/>
-				<textElement textAlignment="Center"/>
-				<text><![CDATA[Category]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="57" y="1" width="80" height="30"/>
+				<reportElement style="b" x="5" y="75" width="154" height="30"/>
 				<textElement textAlignment="Center"/>
 				<text><![CDATA[Item]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="137" y="2" width="61" height="29"/>
+				<reportElement style="b" x="158" y="76" width="44" height="29"/>
 				<textElement textAlignment="Center"/>
 				<text><![CDATA[UOM]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="197" y="1" width="62" height="30"/>
+				<reportElement style="b" x="201" y="75" width="62" height="30"/>
 				<textElement textAlignment="Center"/>
 				<text><![CDATA[Req.  Quantity]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="260" y="0" width="62" height="31"/>
+				<reportElement style="b" x="264" y="74" width="62" height="31"/>
 				<textElement textAlignment="Center"/>
 				<text><![CDATA[Issue Quantity]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="325" y="1" width="66" height="30"/>
+				<reportElement style="b" x="329" y="75" width="66" height="30"/>
 				<textElement textAlignment="Center"/>
 				<text><![CDATA[Item Value]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="391" y="1" width="57" height="30"/>
+				<reportElement style="b" x="395" y="75" width="57" height="30"/>
 				<textElement textAlignment="Center"/>
 				<text><![CDATA[Avg. value]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="448" y="2" width="51" height="29"/>
+				<reportElement style="b" x="452" y="76" width="51" height="29"/>
 				<textElement textAlignment="Center"/>
 				<text><![CDATA[Cost Center]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="499" y="2" width="51" height="29"/>
+				<reportElement style="b" x="503" y="76" width="47" height="29"/>
 				<textElement textAlignment="Center"/>
 				<text><![CDATA[Ledger]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="n" x="141" y="55" width="409" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{categorycode}+" "+$F{categoryname}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="b" x="4" y="32" width="137" height="23"/>
+				<textElement textAlignment="Right">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[ISSUE DATE :]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="n" x="141" y="32" width="412" height="23"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[new SimpleDateFormat("dd/MM/yyyy").format($F{issuedate})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="n" x="140" y="12" width="410" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{issue_returncode}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="b" x="4" y="12" width="135" height="20"/>
+				<textElement textAlignment="Right">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[ISSUE RETURN CODE :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="b" x="4" y="55" width="136" height="20"/>
+				<textElement textAlignment="Right">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[CATEGORY :]]></text>
 			</staticText>
 		</band>
 	</title>
 	<detail>
-		<band height="93" splitType="Stretch">
+		<band height="94" splitType="Stretch">
 			<rectangle>
-				<reportElement x="0" y="0" width="550" height="91"/>
+				<reportElement x="3" y="0" width="547" height="91"/>
 			</rectangle>
 			<line>
-				<reportElement x="56" y="0" width="1" height="91"/>
+				<reportElement x="157" y="0" width="1" height="91"/>
 			</line>
 			<line>
-				<reportElement x="136" y="0" width="1" height="91"/>
+				<reportElement x="200" y="0" width="1" height="91"/>
 			</line>
 			<line>
-				<reportElement x="197" y="0" width="1" height="91"/>
+				<reportElement x="262" y="0" width="1" height="91"/>
 			</line>
 			<line>
-				<reportElement x="259" y="0" width="1" height="91"/>
+				<reportElement x="325" y="0" width="1" height="91"/>
 			</line>
 			<line>
-				<reportElement x="322" y="0" width="1" height="91"/>
+				<reportElement x="394" y="0" width="1" height="91"/>
 			</line>
 			<line>
-				<reportElement x="391" y="0" width="1" height="91"/>
+				<reportElement x="451" y="0" width="1" height="91"/>
 			</line>
 			<line>
-				<reportElement x="448" y="0" width="1" height="91"/>
-			</line>
-			<line>
-				<reportElement x="499" y="0" width="1" height="91"/>
+				<reportElement x="502" y="0" width="1" height="91"/>
 			</line>
 			<textField>
-				<reportElement x="56" y="0" width="80" height="30"/>
+				<reportElement style="n1" x="4" y="0" width="155" height="30"/>
 				<textElement textAlignment="Center"/>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{itemcode}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="264" y="0" width="61" height="30"/>
+				<reportElement style="n1" x="267" y="0" width="61" height="30"/>
 				<textElement textAlignment="Center"/>
 				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{issuequantity}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="197" y="0" width="61" height="30"/>
+				<reportElement style="n1" x="200" y="0" width="61" height="30"/>
 				<textElement textAlignment="Center"/>
 				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{reqquantity}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="392" y="0" width="56" height="20"/>
+				<reportElement style="n1" x="395" y="0" width="56" height="20"/>
 				<textElement textAlignment="Center"/>
 				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{itemvalue}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="0" y="30" width="57" height="61"/>
-				<textElement textAlignment="Center"/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{categoryname}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="0" y="0" width="57" height="30"/>
-				<textElement textAlignment="Center"/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{categorycode}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="500" y="20" width="50" height="71"/>
+				<reportElement style="n1" x="503" y="20" width="47" height="71"/>
 				<textElement textAlignment="Center"/>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{ledgername}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="136" y="0" width="61" height="91"/>
+				<reportElement style="n1" x="158" y="0" width="42" height="91"/>
 				<textElement textAlignment="Center"/>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{uomabbr}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="449" y="24" width="50" height="67"/>
+				<reportElement style="n1" x="452" y="24" width="50" height="67"/>
 				<textElement textAlignment="Center"/>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{centername}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="57" y="30" width="79" height="61"/>
+				<reportElement style="n1" x="5" y="30" width="153" height="61"/>
 				<textElement textAlignment="Center"/>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{itemname}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="323" y="0" width="68" height="20"/>
+				<reportElement style="n1" x="326" y="0" width="68" height="20"/>
 				<textElement textAlignment="Center"/>
 				<textFieldExpression class="java.lang.Float"><![CDATA[$F{tot}.floatValue()]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="500" y="0" width="50" height="20"/>
+				<reportElement style="n1" x="503" y="0" width="47" height="20"/>
 				<textElement textAlignment="Center"/>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{ledgercode}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="450" y="0" width="50" height="24"/>
+				<reportElement style="n1" x="453" y="0" width="50" height="24"/>
 				<textElement textAlignment="Center"/>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{centercode}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
-	<columnFooter>
-		<band height="32">
+	<summary>
+		<band height="27">
 			<staticText>
-				<reportElement x="3" y="0" width="54" height="24"/>
+				<reportElement style="n" x="5" y="0" width="136" height="24"/>
 				<textElement/>
-				<text><![CDATA[Issue Total]]></text>
+				<text><![CDATA[ISSUE TOTAL :]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="323" y="0" width="69" height="25"/>
+				<reportElement style="n1" x="325" y="0" width="69" height="25"/>
 				<textElement textAlignment="Center"/>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$V{iss}.doubleValue()]]></textFieldExpression>
 			</textField>
 			<line>
-				<reportElement x="3" y="24" width="552" height="1"/>
-			</line>
-			<line>
-				<reportElement x="3" y="23" width="547" height="1"/>
+				<reportElement x="5" y="23" width="550" height="1"/>
 			</line>
 		</band>
-	</columnFooter>
+	</summary>
 </jasperReport>

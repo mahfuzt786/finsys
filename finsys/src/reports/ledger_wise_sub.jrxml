@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ledger_wise_sub" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="head" fontName="Times New Roman" fontSize="15" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold"/>
+	<style name="n" fontName="Times New Roman" fontSize="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="b" fontName="Times New Roman" fontSize="12" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold"/>
+	<parameter name="startdate" class="java.sql.Timestamp">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="enddate" class="java.sql.Timestamp">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="lcode" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[1]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[Select t.itemid ,i.itemcode,i.itemname,sum(t.reqquantity) as reqquantity,sum(t.issuequantity) as issuequantity,sum(t.itemvalue)as itemvalue,i.itemcode,i.itemname,u.uomabbr,sum(t.issuequantity*t.itemvalue) as t,l.ledgercode,l.ledgername,t.ledgerid,s.soegroupname,sm.soemaingroupname,u.uomabbr
+ from finsys.t_issue_items t
+inner join finsys.t_issue_return ir on ir.issue_returncode=t.issue_returncode
+INNER JOIN finsys.m_item i on i.itemid=t.itemid
+inner join finsys.t_uom u on u.uomcode=i.uomcode
+left outer join finsys.m_ledger l on l.ledgerid=t.ledgerid
+left outer join finsys.m_soegroup s on s.soegroupid=l.soegroupid
+left outer join finsys.m_soemaingroup sm on sm.soemaingroupid=l.soemaingroupid
+where ir.issuedate >= $P{startdate} and ir.issuedate <= $P{enddate} and t.ledgerid=$P{lcode}
+group by t.itemid ,i.itemcode,i.itemname,u.uomabbr,l.ledgercode,l.ledgername,
+t.ledgerid,s.soegroupname,sm.soemaingroupname]]>
+	</queryString>
+	<field name="itemid" class="java.lang.Integer"/>
+	<field name="itemcode" class="java.lang.String"/>
+	<field name="itemname" class="java.lang.String"/>
+	<field name="reqquantity" class="java.math.BigDecimal"/>
+	<field name="issuequantity" class="java.math.BigDecimal"/>
+	<field name="itemvalue" class="java.math.BigDecimal"/>
+	<field name="uomabbr" class="java.lang.String"/>
+	<field name="t" class="java.math.BigDecimal"/>
+	<field name="ledgercode" class="java.lang.String"/>
+	<field name="ledgername" class="java.lang.String"/>
+	<field name="ledgerid" class="java.lang.Integer"/>
+	<field name="soegroupname" class="java.lang.String"/>
+	<field name="soemaingroupname" class="java.lang.String"/>
+	<variable name="t" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{t}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="96" splitType="Stretch">
+			<textField>
+				<reportElement style="n" x="124" y="0" width="425" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{soemaingroupname}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="b" x="0" y="0" width="124" height="20"/>
+				<textElement textAlignment="Right">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[SOE MAIN GROUP :]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="0" y="65" width="549" height="30"/>
+			</rectangle>
+			<staticText>
+				<reportElement style="b" x="383" y="65" width="57" height="28"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[ITEM VALUE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="b" x="317" y="65" width="64" height="29"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[QUANTITY]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="b" x="250" y="65" width="67" height="28"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[UOM]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="n" x="124" y="20" width="425" height="23"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{soegroupname}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="b" x="0" y="20" width="124" height="23"/>
+				<textElement textAlignment="Right">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[SOE GROUP :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="b" x="0" y="66" width="250" height="29"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[STORE ITEM]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="n" x="124" y="43" width="425" height="23"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{ledgercode}+"  "+$F{ledgername}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="b" x="450" y="65" width="99" height="28"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[AVG. VALUE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="b" x="0" y="43" width="124" height="23"/>
+				<textElement textAlignment="Right">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[LEDGER  :]]></text>
+			</staticText>
+			<line>
+				<reportElement x="249" y="66" width="1" height="28"/>
+			</line>
+			<line>
+				<reportElement x="317" y="66" width="1" height="28"/>
+			</line>
+			<line>
+				<reportElement x="382" y="66" width="1" height="28"/>
+			</line>
+			<line>
+				<reportElement x="440" y="66" width="1" height="29"/>
+			</line>
+		</band>
+	</title>
+	<detail>
+		<band height="48" splitType="Stretch">
+			<textField>
+				<reportElement style="n" x="70" y="0" width="173" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{itemname}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="n" x="10" y="0" width="48" height="20"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{itemcode}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="n" x="381" y="3" width="61" height="20"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{t}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="n" x="441" y="3" width="108" height="19"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{itemvalue}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="n" x="318" y="3" width="64" height="19"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{issuequantity}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="n" x="249" y="3" width="68" height="19"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{uomabbr}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="317" y="-2" width="1" height="49"/>
+			</line>
+			<line>
+				<reportElement x="549" y="0" width="1" height="47"/>
+			</line>
+			<line>
+				<reportElement x="0" y="0" width="1" height="47"/>
+			</line>
+			<line>
+				<reportElement x="382" y="0" width="1" height="48"/>
+			</line>
+			<line>
+				<reportElement x="440" y="0" width="1" height="48"/>
+			</line>
+			<line>
+				<reportElement x="249" y="0" width="1" height="47"/>
+			</line>
+		</band>
+	</detail>
+	<summary>
+		<band height="21">
+			<staticText>
+				<reportElement style="n" x="1" y="1" width="96" height="20"/>
+				<textElement/>
+				<text><![CDATA[LEDGER TOTAL : ]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="n" x="441" y="0" width="108" height="20"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$V{t}.setScale( 2 )]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="-1" width="549" height="2"/>
+			</line>
+		</band>
+	</summary>
+</jasperReport>
