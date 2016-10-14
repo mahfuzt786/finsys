@@ -9,6 +9,7 @@ package finsys;
  *
  * @author pc1
  */
+import java.io.IOException;
 import java.sql.*;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -173,7 +174,7 @@ public class ledgerReport extends javax.swing.JInternalFrame {
         String enddate=oDateFormat.format(end);
         try {
             r.ledger_wise(startdate,enddate);
-        } catch (ParseException|JRException ex) {
+        } catch (ParseException|JRException|IOException ex) {
             Logger.getLogger(ledgerReport.class.getName()).log(Level.SEVERE, null, ex);
         } 
     }//GEN-LAST:event_btnaddActionPerformed

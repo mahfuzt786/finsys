@@ -9,7 +9,10 @@ package finsys;
  *
  * @author hp
  */
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -22,6 +25,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import javax.sql.DataSource;
 
@@ -37,27 +43,37 @@ import net.sf.jasperreports.view.JasperViewer;
 
 
 public class Report  {
+    HttpServletRequest request;
+    HttpServletResponse response;
+    ServletOutputStream outstream;
+    OutputStream output; 
+            
+    PrintWriter out = null;
     String reportName="";
-    public void issue_slip(String s,String e) throws ParseException, JRException{
+    String r="";
+      String dt = new SimpleDateFormat("dd-MM-yyyy").format(new Date());
+    public void issue_slip(String s,String e) throws ParseException, JRException, IOException{
         Date st=UtilDate.convertStringToSqlDate("dd-MM-yyyy",s);
         Date et=UtilDate.convertStringToSqlDate("dd-MM-yyyy",e);
         HashMap params= new HashMap();
         reportName="issue_slip.jrxml";
+        r="Issue_Slip";
         params.put("startdate",st);
         params.put("enddate",et);
         printreport(params);
     }
-     public void ledger_wise(String s,String e) throws ParseException, JRException{
+     public void ledger_wise(String s,String e) throws ParseException, JRException, IOException{
         Date st=UtilDate.convertStringToSqlDate("dd-MM-yyyy",s);
         Date et=UtilDate.convertStringToSqlDate("dd-MM-yyyy",e);
         HashMap params= new HashMap();
+          r="Ledger";
         reportName="ledger_wise.jrxml";
         params.put("startdate",st);
         params.put("enddate",et);
         printreport(params);
     }
-public void printreport(HashMap params) throws JRException{
-     
+public void printreport(HashMap params) throws JRException, IOException{
+     output = new FileOutputStream(new File("D:/FINSYS/"+r+dt+".pdf"));
         ArrayList al = new ArrayList();
         String m=new String();
        
@@ -73,7 +89,15 @@ public void printreport(HashMap params) throws JRException{
     JasperDesign jd  = JRXmlLoader.load(dir+"/src/reports/"+reportName);
     JasperReport jr = JasperCompileManager.compileReport(dir+"/src/reports/"+reportName);
     JasperPrint  jp = JasperFillManager.fillReport(jr, params,db.conn);
-    JasperViewer.viewReport(jp);
+    JasperViewer.viewReport(jp,false);
+    byte[] pdfasbytes = JasperExportManager.exportReportToPdf(jp);
+    JasperExportManager.exportReportToPdfStream(jp, output);  
+     
+       
+        output.flush();
+        output.close();
+          
+
 
 
 }
