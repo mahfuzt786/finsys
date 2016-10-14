@@ -68,6 +68,7 @@ public void printreport(HashMap params) throws JRException{
     
    
      String dir=System.getProperty("user.dir");
+     params.put("SUBREPORT_DIR", dir+"/src/reports/");
 
     JasperDesign jd  = JRXmlLoader.load(dir+"/src/reports/"+reportName);
     JasperReport jr = JasperCompileManager.compileReport(dir+"/src/reports/"+reportName);
