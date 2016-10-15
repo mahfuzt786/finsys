@@ -223,6 +223,15 @@ public class dashboard extends javax.swing.JFrame {
                     System.out.println("\nError :" + e);
                 }
                 break;
+                 case 21:
+                try {
+                    itemwisereport ms = new itemwisereport();
+                    loadForm("Store Ledger Report", ms);
+
+                } catch (Exception e) {
+                    System.out.println("\nError :" + e);
+                }
+                break;
 
         }
 
@@ -337,6 +346,7 @@ public class dashboard extends javax.swing.JFrame {
         jMenu6 = new javax.swing.JMenu();
         jMenuItem_issue_report = new javax.swing.JMenuItem();
         Ledgermenu = new javax.swing.JMenuItem();
+        jMenuItem8 = new javax.swing.JMenuItem();
         jMenu7 = new javax.swing.JMenu();
         jMenuItem_help = new javax.swing.JMenuItem();
         jMenuItem_help2 = new javax.swing.JMenuItem();
@@ -702,6 +712,15 @@ public class dashboard extends javax.swing.JFrame {
         });
         jMenu6.add(Ledgermenu);
 
+        jMenuItem8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/finsys/icons/Notepad-icon.png"))); // NOI18N
+        jMenuItem8.setText("Store Ledger");
+        jMenuItem8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem8ActionPerformed(evt);
+            }
+        });
+        jMenu6.add(jMenuItem8);
+
         jMenuBar1.add(jMenu6);
 
         jMenu7.setText("Help");
@@ -827,6 +846,11 @@ public class dashboard extends javax.swing.JFrame {
         loadJInternalFrame(20);
     }//GEN-LAST:event_LedgermenuActionPerformed
 
+    private void jMenuItem8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem8ActionPerformed
+        // TODO add your handling code here:
+        loadJInternalFrame(21);
+    }//GEN-LAST:event_jMenuItem8ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -893,6 +917,7 @@ public class dashboard extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem jMenuItem7;
+    private javax.swing.JMenuItem jMenuItem8;
     private javax.swing.JMenuItem jMenuItem_calculator;
     private javax.swing.JMenuItem jMenuItem_category;
     private javax.swing.JMenuItem jMenuItem_costcenter;

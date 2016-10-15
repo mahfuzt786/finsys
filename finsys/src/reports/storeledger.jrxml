@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="storeledger" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" whenResourceMissingType="Empty">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="head" fontName="Times New Roman" fontSize="12" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold"/>
+	<style name="n" fontName="Times New Roman" fontSize="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="b" fontName="Times New Roman" fontSize="10" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold"/>
+	<style name="small" fontName="Times New Roman" fontSize="7" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<parameter name="startdate" class="java.util.Date"/>
+	<parameter name="enddate" class="java.util.Date"/>
+	<parameter name="omonth" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="oyr" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select i.itemcode||'-'||i.itemname as item,u.uomabbr,
+ o.ostockqty,o.ostockvalue,sum(sin.quantity) as stockinq,sum(sin.quantity*sin.item_rate) as stockinv,
+(case when R2.stockoutq isnull then R1.stockoutq else R1.stockoutq-R2.stockoutq end)as soutq,
+  (case when R2.stockoutv isnull then R1.stockoutv else R1.stockoutv-R2.stockoutv end)as soutv
+
+from finsys.m_item i
+inner join finsys.t_uom u on u.uomcode=i.uomcode
+left outer join finsys.t_openingstock o on o.itemid=i.itemid
+left outer join finsys.t_stockin_items sin on sin.itemid=i.itemid
+left outer join(
+select sout.itemid,sum(sout.issuequantity) as stockoutq,sum(sout.itemvalue*sout.issuequantity) as stockoutv
+from finsys.t_issue_items sout
+inner join finsys.t_issue_return t on t.issue_returncode=sout.issue_returncode
+where t.issue_or_return='I' and t.issuedate>=$P{startdate} and t.issuedate<=$P{enddate}
+ group by sout.itemid)R1 on R1.itemid=i.itemid
+left outer join(
+select sout.itemid,sum(sout.issuequantity) as stockoutq,sum(sout.itemvalue*sout.issuequantity) as stockoutv
+from finsys.t_issue_items sout
+inner join finsys.t_issue_return t on t.issue_returncode=sout.issue_returncode
+where t.issue_or_return='R'and t.issuedate>=$P{startdate} and t.issuedate<=$P{enddate}
+ group by sout.itemid)R2 on R2.itemid=i.itemid
+
+where  sin.entrydate>=$P{startdate} and sin.entrydate<=$P{enddate}
+and o.mnth= $P{omonth} and o.yr=$P{oyr}
+group by i.itemid,i.itemcode,i.itemname,u.uomabbr,o.ostockqty,o.ostockvalue,R1.stockoutq,R2.stockoutq,R1.stockoutv,R2.stockoutv
+order by i.itemid]]>
+	</queryString>
+	<field name="item" class="java.lang.String"/>
+	<field name="uomabbr" class="java.lang.String"/>
+	<field name="ostockqty" class="java.math.BigDecimal"/>
+	<field name="ostockvalue" class="java.math.BigDecimal"/>
+	<field name="stockinq" class="java.math.BigDecimal"/>
+	<field name="stockinv" class="java.math.BigDecimal"/>
+	<field name="soutq" class="java.math.BigDecimal"/>
+	<field name="soutv" class="java.math.BigDecimal"/>
+	<variable name="closeq" class="java.math.BigDecimal">
+		<variableExpression><![CDATA[$F{ostockqty}.add( $F{stockinq} ).subtract( $F{soutq} )]]></variableExpression>
+	</variable>
+	<variable name="closev" class="java.math.BigDecimal">
+		<variableExpression><![CDATA[$F{ostockvalue}.add( $F{stockinv} ).subtract( $F{soutv} )]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<staticText>
+				<reportElement style="b" x="35" y="36" width="483" height="20"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[STORE LEDGER]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="head" x="35" y="11" width="483" height="26"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[COMPANY NAME]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="n" x="35" y="56" width="483" height="20"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[new SimpleDateFormat("dd/MM/yyyy").format($P{startdate})+" To "+new SimpleDateFormat("dd/MM/yyyy").format($P{enddate})]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="49" splitType="Stretch">
+			<rectangle>
+				<reportElement x="0" y="5" width="555" height="40"/>
+			</rectangle>
+			<staticText>
+				<reportElement style="b" x="0" y="5" width="98" height="40"/>
+				<textElement/>
+				<text><![CDATA[STORE ITEM]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="b" x="98" y="5" width="32" height="40"/>
+				<textElement/>
+				<text><![CDATA[UOM]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="b" x="130" y="5" width="48" height="40"/>
+				<textElement/>
+				<text><![CDATA[OPENING QTY]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="b" x="178" y="5" width="50" height="40"/>
+				<textElement/>
+				<text><![CDATA[OPENING VALUE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="b" x="228" y="5" width="50" height="40"/>
+				<textElement/>
+				<text><![CDATA[STOCK IN QTY]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="b" x="278" y="5" width="50" height="40"/>
+				<textElement/>
+				<text><![CDATA[STOCK IN VALUE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="b" x="328" y="5" width="64" height="40"/>
+				<textElement/>
+				<text><![CDATA[STOCK OUT QTY]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="b" x="392" y="5" width="59" height="40"/>
+				<textElement/>
+				<text><![CDATA[STOCK OUT VALUE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="b" x="451" y="5" width="48" height="40"/>
+				<textElement/>
+				<text><![CDATA[CLOSING QTY]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="b" x="499" y="5" width="56" height="40"/>
+				<textElement/>
+				<text><![CDATA[CLOSING VALUE]]></text>
+			</staticText>
+			<line>
+				<reportElement x="97" y="6" width="1" height="39"/>
+			</line>
+			<line>
+				<reportElement x="277" y="5" width="1" height="39"/>
+			</line>
+			<line>
+				<reportElement x="227" y="5" width="1" height="39"/>
+			</line>
+			<line>
+				<reportElement x="177" y="5" width="1" height="39"/>
+			</line>
+			<line>
+				<reportElement x="391" y="6" width="1" height="39"/>
+			</line>
+			<line>
+				<reportElement x="327" y="6" width="1" height="39"/>
+			</line>
+			<line>
+				<reportElement x="450" y="6" width="1" height="39"/>
+			</line>
+			<line>
+				<reportElement x="498" y="6" width="1" height="38"/>
+			</line>
+			<line>
+				<reportElement x="128" y="5" width="1" height="39"/>
+			</line>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="23" splitType="Stretch">
+			<textField>
+				<reportElement style="small" x="4" y="1" width="94" height="22"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{item}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement style="small" x="130" y="1" width="47" height="22"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{ostockqty}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement style="small" x="178" y="0" width="50" height="23"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{ostockvalue}.setScale( 2 )]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement style="small" x="227" y="1" width="51" height="22"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{stockinq}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement style="small" x="277" y="1" width="51" height="22"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{stockinv}.setScale( 2 )]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="small" x="97" y="0" width="31" height="21"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{uomabbr}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement style="small" x="327" y="1" width="65" height="22"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{soutq}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement style="small" x="392" y="1" width="59" height="22"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{soutv}.setScale( 2 )]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement style="small" x="452" y="0" width="46" height="23"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$V{closeq}.setScale( 2 )]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement style="small" x="498" y="1" width="57" height="22"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$V{closev}.setScale( 2 )]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="22" splitType="Stretch">
+			<textField>
+				<reportElement x="518" y="2" width="37" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.Integer"><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+</jasperReport>

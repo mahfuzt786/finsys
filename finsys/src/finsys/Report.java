@@ -72,8 +72,22 @@ public class Report  {
         params.put("enddate",et);
         printreport(params);
     }
+     
+      public void store_ledger(String s,String e,Integer m,Integer y) throws ParseException, JRException, IOException{
+        Date st=UtilDate.convertStringToSqlDate("dd-MM-yyyy",s);
+        Date et=UtilDate.convertStringToSqlDate("dd-MM-yyyy",e);
+        
+        HashMap params= new HashMap();
+          r="Item_Wise_Stock";
+        reportName="storeledger.jrxml";
+        params.put("startdate",st);
+        params.put("enddate",et);
+        params.put("omonth",m);
+        params.put("oyr",y);
+        printreport(params);
+    }
 public void printreport(HashMap params) throws JRException, IOException{
-     output = new FileOutputStream(new File("D:/FINSYS/"+r+dt+".pdf"));
+     output = new FileOutputStream(new File("E:/FINSYS/"+r+dt+".pdf"));
         ArrayList al = new ArrayList();
         String m=new String();
        
@@ -101,6 +115,6 @@ public void printreport(HashMap params) throws JRException, IOException{
 
 
 }
-    
+
   
 }
