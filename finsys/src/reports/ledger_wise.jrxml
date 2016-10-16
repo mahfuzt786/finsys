@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ledger_wise" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
-	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.zoom" value="1.5"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<style name="head" fontName="Times New Roman" fontSize="15" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold"/>
@@ -29,30 +29,34 @@ group by t.ledgerid,l.ledgername,s.soegroupname,sm.soemaingroupname]]>
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="75" splitType="Stretch">
+		<band height="40" splitType="Stretch">
 			<staticText>
-				<reportElement style="head" x="33" y="8" width="483" height="26"/>
-				<textElement textAlignment="Center">
-					<font isBold="true"/>
+				<reportElement style="head" x="0" y="0" width="555" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
 				</textElement>
-				<text><![CDATA[COMPANY NAME]]></text>
+				<text><![CDATA[SIBBARI TEA ESTATE, SIVASAGAR]]></text>
 			</staticText>
 			<staticText>
-				<reportElement style="b" x="33" y="33" width="483" height="20"/>
-				<textElement textAlignment="Center"/>
+				<reportElement style="b" x="0" y="12" width="555" height="13"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
 				<text><![CDATA[A/C WISE STORE CONSUMPTON]]></text>
 			</staticText>
 			<textField>
-				<reportElement style="n" x="33" y="53" width="483" height="20"/>
-				<textElement textAlignment="Center"/>
+				<reportElement style="n" x="0" y="25" width="555" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[new SimpleDateFormat("dd/MM/yyyy").format($P{startdate})+" To "+new SimpleDateFormat("dd/MM/yyyy").format($P{enddate})]]></textFieldExpression>
 			</textField>
 		</band>
 	</title>
 	<detail>
-		<band height="99" splitType="Stretch">
+		<band height="75" splitType="Stretch">
 			<subreport>
-				<reportElement x="0" y="0" width="555" height="98"/>
+				<reportElement x="-14" y="1" width="579" height="74"/>
 				<subreportParameter name="startdate">
 					<subreportParameterExpression><![CDATA[$P{startdate}]]></subreportParameterExpression>
 				</subreportParameter>
