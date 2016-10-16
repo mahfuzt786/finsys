@@ -984,6 +984,7 @@ public class stockOut extends javax.swing.JInternalFrame {
         ID1 = mod1.getValueAt(i, 2).toString();
         tempqty=mod1.getValueAt(i, 6).toString();
         tempamt=mod1.getValueAt(i, 8).toString();
+        ResetForm();
         ReloadTableItem();
     }//GEN-LAST:event_tableitemMouseClicked
 
@@ -1307,8 +1308,8 @@ public class stockOut extends javax.swing.JInternalFrame {
         TOTALVAT=0.0;
         TRANSPORT=0.0;
         TOTALAMOUNT=0.0;
-        ID1="";
-        ID="";
+        
+        
         
         
    }
