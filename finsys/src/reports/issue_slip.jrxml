@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="issue_slip" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
-	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.zoom" value="1.5"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<style name="head" fontName="Times New Roman" fontSize="15" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold"/>
@@ -8,7 +8,7 @@
 	<style name="b" fontName="Times New Roman" fontSize="12" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold"/>
 	<parameter name="startdate" class="java.util.Date"/>
 	<parameter name="enddate" class="java.util.Date"/>
-	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+	<parameter name="SUBREPORT_DIR" class="java.lang.String">
 		<defaultValueExpression><![CDATA["E:\\reports\\"]]></defaultValueExpression>
 	</parameter>
 	<queryString>
@@ -18,8 +18,7 @@ inner join finsys.t_issue_items t on t.issue_returncode=ir.issue_returncode
 inner join finsys.m_item m on m.itemid=t.itemid
 where ir.issue_or_return='I' and ir.issuedate>=$P{startdate} and ir.issuedate<=$P{enddate}
 group by ir.issue_returncode,ir.acc_post,ir.issueamt_value, issuedate,ir.receiptno,ir.transportation_amt,
-ir.issue_or_return,ir.costcenterid,ir.slno,m.categoryid
-]]>
+ir.issue_or_return,ir.costcenterid,ir.slno,m.categoryid]]>
 	</queryString>
 	<field name="issue_returncode" class="java.lang.String"/>
 	<field name="acc_post" class="java.lang.String"/>
@@ -32,28 +31,34 @@ ir.issue_or_return,ir.costcenterid,ir.slno,m.categoryid
 	<field name="slno" class="java.lang.Integer"/>
 	<field name="categoryid" class="java.lang.Integer"/>
 	<title>
-		<band height="69" splitType="Stretch">
+		<band height="46" splitType="Stretch">
 			<staticText>
-				<reportElement style="b" x="139" y="25" width="238" height="24"/>
-				<textElement textAlignment="Center"/>
+				<reportElement style="b" x="0" y="15" width="555" height="15"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
 				<text><![CDATA[ ISSUE SLIP]]></text>
 			</staticText>
 			<textField>
-				<reportElement style="n" x="0" y="49" width="555" height="20"/>
-				<textElement textAlignment="Center"/>
+				<reportElement style="n" x="0" y="30" width="555" height="16"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="false"/>
+				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[new SimpleDateFormat("dd/MM/yyyy").format($P{startdate})+"  To  "+new SimpleDateFormat("dd/MM/yyyy").format($P{enddate})]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement style="head" x="139" y="1" width="238" height="24"/>
-				<textElement textAlignment="Center"/>
-				<text><![CDATA[COMPANY NAME]]></text>
+				<reportElement style="head" x="0" y="1" width="555" height="14"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[SIBBARI TEA ESTATE, SIVASAGAR]]></text>
 			</staticText>
 		</band>
 	</title>
 	<detail>
-		<band height="67" splitType="Stretch">
+		<band height="42" splitType="Stretch">
 			<subreport>
-				<reportElement x="3" y="2" width="552" height="65"/>
+				<reportElement x="-16" y="0" width="584" height="42"/>
 				<subreportParameter name="startdate">
 					<subreportParameterExpression><![CDATA[$P{startdate}]]></subreportParameterExpression>
 				</subreportParameter>
