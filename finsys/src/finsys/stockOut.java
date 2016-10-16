@@ -810,6 +810,7 @@ public class stockOut extends javax.swing.JInternalFrame {
                 + " where issue_returncode='" + ID + "'";
         executeSqlQuery(query, "updated");
         ResetRecord();
+        Refresh();
         ReloadTable();
         ResetForm();
         }
@@ -1045,6 +1046,7 @@ public class stockOut extends javax.swing.JInternalFrame {
                     tempitemid="";
                     tempquantity="";
                     temprate="";
+                    Refresh();
                     ReloadTableItem();
 
                 } else {

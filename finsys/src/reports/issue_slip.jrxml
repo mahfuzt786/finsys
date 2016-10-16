@@ -190,9 +190,6 @@ order by ir.issuedate]]>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{issuedate}]]></textFieldExpression>
 			</textField>
-			<break>
-				<reportElement x="0" y="80" width="100" height="1"/>
-			</break>
 		</band>
 	</detail>
 	<pageFooter>
