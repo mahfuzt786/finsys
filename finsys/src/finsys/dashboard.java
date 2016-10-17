@@ -214,7 +214,7 @@ public class dashboard extends javax.swing.JFrame {
                     System.out.println("\nError :" + e);
                 }
                 break;
-                case 20:
+            case 20:
                 try {
                     ledgerReport ms = new ledgerReport();
                     loadForm("ledgerReport", ms);
@@ -223,7 +223,7 @@ public class dashboard extends javax.swing.JFrame {
                     System.out.println("\nError :" + e);
                 }
                 break;
-                 case 21:
+            case 21:
                 try {
                     itemwisereport ms = new itemwisereport();
                     loadForm("Store Ledger Report", ms);
@@ -232,10 +232,21 @@ public class dashboard extends javax.swing.JFrame {
                     System.out.println("\nError :" + e);
                 }
                 break;
-                 case 22:
+
+                 case 23:
                 try {
                     itemwisestock ms = new itemwisestock();
-                    loadForm("Store Ledger Report", ms);
+                    loadForm("Store Ledger Report", ms);}
+                catch (Exception e) {
+                    System.out.println("\nError :" + e);
+                }
+                break;
+
+            case 22:
+                try {
+                    openingStock os = new openingStock();
+                    loadForm("Opening Stock", os);
+
 
                 } catch (Exception e) {
                     System.out.println("\nError :" + e);
@@ -331,6 +342,7 @@ public class dashboard extends javax.swing.JFrame {
         desktop = new javax.swing.JDesktopPane();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
+        jMenuItem9 = new javax.swing.JMenuItem();
         jMenuItem_exit = new javax.swing.JMenuItem();
         jMenu8 = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
@@ -344,10 +356,10 @@ public class dashboard extends javax.swing.JFrame {
         jMenuItem7 = new javax.swing.JMenuItem();
         jSeparator4 = new javax.swing.JPopupMenu.Separator();
         jMenuItem_costcenter = new javax.swing.JMenuItem();
-        jMenuItem_ledger = new javax.swing.JMenuItem();
         jMenu9 = new javax.swing.JMenu();
         jMenuItem_soemaingroup = new javax.swing.JMenuItem();
         jMenuItem_soegroup = new javax.swing.JMenuItem();
+        jMenuItem_ledger = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
         jMenuItem_settings = new javax.swing.JMenuItem();
         jMenuItem_calculator = new javax.swing.JMenuItem();
@@ -562,6 +574,14 @@ public class dashboard extends javax.swing.JFrame {
 
         jMenu1.setText("File");
 
+        jMenuItem9.setText("Prior Item Details");
+        jMenuItem9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem9ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem9);
+
         jMenuItem_exit.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F4, java.awt.event.InputEvent.ALT_MASK));
         jMenuItem_exit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/finsys/icons/Log Out_16x16.png"))); // NOI18N
         jMenuItem_exit.setText("Exit");
@@ -646,14 +666,6 @@ public class dashboard extends javax.swing.JFrame {
         });
         jMenu_master.add(jMenuItem_costcenter);
 
-        jMenuItem_ledger.setText("Ledger");
-        jMenuItem_ledger.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem_ledgerActionPerformed(evt);
-            }
-        });
-        jMenu_master.add(jMenuItem_ledger);
-
         jMenu9.setText("Summary of Expenditure (SOE)");
 
         jMenuItem_soemaingroup.setText("SOE Main Group");
@@ -673,6 +685,14 @@ public class dashboard extends javax.swing.JFrame {
         jMenu9.add(jMenuItem_soegroup);
 
         jMenu_master.add(jMenu9);
+
+        jMenuItem_ledger.setText("Ledger");
+        jMenuItem_ledger.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem_ledgerActionPerformed(evt);
+            }
+        });
+        jMenu_master.add(jMenuItem_ledger);
 
         jMenuBar1.add(jMenu_master);
 
