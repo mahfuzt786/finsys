@@ -78,8 +78,22 @@ public class Report  {
         Date et=UtilDate.convertStringToSqlDate("dd-MM-yyyy",e);
         
         HashMap params= new HashMap();
-          r="Item_Wise_Stock";
+          r="Store_Ledger";
         reportName="storeledger.jrxml";
+        params.put("startdate",st);
+        params.put("enddate",et);
+        params.put("omonth",m);
+        params.put("oyr",y);
+        printreport(params);
+    }
+      
+     public void item_wise(String s,String e,Integer m,Integer y) throws ParseException, JRException, IOException{
+        Date st=UtilDate.convertStringToSqlDate("dd-MM-yyyy",s);
+        Date et=UtilDate.convertStringToSqlDate("dd-MM-yyyy",e);
+        
+        HashMap params= new HashMap();
+          r="Item_Wise_Stock";
+        reportName="itemwise.jrxml";
         params.put("startdate",st);
         params.put("enddate",et);
         params.put("omonth",m);

@@ -357,6 +357,7 @@ public class dashboard extends javax.swing.JFrame {
         jMenuItem_issue_report = new javax.swing.JMenuItem();
         Ledgermenu = new javax.swing.JMenuItem();
         jMenuItem8 = new javax.swing.JMenuItem();
+        jMenuItem9 = new javax.swing.JMenuItem();
         jMenu7 = new javax.swing.JMenu();
         jMenuItem_help = new javax.swing.JMenuItem();
         jMenuItem_help2 = new javax.swing.JMenuItem();
@@ -731,13 +732,17 @@ public class dashboard extends javax.swing.JFrame {
         jMenu6.add(Ledgermenu);
 
         jMenuItem8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/finsys/icons/Notepad-icon.png"))); // NOI18N
-        jMenuItem8.setText("Store Ledger");
+        jMenuItem8.setText("Store Ledger(Item Wise)");
         jMenuItem8.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem8ActionPerformed(evt);
             }
         });
         jMenu6.add(jMenuItem8);
+
+        jMenuItem9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/finsys/icons/Notepad-icon.png"))); // NOI18N
+        jMenuItem9.setText("Item Wise Stock");
+        jMenu6.add(jMenuItem9);
 
         jMenuBar1.add(jMenu6);
 
