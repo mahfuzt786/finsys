@@ -315,11 +315,19 @@
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                   <Image iconType="3" name="/finsys/icons/Notepad-icon.png"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Store Ledger"/>
+                <Property name="text" type="java.lang.String" value="Store Ledger(Item Wise)"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem8ActionPerformed"/>
               </Events>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="jMenuItem9">
+              <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/finsys/icons/Notepad-icon.png"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Item Wise Stock"/>
+              </Properties>
             </MenuItem>
           </SubComponents>
         </Menu>
