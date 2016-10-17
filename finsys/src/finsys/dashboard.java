@@ -892,7 +892,7 @@ public class dashboard extends javax.swing.JFrame {
 
     private void jMenuItem9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem9ActionPerformed
         // TODO add your handling code here:
-        loadJInternalFrame(22);
+        loadJInternalFrame(23);
     }//GEN-LAST:event_jMenuItem9ActionPerformed
 
     /**
