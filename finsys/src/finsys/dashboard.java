@@ -357,7 +357,7 @@ public class dashboard extends javax.swing.JFrame {
         jMenuItem_issue_report = new javax.swing.JMenuItem();
         Ledgermenu = new javax.swing.JMenuItem();
         jMenuItem8 = new javax.swing.JMenuItem();
-        jMenuItem9 = new javax.swing.JMenuItem();
+        jMenuItem10 = new javax.swing.JMenuItem();
         jMenu7 = new javax.swing.JMenu();
         jMenuItem_help = new javax.swing.JMenuItem();
         jMenuItem_help2 = new javax.swing.JMenuItem();
@@ -740,9 +740,14 @@ public class dashboard extends javax.swing.JFrame {
         });
         jMenu6.add(jMenuItem8);
 
-        jMenuItem9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/finsys/icons/Notepad-icon.png"))); // NOI18N
-        jMenuItem9.setText("Item Wise Stock");
-        jMenu6.add(jMenuItem9);
+        jMenuItem10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/finsys/icons/Notepad-icon.png"))); // NOI18N
+        jMenuItem10.setText("Item Wise Stock");
+        jMenuItem10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem10ActionPerformed(evt);
+            }
+        });
+        jMenu6.add(jMenuItem10);
 
         jMenuBar1.add(jMenu6);
 
@@ -879,6 +884,10 @@ public class dashboard extends javax.swing.JFrame {
         loadJInternalFrame(22);
     }//GEN-LAST:event_jMenuItem9ActionPerformed
 
+    private void jMenuItem10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem10ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItem10ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -939,6 +948,7 @@ public class dashboard extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu9;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem10;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
