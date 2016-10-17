@@ -232,6 +232,15 @@ public class dashboard extends javax.swing.JFrame {
                     System.out.println("\nError :" + e);
                 }
                 break;
+                 case 22:
+                try {
+                    itemwisestock ms = new itemwisestock();
+                    loadForm("Store Ledger Report", ms);
+
+                } catch (Exception e) {
+                    System.out.println("\nError :" + e);
+                }
+                break;
 
         }
 
@@ -724,6 +733,11 @@ public class dashboard extends javax.swing.JFrame {
 
         jMenuItem9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/finsys/icons/Notepad-icon.png"))); // NOI18N
         jMenuItem9.setText("Item Wise Stock");
+        jMenuItem9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem9ActionPerformed(evt);
+            }
+        });
         jMenu6.add(jMenuItem9);
 
         jMenuBar1.add(jMenu6);
@@ -855,6 +869,11 @@ public class dashboard extends javax.swing.JFrame {
         // TODO add your handling code here:
         loadJInternalFrame(21);
     }//GEN-LAST:event_jMenuItem8ActionPerformed
+
+    private void jMenuItem9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem9ActionPerformed
+        // TODO add your handling code here:
+        loadJInternalFrame(22);
+    }//GEN-LAST:event_jMenuItem9ActionPerformed
 
     /**
      * @param args the command line arguments
