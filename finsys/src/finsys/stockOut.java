@@ -32,7 +32,7 @@ public class stockOut extends javax.swing.JInternalFrame {
      String issue_returncode ,acc_post,issuedate,receiptno,issue_or_return ,costcenterid,tempqty,tempamt  ;
      Double issueamt_value,transportation_amt ;
      //Items
-       String itemreceiptno; 
+     String itemreceiptno; 
     int itemid,ledgerid,iitd;
     Double reqquantity,issuequantity,itemvalue;
     //DB
@@ -63,9 +63,7 @@ public class stockOut extends javax.swing.JInternalFrame {
      */
     public stockOut() {
         this.cat = new ArrayList<>();
-        
         initComponents();
-        
         ReloadTable();
         db=new database();
         setEnabledAll(jPanel3,false);
@@ -87,7 +85,7 @@ public class stockOut extends javax.swing.JInternalFrame {
         }
         
         System.out.println("For Category");
-        //categoryCombo=new JComboBox<Comboitem>();
+       
         categoryCombo.addItem(new Comboitem(0,"Select"));
         for(Categorytable c:cat){
            
@@ -168,11 +166,12 @@ public class stockOut extends javax.swing.JInternalFrame {
     //for item
     
     private void ReloadTableItem() {
+        ResetForm();
         ArrayList<Stockoutitemtable> sitemlist = getStockoutitemTable();
         
         model1 = (DefaultTableModel) tableitem.getModel();
         model1.setRowCount(0);
-        ArrayList<Stockouttable> s=db.getStockout(issue_returncode);
+      //  ArrayList<Stockouttable> s=db.getStockout(issue_returncode);
         
   
         
@@ -192,7 +191,7 @@ public class stockOut extends javax.swing.JInternalFrame {
              row[8] = sitemlist.get(i).getItemvalue()*sitemlist.get(i).getIssuequantity();
             
             TOTALITEMS+=1;
-            TOTALGROSS+=sitemlist.get(i).getItemvalue()*Double.valueOf(sitemlist.get(i).getIssuequantity());
+            TOTALGROSS+=sitemlist.get(i).getItemvalue()*sitemlist.get(i).getIssuequantity();
             
             model1.addRow(row);
         }
@@ -793,7 +792,7 @@ public class stockOut extends javax.swing.JInternalFrame {
         
         
         acc_post=(String)acc.getSelectedItem();
-        //issueamt_value=Double.valueOf(ivalue.getText().trim());
+       
         issue_or_return=(String) ir.getSelectedItem();
         Comboitem g1 =(Comboitem) comboCC.getSelectedItem();
         int ccid=g1.getKey();
@@ -882,6 +881,7 @@ public class stockOut extends javax.swing.JInternalFrame {
         int i = tableStockOut.getSelectedRow();
         TableModel mod = tableStockOut.getModel();
         ResetForm();
+        ResetRecordItem();
         Refresh();
         setEnabledAll(jPanel3,true);
         
@@ -980,13 +980,18 @@ public class stockOut extends javax.swing.JInternalFrame {
              totalstockquantity=Double.valueOf(c.getQuantity());
         }
          Double ival=totalstockamount/totalstockquantity;
+         if(totalstockquantity!=0){
                   itemstock.setText(String.valueOf(totalstockquantity));
                   ivalue.setText(String.valueOf(ival));
+         }
+         else{
+            itemstock.setText("**********");
+            ivalue.setText("**********");
+         }
         ID1 = mod1.getValueAt(i, 2).toString();
         tempqty=mod1.getValueAt(i, 6).toString();
         tempamt=mod1.getValueAt(i, 8).toString();
-        ResetForm();
-        ReloadTableItem();
+       
     }//GEN-LAST:event_tableitemMouseClicked
 
     private void btnadditemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnadditemActionPerformed
@@ -1000,7 +1005,7 @@ public class stockOut extends javax.swing.JInternalFrame {
        
        Comboitem g2 =(Comboitem) comboLedger.getSelectedItem();
        ledgerid=g2.getKey();
-         
+       double val=0.0; 
        
          
        issue_returncode=itemissueid.getText().trim();
@@ -1008,16 +1013,17 @@ public class stockOut extends javax.swing.JInternalFrame {
        issuequantity=Double.valueOf(txtIssue.getText().trim());
        reqquantity=Double.valueOf(txtReq.getText().trim());
        if(iss.equals("R")){
-            
-       itemvalue=itemvalue;
+           
+       
        issuequantity=-issuequantity;
+       val=issuequantity;
        }
        
         db = new database();
         
           try {
               
-              if(issuequantity>Double.valueOf(itemstock.getText().trim())){
+              if(val>Double.valueOf(itemstock.getText().trim())){
             dialogmessage = "ISSUE QUANTITY SHOULD NOT BE GREATER THAN TOTAL STOCK QUANTITY";
                     JOptionPane.showMessageDialog(null,dialogmessage,
                             "WARNING!!", JOptionPane.WARNING_MESSAGE);
@@ -1029,6 +1035,7 @@ public class stockOut extends javax.swing.JInternalFrame {
                j.setReqquantity(reqquantity);
                j.setLedgerid(ledgerid);
                j.setIssue_returncode(issue_returncode);
+           
                 int result = db.insertStockoutitem(j);
                 System.out.println(result);
                 if (result == 1) {
@@ -1046,7 +1053,7 @@ public class stockOut extends javax.swing.JInternalFrame {
                     tempitemid="";
                     tempquantity="";
                     temprate="";
-                    Refresh();
+                    ResetForm();
                     ReloadTableItem();
 
                 } else {
@@ -1194,7 +1201,7 @@ public class stockOut extends javax.swing.JInternalFrame {
     private void btndeleteitemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btndeleteitemActionPerformed
         // TODO add your handling code here:
          Double prevquantity=0.0,prevrate=0.0, totalamt=0.0,totalstockamount=0.0,totalstockquantity=0.0,updatestockamount=0.0,updatestockquantity=0.0;
-       
+       System.out.println(ID+" "+ID1);
         String query = "delete from finsys.t_stockin_items where invoiceid='" + ID + "' and itemid='"+ID1+"'";
      
         executeSqlQuery(query, "deleted");

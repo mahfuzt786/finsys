@@ -434,7 +434,7 @@ public class database {
            
             pst.setDouble(2,i.getReqquantity());
            
-            pst.setDouble(3,i.getIssuequantity());
+            pst.setDouble(3,Math.abs(i.getIssuequantity()));
             pst.setString(4,i.getIssue_returncode());
             pst.setDouble(5,i.getItemvalue());
             pst.setInt(6,i.getLedgerid());
