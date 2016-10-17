@@ -67,7 +67,7 @@ public class Report  {
         Date et=UtilDate.convertStringToSqlDate("dd-MM-yyyy",e);
         HashMap params= new HashMap();
           r="Ledger";
-        reportName="ledger_wise.jrxml";
+        reportName="led.jrxml";
         params.put("startdate",st);
         params.put("enddate",et);
         printreport(params);

@@ -881,7 +881,7 @@ public class stockOut extends javax.swing.JInternalFrame {
         int i = tableStockOut.getSelectedRow();
         TableModel mod = tableStockOut.getModel();
         ResetForm();
-        ResetRecordItem();
+        ResetRecordItem(); 
         Refresh();
         setEnabledAll(jPanel3,true);
         
