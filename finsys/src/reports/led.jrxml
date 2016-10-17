@@ -52,9 +52,9 @@ group by t.ledgerid,l.ledgercode,l.ledgername,s.soegroupname,sm.soemaingroupname
 		</band>
 	</title>
 	<detail>
-		<band height="111" splitType="Stretch">
+		<band height="82" splitType="Stretch">
 			<rectangle>
-				<reportElement x="-1" y="53" width="555" height="12"/>
+				<reportElement x="-2" y="53" width="557" height="12"/>
 			</rectangle>
 			<line>
 				<reportElement x="249" y="53" width="1" height="12"/>
@@ -69,7 +69,7 @@ group by t.ledgerid,l.ledgercode,l.ledgername,s.soegroupname,sm.soemaingroupname
 				<reportElement x="472" y="53" width="1" height="12"/>
 			</line>
 			<staticText>
-				<reportElement style="b" x="0" y="54" width="250" height="11"/>
+				<reportElement style="b" x="-1" y="54" width="251" height="11"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
@@ -111,7 +111,7 @@ group by t.ledgerid,l.ledgercode,l.ledgername,s.soegroupname,sm.soemaingroupname
 				<text><![CDATA[SOE MAIN GROUP :]]></text>
 			</staticText>
 			<textField>
-				<reportElement style="n" x="94" y="10" width="106" height="10"/>
+				<reportElement style="n" x="94" y="10" width="190" height="10"/>
 				<textElement verticalAlignment="Middle">
 					<font size="8" isBold="true"/>
 				</textElement>
@@ -139,7 +139,7 @@ group by t.ledgerid,l.ledgercode,l.ledgername,s.soegroupname,sm.soemaingroupname
 				<text><![CDATA[SOE  GROUP :]]></text>
 			</staticText>
 			<textField>
-				<reportElement style="n" x="94" y="23" width="106" height="10"/>
+				<reportElement style="n" x="94" y="23" width="190" height="10"/>
 				<textElement verticalAlignment="Middle">
 					<font size="8" isBold="true"/>
 				</textElement>
@@ -160,7 +160,7 @@ group by t.ledgerid,l.ledgercode,l.ledgername,s.soegroupname,sm.soemaingroupname
 				<text><![CDATA[LEDGER  :]]></text>
 			</staticText>
 			<subreport>
-				<reportElement x="-21" y="67" width="595" height="44"/>
+				<reportElement x="-21" y="47" width="595" height="33"/>
 				<subreportParameter name="startdate">
 					<subreportParameterExpression><![CDATA[$P{startdate}]]></subreportParameterExpression>
 				</subreportParameter>

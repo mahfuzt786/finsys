@@ -116,22 +116,22 @@ order by c.categoryid]]>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{uomabbr}]]></textFieldExpression>
 			</textField>
 			<line>
-				<reportElement x="482" y="0" width="1" height="49"/>
+				<reportElement x="483" y="-3" width="1" height="52"/>
 			</line>
 			<line>
-				<reportElement x="417" y="0" width="1" height="49"/>
+				<reportElement x="418" y="-3" width="1" height="52"/>
 			</line>
 			<line>
-				<reportElement x="372" y="0" width="1" height="49"/>
+				<reportElement x="373" y="-3" width="1" height="52"/>
 			</line>
 			<line>
-				<reportElement x="312" y="0" width="1" height="49"/>
+				<reportElement x="313" y="-3" width="1" height="52"/>
 			</line>
 			<line>
-				<reportElement x="193" y="0" width="1" height="49"/>
+				<reportElement x="194" y="-3" width="1" height="52"/>
 			</line>
 			<line>
-				<reportElement x="158" y="0" width="1" height="49"/>
+				<reportElement x="159" y="-3" width="1" height="52"/>
 			</line>
 			<textField>
 				<reportElement style="n1" x="53" y="0" width="106" height="12"/>
@@ -139,48 +139,24 @@ order by c.categoryid]]>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{itemcode}]]></textFieldExpression>
 			</textField>
 			<line>
-				<reportElement x="253" y="0" width="1" height="49"/>
+				<reportElement x="254" y="-3" width="1" height="52"/>
 			</line>
 			<textField>
-				<reportElement style="n" x="1" y="0" width="52" height="19"/>
+				<reportElement style="n" x="2" y="0" width="51" height="19"/>
 				<textElement>
 					<font size="8" isBold="true"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{categorycode}+" "+$F{categoryname}]]></textFieldExpression>
 			</textField>
 			<line>
-				<reportElement x="52" y="0" width="1" height="49"/>
-			</line>
-			<line>
-				<reportElement x="52" y="-21" width="1" height="21"/>
-			</line>
-			<line>
-				<reportElement x="158" y="-21" width="1" height="21"/>
-			</line>
-			<line>
-				<reportElement x="193" y="-21" width="1" height="21"/>
-			</line>
-			<line>
-				<reportElement x="253" y="-21" width="1" height="21"/>
-			</line>
-			<line>
-				<reportElement x="312" y="-21" width="1" height="21"/>
-			</line>
-			<line>
-				<reportElement x="372" y="-21" width="1" height="21"/>
-			</line>
-			<line>
-				<reportElement x="417" y="-21" width="1" height="21"/>
-			</line>
-			<line>
-				<reportElement x="482" y="-21" width="1" height="21"/>
+				<reportElement x="53" y="-3" width="1" height="52"/>
 			</line>
 		</band>
 	</detail>
 	<summary>
 		<band height="26">
 			<staticText>
-				<reportElement style="b" x="9" y="0" width="150" height="13"/>
+				<reportElement style="b" x="9" y="0" width="150" height="23"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font size="8" isBold="true"/>
 				</textElement>
@@ -190,7 +166,7 @@ order by c.categoryid]]>
 				<reportElement x="1" y="23" width="554" height="1"/>
 			</line>
 			<textField>
-				<reportElement style="n1" x="314" y="0" width="60" height="13"/>
+				<reportElement style="n1" x="314" y="0" width="60" height="23"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$V{iss}.doubleValue()]]></textFieldExpression>
 			</textField>
