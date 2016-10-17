@@ -214,7 +214,7 @@ public class dashboard extends javax.swing.JFrame {
                     System.out.println("\nError :" + e);
                 }
                 break;
-                case 20:
+            case 20:
                 try {
                     ledgerReport ms = new ledgerReport();
                     loadForm("ledgerReport", ms);
@@ -223,10 +223,30 @@ public class dashboard extends javax.swing.JFrame {
                     System.out.println("\nError :" + e);
                 }
                 break;
-                 case 21:
+            case 21:
                 try {
                     itemwisereport ms = new itemwisereport();
                     loadForm("Store Ledger Report", ms);
+
+                } catch (Exception e) {
+                    System.out.println("\nError :" + e);
+                }
+                break;
+
+                 case 23:
+                try {
+                    itemwisestock ms = new itemwisestock();
+                    loadForm("Store Ledger Report", ms);}
+                catch (Exception e) {
+                    System.out.println("\nError :" + e);
+                }
+                break;
+
+            case 22:
+                try {
+                    openingStock1 os = new openingStock1();
+                    loadForm("Opening Stock", os);
+
 
                 } catch (Exception e) {
                     System.out.println("\nError :" + e);
@@ -322,6 +342,7 @@ public class dashboard extends javax.swing.JFrame {
         desktop = new javax.swing.JDesktopPane();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
+        jMenuItem9 = new javax.swing.JMenuItem();
         jMenuItem_exit = new javax.swing.JMenuItem();
         jMenu8 = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
@@ -335,10 +356,10 @@ public class dashboard extends javax.swing.JFrame {
         jMenuItem7 = new javax.swing.JMenuItem();
         jSeparator4 = new javax.swing.JPopupMenu.Separator();
         jMenuItem_costcenter = new javax.swing.JMenuItem();
-        jMenuItem_ledger = new javax.swing.JMenuItem();
         jMenu9 = new javax.swing.JMenu();
         jMenuItem_soemaingroup = new javax.swing.JMenuItem();
         jMenuItem_soegroup = new javax.swing.JMenuItem();
+        jMenuItem_ledger = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
         jMenuItem_settings = new javax.swing.JMenuItem();
         jMenuItem_calculator = new javax.swing.JMenuItem();
@@ -347,7 +368,7 @@ public class dashboard extends javax.swing.JFrame {
         jMenuItem_issue_report = new javax.swing.JMenuItem();
         Ledgermenu = new javax.swing.JMenuItem();
         jMenuItem8 = new javax.swing.JMenuItem();
-        jMenuItem9 = new javax.swing.JMenuItem();
+        jMenuItem10 = new javax.swing.JMenuItem();
         jMenu7 = new javax.swing.JMenu();
         jMenuItem_help = new javax.swing.JMenuItem();
         jMenuItem_help2 = new javax.swing.JMenuItem();
@@ -553,6 +574,14 @@ public class dashboard extends javax.swing.JFrame {
 
         jMenu1.setText("File");
 
+        jMenuItem9.setText("Prior Item Details");
+        jMenuItem9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem9ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem9);
+
         jMenuItem_exit.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F4, java.awt.event.InputEvent.ALT_MASK));
         jMenuItem_exit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/finsys/icons/Log Out_16x16.png"))); // NOI18N
         jMenuItem_exit.setText("Exit");
@@ -637,14 +666,6 @@ public class dashboard extends javax.swing.JFrame {
         });
         jMenu_master.add(jMenuItem_costcenter);
 
-        jMenuItem_ledger.setText("Ledger");
-        jMenuItem_ledger.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem_ledgerActionPerformed(evt);
-            }
-        });
-        jMenu_master.add(jMenuItem_ledger);
-
         jMenu9.setText("Summary of Expenditure (SOE)");
 
         jMenuItem_soemaingroup.setText("SOE Main Group");
@@ -664,6 +685,14 @@ public class dashboard extends javax.swing.JFrame {
         jMenu9.add(jMenuItem_soegroup);
 
         jMenu_master.add(jMenu9);
+
+        jMenuItem_ledger.setText("Ledger");
+        jMenuItem_ledger.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem_ledgerActionPerformed(evt);
+            }
+        });
+        jMenu_master.add(jMenuItem_ledger);
 
         jMenuBar1.add(jMenu_master);
 
@@ -722,9 +751,25 @@ public class dashboard extends javax.swing.JFrame {
         });
         jMenu6.add(jMenuItem8);
 
+<<<<<<< HEAD
+        jMenuItem10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/finsys/icons/Notepad-icon.png"))); // NOI18N
+        jMenuItem10.setText("Item Wise Stock");
+        jMenuItem10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem10ActionPerformed(evt);
+            }
+        });
+        jMenu6.add(jMenuItem10);
+=======
         jMenuItem9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/finsys/icons/Notepad-icon.png"))); // NOI18N
         jMenuItem9.setText("Item Wise Stock");
+        jMenuItem9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem9ActionPerformed(evt);
+            }
+        });
         jMenu6.add(jMenuItem9);
+>>>>>>> 27a299de05ce11f5fb4f04bd1bac5c268da6da67
 
         jMenuBar1.add(jMenu6);
 
@@ -856,6 +901,15 @@ public class dashboard extends javax.swing.JFrame {
         loadJInternalFrame(21);
     }//GEN-LAST:event_jMenuItem8ActionPerformed
 
+    private void jMenuItem9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem9ActionPerformed
+        // TODO add your handling code here:
+        loadJInternalFrame(23);
+    }//GEN-LAST:event_jMenuItem9ActionPerformed
+
+    private void jMenuItem10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem10ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItem10ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -916,6 +970,7 @@ public class dashboard extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu9;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem10;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
