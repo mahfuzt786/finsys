@@ -244,7 +244,11 @@ public class dashboard extends javax.swing.JFrame {
 
             case 22:
                 try {
+<<<<<<< HEAD
                     openingStock1 os = new openingStock1();
+=======
+                    openingStock os = new openingStock();
+>>>>>>> 9e98d8df3beeece9d7cb2d7e8f1049b6365678bc
                     loadForm("Opening Stock", os);
 
 
