@@ -232,10 +232,21 @@ public class dashboard extends javax.swing.JFrame {
                     System.out.println("\nError :" + e);
                 }
                 break;
+
+                 case 23:
+                try {
+                    itemwisestock ms = new itemwisestock();
+                    loadForm("Store Ledger Report", ms);}
+                catch (Exception e) {
+                    System.out.println("\nError :" + e);
+                }
+                break;
+
             case 22:
                 try {
                     openingStock os = new openingStock();
                     loadForm("Opening Stock", os);
+
 
                 } catch (Exception e) {
                     System.out.println("\nError :" + e);
@@ -740,6 +751,7 @@ public class dashboard extends javax.swing.JFrame {
         });
         jMenu6.add(jMenuItem8);
 
+<<<<<<< HEAD
         jMenuItem10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/finsys/icons/Notepad-icon.png"))); // NOI18N
         jMenuItem10.setText("Item Wise Stock");
         jMenuItem10.addActionListener(new java.awt.event.ActionListener() {
@@ -748,6 +760,16 @@ public class dashboard extends javax.swing.JFrame {
             }
         });
         jMenu6.add(jMenuItem10);
+=======
+        jMenuItem9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/finsys/icons/Notepad-icon.png"))); // NOI18N
+        jMenuItem9.setText("Item Wise Stock");
+        jMenuItem9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem9ActionPerformed(evt);
+            }
+        });
+        jMenu6.add(jMenuItem9);
+>>>>>>> 27a299de05ce11f5fb4f04bd1bac5c268da6da67
 
         jMenuBar1.add(jMenu6);
 
@@ -881,7 +903,7 @@ public class dashboard extends javax.swing.JFrame {
 
     private void jMenuItem9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem9ActionPerformed
         // TODO add your handling code here:
-        loadJInternalFrame(22);
+        loadJInternalFrame(23);
     }//GEN-LAST:event_jMenuItem9ActionPerformed
 
     private void jMenuItem10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem10ActionPerformed
