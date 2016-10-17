@@ -337,11 +337,8 @@
                 <Property name="text" type="java.lang.String" value="Item Wise Stock"/>
               </Properties>
               <Events>
-<<<<<<< HEAD
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem10ActionPerformed"/>
-=======
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem9ActionPerformed"/>
->>>>>>> 27a299de05ce11f5fb4f04bd1bac5c268da6da67
               </Events>
             </MenuItem>
           </SubComponents>

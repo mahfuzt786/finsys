@@ -244,12 +244,6 @@ public class dashboard extends javax.swing.JFrame {
 
             case 22:
                 try {
-<<<<<<< HEAD
-                    openingStock1 os = new openingStock1();
-=======
-                    openingStock os = new openingStock();
->>>>>>> 9e98d8df3beeece9d7cb2d7e8f1049b6365678bc
-                    loadForm("Opening Stock", os);
 
 
                 } catch (Exception e) {
@@ -754,8 +748,6 @@ public class dashboard extends javax.swing.JFrame {
             }
         });
         jMenu6.add(jMenuItem8);
-
-<<<<<<< HEAD
         jMenuItem10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/finsys/icons/Notepad-icon.png"))); // NOI18N
         jMenuItem10.setText("Item Wise Stock");
         jMenuItem10.addActionListener(new java.awt.event.ActionListener() {
@@ -764,7 +756,6 @@ public class dashboard extends javax.swing.JFrame {
             }
         });
         jMenu6.add(jMenuItem10);
-=======
         jMenuItem9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/finsys/icons/Notepad-icon.png"))); // NOI18N
         jMenuItem9.setText("Item Wise Stock");
         jMenuItem9.addActionListener(new java.awt.event.ActionListener() {
@@ -773,7 +764,6 @@ public class dashboard extends javax.swing.JFrame {
             }
         });
         jMenu6.add(jMenuItem9);
->>>>>>> 27a299de05ce11f5fb4f04bd1bac5c268da6da67
 
         jMenuBar1.add(jMenu6);
 
