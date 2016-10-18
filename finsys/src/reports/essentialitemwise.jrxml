@@ -60,7 +60,7 @@ order by c.categoryid]]>
 	<columnHeader>
 		<band height="23" splitType="Stretch">
 			<rectangle>
-				<reportElement x="0" y="1" width="555" height="21"/>
+				<reportElement x="1" y="1" width="554" height="21"/>
 			</rectangle>
 			<staticText>
 				<reportElement style="b" x="0" y="1" width="98" height="20"/>
@@ -162,9 +162,9 @@ order by c.categoryid]]>
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="71" splitType="Stretch">
+		<band height="56" splitType="Stretch">
 			<subreport>
-				<reportElement x="-19" y="18" width="593" height="51"/>
+				<reportElement x="-19" y="5" width="593" height="51"/>
 				<subreportParameter name="oyr">
 					<subreportParameterExpression><![CDATA[$P{oyr}]]></subreportParameterExpression>
 				</subreportParameter>
@@ -184,44 +184,44 @@ order by c.categoryid]]>
 				<subreportExpression class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "essentialitemwise_subreport.jasper"]]></subreportExpression>
 			</subreport>
 			<textField>
-				<reportElement style="n" x="6" y="0" width="88" height="17"/>
-				<textElement>
-					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				<reportElement style="n" x="6" y="0" width="91" height="25"/>
+				<textElement verticalAlignment="Middle">
+					<font size="6" isBold="true" pdfFontName="Helvetica-Bold"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{cat}]]></textFieldExpression>
 			</textField>
 			<line>
-				<reportElement x="554" y="-2" width="1" height="20"/>
+				<reportElement x="450" y="0" width="1" height="25"/>
 			</line>
 			<line>
-				<reportElement x="498" y="-2" width="1" height="20"/>
+				<reportElement x="391" y="0" width="1" height="25"/>
 			</line>
 			<line>
-				<reportElement x="450" y="0" width="1" height="18"/>
+				<reportElement x="327" y="0" width="1" height="25"/>
 			</line>
 			<line>
-				<reportElement x="391" y="0" width="1" height="18"/>
+				<reportElement x="277" y="0" width="1" height="25"/>
 			</line>
 			<line>
-				<reportElement x="327" y="0" width="1" height="18"/>
+				<reportElement x="177" y="0" width="1" height="25"/>
 			</line>
 			<line>
-				<reportElement x="277" y="0" width="1" height="18"/>
+				<reportElement x="97" y="0" width="1" height="25"/>
 			</line>
 			<line>
-				<reportElement x="227" y="-1" width="1" height="20"/>
+				<reportElement x="498" y="0" width="1" height="25"/>
 			</line>
 			<line>
-				<reportElement x="128" y="-1" width="1" height="20"/>
+				<reportElement x="554" y="0" width="1" height="25"/>
 			</line>
 			<line>
-				<reportElement x="97" y="-2" width="1" height="19"/>
+				<reportElement x="227" y="0" width="1" height="25"/>
 			</line>
 			<line>
-				<reportElement x="0" y="-2" width="1" height="21"/>
+				<reportElement x="128" y="0" width="1" height="25"/>
 			</line>
 			<line>
-				<reportElement x="177" y="0" width="1" height="19"/>
+				<reportElement x="1" y="0" width="1" height="25"/>
 			</line>
 		</band>
 	</detail>
