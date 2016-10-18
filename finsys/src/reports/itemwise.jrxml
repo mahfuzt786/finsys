@@ -15,7 +15,7 @@
 	<parameter name="oyr" class="java.lang.Integer">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
-	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+	<parameter name="SUBREPORT_DIR" class="java.lang.String">
 		<defaultValueExpression><![CDATA["K:\\13-10-2016\\prjt\\finsys\\src\\reports\\"]]></defaultValueExpression>
 	</parameter>
 	<queryString>
@@ -23,7 +23,7 @@
 from finsys.t_stock t
 inner join finsys.m_item i on i.itemid=t.itemid
 inner join finsys.m_itemcategory c on c.categoryid=i.categoryid
-group by c.categoryid
+group by c.categoryid,c.categorycode,c.categoryname
 order by c.categoryid]]>
 	</queryString>
 	<field name="categoryid" class="java.lang.Integer"/>

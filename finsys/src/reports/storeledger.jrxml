@@ -17,7 +17,7 @@
 	</parameter>
 	<queryString>
 		<![CDATA[select i.itemcode||'-'||i.itemname as item,u.uomabbr,
- o.ostockqty,o.ostockvalue,sum(sin.quantity) as stockinq,sum(sin.quantity*sin.item_rate) as stockinv,
+ R.ostockqty,R.ostockvalue,sum(sin.quantity) as stockinq,sum(sin.quantity*sin.item_rate) as stockinv,
 (case when R2.stockoutq isnull then R1.stockoutq else R1.stockoutq-R2.stockoutq end)as soutq,
   (case when R2.stockoutv isnull then R1.stockoutv else R1.stockoutv-R2.stockoutv end)as soutv
 
@@ -25,6 +25,9 @@ from finsys.m_item i
 inner join finsys.t_uom u on u.uomcode=i.uomcode
 left outer join finsys.t_openingstock o on o.itemid=i.itemid
 left outer join finsys.t_stockin_items sin on sin.itemid=i.itemid
+left outer join(
+	select o.itemid,o.ostockqty,o.ostockvalue from finsys.t_openingstock o where  o.mnth= $P{omonth} and o.yr=$P{oyr} order by o.itemid
+)R on R.itemid=i.itemid
 left outer join(
 select sout.itemid,sum(sout.issuequantity) as stockoutq,sum(sout.itemvalue*sout.issuequantity) as stockoutv
 from finsys.t_issue_items sout
@@ -39,8 +42,8 @@ where t.issue_or_return='R'and t.issuedate>=$P{startdate} and t.issuedate<=$P{en
  group by sout.itemid)R2 on R2.itemid=i.itemid
 
 where  sin.entrydate>=$P{startdate} and sin.entrydate<=$P{enddate}
-and o.mnth= $P{omonth} and o.yr=$P{oyr}
-group by i.itemid,i.itemcode,i.itemname,u.uomabbr,o.ostockqty,o.ostockvalue,R1.stockoutq,R2.stockoutq,R1.stockoutv,R2.stockoutv
+
+group by i.itemid,i.itemcode,i.itemname,u.uomabbr,o.ostockqty,o.ostockvalue,R1.stockoutq,R2.stockoutq,R1.stockoutv,R2.stockoutv,R.ostockqty,R.ostockvalue
 order by i.itemid]]>
 	</queryString>
 	<field name="item" class="java.lang.String"/>
@@ -192,7 +195,7 @@ order by i.itemid]]>
 	<detail>
 		<band height="21" splitType="Stretch">
 			<textField>
-				<reportElement style="small" x="0" y="1" width="97" height="20"/>
+				<reportElement style="small" x="10" y="1" width="87" height="20"/>
 				<textElement/>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{item}]]></textFieldExpression>
 			</textField>
