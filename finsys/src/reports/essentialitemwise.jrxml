@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="essentialitemwise" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" whenResourceMissingType="Empty">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="head" fontName="Times New Roman" fontSize="12" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold"/>
+	<style name="n" fontName="Times New Roman" fontSize="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="b" fontName="Times New Roman" fontSize="10" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold"/>
+	<style name="small" fontName="Times New Roman" fontSize="7" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<parameter name="startdate" class="java.util.Date"/>
+	<parameter name="enddate" class="java.util.Date"/>
+	<parameter name="omonth" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="oyr" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String">
+		<defaultValueExpression><![CDATA["K:\\13-10-2016\\prjt\\finsys\\src\\reports\\"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select c.categoryid,c.categorycode||'-'||c.categoryname as cat
+from finsys.t_stock t
+inner join finsys.m_item i on i.itemid=t.itemid
+inner join finsys.m_itemcategory c on c.categoryid=i.categoryid
+where i.itemtypeid=1
+group by c.categoryid,c.categorycode,c.categoryname
+order by c.categoryid]]>
+	</queryString>
+	<field name="categoryid" class="java.lang.Integer"/>
+	<field name="cat" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="42" splitType="Stretch">
+			<staticText>
+				<reportElement style="b" x="0" y="14" width="555" height="10"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[ESSENTIAL ITEM WISE STOCK]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="head" x="0" y="0" width="555" height="14"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[SIBBARI TEA ESTATE, SIVASAGAR]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="n" x="0" y="24" width="555" height="13"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[new SimpleDateFormat("dd/MM/yyyy").format($P{startdate})+" To "+new SimpleDateFormat("dd/MM/yyyy").format($P{enddate})]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="23" splitType="Stretch">
+			<rectangle>
+				<reportElement x="0" y="1" width="555" height="21"/>
+			</rectangle>
+			<staticText>
+				<reportElement style="b" x="0" y="1" width="98" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[STORE ITEM]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="b" x="98" y="1" width="32" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[UOM]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="b" x="135" y="2" width="37" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[OPENING QTY]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="b" x="183" y="1" width="39" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[OPENING VALUE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="b" x="233" y="1" width="38" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[STOCK IN QTY]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="b" x="278" y="1" width="50" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[STOCK IN VALUE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="b" x="337" y="1" width="46" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[STOCK OUT QTY]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="b" x="399" y="1" width="48" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+					<font size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[STOCK OUT VALUE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="b" x="456" y="1" width="36" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CLOSING QTY]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="b" x="504" y="1" width="46" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CLOSING VALUE]]></text>
+			</staticText>
+			<line>
+				<reportElement x="97" y="2" width="1" height="20"/>
+			</line>
+			<line>
+				<reportElement x="277" y="1" width="1" height="20"/>
+			</line>
+			<line>
+				<reportElement x="227" y="1" width="1" height="21"/>
+			</line>
+			<line>
+				<reportElement x="177" y="1" width="1" height="21"/>
+			</line>
+			<line>
+				<reportElement x="391" y="2" width="1" height="20"/>
+			</line>
+			<line>
+				<reportElement x="327" y="2" width="1" height="20"/>
+			</line>
+			<line>
+				<reportElement x="498" y="2" width="1" height="20"/>
+			</line>
+			<line>
+				<reportElement x="450" y="2" width="1" height="20"/>
+			</line>
+			<line>
+				<reportElement x="128" y="1" width="1" height="21"/>
+			</line>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="71" splitType="Stretch">
+			<subreport>
+				<reportElement x="-19" y="18" width="593" height="51"/>
+				<subreportParameter name="oyr">
+					<subreportParameterExpression><![CDATA[$P{oyr}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="startdate">
+					<subreportParameterExpression><![CDATA[$P{startdate}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="omonth">
+					<subreportParameterExpression><![CDATA[$P{omonth}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="enddate">
+					<subreportParameterExpression><![CDATA[$P{enddate}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="catid">
+					<subreportParameterExpression><![CDATA[$F{categoryid}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "essentialitemwise_subreport.jasper"]]></subreportExpression>
+			</subreport>
+			<textField>
+				<reportElement style="n" x="6" y="0" width="88" height="17"/>
+				<textElement>
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{cat}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="554" y="-2" width="1" height="20"/>
+			</line>
+			<line>
+				<reportElement x="498" y="-2" width="1" height="20"/>
+			</line>
+			<line>
+				<reportElement x="450" y="0" width="1" height="18"/>
+			</line>
+			<line>
+				<reportElement x="391" y="0" width="1" height="18"/>
+			</line>
+			<line>
+				<reportElement x="327" y="0" width="1" height="18"/>
+			</line>
+			<line>
+				<reportElement x="277" y="0" width="1" height="18"/>
+			</line>
+			<line>
+				<reportElement x="227" y="-1" width="1" height="20"/>
+			</line>
+			<line>
+				<reportElement x="128" y="-1" width="1" height="20"/>
+			</line>
+			<line>
+				<reportElement x="97" y="-2" width="1" height="19"/>
+			</line>
+			<line>
+				<reportElement x="0" y="-2" width="1" height="21"/>
+			</line>
+			<line>
+				<reportElement x="177" y="0" width="1" height="19"/>
+			</line>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="13" splitType="Stretch">
+			<textField>
+				<reportElement style="n" x="521" y="0" width="34" height="11"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Integer"><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+</jasperReport>

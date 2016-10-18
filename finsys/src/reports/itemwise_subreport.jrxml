@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="itemwise_subreport" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="0">
 	<property name="ireport.zoom" value="1.5"/>
-	<property name="ireport.x" value="143"/>
+	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<style name="head" fontName="Times New Roman" fontSize="15" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold"/>
 	<style name="n" fontName="Times New Roman" fontSize="11" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
@@ -18,8 +18,8 @@
 	</parameter>
 	<queryString>
 		<![CDATA[select i.itemcode||'-'||i.itemname as item,u.uomabbr,
- R.ostockqty,R.ostockvalue,sum(sin.quantity) as stockinq,
-sum(sin.quantity*sin.item_rate) as stockinv,
+ R.ostockqty,R.ostockvalue,R5.stockinq,
+R5.stockinv,
 (case when R2.stockoutq isnull then R1.stockoutq else R1.stockoutq-R2.stockoutq end)as soutq,
   (case when R2.stockoutv isnull then R1.stockoutv else R1.stockoutv-R2.stockoutv end)as soutv
 
@@ -27,7 +27,13 @@ from finsys.m_item i
 inner join finsys.t_uom u on u.uomcode=i.uomcode
 inner join finsys.m_itemcategory c on c.categoryid=i.categoryid
 
-left outer join finsys.t_stockin_items sin on sin.itemid=i.itemid
+left outer join(
+select sin.itemid, sum(sin.quantity) as stockinq,
+sum(sin.quantity*sin.item_rate) as stockinv from finsys.t_stockin_items sin
+where  sin.entrydate>=$P{startdate} and sin.entrydate<=$P{enddate}
+group by sin.itemid
+
+)R5 on R5.itemid=i.itemid
 left outer join(
 	select o.itemid,o.ostockqty,o.ostockvalue from finsys.t_openingstock o where  o.mnth= $P{omonth} and o.yr=$P{oyr} order by o.itemid
 )R on R.itemid=i.itemid
@@ -45,11 +51,12 @@ from finsys.t_issue_items sout
 inner join finsys.t_issue_return t on t.issue_returncode=sout.issue_returncode
 where t.issue_or_return='R' and t.issuedate>=$P{startdate} and t.issuedate<=$P{enddate}
  group by sout.itemid)R2 on R2.itemid=i.itemid
-where  sin.entrydate>=$P{startdate} and sin.entrydate<=$P{enddate}
-and c.categoryid=$P{catid}
+where
+ c.categoryid=$P{catid}
 
 group by c.categoryid,i.itemid,i.itemcode,i.itemname,u.uomabbr,R.ostockqty,R.ostockvalue,R1.stockoutq,R2.stockoutq,R1.stockoutv,
-R2.stockoutv
+R2.stockoutv,R5.stockinq,
+R5.stockinv
 order by i.itemid]]>
 	</queryString>
 	<field name="item" class="java.lang.String"/>

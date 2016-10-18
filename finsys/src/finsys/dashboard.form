@@ -328,6 +328,14 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="Item Wise Stock"/>
               </Properties>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="jMenuItem9">
+              <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/finsys/icons/Notepad-icon.png"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Essential Item Wise Stock"/>
+              </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem9ActionPerformed"/>
               </Events>
