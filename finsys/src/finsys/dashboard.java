@@ -241,11 +241,19 @@ public class dashboard extends javax.swing.JFrame {
                     System.out.println("\nError :" + e);
                 }
                 break;
-            
-                 case 30:
+
+            case 30:
                 try {
                     eitemwisestock ms = new eitemwisestock();
                     loadForm(" Essential Item Wise Stock Report", ms);
+                } catch (Exception e) {
+                    System.out.println("\nError :" + e);
+                }
+                break;
+            case 31:
+                try {
+                    openingStock os = new openingStock();
+                    loadForm("Opening Stock", os);
                 } catch (Exception e) {
                     System.out.println("\nError :" + e);
                 }
@@ -344,6 +352,8 @@ public class dashboard extends javax.swing.JFrame {
         jMenu8 = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenuItem3 = new javax.swing.JMenuItem();
+        jSeparator5 = new javax.swing.JPopupMenu.Separator();
+        jMenuItem11 = new javax.swing.JMenuItem();
         jMenu_master = new javax.swing.JMenu();
         jMenuItem_uom = new javax.swing.JMenuItem();
         jMenuItem_category = new javax.swing.JMenuItem();
@@ -601,6 +611,15 @@ public class dashboard extends javax.swing.JFrame {
             }
         });
         jMenu8.add(jMenuItem3);
+        jMenu8.add(jSeparator5);
+
+        jMenuItem11.setText("Item Values (Previous)");
+        jMenuItem11.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem11ActionPerformed(evt);
+            }
+        });
+        jMenu8.add(jMenuItem11);
 
         jMenuBar1.add(jMenu8);
 
@@ -899,6 +918,11 @@ public class dashboard extends javax.swing.JFrame {
         loadJInternalFrame(30);
     }//GEN-LAST:event_jMenuItem9ActionPerformed
 
+    private void jMenuItem11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem11ActionPerformed
+        // TODO add your handling code here:
+        loadJInternalFrame(31);
+    }//GEN-LAST:event_jMenuItem11ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -960,6 +984,7 @@ public class dashboard extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem10;
+    private javax.swing.JMenuItem jMenuItem11;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
@@ -989,6 +1014,7 @@ public class dashboard extends javax.swing.JFrame {
     private javax.swing.JToolBar.Separator jSeparator2;
     private javax.swing.JPopupMenu.Separator jSeparator3;
     private javax.swing.JPopupMenu.Separator jSeparator4;
+    private javax.swing.JPopupMenu.Separator jSeparator5;
     private javax.swing.JToolBar jToolBar;
     private javax.swing.JLabel jdate;
     private javax.swing.JLabel juser;

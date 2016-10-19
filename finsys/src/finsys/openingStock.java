@@ -31,10 +31,19 @@ public class openingStock extends javax.swing.JInternalFrame {
     database data = new database();
     public String ID;
     DefaultTableModel model;
+    ArrayList<Itemtable> item;
 
     public openingStock() {
         initComponents();
         ReloadTable();
+        db = new database();
+        item = db.getItem();
+        
+        System.out.println("Item Combobox");
+        itemcom.addItem(new Comboitem(0,"Select Item"));
+        for(Itemtable c:item){
+            itemcom.addItem(new Comboitem(c.getItemid(),c.getItemname()));
+        }
     }
 
     public ArrayList<openingtable> getItemTable() {
@@ -118,7 +127,7 @@ public class openingStock extends javax.swing.JInternalFrame {
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        itemcom = new javax.swing.JComboBox<>();
         month = new javax.swing.JComboBox<>();
         jComboBox3 = new javax.swing.JComboBox<>();
         qtytxt = new javax.swing.JTextField();
@@ -225,10 +234,6 @@ public class openingStock extends javax.swing.JInternalFrame {
 
         jLabel8.setText("Opening Value :");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        month.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
         jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         btnadd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/finsys/icons/Add_16x16.png"))); // NOI18N
@@ -268,7 +273,7 @@ public class openingStock extends javax.swing.JInternalFrame {
                                 .addComponent(jLabel7)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(itemcom, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                     .addComponent(qtytxt, javax.swing.GroupLayout.Alignment.LEADING)
@@ -289,7 +294,7 @@ public class openingStock extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(itemcom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
@@ -381,8 +386,8 @@ public class openingStock extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnadd;
     private javax.swing.JButton btnclear;
     private javax.swing.JButton btndelete;
+    private javax.swing.JComboBox<Comboitem> itemcom;
     private javax.swing.JTable itemtable;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -395,7 +400,7 @@ public class openingStock extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JComboBox<String> month;
+    private javax.swing.JComboBox<Comboitem> month;
     private javax.swing.JTextField qtytxt;
     private javax.swing.JTextField search;
     private javax.swing.JTextField valtxt;
