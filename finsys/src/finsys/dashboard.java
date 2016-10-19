@@ -254,6 +254,14 @@ public class dashboard extends javax.swing.JFrame {
                  case 31:
                 try {
                     Filter_Report ms = new Filter_Report();
+                    loadForm(" Report", ms);
+                } catch (Exception e) {
+                    System.out.println("\nError :" + e);
+                }
+                break;
+                 case 32:
+                try {
+                    ReportF ms = new ReportF();
                     loadForm(" Filter Report", ms);
                 } catch (Exception e) {
                     System.out.println("\nError :" + e);
@@ -377,6 +385,7 @@ public class dashboard extends javax.swing.JFrame {
         jMenuItem10 = new javax.swing.JMenuItem();
         jMenuItem9 = new javax.swing.JMenuItem();
         jMenuItem11 = new javax.swing.JMenuItem();
+        jMenuItem12 = new javax.swing.JMenuItem();
         jMenu7 = new javax.swing.JMenu();
         jMenuItem_help = new javax.swing.JMenuItem();
         jMenuItem_help2 = new javax.swing.JMenuItem();
@@ -777,6 +786,14 @@ public class dashboard extends javax.swing.JFrame {
         });
         jMenu6.add(jMenuItem11);
 
+        jMenuItem12.setText("Filter Report");
+        jMenuItem12.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem12ActionPerformed(evt);
+            }
+        });
+        jMenu6.add(jMenuItem12);
+
         jMenuBar1.add(jMenu6);
 
         jMenu7.setText("Help");
@@ -922,6 +939,11 @@ public class dashboard extends javax.swing.JFrame {
         loadJInternalFrame(31);
     }//GEN-LAST:event_jMenuItem11ActionPerformed
 
+    private void jMenuItem12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem12ActionPerformed
+        // TODO add your handling code here:
+        loadJInternalFrame(32);
+    }//GEN-LAST:event_jMenuItem12ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -984,6 +1006,7 @@ public class dashboard extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem10;
     private javax.swing.JMenuItem jMenuItem11;
+    private javax.swing.JMenuItem jMenuItem12;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;

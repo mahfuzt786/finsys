@@ -142,7 +142,78 @@ public class Report  {
             case 6: eitem_wise(s,e,m,y);break;
         }
     }
+       
+      public void ccissueslip(String s,String e,Integer ccid) throws ParseException, JRException, IOException{
+        Date st=UtilDate.convertStringToSqlDate("dd-MM-yyyy",s);
+        Date et=UtilDate.convertStringToSqlDate("dd-MM-yyyy",e);
+        HashMap params= new HashMap();
+          r="Cost_Center_Issue_Slip";
+        reportName="ccissue_slip.jrxml";
+        params.put("startdate",st);
+        params.put("enddate",et);
+        params.put("ccid", ccid);
+        printreport(params);
+    }
+        
+        public void issuecode_issueslip(String code) throws ParseException, JRException, IOException{
+       
+        HashMap params= new HashMap();
+          r="IssueCode_Issue_Slip";
+        reportName="issuecode_issue_slip.jrxml";
+       
+        params.put("iss", code);
+        printreport(params);
+    }
+        public void issuedate_issueslip(String dt) throws ParseException, JRException, IOException{
+        Date st=UtilDate.convertStringToSqlDate("dd-MM-yyyy",dt);
+        HashMap params= new HashMap();
+          r="IssueCode_Issue_Slip";
+        reportName="issuedate_issue_slip.jrxml";
+       
+        params.put("iss", st);
+        printreport(params);
+    }
       
+         public void ledgerwise_ledger(String s,String e,Integer lid) throws ParseException, JRException, IOException{
+        Date st=UtilDate.convertStringToSqlDate("dd-MM-yyyy",s);
+        Date et=UtilDate.convertStringToSqlDate("dd-MM-yyyy",e);
+        HashMap params= new HashMap();
+          r="LedgerWise";
+        reportName="ledgerwise_led.jrxml";
+        params.put("startdate",st);
+        params.put("enddate",et);
+        params.put("lid", lid);
+        printreport(params);
+    }
+         public void categorystoreledger(String s,String e,Integer catid) throws ParseException, JRException, IOException{
+        Date st=UtilDate.convertStringToSqlDate("dd-MM-yyyy",s);
+        Date et=UtilDate.convertStringToSqlDate("dd-MM-yyyy",e);
+         
+         DateFormat mn = new SimpleDateFormat("MM");
+         DateFormat yr = new SimpleDateFormat("yyyy");
+        Integer m=Integer.valueOf(mn.format(st));
+        Integer y=Integer.valueOf(yr.format(st));
+        HashMap params= new HashMap();
+          r="Store_Ledger_Categorywise";
+        reportName="categorystoreledger.jrxml";
+        params.put("startdate",st);
+        params.put("enddate",et);
+        params.put("omonth",m);
+        params.put("oyr",y);
+        params.put("catid",catid);
+        printreport(params);
+    }
+         
+         public void invoiceidstockin(String code) throws ParseException, JRException, IOException{
+       
+        HashMap params= new HashMap();
+          r="StockIn_invoiceid";
+        reportName="invoiceidstockin.jrxml";
+       
+        params.put("invid", code);
+        printreport(params);
+    }
+         
       
 public void printreport(HashMap params) throws JRException, IOException{
      output = new FileOutputStream(new File("E:/FINSYS/"+r+dt+".pdf"));

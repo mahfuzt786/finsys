@@ -65,7 +65,7 @@ order by i.itemid]]>
 		<variableExpression><![CDATA[$F{grossvalue}.multiply(($P{less}.divide(new java.math.BigDecimal(100.0)))).setScale(2)]]></variableExpression>
 	</variable>
 	<variable name="grandtot" class="java.math.BigDecimal">
-		<variableExpression><![CDATA[$F{grossvalue}.add($P{trans}.add($V{vatamt}) ).subtract($V{lessamt})]]></variableExpression>
+		<variableExpression><![CDATA[$V{grossvalue_1}.add($P{trans}.add($V{vatamt}) ).subtract($V{lessamt})]]></variableExpression>
 	</variable>
 	<background>
 		<band splitType="Stretch"/>
@@ -187,7 +187,7 @@ order by i.itemid]]>
 				<textElement textAlignment="Right">
 					<font size="8"/>
 				</textElement>
-				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$V{grandtot}.setScale(2)]]></textFieldExpression>
+				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$V{grandtot}]]></textFieldExpression>
 			</textField>
 			<line>
 				<reportElement x="423" y="51" width="131" height="1"/>
