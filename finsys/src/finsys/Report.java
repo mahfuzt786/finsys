@@ -17,6 +17,7 @@ import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -72,6 +73,16 @@ public class Report  {
         params.put("enddate",et);
         printreport(params);
     }
+     public void stockin(String s,String e) throws ParseException, JRException, IOException{
+        Date st=UtilDate.convertStringToSqlDate("dd-MM-yyyy",s);
+        Date et=UtilDate.convertStringToSqlDate("dd-MM-yyyy",e);
+        HashMap params= new HashMap();
+          r="StockIn";
+        reportName="stockin.jrxml";
+        params.put("startdate",st);
+        params.put("enddate",et);
+        printreport(params);
+    }
      
       public void store_ledger(String s,String e,Integer m,Integer y) throws ParseException, JRException, IOException{
         Date st=UtilDate.convertStringToSqlDate("dd-MM-yyyy",s);
@@ -114,6 +125,25 @@ public class Report  {
         params.put("oyr",y);
         printreport(params);
     }
+      
+       public void filter_report(String s,String e,int status) throws ParseException, JRException, IOException{
+        Date st=UtilDate.convertStringToSqlDate("dd-MM-yyyy",s);
+        Date et=UtilDate.convertStringToSqlDate("dd-MM-yyyy",e);
+         DateFormat mn = new SimpleDateFormat("MM");
+         DateFormat yr = new SimpleDateFormat("yyyy");
+        Integer m=Integer.valueOf(mn.format(st));
+        Integer y=Integer.valueOf(yr.format(st));
+        switch(status){
+            case 1: issue_slip(s,e); break;
+            case 2: ledger_wise(s,e);break;
+            case 3: store_ledger(s,e,m,y);break;
+            case 4: item_wise(s,e,m,y);break;
+            case 5: stockin(s,e);break;
+            case 6: eitem_wise(s,e,m,y);break;
+        }
+    }
+      
+      
 public void printreport(HashMap params) throws JRException, IOException{
      output = new FileOutputStream(new File("E:/FINSYS/"+r+dt+".pdf"));
         ArrayList al = new ArrayList();
