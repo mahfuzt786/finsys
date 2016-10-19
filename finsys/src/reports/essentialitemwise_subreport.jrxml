@@ -103,87 +103,87 @@ order by i.itemid]]>
 	<detail>
 		<band height="25" splitType="Stretch">
 			<textField>
-				<reportElement style="n1" x="1" y="0" width="97" height="23"/>
-				<textElement/>
+				<reportElement style="n1" x="4" y="2" width="92" height="21"/>
+				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{item}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement style="n1" x="178" y="-1" width="49" height="24"/>
-				<textElement textAlignment="Center"/>
+				<reportElement style="n1" x="177" y="3" width="48" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{ostockvalue}.setScale( 2 )]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement style="n1" x="228" y="2" width="51" height="21"/>
-				<textElement textAlignment="Center"/>
+				<reportElement style="n1" x="228" y="3" width="48" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{stockinq}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement style="n1" x="277" y="1" width="51" height="22"/>
-				<textElement textAlignment="Center"/>
+				<reportElement style="n1" x="277" y="3" width="49" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{stockinv}.setScale( 2 )]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement style="n1" x="100" y="1" width="29" height="22"/>
-				<textElement textAlignment="Center"/>
+				<reportElement style="n1" x="98" y="2" width="29" height="21"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{uomabbr}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement style="n1" x="328" y="2" width="65" height="21"/>
-				<textElement textAlignment="Center"/>
+				<reportElement style="n1" x="328" y="3" width="62" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{soutq}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement style="n1" x="392" y="3" width="58" height="20"/>
-				<textElement textAlignment="Center"/>
+				<reportElement style="n1" x="392" y="3" width="57" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{soutv}.setScale( 2 )]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement style="n1" x="454" y="0" width="46" height="21"/>
-				<textElement textAlignment="Center"/>
+				<reportElement style="n1" x="450" y="3" width="47" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$V{closeq}.setScale( 2 )]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement style="n1" x="498" y="0" width="57" height="20"/>
-				<textElement textAlignment="Center"/>
+				<reportElement style="n1" x="498" y="2" width="55" height="21"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$V{closev}.setScale( 2 )]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement style="n1" x="130" y="2" width="48" height="23"/>
-				<textElement textAlignment="Center"/>
+				<reportElement style="n1" x="128" y="3" width="47" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{ostockqty}]]></textFieldExpression>
 			</textField>
 			<line>
-				<reportElement x="96" y="-21" width="1" height="46"/>
+				<reportElement x="96" y="0" width="1" height="25"/>
 			</line>
 			<line>
-				<reportElement x="276" y="-21" width="1" height="46"/>
+				<reportElement x="276" y="0" width="1" height="25"/>
 			</line>
 			<line>
-				<reportElement x="226" y="-21" width="1" height="46"/>
+				<reportElement x="226" y="0" width="1" height="25"/>
 			</line>
 			<line>
-				<reportElement x="176" y="-21" width="1" height="46"/>
+				<reportElement x="176" y="0" width="1" height="25"/>
 			</line>
 			<line>
-				<reportElement x="390" y="-21" width="1" height="46"/>
+				<reportElement x="390" y="0" width="1" height="25"/>
 			</line>
 			<line>
-				<reportElement x="326" y="-21" width="1" height="46"/>
+				<reportElement x="326" y="0" width="1" height="25"/>
 			</line>
 			<line>
-				<reportElement x="449" y="-21" width="1" height="46"/>
+				<reportElement x="449" y="0" width="1" height="25"/>
 			</line>
 			<line>
-				<reportElement x="497" y="-21" width="1" height="46"/>
+				<reportElement x="497" y="0" width="1" height="25"/>
 			</line>
 			<line>
-				<reportElement x="127" y="-21" width="1" height="46"/>
+				<reportElement x="127" y="0" width="1" height="25"/>
 			</line>
 			<line>
-				<reportElement x="-1" y="-21" width="1" height="46"/>
+				<reportElement x="0" y="0" width="1" height="25"/>
 			</line>
 			<line>
-				<reportElement x="553" y="-21" width="1" height="46"/>
+				<reportElement x="553" y="0" width="1" height="25"/>
 			</line>
 		</band>
 	</detail>
@@ -197,69 +197,69 @@ order by i.itemid]]>
 				<text><![CDATA[TOTAL :]]></text>
 			</staticText>
 			<line>
-				<reportElement x="-1" y="23" width="556" height="1"/>
+				<reportElement x="0" y="23" width="553" height="1"/>
 			</line>
 			<line>
-				<reportElement x="-1" y="1" width="556" height="1"/>
+				<reportElement x="1" y="1" width="552" height="1"/>
 			</line>
 			<line>
-				<reportElement x="-1" y="1" width="1" height="22"/>
+				<reportElement x="0" y="1" width="1" height="22"/>
 			</line>
 			<line>
-				<reportElement x="554" y="1" width="1" height="22"/>
+				<reportElement x="553" y="1" width="1" height="22"/>
 			</line>
 			<textField isBlankWhenNull="true">
-				<reportElement style="n" x="127" y="6" width="48" height="19"/>
-				<textElement textAlignment="Center">
+				<reportElement style="n" x="128" y="2" width="47" height="19"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="6"/>
 				</textElement>
 				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$V{ostockqty_1}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement style="n" x="176" y="6" width="50" height="15"/>
-				<textElement textAlignment="Center">
+				<reportElement style="n" x="177" y="2" width="48" height="19"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="6"/>
 				</textElement>
 				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$V{ostockvalue_1}.setScale( 2 )]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement style="n" x="225" y="6" width="52" height="15"/>
-				<textElement textAlignment="Center">
+				<reportElement style="n" x="228" y="2" width="48" height="19"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="6"/>
 				</textElement>
 				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$V{stockinq_1}.setScale( 2 )]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement style="n" x="276" y="6" width="50" height="15"/>
-				<textElement textAlignment="Center">
+				<reportElement style="n" x="276" y="2" width="50" height="19"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="6"/>
 				</textElement>
 				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$V{stockinv_1}.setScale( 2 )]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement style="n" x="326" y="6" width="64" height="15"/>
-				<textElement textAlignment="Center">
+				<reportElement style="n" x="328" y="2" width="62" height="19"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="6"/>
 				</textElement>
 				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$V{soutq_1}.setScale( 2 )]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement style="n" x="390" y="6" width="60" height="15"/>
-				<textElement textAlignment="Center">
+				<reportElement style="n" x="392" y="2" width="57" height="19"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="6"/>
 				</textElement>
 				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$V{soutv_1}.setScale( 2 )]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement style="n" x="449" y="6" width="48" height="15"/>
-				<textElement textAlignment="Center">
+				<reportElement style="n" x="450" y="2" width="47" height="19"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="6"/>
 				</textElement>
 				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$V{closeq_1}.setScale( 2 )]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement style="n" x="498" y="6" width="57" height="15"/>
-				<textElement textAlignment="Center">
+				<reportElement style="n" x="498" y="2" width="55" height="19"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="6"/>
 				</textElement>
 				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$V{closev_1}.setScale( 2 )]]></textFieldExpression>
