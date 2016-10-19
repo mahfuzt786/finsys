@@ -18,7 +18,7 @@ import java.beans.PropertyVetoException;
  * @author pc1
  */
 public class dashboard extends javax.swing.JFrame {
-
+    
     database db;
     String sMSGBOX_TITLE = "FINSYS version 1.0";
     static Date td = new Date();
@@ -42,6 +42,7 @@ public class dashboard extends javax.swing.JFrame {
         td = date;
         juser.setText(sUser);
         jdate.setText(sLogin);
+        this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         addWindowListener(new WindowAdapter() {
 
             public void windowClosing(WindowEvent e) {
@@ -54,11 +55,16 @@ public class dashboard extends javax.swing.JFrame {
         try {
             int reply = JOptionPane.showConfirmDialog(this, "Are you sure to exit?", sMSGBOX_TITLE, JOptionPane.YES_NO_OPTION,
                     JOptionPane.WARNING_MESSAGE);
+            System.out.println(reply);
             if (reply == JOptionPane.YES_OPTION) {
 
                 setVisible(false);
                 System.exit(0);
+            }else{
+                setVisible(true);
+              remove(reply);
             }
+            
         } catch (Exception e) {
         }
 
