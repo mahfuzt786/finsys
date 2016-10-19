@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ledgerwise_led" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="head" fontName="Times New Roman" fontSize="15" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold"/>
+	<style name="n" fontName="Times New Roman" fontSize="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="b" fontName="Times New Roman" fontSize="12" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold"/>
+	<parameter name="startdate" class="java.util.Date"/>
+	<parameter name="enddate" class="java.util.Date"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String">
+		<defaultValueExpression><![CDATA["E:\\reports\\"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="lid" class="java.lang.Integer"/>
+	<queryString>
+		<![CDATA[Select t.ledgerid,l.ledgercode,l.ledgername,s.soegroupname,sm.soemaingroupname
+ from finsys.t_issue_items t
+
+left outer join finsys.m_ledger l on l.ledgerid=t.ledgerid
+left outer join finsys.m_soegroup s on s.soegroupid=l.soegroupid
+left outer join finsys.m_soemaingroup sm on sm.soemaingroupid=l.soemaingroupid
+where t.ledgerid=$P{lid}
+group by t.ledgerid,l.ledgercode,l.ledgername,s.soegroupname,sm.soemaingroupname]]>
+	</queryString>
+	<field name="ledgerid" class="java.lang.Integer"/>
+	<field name="ledgercode" class="java.lang.String"/>
+	<field name="ledgername" class="java.lang.String"/>
+	<field name="soegroupname" class="java.lang.String"/>
+	<field name="soemaingroupname" class="java.lang.String"/>
+	<title>
+		<band height="46" splitType="Stretch">
+			<staticText>
+				<reportElement style="b" x="0" y="15" width="555" height="15"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[A/C WISE STORE CONSUMPTON]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="n" x="0" y="30" width="555" height="16"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="false"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[new SimpleDateFormat("dd/MM/yyyy").format($P{startdate})+"  To  "+new SimpleDateFormat("dd/MM/yyyy").format($P{enddate})]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="head" x="0" y="1" width="555" height="14"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[SIBBARI TEA ESTATE, SIVASAGAR]]></text>
+			</staticText>
+		</band>
+	</title>
+	<detail>
+		<band height="82" splitType="Stretch">
+			<rectangle>
+				<reportElement x="-2" y="53" width="557" height="12"/>
+			</rectangle>
+			<line>
+				<reportElement x="249" y="53" width="1" height="12"/>
+			</line>
+			<line>
+				<reportElement x="317" y="53" width="1" height="12"/>
+			</line>
+			<line>
+				<reportElement x="382" y="53" width="1" height="12"/>
+			</line>
+			<line>
+				<reportElement x="472" y="53" width="1" height="12"/>
+			</line>
+			<staticText>
+				<reportElement style="b" x="-1" y="54" width="251" height="11"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[STORE ITEM]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="b" x="249" y="54" width="68" height="11"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[UOM]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="b" x="317" y="54" width="65" height="11"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Quantity]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="b" x="380" y="54" width="92" height="11"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Item Value]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="b" x="472" y="54" width="82" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Avg. value]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="n" x="0" y="10" width="94" height="10"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[SOE MAIN GROUP :]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="n" x="94" y="10" width="190" height="10"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{soemaingroupname}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="n" x="438" y="10" width="34" height="10"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[DATE :]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="n" x="473" y="10" width="82" height="10"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[new SimpleDateFormat("dd/MM/yyyy").format(new Date())]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="n" x="0" y="23" width="94" height="10"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[SOE  GROUP :]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="n" x="94" y="23" width="190" height="10"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{soegroupname}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="n" x="47" y="36" width="237" height="11"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{ledgercode}+"  "+$F{ledgername}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="n" x="0" y="37" width="41" height="10"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[LEDGER  :]]></text>
+			</staticText>
+			<subreport>
+				<reportElement x="-21" y="47" width="595" height="33"/>
+				<subreportParameter name="startdate">
+					<subreportParameterExpression><![CDATA[$P{startdate}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="lcode">
+					<subreportParameterExpression><![CDATA[$F{ledgerid}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="enddate">
+					<subreportParameterExpression><![CDATA[$P{enddate}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "ledger_wise_sub.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="12">
+			<textField>
+				<reportElement x="532" y="1" width="23" height="11"/>
+				<textElement>
+					<font fontName="Times New Roman" size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Integer"><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+</jasperReport>
