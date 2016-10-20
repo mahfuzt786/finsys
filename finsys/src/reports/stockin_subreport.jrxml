@@ -59,10 +59,10 @@ order by i.itemid]]>
 		<variableExpression><![CDATA[$F{grossvalue}]]></variableExpression>
 	</variable>
 	<variable name="vatamt" class="java.math.BigDecimal">
-		<variableExpression><![CDATA[$F{grossvalue}.multiply(($P{vat}.divide(new java.math.BigDecimal(100.0)))).setScale(2)]]></variableExpression>
+		<variableExpression><![CDATA[$V{grossvalue_1}.multiply(($P{vat}.divide(new java.math.BigDecimal(100.0)))).setScale(2)]]></variableExpression>
 	</variable>
 	<variable name="lessamt" class="java.math.BigDecimal">
-		<variableExpression><![CDATA[$F{grossvalue}.multiply(($P{less}.divide(new java.math.BigDecimal(100.0)))).setScale(2)]]></variableExpression>
+		<variableExpression><![CDATA[$V{grossvalue_1}.multiply(($P{less}.divide(new java.math.BigDecimal(100.0)))).setScale(2)]]></variableExpression>
 	</variable>
 	<variable name="grandtot" class="java.math.BigDecimal">
 		<variableExpression><![CDATA[$V{grossvalue_1}.add($P{trans}.add($V{vatamt}) ).subtract($V{lessamt})]]></variableExpression>
