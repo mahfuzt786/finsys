@@ -18,7 +18,7 @@ import java.beans.PropertyVetoException;
  * @author pc1
  */
 public class dashboard extends javax.swing.JFrame {
-    
+
     database db;
     String sMSGBOX_TITLE = "FINSYS version 1.0";
     static Date td = new Date();
@@ -60,11 +60,11 @@ public class dashboard extends javax.swing.JFrame {
 
                 setVisible(false);
                 System.exit(0);
-            }else{
+            } else {
                 setVisible(true);
-              remove(reply);
+                remove(reply);
             }
-            
+
         } catch (Exception e) {
         }
 
@@ -264,7 +264,7 @@ public class dashboard extends javax.swing.JFrame {
                     System.out.println("\nError :" + e);
                 }
                 break;
-                 case 32:
+            case 32:
                 try {
                     ReportF ms = new ReportF();
                     loadForm(" Filter Report", ms);
@@ -387,7 +387,7 @@ public class dashboard extends javax.swing.JFrame {
         jMenuItem_notepad = new javax.swing.JMenuItem();
         jMenu6 = new javax.swing.JMenu();
         jMenuItem12 = new javax.swing.JMenuItem();
-        jMenuItem12 = new javax.swing.JMenuItem();
+        jMenuItem13 = new javax.swing.JMenuItem();
         jMenu7 = new javax.swing.JMenu();
         jMenuItem_help = new javax.swing.JMenuItem();
         jMenuItem_help2 = new javax.swing.JMenuItem();
@@ -753,13 +753,14 @@ public class dashboard extends javax.swing.JFrame {
         });
         jMenu6.add(jMenuItem12);
 
-        jMenuItem12.setText("Filter Report");
-        jMenuItem12.addActionListener(new java.awt.event.ActionListener() {
+        jMenuItem13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/finsys/icons/Text Document_16x16.png"))); // NOI18N
+        jMenuItem13.setText("Filter Report");
+        jMenuItem13.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem12ActionPerformed(evt);
             }
         });
-        jMenu6.add(jMenuItem12);
+        jMenu6.add(jMenuItem13);
 
         jMenuBar1.add(jMenu6);
 
@@ -951,6 +952,7 @@ public class dashboard extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem11;
     private javax.swing.JMenuItem jMenuItem12;
+    private javax.swing.JMenuItem jMenuItem13;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
