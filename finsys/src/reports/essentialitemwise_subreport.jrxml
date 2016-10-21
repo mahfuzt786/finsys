@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="essentialitemwise_subreport" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="0">
 	<property name="ireport.zoom" value="1.5"/>
-	<property name="ireport.x" value="0"/>
+	<property name="ireport.x" value="29"/>
 	<property name="ireport.y" value="0"/>
 	<style name="head" fontName="Times New Roman" fontSize="15" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold"/>
 	<style name="n" fontName="Times New Roman" fontSize="11" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
@@ -107,50 +107,50 @@ order by i.itemid]]>
 				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{item}]]></textFieldExpression>
 			</textField>
-			<textField isBlankWhenNull="true">
+			<textField isBlankWhenNull="false">
 				<reportElement style="n1" x="177" y="3" width="48" height="20"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{ostockvalue}.setScale( 2 )]]></textFieldExpression>
+				<textFieldExpression class="java.lang.String"><![CDATA[new String( $F{ostockvalue}!=null ?$F{ostockvalue}.setScale( 2 ).toString() :"-" )]]></textFieldExpression>
 			</textField>
-			<textField isBlankWhenNull="true">
+			<textField isBlankWhenNull="false">
 				<reportElement style="n1" x="228" y="3" width="48" height="20"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{stockinq}]]></textFieldExpression>
+				<textFieldExpression class="java.lang.String"><![CDATA[new String($F{stockinq}!=null ? $F{stockinq}.toString() :"-" )]]></textFieldExpression>
 			</textField>
-			<textField isBlankWhenNull="true">
+			<textField isBlankWhenNull="false">
 				<reportElement style="n1" x="277" y="3" width="49" height="20"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{stockinv}.setScale( 2 )]]></textFieldExpression>
+				<textFieldExpression class="java.lang.String"><![CDATA[new String( $F{stockinv}!=null ?$F{stockinv}.setScale( 2 ).toString() :"-" )]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement style="n1" x="98" y="2" width="29" height="21"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{uomabbr}]]></textFieldExpression>
 			</textField>
-			<textField isBlankWhenNull="true">
+			<textField isBlankWhenNull="false">
 				<reportElement style="n1" x="328" y="3" width="62" height="20"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{soutq}]]></textFieldExpression>
+				<textFieldExpression class="java.lang.String"><![CDATA[new String( $F{soutq}!=null ?$F{soutq}.toString() :"-" )]]></textFieldExpression>
 			</textField>
-			<textField isBlankWhenNull="true">
+			<textField isBlankWhenNull="false">
 				<reportElement style="n1" x="392" y="3" width="57" height="20"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{soutv}.setScale( 2 )]]></textFieldExpression>
+				<textFieldExpression class="java.lang.String"><![CDATA[new String( $F{soutv}!=null ?$F{soutv}.setScale( 2 ).toString() :"-" )]]></textFieldExpression>
 			</textField>
-			<textField isBlankWhenNull="true">
+			<textField isBlankWhenNull="false">
 				<reportElement style="n1" x="450" y="3" width="47" height="20"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$V{closeq}.setScale( 2 )]]></textFieldExpression>
+				<textFieldExpression class="java.lang.String"><![CDATA[new String($V{closeq}!=null ?$V{closeq}.toString() :"-" )]]></textFieldExpression>
 			</textField>
-			<textField isBlankWhenNull="true">
+			<textField isBlankWhenNull="false">
 				<reportElement style="n1" x="498" y="2" width="55" height="21"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$V{closev}.setScale( 2 )]]></textFieldExpression>
+				<textFieldExpression class="java.lang.String"><![CDATA[new String( $V{closev}!=null ?$V{closev}.setScale( 2 ).toString() :"-" )]]></textFieldExpression>
 			</textField>
-			<textField isBlankWhenNull="true">
+			<textField isBlankWhenNull="false">
 				<reportElement style="n1" x="128" y="3" width="47" height="20"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{ostockqty}]]></textFieldExpression>
+				<textFieldExpression class="java.lang.String"><![CDATA[new String( $F{ostockqty}!=null ? $F{ostockqty}.toString() :"-" )]]></textFieldExpression>
 			</textField>
 			<line>
 				<reportElement x="96" y="0" width="1" height="25"/>

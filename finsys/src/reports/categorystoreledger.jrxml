@@ -217,50 +217,50 @@ order by i.itemid]]>
 				<textElement/>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{item}]]></textFieldExpression>
 			</textField>
-			<textField isBlankWhenNull="true">
+			<textField isBlankWhenNull="false">
 				<reportElement style="small" x="178" y="0" width="49" height="21"/>
 				<textElement textAlignment="Center"/>
-				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{ostockvalue}.setScale( 2 )]]></textFieldExpression>
+				<textFieldExpression class="java.lang.String"><![CDATA[new String( $F{ostockvalue}!=null ?$F{ostockvalue}.setScale( 2 ).toString() :"-" )]]></textFieldExpression>
 			</textField>
-			<textField isBlankWhenNull="true">
+			<textField isBlankWhenNull="false">
 				<reportElement style="small" x="227" y="1" width="51" height="20"/>
 				<textElement textAlignment="Center"/>
-				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{stockinq}]]></textFieldExpression>
+				<textFieldExpression class="java.lang.String"><![CDATA[new String($F{stockinq}!=null ? $F{stockinq}.toString() :"-" )]]></textFieldExpression>
 			</textField>
-			<textField isBlankWhenNull="true">
+			<textField isBlankWhenNull="false">
 				<reportElement style="small" x="277" y="1" width="51" height="20"/>
 				<textElement textAlignment="Center"/>
-				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{stockinv}.setScale( 2 )]]></textFieldExpression>
+				<textFieldExpression class="java.lang.String"><![CDATA[new String( $F{stockinv}!=null ?$F{stockinv}.setScale( 2 ).toString() :"-" )]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement style="small" x="98" y="0" width="30" height="21"/>
 				<textElement textAlignment="Center"/>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{uomabbr}]]></textFieldExpression>
 			</textField>
-			<textField isBlankWhenNull="true">
+			<textField isBlankWhenNull="false">
 				<reportElement style="small" x="327" y="0" width="65" height="21"/>
 				<textElement textAlignment="Center"/>
-				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{soutq}]]></textFieldExpression>
+				<textFieldExpression class="java.lang.String"><![CDATA[new String( $F{soutq}!=null ?$F{soutq}.toString() :"-" )]]></textFieldExpression>
 			</textField>
-			<textField isBlankWhenNull="true">
+			<textField isBlankWhenNull="false">
 				<reportElement style="small" x="392" y="1" width="58" height="20"/>
 				<textElement textAlignment="Center"/>
-				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{soutv}.setScale( 2 )]]></textFieldExpression>
+				<textFieldExpression class="java.lang.String"><![CDATA[new String( $F{soutv}!=null ?$F{soutv}.setScale( 2 ).toString() :"-" )]]></textFieldExpression>
 			</textField>
-			<textField isBlankWhenNull="true">
+			<textField isBlankWhenNull="false">
 				<reportElement style="small" x="452" y="0" width="46" height="21"/>
 				<textElement textAlignment="Center"/>
-				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$V{closeq}.setScale( 2 )]]></textFieldExpression>
+				<textFieldExpression class="java.lang.String"><![CDATA[new String($V{closeq}!=null ?$V{closeq}.toString() :"-" )]]></textFieldExpression>
 			</textField>
-			<textField isBlankWhenNull="true">
+			<textField isBlankWhenNull="false">
 				<reportElement style="small" x="498" y="1" width="57" height="20"/>
 				<textElement textAlignment="Center"/>
-				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$V{closev}.setScale( 2 )]]></textFieldExpression>
+				<textFieldExpression class="java.lang.String"><![CDATA[new String( $V{closev}!=null ?$V{closev}.setScale( 2 ).toString() :"-" )]]></textFieldExpression>
 			</textField>
-			<textField isBlankWhenNull="true">
+			<textField isBlankWhenNull="false">
 				<reportElement style="small" x="129" y="1" width="48" height="20"/>
 				<textElement textAlignment="Center"/>
-				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{ostockqty}]]></textFieldExpression>
+				<textFieldExpression class="java.lang.String"><![CDATA[new String( $F{ostockqty}!=null ? $F{ostockqty}.toString() :"-" )]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
