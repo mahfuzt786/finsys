@@ -272,6 +272,15 @@ public class dashboard extends javax.swing.JFrame {
                     System.out.println("\nError :" + e);
                 }
                 break;
+                case 33:
+                try {
+                    openingStock ms = new openingStock();
+                    loadForm(" openingStock", ms);
+                } catch (Exception e) {
+                    System.out.println("\nError :" + e);
+                }
+                break;
+
 
         }
 
@@ -368,6 +377,7 @@ public class dashboard extends javax.swing.JFrame {
         jMenuItem3 = new javax.swing.JMenuItem();
         jSeparator5 = new javax.swing.JPopupMenu.Separator();
         jMenuItem11 = new javax.swing.JMenuItem();
+        jMenuItem8 = new javax.swing.JMenuItem();
         jMenu_master = new javax.swing.JMenu();
         jMenuItem_uom = new javax.swing.JMenuItem();
         jMenuItem_category = new javax.swing.JMenuItem();
@@ -632,6 +642,14 @@ public class dashboard extends javax.swing.JFrame {
         });
         jMenu8.add(jMenuItem11);
 
+        jMenuItem8.setText("Opening Stock");
+        jMenuItem8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem8ActionPerformed(evt);
+            }
+        });
+        jMenu8.add(jMenuItem8);
+
         jMenuBar1.add(jMenu8);
 
         jMenu_master.setText("Master");
@@ -891,6 +909,11 @@ public class dashboard extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jMenuItem11ActionPerformed1
 
+    private void jMenuItem8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem8ActionPerformed
+        // TODO add your handling code here:
+        loadJInternalFrame(33);
+    }//GEN-LAST:event_jMenuItem8ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -959,6 +982,7 @@ public class dashboard extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem jMenuItem7;
+    private javax.swing.JMenuItem jMenuItem8;
     private javax.swing.JMenuItem jMenuItem_calculator;
     private javax.swing.JMenuItem jMenuItem_category;
     private javax.swing.JMenuItem jMenuItem_costcenter;

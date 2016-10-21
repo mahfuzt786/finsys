@@ -24,7 +24,7 @@ public class openingStock extends javax.swing.JInternalFrame {
     String Qty = "";
     String Val = "";
     database db;
-    Issue_item i = new Issue_item();
+    openingtable i = new openingtable();
     String dialogmessage;
     String dialogs;
     int dialogtype = JOptionPane.PLAIN_MESSAGE;
@@ -44,6 +44,28 @@ public class openingStock extends javax.swing.JInternalFrame {
         for(Itemtable c:item){
             itemcom.addItem(new Comboitem(c.getItemid(),c.getItemname()));
         }
+        
+        //for month combobox
+         month.addItem(new Comboitem(0,"Select Month"));
+         month.addItem(new Comboitem(1,"January"));
+         month.addItem(new Comboitem(2,"February"));
+         month.addItem(new Comboitem(3,"March"));
+         month.addItem(new Comboitem(4,"April"));
+         month.addItem(new Comboitem(5,"May"));
+         month.addItem(new Comboitem(6,"June"));
+         month.addItem(new Comboitem(7,"July"));
+         month.addItem(new Comboitem(8,"August"));
+         month.addItem(new Comboitem(9,"September"));
+         month.addItem(new Comboitem(10,"October"));
+         month.addItem(new Comboitem(11,"November"));
+         month.addItem(new Comboitem(12,"December"));
+         
+         //for year combo
+         for(int k=2016;k<2080;k++){
+             
+         yearcombo.addItem(k+"");
+         }
+         
     }
 
     public ArrayList<openingtable> getItemTable() {
@@ -114,6 +136,7 @@ public class openingStock extends javax.swing.JInternalFrame {
     private void initComponents() {
 
         jLabel4 = new javax.swing.JLabel();
+        jXDatePicker1 = new org.jdesktop.swingx.JXDatePicker();
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -129,7 +152,7 @@ public class openingStock extends javax.swing.JInternalFrame {
         jLabel8 = new javax.swing.JLabel();
         itemcom = new javax.swing.JComboBox<>();
         month = new javax.swing.JComboBox<>();
-        jComboBox3 = new javax.swing.JComboBox<>();
+        yearcombo = new javax.swing.JComboBox<>();
         qtytxt = new javax.swing.JTextField();
         valtxt = new javax.swing.JTextField();
         btnadd = new javax.swing.JButton();
@@ -234,7 +257,7 @@ public class openingStock extends javax.swing.JInternalFrame {
 
         jLabel8.setText("Opening Value :");
 
-        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        yearcombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-" }));
 
         btnadd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/finsys/icons/Add_16x16.png"))); // NOI18N
         btnadd.setText("Done");
@@ -278,7 +301,7 @@ public class openingStock extends javax.swing.JInternalFrame {
                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                     .addComponent(qtytxt, javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(month, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jComboBox3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(yearcombo, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(valtxt, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 111, Short.MAX_VALUE))
                                 .addGap(0, 0, Short.MAX_VALUE))))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
@@ -302,7 +325,7 @@ public class openingStock extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
-                    .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(yearcombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
@@ -358,7 +381,54 @@ public class openingStock extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnclearActionPerformed
 
     private void btnaddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnaddActionPerformed
+        Comboitem m =(Comboitem) month.getSelectedItem();
+        int monid=m.getKey();
+        
+        Comboitem it =(Comboitem) itemcom.getSelectedItem();
+        int itemid=it.getKey();
+       String yr=(String)yearcombo.getSelectedItem();
+       String q=qtytxt.getText().trim();
+       String v=valtxt.getText().trim();
+    
+        db = new database();
+        try {
 
+            if( !(monid==0)  && !(itemid==0) && !(yr=="-") ) {
+                i.setId(itemid);
+                i.setMonth(monid);         
+                i.setYear(Integer.valueOf(yr));
+                i.setQuantity(Double.valueOf(q));
+                i.setValue(Double.valueOf(v));
+                
+                //System.out.println("values"+i);
+                int result = db.insertOpening(i);
+                System.out.println(result);
+                if (result == 1) {
+                    dialogmessage = "OPENING STOCK ADDED SUCCESSFULLY";
+                    JOptionPane.showMessageDialog(null, dialogmessage,
+                            "SUCCESSFULL!!", JOptionPane.INFORMATION_MESSAGE);
+                    System.out.println("Record Added");
+                    ResetRecord();
+                    ReloadTable();
+
+                } else {
+                    dialogmessage = "Failed To Insert";
+                    JOptionPane.showMessageDialog(null, "Failed To Insert in DataBase",
+                            "WARNING!!", JOptionPane.WARNING_MESSAGE);
+
+                }
+
+            } else {
+                dialogmessage = "Empty Record !!!";
+                dialogtype = JOptionPane.WARNING_MESSAGE;
+                JOptionPane.showMessageDialog(null, dialogmessage, dialogs, dialogtype);
+
+            }
+
+        } catch (Exception ex) {
+            System.out.println("Error while validating :" + ex);
+            JOptionPane.showMessageDialog(null, "GENERAL EXCEPTION", "WARNING!!!", JOptionPane.INFORMATION_MESSAGE);
+        }
     }//GEN-LAST:event_btnaddActionPerformed
 
     private void searchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchKeyReleased
@@ -388,7 +458,6 @@ public class openingStock extends javax.swing.JInternalFrame {
     private javax.swing.JButton btndelete;
     private javax.swing.JComboBox<Comboitem> itemcom;
     private javax.swing.JTable itemtable;
-    private javax.swing.JComboBox<String> jComboBox3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
@@ -400,10 +469,12 @@ public class openingStock extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
+    private org.jdesktop.swingx.JXDatePicker jXDatePicker1;
     private javax.swing.JComboBox<Comboitem> month;
     private javax.swing.JTextField qtytxt;
     private javax.swing.JTextField search;
     private javax.swing.JTextField valtxt;
+    private javax.swing.JComboBox<String> yearcombo;
     // End of variables declaration//GEN-END:variables
 
 }

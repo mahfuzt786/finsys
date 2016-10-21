@@ -7,6 +7,7 @@ package finsys;
 
 import java.util.Date;
 import javax.swing.JOptionPane;
+import javax.swing.JRootPane;
 import javax.swing.UIManager;
 
 /**
@@ -23,6 +24,8 @@ public class loginform extends javax.swing.JFrame {
     public loginform() {
         initComponents();
         db=new database();
+         JRootPane rootPane = this.getRootPane();
+        rootPane.setDefaultButton(jButton_login);
     }
 
     /**

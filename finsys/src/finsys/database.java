@@ -459,6 +459,41 @@ public class database {
             return flag;
         }
     }
+         
+         
+   public int insertOpening(openingtable i) {
+        int flag = 0;
+        String sql;
+        int slno;
+
+       System.out.println("Values: " );
+        try {
+            sql = "SELECT MAX(slno) as max FROM finsys.t_openingstock";
+            slno = getmax(sql);
+            
+            pst = conn.prepareStatement("INSERT INTO finsys.t_openingstock(slno,itemid"
+          +",mnth,yr,ostockqty,ostockvalue"
+          + ") values("
+          +"?,?,"
+      
+          +"?,?,?,?)");
+          pst.setInt(1,slno );
+           
+            pst.setInt(2,i.getId());
+            pst.setInt(3,i.getMonth());
+            pst.setInt(4,i.getYear());
+            pst.setDouble(5,Double.valueOf(i.getQuantity()));
+            pst.setDouble(6,Double.valueOf(i.getValue()) );
+           
+            flag = pst.executeUpdate();
+           
+            return flag;
+        } catch (Exception e) {
+            System.out.println("Error while validating in insert :" + e);
+            return flag;
+        }
+    }
+    
      
         //GET FUNCTION FOR MASTER TABLE
        
