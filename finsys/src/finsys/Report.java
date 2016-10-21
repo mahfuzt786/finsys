@@ -194,6 +194,7 @@ public class Report  {
         Integer m=Integer.valueOf(mn.format(st));
         Integer y=Integer.valueOf(yr.format(st));
         HashMap params= new HashMap();
+        System.out.println(s+" "+e+" "+m+" "+" "+y+" "+catid);
           r="Store_Ledger_Categorywise";
         reportName="categorystoreledger.jrxml";
         params.put("startdate",st);

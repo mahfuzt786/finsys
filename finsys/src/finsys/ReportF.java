@@ -598,8 +598,9 @@ public class ReportF extends javax.swing.JInternalFrame {
             }else  if(storeradio.isSelected()){
                 Comboitem g;
                 Integer catid=0;
-                 g=(Comboitem)comboLedger.getSelectedItem();
+                 g=(Comboitem)categoryCombo.getSelectedItem();
                  catid=g.getKey();
+                 System.out.println("Category Id: "+catid);
                  r.categorystoreledger(startdate, enddate,catid);
             }else  if(stockinradio.isSelected()){
                 String invoice="";
