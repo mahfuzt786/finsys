@@ -52,13 +52,23 @@ public class Report  {
     PrintWriter out = null;
     String reportName="";
     String r="";
-      String dt = new SimpleDateFormat("dd-MM-yyyy").format(new Date());
+    String dt = new SimpleDateFormat("dd-MM-yyyy").format(new Date());
     public void issue_slip(String s,String e) throws ParseException, JRException, IOException{
         Date st=UtilDate.convertStringToSqlDate("dd-MM-yyyy",s);
         Date et=UtilDate.convertStringToSqlDate("dd-MM-yyyy",e);
         HashMap params= new HashMap();
         reportName="issue_slip.jrxml";
         r="Issue_Slip";
+        params.put("startdate",st);
+        params.put("enddate",et);
+        printreport(params);
+    }
+     public void return_slip(String s,String e) throws ParseException, JRException, IOException{
+        Date st=UtilDate.convertStringToSqlDate("dd-MM-yyyy",s);
+        Date et=UtilDate.convertStringToSqlDate("dd-MM-yyyy",e);
+        HashMap params= new HashMap();
+        reportName="return_slip.jrxml";
+        r="Return_Slip";
         params.put("startdate",st);
         params.put("enddate",et);
         printreport(params);
@@ -140,6 +150,7 @@ public class Report  {
             case 4: item_wise(s,e,m,y);break;
             case 5: stockin(s,e);break;
             case 6: eitem_wise(s,e,m,y);break;
+            case 7: return_slip(s,e); break;
         }
     }
        
@@ -149,6 +160,17 @@ public class Report  {
         HashMap params= new HashMap();
           r="Cost_Center_Issue_Slip";
         reportName="ccissue_slip.jrxml";
+        params.put("startdate",st);
+        params.put("enddate",et);
+        params.put("ccid", ccid);
+        printreport(params);
+    }
+       public void rccissueslip(String s,String e,Integer ccid) throws ParseException, JRException, IOException{
+        Date st=UtilDate.convertStringToSqlDate("dd-MM-yyyy",s);
+        Date et=UtilDate.convertStringToSqlDate("dd-MM-yyyy",e);
+        HashMap params= new HashMap();
+          r="Cost_Center_Return_Slip";
+        reportName="ccreturn_slip.jrxml";
         params.put("startdate",st);
         params.put("enddate",et);
         params.put("ccid", ccid);
@@ -164,11 +186,30 @@ public class Report  {
         params.put("iss", code);
         printreport(params);
     }
+          public void returncode_issueslip(String code) throws ParseException, JRException, IOException{
+       
+        HashMap params= new HashMap();
+          r="ReturnCode_Issue_Slip";
+        reportName="returncode_issue_slip.jrxml";
+       
+        params.put("iss", code);
+        printreport(params);
+    }
         public void issuedate_issueslip(String dt) throws ParseException, JRException, IOException{
         Date st=UtilDate.convertStringToSqlDate("dd-MM-yyyy",dt);
         HashMap params= new HashMap();
-          r="IssueCode_Issue_Slip";
+          r="IssueDate_Issue_Slip";
         reportName="issuedate_issue_slip.jrxml";
+       
+        params.put("iss", st);
+        printreport(params);
+    }
+        
+         public void returndate_issueslip(String dt) throws ParseException, JRException, IOException{
+        Date st=UtilDate.convertStringToSqlDate("dd-MM-yyyy",dt);
+        HashMap params= new HashMap();
+          r="ReturnDate_Issue_Slip";
+        reportName="issuedate_return_slip.jrxml";
        
         params.put("iss", st);
         printreport(params);

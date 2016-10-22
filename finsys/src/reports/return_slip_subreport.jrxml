@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="return_slip_subreport" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="head" fontName="Times New Roman" fontSize="15" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold"/>
+	<style name="n" fontName="Times New Roman" fontSize="11" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="b" fontName="Times New Roman" fontSize="12" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold"/>
+	<style name="n1" fontName="Times New Roman" fontSize="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<parameter name="startdate" class="java.util.Date"/>
+	<parameter name="enddate" class="java.util.Date"/>
+	<parameter name="code" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[select *,t.itemvalue*t.issuequantity as tot from finsys.t_issue_items t
+inner join finsys.t_issue_return mt on mt.issue_returncode=t.issue_returncode
+inner join finsys.m_item i on i.itemid=t.itemid
+inner join finsys.m_itemcategory c on c.categoryid=i.categoryid
+inner join finsys.t_uom u on u.uomcode=i.uomcode
+inner join finsys.m_ledger l on l.ledgerid=t.ledgerid
+inner join finsys.m_costcenter cc on cc.centerid=mt.costcenterid
+where  t.issue_returncode=$P{code}
+order by c.categoryid]]>
+	</queryString>
+	<field name="itemid" class="java.lang.Integer"/>
+	<field name="reqquantity" class="java.math.BigDecimal"/>
+	<field name="issuequantity" class="java.math.BigDecimal"/>
+	<field name="issue_returncode" class="java.lang.String"/>
+	<field name="itemvalue" class="java.math.BigDecimal"/>
+	<field name="ledgerid" class="java.lang.Integer"/>
+	<field name="acc_post" class="java.lang.String"/>
+	<field name="issueamt_value" class="java.math.BigDecimal"/>
+	<field name="issuedate" class="java.sql.Timestamp"/>
+	<field name="receiptno" class="java.lang.String"/>
+	<field name="transportation_amt" class="java.math.BigDecimal"/>
+	<field name="issue_or_return" class="java.lang.String"/>
+	<field name="costcenterid" class="java.lang.Integer"/>
+	<field name="slno" class="java.lang.Integer"/>
+	<field name="itemcode" class="java.lang.String"/>
+	<field name="itemname" class="java.lang.String"/>
+	<field name="itemtypeid" class="java.lang.Integer"/>
+	<field name="itemcost" class="java.math.BigDecimal"/>
+	<field name="categoryid" class="java.lang.Integer"/>
+	<field name="uomcode" class="java.lang.Integer"/>
+	<field name="categorycode" class="java.lang.String"/>
+	<field name="categoryname" class="java.lang.String"/>
+	<field name="uomname" class="java.lang.String"/>
+	<field name="uomabbr" class="java.lang.String"/>
+	<field name="ledgercode" class="java.lang.String"/>
+	<field name="ledgername" class="java.lang.String"/>
+	<field name="soemaingroupid" class="java.lang.Integer"/>
+	<field name="soegroupid" class="java.lang.Integer"/>
+	<field name="centerid" class="java.lang.Integer"/>
+	<field name="centercode" class="java.lang.String"/>
+	<field name="centername" class="java.lang.String"/>
+	<field name="tot" class="java.math.BigDecimal"/>
+	<variable name="iss" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{tot}]]></variableExpression>
+		<initialValueExpression><![CDATA[$V{iss}.abs()]]></initialValueExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="50" splitType="Stretch">
+			<textField>
+				<reportElement style="n1" x="53" y="12" width="106" height="37"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{itemname}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="49" width="555" height="1"/>
+			</line>
+			<textField>
+				<reportElement style="n1" x="484" y="12" width="71" height="37"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{ledgername}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="n1" x="418" y="12" width="64" height="37"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{centername}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="n1" x="484" y="0" width="71" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{ledgercode}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="n1" x="419" y="0" width="64" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{centercode}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="n1" x="374" y="0" width="44" height="28"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{itemvalue}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="n1" x="314" y="0" width="59" height="28"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.Float"><![CDATA[$F{tot}.floatValue()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="n1" x="255" y="0" width="58" height="28"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{issuequantity}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="n1" x="195" y="0" width="59" height="28"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{reqquantity}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="n1" x="160" y="0" width="34" height="28"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{uomabbr}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="483" y="-3" width="1" height="52"/>
+			</line>
+			<line>
+				<reportElement x="418" y="-3" width="1" height="52"/>
+			</line>
+			<line>
+				<reportElement x="373" y="-3" width="1" height="52"/>
+			</line>
+			<line>
+				<reportElement x="313" y="-3" width="1" height="52"/>
+			</line>
+			<line>
+				<reportElement x="194" y="-3" width="1" height="52"/>
+			</line>
+			<line>
+				<reportElement x="159" y="-3" width="1" height="52"/>
+			</line>
+			<textField>
+				<reportElement style="n1" x="53" y="0" width="106" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{itemcode}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="254" y="-3" width="1" height="52"/>
+			</line>
+			<textField>
+				<reportElement style="n" x="2" y="0" width="51" height="19"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{categorycode}+" "+$F{categoryname}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="53" y="-3" width="1" height="52"/>
+			</line>
+		</band>
+	</detail>
+	<summary>
+		<band height="26">
+			<staticText>
+				<reportElement style="b" x="9" y="0" width="150" height="23"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[RETURN TOTAL :]]></text>
+			</staticText>
+			<line>
+				<reportElement x="1" y="23" width="554" height="1"/>
+			</line>
+			<textField>
+				<reportElement style="n1" x="314" y="0" width="60" height="23"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$V{iss}.doubleValue()]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

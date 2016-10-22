@@ -55,6 +55,7 @@ public class Filter_Report extends javax.swing.JInternalFrame {
         itemwiseradio = new javax.swing.JRadioButton();
         essradio = new javax.swing.JRadioButton();
         stockinradio = new javax.swing.JRadioButton();
+        returnradio = new javax.swing.JRadioButton();
         btnadd = new javax.swing.JButton();
         btnclear = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
@@ -115,6 +116,16 @@ public class Filter_Report extends javax.swing.JInternalFrame {
             }
         });
 
+        radiogroup.add(returnradio);
+        returnradio.setText("Return Report");
+        returnradio.setActionCommand("Return Report");
+        returnradio.setOpaque(false);
+        returnradio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                returnradioActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -125,19 +136,22 @@ public class Filter_Report extends javax.swing.JInternalFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(stockinradio)
-                        .addGap(274, 274, 274))
+                        .addComponent(returnradio)
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(issueradio)
-                            .addComponent(storeradio))
-                        .addGap(97, 97, 97)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(ledgerradio)
-                            .addComponent(itemwiseradio, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(essradio, javax.swing.GroupLayout.Alignment.TRAILING))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jSeparator1, javax.swing.GroupLayout.DEFAULT_SIZE, 1, Short.MAX_VALUE))
+                            .addComponent(stockinradio)
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(issueradio)
+                                    .addComponent(storeradio))
+                                .addGap(97, 97, 97)
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(ledgerradio)
+                                    .addComponent(itemwiseradio, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(essradio, javax.swing.GroupLayout.Alignment.TRAILING))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jSeparator1, javax.swing.GroupLayout.DEFAULT_SIZE, 1, Short.MAX_VALUE))))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -155,14 +169,13 @@ public class Filter_Report extends javax.swing.JInternalFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(storeradio)
                     .addComponent(itemwiseradio))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(essradio))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(stockinradio)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(essradio)
+                    .addComponent(stockinradio, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(returnradio)
+                .addContainerGap(15, Short.MAX_VALUE))
         );
 
         btnadd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/finsys/icons/Add_16x16.png"))); // NOI18N
@@ -238,13 +251,13 @@ public class Filter_Report extends javax.swing.JInternalFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnadd)
-                    .addComponent(btnclear))
-                .addGap(133, 133, 133))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnclear)
+                    .addComponent(btnadd))
+                .addGap(117, 117, 117))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -289,6 +302,8 @@ public class Filter_Report extends javax.swing.JInternalFrame {
                 status=5;
             }else  if(essradio.isSelected()){
                 status=6;
+            }else  if(returnradio.isSelected()){
+                status=7;
             }
             r.filter_report(startdate,enddate,status);
         } catch (ParseException|JRException|IOException  ex) {
@@ -303,6 +318,10 @@ public class Filter_Report extends javax.swing.JInternalFrame {
     private void stockinradioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_stockinradioActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_stockinradioActionPerformed
+
+    private void returnradioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_returnradioActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_returnradioActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -321,6 +340,7 @@ public class Filter_Report extends javax.swing.JInternalFrame {
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JRadioButton ledgerradio;
     private javax.swing.ButtonGroup radiogroup;
+    private javax.swing.JRadioButton returnradio;
     private javax.swing.JRadioButton stockinradio;
     private javax.swing.JRadioButton storeradio;
     private org.jdesktop.swingx.JXDatePicker txtenddate;

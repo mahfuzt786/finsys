@@ -31,12 +31,14 @@ public class ReportF extends javax.swing.JInternalFrame {
     public ReportF() {
         initComponents();
          costCombo.addItem(new Comboitem(0,"Select"));
+         rcostCombo.addItem(new Comboitem(0,"Select"));
          db=new database();
         setEnabledAll(storepanel,false);
         setEnabledAll(lpanel,false);
         setEnabledAll(isspanel,false);
         setEnabledAll(stockinpanel,false);
         setEnabledAll(datepanel,false);
+        setEnabledAll(retpanel,false);
         txtstartdate.setDate(new Date());
         txtenddate.setDate(new Date());
         cc=db.getCC();
@@ -45,6 +47,10 @@ public class ReportF extends javax.swing.JInternalFrame {
         for(Costcentertable c:cc){
            
             costCombo.addItem(new Comboitem(c.getCenterid(),c.getCentername()));
+        }
+        for(Costcentertable c:cc){
+           
+            rcostCombo.addItem(new Comboitem(c.getCenterid(),c.getCentername()));
         }
         System.out.println("For ledger");
         comboLedger.addItem(new Comboitem(0,"Select"));
@@ -86,6 +92,7 @@ public class ReportF extends javax.swing.JInternalFrame {
         jPanel6 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         issuegroup = new javax.swing.ButtonGroup();
+        returngroup = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         issueradio = new javax.swing.JRadioButton();
@@ -120,6 +127,17 @@ public class ReportF extends javax.swing.JInternalFrame {
         jLabel3 = new javax.swing.JLabel();
         txtstartdate = new org.jdesktop.swingx.JXDatePicker();
         txtenddate = new org.jdesktop.swingx.JXDatePicker();
+        returnradio = new javax.swing.JRadioButton();
+        retpanel = new javax.swing.JPanel();
+        rccradio = new javax.swing.JRadioButton();
+        rdateradio = new javax.swing.JRadioButton();
+        jLabel13 = new javax.swing.JLabel();
+        rcostCombo = new javax.swing.JComboBox<>();
+        jLabel14 = new javax.swing.JLabel();
+        ret_dt = new org.jdesktop.swingx.JXDatePicker();
+        jLabel15 = new javax.swing.JLabel();
+        ret_code = new javax.swing.JTextField();
+        rcoderadio = new javax.swing.JRadioButton();
         btnadd = new javax.swing.JButton();
         btnclear = new javax.swing.JButton();
 
@@ -247,34 +265,30 @@ public class ReportF extends javax.swing.JInternalFrame {
             .addGroup(isspanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(isspanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(isspanelLayout.createSequentialGroup()
-                        .addGroup(isspanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, isspanelLayout.createSequentialGroup()
-                                .addComponent(ccradio)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel11))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, isspanelLayout.createSequentialGroup()
-                                .addComponent(coderadio)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel12))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, isspanelLayout.createSequentialGroup()
-                                .addComponent(dateradio)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel10)))
-                        .addGap(18, 18, 18)
-                        .addGroup(isspanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(costCombo, 0, 215, Short.MAX_VALUE)
-                            .addComponent(issue_code))
-                        .addContainerGap())
-                    .addGroup(isspanelLayout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(iss_dt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(115, 115, 115))))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, isspanelLayout.createSequentialGroup()
+                        .addComponent(ccradio)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel11))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, isspanelLayout.createSequentialGroup()
+                        .addComponent(coderadio)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel12))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, isspanelLayout.createSequentialGroup()
+                        .addComponent(dateradio)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel10)))
+                .addGap(18, 18, 18)
+                .addGroup(isspanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(isspanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(costCombo, 0, 215, Short.MAX_VALUE)
+                        .addComponent(issue_code))
+                    .addComponent(iss_dt, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
         );
         isspanelLayout.setVerticalGroup(
             isspanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(isspanelLayout.createSequentialGroup()
-                .addContainerGap()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(isspanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(isspanelLayout.createSequentialGroup()
                         .addGroup(isspanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -292,7 +306,7 @@ public class ReportF extends javax.swing.JInternalFrame {
                         .addComponent(jLabel12)
                         .addComponent(issue_code, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(coderadio))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(134, 134, 134))
         );
 
         stockinpanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Stock In"));
@@ -318,7 +332,7 @@ public class ReportF extends javax.swing.JInternalFrame {
                 .addGroup(stockinpanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel8)
                     .addComponent(invoicetxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(44, 44, 44))
+                .addContainerGap())
         );
 
         lpanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Ledger Wise"));
@@ -331,7 +345,7 @@ public class ReportF extends javax.swing.JInternalFrame {
         lpanelLayout.setHorizontalGroup(
             lpanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(lpanelLayout.createSequentialGroup()
-                .addContainerGap(33, Short.MAX_VALUE)
+                .addContainerGap(90, Short.MAX_VALUE)
                 .addComponent(jLabel5)
                 .addGap(18, 18, 18)
                 .addComponent(comboLedger, javax.swing.GroupLayout.PREFERRED_SIZE, 344, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -409,6 +423,103 @@ public class ReportF extends javax.swing.JInternalFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        radiogroup.add(returnradio);
+        returnradio.setText("Return Report");
+        returnradio.setActionCommand("Return Report");
+        returnradio.setOpaque(false);
+        returnradio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                returnradioActionPerformed(evt);
+            }
+        });
+
+        retpanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Return Slip"));
+        retpanel.setOpaque(false);
+
+        returngroup.add(rccradio);
+        rccradio.setText("Cost Center ");
+        rccradio.setOpaque(false);
+        rccradio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rccradioActionPerformed(evt);
+            }
+        });
+
+        returngroup.add(rdateradio);
+        rdateradio.setText("Return Date ");
+        rdateradio.setOpaque(false);
+        rdateradio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rdateradioActionPerformed(evt);
+            }
+        });
+
+        jLabel13.setText("CostCenter");
+
+        jLabel14.setText("Return Date");
+
+        jLabel15.setText("Return Code");
+
+        returngroup.add(rcoderadio);
+        rcoderadio.setText("Return Code ");
+        rcoderadio.setActionCommand("Issue Code :");
+        rcoderadio.setOpaque(false);
+        rcoderadio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rcoderadioActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout retpanelLayout = new javax.swing.GroupLayout(retpanel);
+        retpanel.setLayout(retpanelLayout);
+        retpanelLayout.setHorizontalGroup(
+            retpanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(retpanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(retpanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, retpanelLayout.createSequentialGroup()
+                        .addComponent(rccradio)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 111, Short.MAX_VALUE)
+                        .addComponent(jLabel13))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, retpanelLayout.createSequentialGroup()
+                        .addComponent(rcoderadio)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel15))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, retpanelLayout.createSequentialGroup()
+                        .addComponent(rdateradio)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel14)))
+                .addGap(18, 18, 18)
+                .addGroup(retpanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(retpanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(rcostCombo, 0, 215, Short.MAX_VALUE)
+                        .addComponent(ret_code))
+                    .addComponent(ret_dt, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
+        );
+        retpanelLayout.setVerticalGroup(
+            retpanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(retpanelLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(retpanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(retpanelLayout.createSequentialGroup()
+                        .addGroup(retpanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(rccradio)
+                            .addComponent(jLabel13))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(retpanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel14)
+                            .addComponent(ret_dt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(rdateradio)))
+                    .addComponent(rcostCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(retpanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(retpanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel15)
+                        .addComponent(ret_code, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(rcoderadio)))
+        );
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -426,52 +537,60 @@ public class ReportF extends javax.swing.JInternalFrame {
                                     .addComponent(issueradio)
                                     .addComponent(storeradio)
                                     .addComponent(ledgerradio)
-                                    .addComponent(stockinradio, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(stockinradio, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(returnradio)))
                             .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(datepanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(isspanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(stockinpanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 2, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lpanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(storepanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(storepanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(retpanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(stockinpanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(isspanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jSeparator3)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(isspanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(stockinpanel, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lpanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addComponent(isspanel, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(retpanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(stockinpanel, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(lpanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel1)
+                                    .addComponent(issueradio))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(stockinradio)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(ledgerradio)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(storeradio, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(returnradio)
+                                .addGap(52, 52, 52)
+                                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(datepanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(133, 133, 133)
+                                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(storepanel, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel1)
-                            .addComponent(issueradio))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(stockinradio)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(ledgerradio)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(storeradio, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(78, 78, 78)
-                        .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(datepanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(133, 133, 133)
-                        .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 367, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(storepanel, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
         );
 
         btnadd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/finsys/icons/Add_16x16.png"))); // NOI18N
@@ -501,20 +620,20 @@ public class ReportF extends javax.swing.JInternalFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(0, 12, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(btnadd, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(btnclear, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())))
+                        .addComponent(btnclear, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 390, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnadd)
                     .addComponent(btnclear))
@@ -529,7 +648,7 @@ public class ReportF extends javax.swing.JInternalFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -606,6 +725,27 @@ public class ReportF extends javax.swing.JInternalFrame {
                 String invoice="";
                  invoice=invoicetxt.getText().trim();
                  r.invoiceidstockin(invoice);
+            }else if(returnradio.isSelected()){
+                Comboitem g;
+                Integer ccid=0;
+                String icode="";
+                if(rccradio.isSelected()){
+                    g=(Comboitem)rcostCombo.getSelectedItem();
+                    ccid=g.getKey();
+                    r.rccissueslip(startdate, enddate, ccid);
+                }else if(rcoderadio.isSelected()){
+                    icode=ret_code.getText().trim();
+                    r.returncode_issueslip(icode);
+                    
+                }else if(rdateradio.isSelected()){
+                     System.out.println(ret_dt.getDate());
+                     Date issuedate= ret_dt.getDate(); 
+                     String i=oDateFormat.format(issuedate);
+                     System.out.println(i);
+                    r.returndate_issueslip(i);
+                    
+                }
+              
             }
             r.filter_report(startdate,enddate,status);
         } catch (ParseException|JRException|IOException  ex) {
@@ -644,6 +784,7 @@ public class ReportF extends javax.swing.JInternalFrame {
         setEnabledAll(isspanel,false);
         setEnabledAll(stockinpanel,true);
         setEnabledAll(datepanel,false);
+        setEnabledAll(retpanel,false);
     }//GEN-LAST:event_stockinradioActionPerformed
 
     private void storeradioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_storeradioActionPerformed
@@ -653,12 +794,13 @@ public class ReportF extends javax.swing.JInternalFrame {
         setEnabledAll(isspanel,false);
         setEnabledAll(stockinpanel,false);
         setEnabledAll(datepanel,true);
+        setEnabledAll(retpanel,false);
     }//GEN-LAST:event_storeradioActionPerformed
 
     private void ledgerradioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ledgerradioActionPerformed
         // TODO add your handling code here:
         setEnabledAll(lpanel,true);
-
+        setEnabledAll(retpanel,false);
         setEnabledAll(datepanel,true);
 
         setEnabledAll(storepanel,false);
@@ -677,7 +819,7 @@ public class ReportF extends javax.swing.JInternalFrame {
         setEnabledAll(isspanel,true);
         setEnabledAll(storepanel,false);
         setEnabledAll(lpanel,false);
-
+        setEnabledAll(retpanel,false);
         setEnabledAll(stockinpanel,false);
 
         setEnabledAll(datepanel,true);
@@ -685,6 +827,45 @@ public class ReportF extends javax.swing.JInternalFrame {
         iss_dt.setEnabled(false);
         issue_code.setEnabled(false);
     }//GEN-LAST:event_issueradioActionPerformed
+
+    private void returnradioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_returnradioActionPerformed
+        // TODO add your handling code here:
+        setEnabledAll(retpanel,true);
+         setEnabledAll(isspanel,false);
+        setEnabledAll(storepanel,false);
+        setEnabledAll(lpanel,false);
+
+        setEnabledAll(stockinpanel,false);
+
+        setEnabledAll(datepanel,true);
+        costCombo.setEnabled(false);
+        iss_dt.setEnabled(false);
+        issue_code.setEnabled(false);
+    }//GEN-LAST:event_returnradioActionPerformed
+
+    private void rccradioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rccradioActionPerformed
+        // TODO add your handling code here:
+         rcostCombo.setEnabled(true);
+        ret_dt.setEnabled(false);
+        ret_code.setEnabled(false);
+        setEnabledAll(datepanel,true);
+    }//GEN-LAST:event_rccradioActionPerformed
+
+    private void rdateradioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdateradioActionPerformed
+        // TODO add your handling code here:
+        ret_dt.setEnabled(true);
+        rcostCombo.setEnabled(false);
+        setEnabledAll(datepanel,false);
+        ret_code.setEnabled(false);
+    }//GEN-LAST:event_rdateradioActionPerformed
+
+    private void rcoderadioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rcoderadioActionPerformed
+        // TODO add your handling code here:
+        ret_code.setEnabled(true);
+        rcostCombo.setEnabled(false);
+        ret_dt.setEnabled(false);
+        setEnabledAll(datepanel,false);
+    }//GEN-LAST:event_rcoderadioActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -707,6 +888,9 @@ public class ReportF extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -723,6 +907,15 @@ public class ReportF extends javax.swing.JInternalFrame {
     private javax.swing.JRadioButton ledgerradio;
     private javax.swing.JPanel lpanel;
     private javax.swing.ButtonGroup radiogroup;
+    private javax.swing.JRadioButton rccradio;
+    private javax.swing.JRadioButton rcoderadio;
+    private javax.swing.JComboBox<Comboitem> rcostCombo;
+    private javax.swing.JRadioButton rdateradio;
+    private javax.swing.JTextField ret_code;
+    private org.jdesktop.swingx.JXDatePicker ret_dt;
+    private javax.swing.JPanel retpanel;
+    private javax.swing.ButtonGroup returngroup;
+    private javax.swing.JRadioButton returnradio;
     private javax.swing.JPanel stockinpanel;
     private javax.swing.JRadioButton stockinradio;
     private javax.swing.JPanel storepanel;

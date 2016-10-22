@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="issuecode_issue_slip" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="head" fontName="Times New Roman" fontSize="15" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold"/>
+	<style name="n" fontName="Times New Roman" fontSize="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="b" fontName="Times New Roman" fontSize="12" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String">
+		<defaultValueExpression><![CDATA["E:\\reports\\"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="iss" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[select ir.issue_returncode ,ir.acc_post,ir.issueamt_value,to_char(ir.issuedate,'dd-MM-yyyy') as issuedate,
+ir.receiptno,ir.transportation_amt,
+ir.issue_or_return,ir.costcenterid,ir.slno from finsys.t_issue_return ir
+inner join m_costcenter cc on cc.centerid=ir.costcenterid
+where ir.issue_or_return='R' and ir.issue_returncode=$P{iss}
+group by ir.issue_returncode,ir.acc_post,ir.issueamt_value, issuedate,ir.receiptno,ir.transportation_amt,
+ir.issue_or_return,ir.costcenterid,ir.slno
+order by ir.issuedate]]>
+	</queryString>
+	<field name="issue_returncode" class="java.lang.String"/>
+	<field name="acc_post" class="java.lang.String"/>
+	<field name="issueamt_value" class="java.math.BigDecimal"/>
+	<field name="issuedate" class="java.lang.String"/>
+	<field name="receiptno" class="java.lang.String"/>
+	<field name="transportation_amt" class="java.math.BigDecimal"/>
+	<field name="issue_or_return" class="java.lang.String"/>
+	<field name="costcenterid" class="java.lang.Integer"/>
+	<field name="slno" class="java.lang.Integer"/>
+	<title>
+		<band height="31" splitType="Stretch">
+			<staticText>
+				<reportElement style="b" x="0" y="15" width="555" height="15"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ RETURN SLIP]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="head" x="0" y="1" width="555" height="14"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[SIBBARI TEA ESTATE, SIVASAGAR]]></text>
+			</staticText>
+		</band>
+	</title>
+	<detail>
+		<band height="55" splitType="Stretch">
+			<subreport>
+				<reportElement x="-20" y="12" width="592" height="42"/>
+				<subreportParameter name="startdate">
+					<subreportParameterExpression><![CDATA[]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="code">
+					<subreportParameterExpression><![CDATA[$F{issue_returncode}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="enddate">
+					<subreportParameterExpression><![CDATA[]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "return_slip_subreport.jasper"]]></subreportExpression>
+			</subreport>
+			<rectangle>
+				<reportElement x="0" y="17" width="555" height="12"/>
+			</rectangle>
+			<line>
+				<reportElement x="313" y="17" width="1" height="12"/>
+			</line>
+			<line>
+				<reportElement x="159" y="17" width="1" height="12"/>
+			</line>
+			<line>
+				<reportElement x="194" y="17" width="1" height="12"/>
+			</line>
+			<line>
+				<reportElement x="254" y="17" width="1" height="12"/>
+			</line>
+			<line>
+				<reportElement x="373" y="17" width="1" height="12"/>
+			</line>
+			<line>
+				<reportElement x="418" y="17" width="1" height="12"/>
+			</line>
+			<line>
+				<reportElement x="483" y="17" width="1" height="12"/>
+			</line>
+			<staticText>
+				<reportElement style="b" x="54" y="18" width="106" height="11"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Item]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="b" x="159" y="18" width="35" height="11"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[UOM]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="b" x="195" y="18" width="59" height="11"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Req.  Quantity]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="b" x="255" y="18" width="58" height="11"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Issue Quantity]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="b" x="314" y="18" width="59" height="11"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Item Value]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="b" x="373" y="18" width="45" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Avg. value]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="b" x="419" y="18" width="64" height="11"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Cost Center]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="b" x="484" y="17" width="71" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Ledger]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="b" x="0" y="17" width="53" height="13"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Category]]></text>
+			</staticText>
+			<line>
+				<reportElement x="53" y="17" width="1" height="12"/>
+			</line>
+			<staticText>
+				<reportElement style="n" x="0" y="2" width="94" height="10"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[RETURN CODE :]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="n" x="94" y="2" width="106" height="10"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{issue_returncode}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="n" x="390" y="2" width="61" height="10"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[RETURN DATE :]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="n" x="451" y="2" width="104" height="10"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{issuedate}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="12">
+			<textField>
+				<reportElement x="532" y="1" width="23" height="11"/>
+				<textElement>
+					<font fontName="Times New Roman" size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Integer"><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+</jasperReport>
