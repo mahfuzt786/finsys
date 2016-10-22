@@ -90,7 +90,7 @@ public class Report  {
         
         HashMap params= new HashMap();
           r="Store_Ledger";
-        reportName="storeledger.jrxml";
+        reportName="s.jrxml";
         params.put("startdate",st);
         params.put("enddate",et);
         params.put("omonth",m);
@@ -196,12 +196,12 @@ public class Report  {
         HashMap params= new HashMap();
         System.out.println(s+" "+e+" "+m+" "+" "+y+" "+catid);
           r="Store_Ledger_Categorywise";
-        reportName="categorystoreledger.jrxml";
+        reportName="scat.jrxml";
         params.put("startdate",st);
         params.put("enddate",et);
         params.put("omonth",m);
         params.put("oyr",y);
-        params.put("catid",catid);
+        params.put("cid",catid);
         printreport(params);
     }
          
