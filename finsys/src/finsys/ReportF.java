@@ -345,10 +345,10 @@ public class ReportF extends javax.swing.JInternalFrame {
         lpanelLayout.setHorizontalGroup(
             lpanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(lpanelLayout.createSequentialGroup()
-                .addContainerGap(90, Short.MAX_VALUE)
+                .addGap(37, 37, 37)
                 .addComponent(jLabel5)
-                .addGap(18, 18, 18)
-                .addComponent(comboLedger, javax.swing.GroupLayout.PREFERRED_SIZE, 344, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(comboLedger, javax.swing.GroupLayout.PREFERRED_SIZE, 405, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         lpanelLayout.setVerticalGroup(
@@ -356,8 +356,8 @@ public class ReportF extends javax.swing.JInternalFrame {
             .addGroup(lpanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(lpanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(comboLedger))
+                    .addComponent(comboLedger)
+                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(17, 17, 17))
         );
 
@@ -425,7 +425,6 @@ public class ReportF extends javax.swing.JInternalFrame {
 
         radiogroup.add(returnradio);
         returnradio.setText("Return Report");
-        returnradio.setActionCommand("Return Report");
         returnradio.setOpaque(false);
         returnradio.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -479,7 +478,7 @@ public class ReportF extends javax.swing.JInternalFrame {
                 .addGroup(retpanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, retpanelLayout.createSequentialGroup()
                         .addComponent(rccradio)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 111, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel13))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, retpanelLayout.createSequentialGroup()
                         .addComponent(rcoderadio)
