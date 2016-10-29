@@ -26,7 +26,7 @@ public class Costcenter extends javax.swing.JInternalFrame {
     String dialogs;
     int dialogtype = JOptionPane.PLAIN_MESSAGE;
     database data = new database();
-    public String ID;
+    public String ID="";
     DefaultTableModel model;
 
     /**
@@ -327,16 +327,20 @@ public class Costcenter extends javax.swing.JInternalFrame {
 
     private void btnupdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnupdateActionPerformed
         // update
-        if(ID==null){
+        if(ID.equals("")){
             dialogmessage = "Please Select Record To Update";
                     JOptionPane.showMessageDialog(null,dialogmessage,
                             "WARNING!!", JOptionPane.WARNING_MESSAGE);
+        } if("".equals(txtcentercode.getText().trim())){
+             dialogmessage = "PLEASE ENTER CENTER CODE!!!";
+                    JOptionPane.showMessageDialog(null, dialogmessage,
+                            "ERROR!!", JOptionPane.ERROR_MESSAGE);
+        }else  if("".equals(txtcentername.getText().trim())){
+             dialogmessage = "PLEASE ENTER CENTER NAME!!!";
+                    JOptionPane.showMessageDialog(null, dialogmessage,
+                            "ERROR!!", JOptionPane.ERROR_MESSAGE);
         }
-        else if(txtcentercode.getText().trim().equals("") && txtcentername.getText().trim().equals("")){
-            dialogmessage = "Empty Record!!!";
-                    JOptionPane.showMessageDialog(null,dialogmessage,
-                            "WARNING!!", JOptionPane.WARNING_MESSAGE);
-        }
+       
         else{
         String query = "update finsys.m_costcenter set centercode='" + txtcentercode.getText().toUpperCase() + "',centername='" + txtcentername.getText().toUpperCase() + "' where centerid='" + ID + "'";
         executeSqlQuery(query, "updated");
@@ -354,7 +358,15 @@ public class Costcenter extends javax.swing.JInternalFrame {
 
         centercode = txtcentercode.getText().trim().toUpperCase();
         centername = txtcentername.getText().trim().toUpperCase();
-
+         if("".equals(centercode)){
+             dialogmessage = "PLEASE ENTER CENTER CODE!!!";
+                    JOptionPane.showMessageDialog(null, dialogmessage,
+                            "ERROR!!", JOptionPane.ERROR_MESSAGE);
+        }else  if("".equals(centername)){
+             dialogmessage = "PLEASE ENTER CENTER NAME!!!";
+                    JOptionPane.showMessageDialog(null, dialogmessage,
+                            "ERROR!!", JOptionPane.ERROR_MESSAGE);
+        }else{
         db = new database();
         try {
 
@@ -390,6 +402,7 @@ public class Costcenter extends javax.swing.JInternalFrame {
             System.out.println("Error while validating :" + ex);
             JOptionPane.showMessageDialog(null, "GENERAL EXCEPTION", "WARNING!!!", JOptionPane.INFORMATION_MESSAGE);
         }
+        }
     }//GEN-LAST:event_btnaddActionPerformed
 
     private void jtable_centertableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtable_centertableMouseClicked
@@ -403,7 +416,13 @@ public class Costcenter extends javax.swing.JInternalFrame {
 
     private void btndeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btndeleteActionPerformed
         //delete
-         if(ID==null){
+         String sMSGBOX_TITLE = "FINSYS version 1.0";
+        int reply = JOptionPane.showConfirmDialog(this, "Are you sure to want to delete this record?", sMSGBOX_TITLE, JOptionPane.YES_NO_OPTION,
+                    JOptionPane.WARNING_MESSAGE);
+            //System.out.println(reply);
+            if (reply == JOptionPane.YES_OPTION) {
+            
+         if("".equals(ID)){
             dialogmessage = "Please Select Record To Delete";
                     JOptionPane.showMessageDialog(null,dialogmessage,
                             "WARNING!!", JOptionPane.WARNING_MESSAGE);
@@ -413,6 +432,10 @@ public class Costcenter extends javax.swing.JInternalFrame {
         executeSqlQuery(query, "deleted");
         ResetRecord();
          }
+            }
+            else{
+                remove(reply);
+            }
     }//GEN-LAST:event_btndeleteActionPerformed
 
     private void searchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchKeyReleased

@@ -349,6 +349,15 @@ public class Soegroup extends javax.swing.JInternalFrame {
         Comboitem g =(Comboitem) jComboBox_soemain.getSelectedItem();
         int soemainid=g.getKey();
       soename = txtsoename.getText().trim().toUpperCase();;
+      if(soemainid==0){
+             dialogmessage = "PLEASE SELECT SOE MAIN GROUP!!!";
+                    JOptionPane.showMessageDialog(null, dialogmessage,
+                            "ERROR!!", JOptionPane.ERROR_MESSAGE);
+        }else  if("".equals(soename)){
+             dialogmessage = "PLEASE ENTER SOE NAME!!!";
+                    JOptionPane.showMessageDialog(null, dialogmessage,
+                            "ERROR!!", JOptionPane.ERROR_MESSAGE);
+        }else{
         if(ID==null){
             dialogmessage = "Please Select Record To Update";
                     JOptionPane.showMessageDialog(null,dialogmessage,
@@ -366,6 +375,7 @@ public class Soegroup extends javax.swing.JInternalFrame {
         ResetRecord();
         
         }
+        }
     }//GEN-LAST:event_btnupdateActionPerformed
 
     private void btnclearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnclearActionPerformed
@@ -378,7 +388,15 @@ public class Soegroup extends javax.swing.JInternalFrame {
         Comboitem g =(Comboitem) jComboBox_soemain.getSelectedItem();
         int soemainid=g.getKey();
         soename = txtsoename.getText().trim().toUpperCase();;
-        
+         if(soemainid==0){
+             dialogmessage = "PLEASE SELECT SOE MAIN GROUP!!!";
+                    JOptionPane.showMessageDialog(null, dialogmessage,
+                            "ERROR!!", JOptionPane.ERROR_MESSAGE);
+        }else  if("".equals(soename)){
+             dialogmessage = "PLEASE ENTER SOE NAME!!!";
+                    JOptionPane.showMessageDialog(null, dialogmessage,
+                            "ERROR!!", JOptionPane.ERROR_MESSAGE);
+        }else{
         db = new database();
         try {
 
@@ -414,6 +432,7 @@ public class Soegroup extends javax.swing.JInternalFrame {
             System.out.println("Error while validating :" + ex);
             JOptionPane.showMessageDialog(null, "GENERAL EXCEPTION", "WARNING!!!", JOptionPane.INFORMATION_MESSAGE);
         }
+        }
     }//GEN-LAST:event_btnaddActionPerformed
 
     private void jtable_soetableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtable_soetableMouseClicked
@@ -428,6 +447,13 @@ public class Soegroup extends javax.swing.JInternalFrame {
 
     private void btndeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btndeleteActionPerformed
         //delete
+        String sMSGBOX_TITLE = "FINSYS version 1.0";
+        int reply = JOptionPane.showConfirmDialog(this, "Are you sure to want to delete this record?", sMSGBOX_TITLE, JOptionPane.YES_NO_OPTION,
+                    JOptionPane.WARNING_MESSAGE);
+            //System.out.println(reply);
+            if (reply == JOptionPane.YES_OPTION) {
+            
+         
          if(ID==null){
             dialogmessage = "Please Select Record To Delete";
                     JOptionPane.showMessageDialog(null,dialogmessage,
@@ -437,7 +463,10 @@ public class Soegroup extends javax.swing.JInternalFrame {
         String query = "delete from finsys.m_soegroup where soegroupid='" + ID + "'";
         executeSqlQuery(query, "deleted");
         ResetRecord();
-         }
+         }}
+            else{
+                remove(reply);
+            }
     }//GEN-LAST:event_btndeleteActionPerformed
 
     private void searchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchKeyReleased

@@ -337,7 +337,15 @@ public class uom extends javax.swing.JInternalFrame {
 
         Uomname = uomname.getText().trim().toUpperCase();
         Uomabbr = uomabbr.getText().trim().toUpperCase();
-
+         if("".equals(Uomname)){
+             dialogmessage = "PLEASE ENTER UOM NAME!!!";
+                    JOptionPane.showMessageDialog(null, dialogmessage,
+                            "ERROR!!", JOptionPane.ERROR_MESSAGE);
+        }else  if("".equals(Uomabbr)){
+             dialogmessage = "PLEASE ENTER UOM ABBREVIAION !!!";
+                    JOptionPane.showMessageDialog(null, dialogmessage,
+                            "ERROR!!", JOptionPane.ERROR_MESSAGE);
+        }else{
         db = new database();
         try {
 
@@ -373,6 +381,7 @@ public class uom extends javax.swing.JInternalFrame {
             System.out.println("Error while validating :" + ex);
             JOptionPane.showMessageDialog(null, "GENERAL EXCEPTION", "WARNING!!!", JOptionPane.INFORMATION_MESSAGE);
         }
+        }
     }//GEN-LAST:event_btnaddActionPerformed
 
     private void jtable_uomtableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtable_uomtableMouseClicked
@@ -386,9 +395,26 @@ public class uom extends javax.swing.JInternalFrame {
 
     private void btndeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btndeleteActionPerformed
         //delete
+         String sMSGBOX_TITLE = "FINSYS version 1.0";
+        int reply = JOptionPane.showConfirmDialog(this, "Are you sure to want to delete this record?", sMSGBOX_TITLE, JOptionPane.YES_NO_OPTION,
+                    JOptionPane.WARNING_MESSAGE);
+            //System.out.println(reply);
+            if (reply == JOptionPane.YES_OPTION) {
+            
+           if(ID==null){
+            dialogmessage = "Please Select Record To Delete";
+                    JOptionPane.showMessageDialog(null,dialogmessage,
+                            "WARNING!!", JOptionPane.WARNING_MESSAGE);
+        }
+         else{
         String query = "delete from finsys.t_uom where uomcode='" + ID + "'";
         executeSqlQuery(query, "deleted");
         ResetRecord();
+           }
+            }
+            else{
+                remove(reply);
+            }
     }//GEN-LAST:event_btndeleteActionPerformed
 
     private void searchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchKeyReleased

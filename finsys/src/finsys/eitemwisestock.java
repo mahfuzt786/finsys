@@ -164,9 +164,15 @@ public class eitemwisestock extends javax.swing.JInternalFrame {
 
     private void btnaddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnaddActionPerformed
          Report r=new Report();
-       
+       String dialogmessage;
         Date tx = txtstartdate.getDate();  
         Date end=txtenddate.getDate();
+         if(tx==null ||end==null){
+             dialogmessage = "PLEASE SELECT START AND END DATE!!!";
+                    JOptionPane.showMessageDialog(null, dialogmessage,
+                            "ERROR!!", JOptionPane.ERROR_MESSAGE);
+        }
+         else{
         DateFormat oDateFormat = new SimpleDateFormat("dd-MM-yyyy");
         DateFormat mn = new SimpleDateFormat("MM");
          DateFormat yr = new SimpleDateFormat("yyyy");
@@ -182,6 +188,7 @@ public class eitemwisestock extends javax.swing.JInternalFrame {
         } catch (ParseException|JRException|IOException  ex) {
             Logger.getLogger(eitemwisestock.class.getName()).log(Level.SEVERE, null, ex);
         } 
+         }
     }//GEN-LAST:event_btnaddActionPerformed
 
 
