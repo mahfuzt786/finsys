@@ -29,7 +29,7 @@ public class mstore extends javax.swing.JInternalFrame {
     database data = new database();
     public String ID;
     DefaultTableModel model;
-
+     PatternValidation pattern=new PatternValidation();
     /**
      * Creates new form ms
      */
@@ -365,7 +365,24 @@ public class mstore extends javax.swing.JInternalFrame {
         ms = txtms.getText().trim().toUpperCase();
         address = txtaddress.getText().trim().toUpperCase();
         phone = txtphone.getText().trim().toUpperCase();
-
+        if("".equals(ms)){
+             dialogmessage = "PLEASE ENTER MS COMPANY NAME!!!";
+                    JOptionPane.showMessageDialog(null, dialogmessage,
+                            "ERROR!!", JOptionPane.ERROR_MESSAGE);
+        }else  if("".equals(address)){
+             dialogmessage = "PLEASE ENTER ADDRESS!!!";
+                    JOptionPane.showMessageDialog(null, dialogmessage,
+                            "ERROR!!", JOptionPane.ERROR_MESSAGE);
+        }else  if("".equals(phone)){
+             dialogmessage = "PLEASE ENTER PHONE NO.!!!";
+                    JOptionPane.showMessageDialog(null, dialogmessage,
+                            "ERROR!!", JOptionPane.ERROR_MESSAGE);
+        } else if(!pattern.ValidatePhone(phone)){
+           dialogmessage = "INVALID PHONE NO. !!!";
+                    JOptionPane.showMessageDialog(null, dialogmessage,
+                            "ERROR!!", JOptionPane.ERROR_MESSAGE);
+                    
+       }else{
         db = new database();
         try {
 
@@ -401,6 +418,7 @@ public class mstore extends javax.swing.JInternalFrame {
         } catch (Exception ex) {
             System.out.println("Error while validating :" + ex);
             JOptionPane.showMessageDialog(null, "GENERAL EXCEPTION", "WARNING!!!", JOptionPane.INFORMATION_MESSAGE);
+        }
         }
     }//GEN-LAST:event_btnaddActionPerformed
 

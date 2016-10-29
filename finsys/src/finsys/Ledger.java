@@ -400,6 +400,19 @@ public class Ledger extends javax.swing.JInternalFrame {
         Comboitem g1 =(Comboitem) jComboBox_soe.getSelectedItem();
         int catid1=g1.getKey();
         ledgername = txtledger.getText().trim().toUpperCase();
+         if(catid==0){
+             dialogmessage = "PLEASE SELECT SOE MAIN GROUP !!!";
+                    JOptionPane.showMessageDialog(null, dialogmessage,
+                            "ERROR!!", JOptionPane.ERROR_MESSAGE);
+        }else  if(catid1==0){
+             dialogmessage = "PLEASE SELECT SOE GROUP!!!";
+                    JOptionPane.showMessageDialog(null, dialogmessage,
+                            "ERROR!!", JOptionPane.ERROR_MESSAGE);
+        }else  if("".equals(ledgername)){
+             dialogmessage = "PLEASE ENTER LEDGER NAME!!!";
+                    JOptionPane.showMessageDialog(null, dialogmessage,
+                            "ERROR!!", JOptionPane.ERROR_MESSAGE);
+        }else{
         if(ID==null){
             dialogmessage = "Please Select Record To Update";
                     JOptionPane.showMessageDialog(null,dialogmessage,
@@ -417,6 +430,7 @@ public class Ledger extends javax.swing.JInternalFrame {
         ResetRecord();
         
         }
+        }
     }//GEN-LAST:event_btnupdateActionPerformed
 
     private void btnclearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnclearActionPerformed
@@ -431,6 +445,19 @@ public class Ledger extends javax.swing.JInternalFrame {
         Comboitem g1 =(Comboitem) jComboBox_soe.getSelectedItem();
         int catid1=g1.getKey();
         ledgername = txtledger.getText().trim().toUpperCase();
+         if(catid==0){
+             dialogmessage = "PLEASE SELECT SOE MAIN GROUP !!!";
+                    JOptionPane.showMessageDialog(null, dialogmessage,
+                            "ERROR!!", JOptionPane.ERROR_MESSAGE);
+        }else  if(catid1==0){
+             dialogmessage = "PLEASE SELECT SOE GROUP!!!";
+                    JOptionPane.showMessageDialog(null, dialogmessage,
+                            "ERROR!!", JOptionPane.ERROR_MESSAGE);
+        }else  if("".equals(ledgername)){
+             dialogmessage = "PLEASE ENTER LEDGER NAME!!!";
+                    JOptionPane.showMessageDialog(null, dialogmessage,
+                            "ERROR!!", JOptionPane.ERROR_MESSAGE);
+        }else{
         db = new database();
         try {
 
@@ -467,6 +494,7 @@ public class Ledger extends javax.swing.JInternalFrame {
             System.out.println("Error while validating :" + ex);
             JOptionPane.showMessageDialog(null, "GENERAL EXCEPTION", "WARNING!!!", JOptionPane.INFORMATION_MESSAGE);
         }
+        }
     }//GEN-LAST:event_btnaddActionPerformed
 
     private void jtable_ledgerMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtable_ledgerMouseClicked
@@ -481,6 +509,12 @@ public class Ledger extends javax.swing.JInternalFrame {
 
     private void btndeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btndeleteActionPerformed
         //delete
+        String sMSGBOX_TITLE = "FINSYS version 1.0";
+        int reply = JOptionPane.showConfirmDialog(this, "Are you sure to want to delete this record?", sMSGBOX_TITLE, JOptionPane.YES_NO_OPTION,
+                    JOptionPane.WARNING_MESSAGE);
+            //System.out.println(reply);
+            if (reply == JOptionPane.YES_OPTION) {
+            
          if(ID==null){
             dialogmessage = "Please Select Record To Delete";
                     JOptionPane.showMessageDialog(null,dialogmessage,
@@ -490,7 +524,10 @@ public class Ledger extends javax.swing.JInternalFrame {
         String query = "delete from finsys.m_ledger where ledgerid='" + ID + "'";
         executeSqlQuery(query, "deleted");
         ResetRecord();
-         }
+         }}
+            else{
+                remove(reply);
+            }
     }//GEN-LAST:event_btndeleteActionPerformed
    
     private void jtable_ledgerKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtable_ledgerKeyReleased

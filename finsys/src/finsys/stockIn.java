@@ -46,6 +46,7 @@ public class stockIn extends javax.swing.JInternalFrame {
       String invoiceid;
       String total_gross_amt;
       String companyname;
+      PatternValidation pattern=new PatternValidation();
      String companyid,cname,invoice,invoicedt,challan,challandt,order,orderdt;
      private int itemid;
     private String itemcode,itemname,invid,item_rate,quantity,grossvalue;
@@ -56,8 +57,8 @@ public class stockIn extends javax.swing.JInternalFrame {
     String dialogs;
     int dialogtype = JOptionPane.PLAIN_MESSAGE;
     database data = new database();
-    public String ID;
-    public String ID1;
+    public String ID="";
+    public String ID1="";
     DefaultTableModel model;
     DefaultTableModel model1;
     ArrayList<Itemtable> item;
@@ -963,22 +964,6 @@ public class stockIn extends javax.swing.JInternalFrame {
         Comboitem g1 =(Comboitem) msCombo.getSelectedItem();
         int companyid=g1.getKey();
        String company=g1.getValue();
-
-        Date tx = taxinvoicedate.getDate();        
-        DateFormat oDateFormat = new SimpleDateFormat("dd-MM-yyyy");
-        DateFormat y = new SimpleDateFormat("yyyy");
-        String tax_date = oDateFormat.format(tx);
-        System.out.println("Formated :"+tax_date);
-        Date c = challnodate.getDate();        
-        String ch_date = oDateFormat.format(c);
-        Date p = purchasedate.getDate();        
-        String pur_date = oDateFormat.format(p);
-        System.out.println("Formated :"+tax_date);
-       
-        String today=oDateFormat.format(dt);
-        int year=Integer.valueOf(y.format(dt));
-        
-        
         total_amt_value="0";
      
      
@@ -997,6 +982,72 @@ public class stockIn extends javax.swing.JInternalFrame {
       
       total_gross_amt=0+"";
       companyname="";
+        Date tx = taxinvoicedate.getDate();        
+        DateFormat oDateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        DateFormat y = new SimpleDateFormat("yyyy");
+        
+        
+        Date c = challnodate.getDate();        
+        
+        Date p = purchasedate.getDate();        
+         if(companyid==0){
+            dialogmessage = "PLEASE SELECT FROM M/S COMPANY!!!";
+                    JOptionPane.showMessageDialog(null, dialogmessage,
+                            "ERROR!!", JOptionPane.ERROR_MESSAGE);
+        }else  if("".equals(tax_invoice_no)){
+             dialogmessage = "PLEASE ENTER TAX INVOICE NO.!!!";
+                    JOptionPane.showMessageDialog(null, dialogmessage,
+                            "ERROR!!", JOptionPane.ERROR_MESSAGE);
+        }else  if("".equals(challan_no)){
+             dialogmessage = "PLEASE ENTER CHALLAN  NO.!!!";
+                    JOptionPane.showMessageDialog(null, dialogmessage,
+                            "ERROR!!", JOptionPane.ERROR_MESSAGE);
+        }else  if("".equals(purchase_order_no)){
+             dialogmessage = "PLEASE ENTER PURCHASE ORDER NO.!!!";
+                    JOptionPane.showMessageDialog(null, dialogmessage,
+                            "ERROR!!", JOptionPane.ERROR_MESSAGE);
+        }else  if("".equals(vat_per)){
+             dialogmessage = "PLEASE ENTER VAT(IN %).!!!";
+                    JOptionPane.showMessageDialog(null, dialogmessage,
+                            "ERROR!!", JOptionPane.ERROR_MESSAGE);
+        }else  if("".equals(transportation_amt)){
+             dialogmessage = "PLEASE ENTER TRANSPORTATION AMOUNT.!!!";
+                    JOptionPane.showMessageDialog(null, dialogmessage,
+                            "ERROR!!", JOptionPane.ERROR_MESSAGE);
+        }else  if("".equals(less_per)){
+             dialogmessage = "PLEASE ENTER LESS (IN %).!!!";
+                    JOptionPane.showMessageDialog(null, dialogmessage,
+                            "ERROR!!", JOptionPane.ERROR_MESSAGE);
+        }else if(tx==null ||c==null||p==null){
+             dialogmessage = "PLEASE SELECT DATES FOR PURCHASE,TAX AND CHALLAN!!!";
+                    JOptionPane.showMessageDialog(null, dialogmessage,
+                            "ERROR!!", JOptionPane.ERROR_MESSAGE);
+        }else{
+       
+        String today=oDateFormat.format(dt);
+        int year=Integer.valueOf(y.format(dt));
+        String tax_date = oDateFormat.format(tx);
+        System.out.println("Formated :"+tax_date);
+        String pur_date = oDateFormat.format(p);
+        String ch_date = oDateFormat.format(c);
+        System.out.println("Formated :"+tax_date);
+        if(!pattern.ValidateNumeric(transportation_amt)){
+           dialogmessage = "INVALID TRANSPORTATION AMOUNT!!!";
+                    JOptionPane.showMessageDialog(null, dialogmessage,
+                            "ERROR!!", JOptionPane.ERROR_MESSAGE);
+                    
+       } else  if(!pattern.ValidatePer(vat_per)){
+           dialogmessage = "INVALID VAT PERCENTAGE!!!";
+                    JOptionPane.showMessageDialog(null, dialogmessage,
+                            "ERROR!!", JOptionPane.ERROR_MESSAGE);
+                    
+       } else  if(!pattern.ValidatePer(less_per)){
+           dialogmessage = "INVALID DISCOUNT PERCENTAGE!!!";
+                    JOptionPane.showMessageDialog(null, dialogmessage,
+                            "ERROR!!", JOptionPane.ERROR_MESSAGE);
+                    
+       } else{
+       
         if (!(companyid==0) && !transportation_amt.equals("")&& !transportation_amt.equals("")
            && !less_per.equals("")&& !from_company_id.equals("")&& !tax_invoice_no.equals("")&& !tax_date.equals("")
            && !challan_no.equals("")&& !ch_date.equals("")&& !purchase_order_no.equals("")&& !pur_date.equals("")
@@ -1023,12 +1074,15 @@ public class stockIn extends javax.swing.JInternalFrame {
              Logger.getLogger(stockIn.class.getName()).log(Level.SEVERE, null, ex);
          }
         }
+       
         else {
                 dialogmessage = "Empty Record !!!";
                 dialogtype = JOptionPane.WARNING_MESSAGE;
                 JOptionPane.showMessageDialog(null, dialogmessage, dialogs, dialogtype);
 
             }
+       }
+        }
        
     }//GEN-LAST:event_btnupdateActionPerformed
 
@@ -1042,29 +1096,13 @@ public class stockIn extends javax.swing.JInternalFrame {
         String yr=dt.getYear()+"-"+dt.getYear()+1;
         Comboitem g1 =(Comboitem) msCombo.getSelectedItem();
         int companyid=g1.getKey();
-       String company=g1.getValue();
-//       SimpleDateFormat formater = new SimpleDateFormat("dd-MM-yyyy");
-//       formater.format(taxinvoicedate.getDate());
-      // System.out.println("Formated :"+formater);
-       
-        Date tx = taxinvoicedate.getDate();        
-        DateFormat oDateFormat = new SimpleDateFormat("dd-MM-yyyy");
-        DateFormat y = new SimpleDateFormat("yyyy");
-        String tax_date = oDateFormat.format(tx);
-        System.out.println("Formated :"+tax_date);
-        Date c = challnodate.getDate();        
-        String ch_date = oDateFormat.format(c);
-        Date p = purchasedate.getDate();        
-        String pur_date = oDateFormat.format(p);
-        System.out.println("Formated :"+tax_date);
-        String today=oDateFormat.format(dt);
-        int year=Integer.valueOf(y.format(dt));
-        
-        
+        String company=g1.getValue();
+
         total_amt_value="0";
      
      
        transportation_amt=txttransport.getText().trim();
+      
        less_per=txtless.getText().trim();
        from_company_id=companyid+"";
        tax_invoice_no=txtinvoiceNo.getText().trim();
@@ -1079,9 +1117,76 @@ public class stockIn extends javax.swing.JInternalFrame {
       
       total_gross_amt=0+"";
       companyname="";
+        Date tx = taxinvoicedate.getDate();        
+        DateFormat oDateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        DateFormat y = new SimpleDateFormat("yyyy");
+       
+        
+        Date c = challnodate.getDate();        
+        
+        Date p = purchasedate.getDate();        
+        if(companyid==0){
+            dialogmessage = "PLEASE SELECT FROM M/S COMPANY!!!";
+                    JOptionPane.showMessageDialog(null, dialogmessage,
+                            "ERROR!!", JOptionPane.ERROR_MESSAGE);
+        }else  if("".equals(tax_invoice_no)){
+             dialogmessage = "PLEASE ENTER TAX INVOICE NO.!!!";
+                    JOptionPane.showMessageDialog(null, dialogmessage,
+                            "ERROR!!", JOptionPane.ERROR_MESSAGE);
+        }else  if("".equals(challan_no)){
+             dialogmessage = "PLEASE ENTER CHALLAN  NO.!!!";
+                    JOptionPane.showMessageDialog(null, dialogmessage,
+                            "ERROR!!", JOptionPane.ERROR_MESSAGE);
+        }else  if("".equals(purchase_order_no)){
+             dialogmessage = "PLEASE ENTER PURCHASE ORDER NO.!!!";
+                    JOptionPane.showMessageDialog(null, dialogmessage,
+                            "ERROR!!", JOptionPane.ERROR_MESSAGE);
+        }else  if("".equals(vat_per)){
+             dialogmessage = "PLEASE ENTER VAT(IN %).!!!";
+                    JOptionPane.showMessageDialog(null, dialogmessage,
+                            "ERROR!!", JOptionPane.ERROR_MESSAGE);
+        }else  if("".equals(transportation_amt)){
+             dialogmessage = "PLEASE ENTER TRANSPORTATION AMOUNT.!!!";
+                    JOptionPane.showMessageDialog(null, dialogmessage,
+                            "ERROR!!", JOptionPane.ERROR_MESSAGE);
+        }else  if("".equals(less_per)){
+             dialogmessage = "PLEASE ENTER LESS (IN %).!!!";
+                    JOptionPane.showMessageDialog(null, dialogmessage,
+                            "ERROR!!", JOptionPane.ERROR_MESSAGE);
+        }else if(tx==null ||c==null||p==null){
+             dialogmessage = "PLEASE SELECT DATES FOR PURCHASE,TAX AND CHALLAN!!!";
+                    JOptionPane.showMessageDialog(null, dialogmessage,
+                            "ERROR!!", JOptionPane.ERROR_MESSAGE);
+        } else{
+       
+        String today=oDateFormat.format(dt);
+        int year=Integer.valueOf(y.format(dt));
+         String tax_date = oDateFormat.format(tx);
+        String ch_date = oDateFormat.format(c);
+        String pur_date = oDateFormat.format(p);
+         System.out.println("Formated :"+tax_date);
+         System.out.println("Formated :"+tax_date);
+        
        
        
         db = new database();
+        
+        if(!pattern.ValidateNumeric(transportation_amt)){
+           dialogmessage = "INVALID TRANSPORTATION AMOUNT!!!";
+                    JOptionPane.showMessageDialog(null, dialogmessage,
+                            "ERROR!!", JOptionPane.ERROR_MESSAGE);
+                    
+       } else  if(!pattern.ValidatePer(vat_per)){
+           dialogmessage = "INVALID VAT PERCENTAGE!!!";
+                    JOptionPane.showMessageDialog(null, dialogmessage,
+                            "ERROR!!", JOptionPane.ERROR_MESSAGE);
+                    
+       } else  if(!pattern.ValidatePer(less_per)){
+           dialogmessage = "INVALID DISCOUNT PERCENTAGE!!!";
+                    JOptionPane.showMessageDialog(null, dialogmessage,
+                            "ERROR!!", JOptionPane.ERROR_MESSAGE);
+                    
+       } else{
         try {
 
            if (!(companyid==0) && !transportation_amt.equals("")&& !transportation_amt.equals("")
@@ -1138,6 +1243,8 @@ public class stockIn extends javax.swing.JInternalFrame {
         } catch (Exception ex) {
             System.out.println("Error while validating :" + ex);
             JOptionPane.showMessageDialog(null, "GENERAL EXCEPTION", "WARNING!!!", JOptionPane.INFORMATION_MESSAGE);
+        }
+       }
         }
     }//GEN-LAST:event_btnaddActionPerformed
 
@@ -1206,48 +1313,62 @@ public class stockIn extends javax.swing.JInternalFrame {
 
     private void btndeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btndeleteActionPerformed
         //delete
-        String query = "delete from finsys.t_stockin where invoiceid='" + ID + "'";
-        Double gross=0.0,qty=0.0;
-        executeSqlQuery(query, "deleted");
-        ArrayList<Stockinitemtable> sitemlist = getStockinitemtable();
+        String sMSGBOX_TITLE = "FINSYS version 1.0";
+        int reply = JOptionPane.showConfirmDialog(this, "Are you sure to want to delete this record?", sMSGBOX_TITLE, JOptionPane.YES_NO_OPTION,
+                    JOptionPane.WARNING_MESSAGE);
+            //System.out.println(reply);
+            if (reply == JOptionPane.YES_OPTION) {
+                if("".equals(ID)){
+                    dialogmessage = "PLEASE SELECT RECORD TO DELETE!!!";
+                    JOptionPane.showMessageDialog(null, dialogmessage,
+                            "ERROR!!", JOptionPane.ERROR_MESSAGE);
+                
+                }
+                else{
+                
+                String query = "delete from finsys.t_stockin where invoiceid='" + ID + "'";
+                Double gross=0.0,qty=0.0;
+                executeSqlQuery(query, "deleted");
+                ArrayList<Stockinitemtable> sitemlist = getStockinitemtable();
        
-       Double prevquantity=0.0,prevrate=0.0, totalamt=0.0,totalstockamount=0.0,totalstockquantity=0.0,updatestockamount=0.0,updatestockquantity=0.0;
+                Double prevquantity=0.0,prevrate=0.0, totalamt=0.0,totalstockamount=0.0,totalstockquantity=0.0,updatestockamount=0.0,updatestockquantity=0.0;
         
-        for (int i = 0; i < sitemlist.size(); i++) {
-            int iid=sitemlist.get(i).getItemid();
-            qty=Double.valueOf(sitemlist.get(i).getQuantity());
-            gross=Double.valueOf(sitemlist.get(i).getGrossvalue());
-            ArrayList<Stocktable> d=db.getStock(iid);
-            for(Stocktable c:d){
-             totalstockamount=Double.valueOf(c.getAmount());
-             totalstockquantity=Double.valueOf(c.getQuantity());
-            }
-            prevquantity=totalstockquantity-qty;
-            prevrate=totalstockamount-gross;
-            query = "update finsys.t_stock set quantity='" + prevquantity+ "',amount='" +prevrate+ "' where itemid='" +iid+ "'";
-             PreparedStatement  pst=null;
-            try {
-                pst = data.conn.prepareStatement(query);
-                 int flag = pst.executeUpdate();
-                 if(flag==1){
+                 for (int i = 0; i < sitemlist.size(); i++) {
+                int iid=sitemlist.get(i).getItemid();
+                qty=Double.valueOf(sitemlist.get(i).getQuantity());
+                gross=Double.valueOf(sitemlist.get(i).getGrossvalue());
+                ArrayList<Stocktable> d=db.getStock(iid);
+                for(Stocktable c:d){
+                totalstockamount=Double.valueOf(c.getAmount());
+                totalstockquantity=Double.valueOf(c.getQuantity());
+                }
+                prevquantity=totalstockquantity-qty;
+                prevrate=totalstockamount-gross;
+                query = "update finsys.t_stock set quantity='" + prevquantity+ "',amount='" +prevrate+ "' where itemid='" +iid+ "'";
+                PreparedStatement  pst=null;
+                try {
+                    pst = data.conn.prepareStatement(query);
+                    int flag = pst.executeUpdate();
+                    if(flag==1){
                       query = "delete from finsys.t_stockin_items where invoiceid='" + ID + "' and itemid='"+iid+"'";
                       pst = data.conn.prepareStatement(query);
                       flag = pst.executeUpdate();
-                 }
+                    }
                  
-            } catch (SQLException ex) {
+                } catch (SQLException ex) {
                 Logger.getLogger(stockIn.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            
-            
-            
+                }
    
         }
         
-        
-        
-        
-        ResetRecord();
+                 ResetRecord();
+                
+                }
+      } else {
+               
+                remove(reply);
+            }
+       
     }//GEN-LAST:event_btndeleteActionPerformed
 
     private void searchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchKeyReleased
@@ -1266,6 +1387,36 @@ public class stockIn extends javax.swing.JInternalFrame {
        item_rate=rate.getText().trim();
        quantity=txtquantity.getText().trim();
       
+       //validation
+        if(itemid==0){
+            dialogmessage = "PLEASE SELECT ITEM NAME!!!";
+                    JOptionPane.showMessageDialog(null, dialogmessage,
+                            "ERROR!!", JOptionPane.ERROR_MESSAGE);
+        }else  if("".equals(item_rate)){
+             dialogmessage = "PLEASE ENTER ITEM RATE.!!!";
+                    JOptionPane.showMessageDialog(null, dialogmessage,
+                            "ERROR!!", JOptionPane.ERROR_MESSAGE);
+        }else  if("".equals(quantity)){
+             dialogmessage = "PLEASE ENTER QUANTITY.!!!";
+                    JOptionPane.showMessageDialog(null, dialogmessage,
+                            "ERROR!!", JOptionPane.ERROR_MESSAGE);
+        }else  if("".equals(invid)){
+             dialogmessage = "STOCK IN RECORD NOT SELECTED.!!!";
+                    JOptionPane.showMessageDialog(null, dialogmessage,
+                            "ERROR!!", JOptionPane.ERROR_MESSAGE);
+        }
+        else if(!pattern.ValidateNumeric(item_rate)){
+           dialogmessage = "INVALID ITEM RATE!!!";
+                    JOptionPane.showMessageDialog(null, dialogmessage,
+                            "ERROR!!", JOptionPane.ERROR_MESSAGE);
+                    
+       } else  if(!pattern.ValidateNumeric(quantity)){
+           dialogmessage = "INVALID QUANTITY!!!";
+                    JOptionPane.showMessageDialog(null, dialogmessage,
+                            "ERROR!!", JOptionPane.ERROR_MESSAGE);
+                    
+       } 
+       else{
        
        
         db = new database();
@@ -1309,7 +1460,7 @@ public class stockIn extends javax.swing.JInternalFrame {
             System.out.println("Error while validating :" + ex);
             JOptionPane.showMessageDialog(null, "GENERAL EXCEPTION", "WARNING!!!", JOptionPane.INFORMATION_MESSAGE);
         }
-        
+       }
     }//GEN-LAST:event_btnadditemActionPerformed
 
     private void btnupdateitemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnupdateitemActionPerformed
@@ -1319,6 +1470,41 @@ public class stockIn extends javax.swing.JInternalFrame {
        itemid=g1.getKey();
        invid=invoiceId.getText().trim();
         Double prevquantity=0.0,prevrate=0.0, totalamt=0.0,totalstockamount=0.0,totalstockquantity=0.0,updatestockamount=0.0,updatestockquantity=0.0;
+       
+         
+       invid=invoiceId.getText().trim();
+       item_rate=rate.getText().trim();
+       quantity=txtquantity.getText().trim();
+       //validation
+        if(itemid==0){
+            dialogmessage = "PLEASE SELECT ITEM NAME!!!";
+                    JOptionPane.showMessageDialog(null, dialogmessage,
+                            "ERROR!!", JOptionPane.ERROR_MESSAGE);
+        }else  if("".equals(item_rate)){
+             dialogmessage = "PLEASE ENTER ITEM RATE.!!!";
+                    JOptionPane.showMessageDialog(null, dialogmessage,
+                            "ERROR!!", JOptionPane.ERROR_MESSAGE);
+        }else  if("".equals(quantity)){
+             dialogmessage = "PLEASE ENTER QUANTITY.!!!";
+                    JOptionPane.showMessageDialog(null, dialogmessage,
+                            "ERROR!!", JOptionPane.ERROR_MESSAGE);
+        }else  if("".equals(invid)){
+             dialogmessage = "STOCK IN RECORD NOT SELECTED.!!!";
+                    JOptionPane.showMessageDialog(null, dialogmessage,
+                            "ERROR!!", JOptionPane.ERROR_MESSAGE);
+        }
+        else if(!pattern.ValidateNumeric(item_rate)){
+           dialogmessage = "INVALID ITEM RATE!!!";
+                    JOptionPane.showMessageDialog(null, dialogmessage,
+                            "ERROR!!", JOptionPane.ERROR_MESSAGE);
+                    
+       } else  if(!pattern.ValidateNumeric(quantity)){
+           dialogmessage = "INVALID QUANTITY!!!";
+                    JOptionPane.showMessageDialog(null, dialogmessage,
+                            "ERROR!!", JOptionPane.ERROR_MESSAGE);
+                    
+       } 
+       else{
         ArrayList<Stocktable> d=db.getStock(itemid);
          for(Stocktable c:d){
              totalstockamount=Double.valueOf(c.getAmount());
@@ -1336,11 +1522,6 @@ public class stockIn extends javax.swing.JInternalFrame {
          System.out.println(updatestockamount+"  in"+updatestockamount);
          
        
-         
-       invid=invoiceId.getText().trim();
-       item_rate=rate.getText().trim();
-       quantity=txtquantity.getText().trim();
-      
        
        
         db = new database();
@@ -1396,7 +1577,7 @@ public class stockIn extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(null, "GENERAL EXCEPTION", "WARNING!!!", JOptionPane.INFORMATION_MESSAGE);
         }
         
-        
+       }
     }//GEN-LAST:event_btnupdateitemActionPerformed
 
     private void btnclearitemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnclearitemActionPerformed
@@ -1467,6 +1648,17 @@ public class stockIn extends javax.swing.JInternalFrame {
 
     private void btndeleteitemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btndeleteitemActionPerformed
         // TODO add your handling code here:
+          String sMSGBOX_TITLE = "FINSYS version 1.0";
+        int reply = JOptionPane.showConfirmDialog(this, "Are you sure to want to delete this record?", sMSGBOX_TITLE, JOptionPane.YES_NO_OPTION,
+                    JOptionPane.WARNING_MESSAGE);
+            //System.out.println(reply);
+            if (reply == JOptionPane.YES_OPTION) {
+                if("".equals(ID1)|| "".equals(ID)){
+                    dialogmessage = "PLEASE SELECT RECORD TO DELETE!!!";
+                    JOptionPane.showMessageDialog(null, dialogmessage,
+                            "ERROR!!", JOptionPane.ERROR_MESSAGE);
+                
+                }else{
         Double prevquantity=0.0,prevrate=0.0, totalamt=0.0,totalstockamount=0.0,totalstockquantity=0.0,updatestockamount=0.0,updatestockquantity=0.0;
        
         String query = "delete from finsys.t_stockin_items where invoiceid='" + ID + "' and itemid='"+ID1+"'";
@@ -1490,7 +1682,12 @@ public class stockIn extends javax.swing.JInternalFrame {
             } catch (SQLException ex) {
                 Logger.getLogger(stockIn.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
+                }
+            }
+            else {
+               
+                remove(reply);
+            }
     }//GEN-LAST:event_btndeleteitemActionPerformed
 
       public void setSelectedValue(JComboBox combobox,int value){

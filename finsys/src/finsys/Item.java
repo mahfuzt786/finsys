@@ -412,7 +412,23 @@ public class Item extends javax.swing.JInternalFrame {
          Comboitem g2 =(Comboitem) jComboBox_itemtype.getSelectedItem();
         int iid=g2.getKey();
         itemname = txtitemname.getText().trim().toUpperCase();;
-        
+        if(catid==0){
+             dialogmessage = "PLEASE SELECT CATEGORY ID!!!";
+                    JOptionPane.showMessageDialog(null, dialogmessage,
+                            "ERROR!!", JOptionPane.ERROR_MESSAGE);
+        }else  if(iid==0){
+             dialogmessage = "PLEASE SELECT ITEM TYPE!!!";
+                    JOptionPane.showMessageDialog(null, dialogmessage,
+                            "ERROR!!", JOptionPane.ERROR_MESSAGE);
+        }else  if("".equals(itemname)){
+             dialogmessage = "PLEASE ENTER ITEM NAME!!!";
+                    JOptionPane.showMessageDialog(null, dialogmessage,
+                            "ERROR!!", JOptionPane.ERROR_MESSAGE);
+        }else  if(uomid==0){
+             dialogmessage = "PLEASE SELECT UOM !!!";
+                    JOptionPane.showMessageDialog(null, dialogmessage,
+                            "ERROR!!", JOptionPane.ERROR_MESSAGE);
+        }else{
         
         if(ID==null){
             dialogmessage = "Please Select Record To Update";
@@ -430,6 +446,7 @@ public class Item extends javax.swing.JInternalFrame {
         executeSqlQuery(query, "updated");
         ResetRecord();
         
+        }
         }
     }//GEN-LAST:event_btnupdateActionPerformed
 
@@ -450,7 +467,24 @@ public class Item extends javax.swing.JInternalFrame {
         int iid=g2.getKey();
         itemname = txtitemname.getText().trim().toUpperCase();;
         
-      
+        if(catid==0){
+             dialogmessage = "PLEASE SELECT CATEGORY ID!!!";
+                    JOptionPane.showMessageDialog(null, dialogmessage,
+                            "ERROR!!", JOptionPane.ERROR_MESSAGE);
+        }else  if(iid==0){
+             dialogmessage = "PLEASE SELECT ITEM TYPE!!!";
+                    JOptionPane.showMessageDialog(null, dialogmessage,
+                            "ERROR!!", JOptionPane.ERROR_MESSAGE);
+        }else  if("".equals(itemname)){
+             dialogmessage = "PLEASE ENTER ITEM NAME!!!";
+                    JOptionPane.showMessageDialog(null, dialogmessage,
+                            "ERROR!!", JOptionPane.ERROR_MESSAGE);
+        }else  if(uomid==0){
+             dialogmessage = "PLEASE SELECT UOM !!!";
+                    JOptionPane.showMessageDialog(null, dialogmessage,
+                            "ERROR!!", JOptionPane.ERROR_MESSAGE);
+        }
+        else{
         
         db = new database();
         try {
@@ -491,6 +525,7 @@ public class Item extends javax.swing.JInternalFrame {
             System.out.println("Error while validating :" + ex);
             JOptionPane.showMessageDialog(null, "GENERAL EXCEPTION", "WARNING!!!", JOptionPane.INFORMATION_MESSAGE);
         }
+        }
     }//GEN-LAST:event_btnaddActionPerformed
 
     private void jtable_subcattableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtable_subcattableMouseClicked
@@ -509,7 +544,14 @@ public class Item extends javax.swing.JInternalFrame {
 
     private void btndeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btndeleteActionPerformed
         //delete
+        
         Double totalstockamount,totalstockquantity,prevquantity,prevrate;
+        String sMSGBOX_TITLE = "FINSYS version 1.0";
+        int reply = JOptionPane.showConfirmDialog(this, "Are you sure to want to delete this record?", sMSGBOX_TITLE, JOptionPane.YES_NO_OPTION,
+                    JOptionPane.WARNING_MESSAGE);
+            //System.out.println(reply);
+            if (reply == JOptionPane.YES_OPTION) {
+            
          if(ID==null){
             dialogmessage = "Please Select Record To Delete";
                     JOptionPane.showMessageDialog(null,dialogmessage,
@@ -520,6 +562,11 @@ public class Item extends javax.swing.JInternalFrame {
         executeSqlQuery(query, "deleted");
          ResetRecord();
          }
+            
+            }
+             else{
+                remove(reply);
+            }
     }//GEN-LAST:event_btndeleteActionPerformed
 
     private void txtitemnameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtitemnameActionPerformed

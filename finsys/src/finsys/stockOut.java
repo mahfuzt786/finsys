@@ -33,7 +33,7 @@ public class stockOut extends javax.swing.JInternalFrame {
      Double issueamt_value,transportation_amt ;
      //Items
      String itemreceiptno; 
-    int itemid,ledgerid,iitd;
+    int itemid,ledgerid,iitd,catid;
     Double reqquantity,issuequantity,itemvalue;
     //DB
     database db;
@@ -44,8 +44,8 @@ public class stockOut extends javax.swing.JInternalFrame {
     Comboitem g;
     int dialogtype = JOptionPane.PLAIN_MESSAGE;
     database data = new database();
-    public String ID;
-    public String ID1;
+    public String ID="";
+    public String ID1="";
     DefaultTableModel model;
     DefaultTableModel model1;
     ArrayList<Itemtable> item,item1;
@@ -57,7 +57,7 @@ public class stockOut extends javax.swing.JInternalFrame {
     //for items jpanel2
     int TOTALITEMS=0;
     Double TOTALGROSS=0.0,TOTALLESS=0.0,TOTALVAT=0.0,TRANSPORT=0.0,TOTALAMOUNT=0.0,totalstockamount,totalstockquantity;
-
+    PatternValidation pattern=new PatternValidation();
     /**
      * Creates new form stock out
      */
@@ -797,9 +797,25 @@ public class stockOut extends javax.swing.JInternalFrame {
         Comboitem g1 =(Comboitem) comboCC.getSelectedItem();
         int ccid=g1.getKey();
        String ccname=g1.getValue();
-       
-        if (!(ccid==0) && !issue_or_return.equals("")
-           && !acc_post.equals("")){
+         if("".equals(ID)){
+            dialogmessage = "PLEASE SELECT ACCOUNT POST!!!";
+                    JOptionPane.showMessageDialog(null, dialogmessage,
+                            "ERROR!!", JOptionPane.ERROR_MESSAGE);
+        }else if("-".equals(acc_post)){
+            dialogmessage = "PLEASE SELECT ACCOUNT POST!!!";
+                    JOptionPane.showMessageDialog(null, dialogmessage,
+                            "ERROR!!", JOptionPane.ERROR_MESSAGE);
+        }else  if("-".equals(issue_or_return)){
+             dialogmessage = "PLEASE SELECT  ISSUE OR RETURN!!!";
+                    JOptionPane.showMessageDialog(null, dialogmessage,
+                            "ERROR!!", JOptionPane.ERROR_MESSAGE);
+        }else  if(ccid==0){
+             dialogmessage = "PLEASE SELECT COST CENTER!!!";
+                    JOptionPane.showMessageDialog(null, dialogmessage,
+                            "ERROR!!", JOptionPane.ERROR_MESSAGE);
+        }else{
+        if (!(ccid==0) && !issue_or_return.equals("-")
+           && !acc_post.equals("-")){
         String query;
         query = "update finsys.t_issue_return set acc_post='" +acc_post + "'"
                 + ",issue_or_return='" +issue_or_return+ "'"
@@ -821,7 +837,7 @@ public class stockOut extends javax.swing.JInternalFrame {
             }
 
      
-        
+        }
 
     }//GEN-LAST:event_btnupdateActionPerformed
 
@@ -830,15 +846,27 @@ public class stockOut extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnclearActionPerformed
 //for stock out
     private void btnaddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnaddActionPerformed
-    
+        
 
         acc_post=(String)acc.getSelectedItem();
-        //issueamt_value=Double.valueOf(ivalue.getText().trim());
+        
         issue_or_return=(String) ir.getSelectedItem();
         Comboitem g1 =(Comboitem) comboCC.getSelectedItem();
         int ccid=g1.getKey();
        String ccname=g1.getValue();
-
+       if("-".equals(acc_post)){
+            dialogmessage = "PLEASE SELECT ACCOUNT POST!!!";
+                    JOptionPane.showMessageDialog(null, dialogmessage,
+                            "ERROR!!", JOptionPane.ERROR_MESSAGE);
+        }else  if("-".equals(issue_or_return)){
+             dialogmessage = "PLEASE SELECT  ISSUE OR RETURN!!!";
+                    JOptionPane.showMessageDialog(null, dialogmessage,
+                            "ERROR!!", JOptionPane.ERROR_MESSAGE);
+        }else  if(ccid==0){
+             dialogmessage = "PLEASE SELECT COST CENTER!!!";
+                    JOptionPane.showMessageDialog(null, dialogmessage,
+                            "ERROR!!", JOptionPane.ERROR_MESSAGE);
+        }else{
         db = new database();
         try {
 
@@ -874,6 +902,7 @@ public class stockOut extends javax.swing.JInternalFrame {
             System.out.println("Error while validating :" + ex);
             JOptionPane.showMessageDialog(null, "GENERAL EXCEPTION", "WARNING!!!", JOptionPane.INFORMATION_MESSAGE);
         }
+        }
     }//GEN-LAST:event_btnaddActionPerformed
 
     private void tableStockOutMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableStockOutMouseClicked
@@ -904,6 +933,17 @@ public class stockOut extends javax.swing.JInternalFrame {
     //for stock out
     private void btndeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btndeleteActionPerformed
         //delete
+        String sMSGBOX_TITLE = "FINSYS version 1.0";
+        int reply = JOptionPane.showConfirmDialog(this, "Are you sure to want to delete this record?", sMSGBOX_TITLE, JOptionPane.YES_NO_OPTION,
+                    JOptionPane.WARNING_MESSAGE);
+            //System.out.println(reply);
+            if (reply == JOptionPane.YES_OPTION) {
+                if("".equals(ID)){
+                    dialogmessage = "PLEASE SELECT RECORD TO DELETE!!!";
+                    JOptionPane.showMessageDialog(null, dialogmessage,
+                            "ERROR!!", JOptionPane.ERROR_MESSAGE);
+                
+                }else{
         String query = "delete from finsys.t_issue_return where issue_returncode='" + ID + "'";
         executeSqlQuery(query, "deleted");
         
@@ -942,6 +982,11 @@ public class stockOut extends javax.swing.JInternalFrame {
             
         ResetRecord();
         }
+        }
+            }
+                else{
+                remove(reply);
+            }
     }//GEN-LAST:event_btndeleteActionPerformed
 
     private void searchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchKeyReleased
@@ -980,7 +1025,7 @@ public class stockOut extends javax.swing.JInternalFrame {
              totalstockquantity=Double.valueOf(c.getQuantity());
         }
          Double ival=totalstockamount/totalstockquantity;
-         if(totalstockquantity!=0){
+         if(totalstockquantity!=0.0){
                   itemstock.setText(String.valueOf(totalstockquantity));
                   ivalue.setText(String.valueOf(ival));
          }
@@ -999,6 +1044,10 @@ public class stockOut extends javax.swing.JInternalFrame {
         
             
         //first add to the total stock
+        
+       Comboitem g3 =(Comboitem) categoryCombo.getSelectedItem();
+       catid=g3.getKey();
+                
        Comboitem g1 =(Comboitem) itemCombo.getSelectedItem();
        itemid=g1.getKey();
        itemreceiptno=itemissueid.getText().trim();
@@ -1012,6 +1061,43 @@ public class stockOut extends javax.swing.JInternalFrame {
        itemvalue=Double.valueOf(ivalue.getText().trim());
        issuequantity=Double.valueOf(txtIssue.getText().trim());
        reqquantity=Double.valueOf(txtReq.getText().trim());
+       
+        if(catid==0){
+            dialogmessage = "PLEASE SELECT CATEGORY!!!";
+                    JOptionPane.showMessageDialog(null, dialogmessage,
+                            "ERROR!!", JOptionPane.ERROR_MESSAGE);
+        }else  if(itemid==0){
+             dialogmessage = "PLEASE SELECT  ITEM NAME!!!";
+                    JOptionPane.showMessageDialog(null, dialogmessage,
+                            "ERROR!!", JOptionPane.ERROR_MESSAGE);
+        }else  if("".equals(txtReq.getText().trim())){
+             dialogmessage = "PLEASE ENTER REQUIRED QUANTITY!!!";
+                    JOptionPane.showMessageDialog(null, dialogmessage,
+                            "ERROR!!", JOptionPane.ERROR_MESSAGE);
+        }else  if("".equals(txtIssue.getText().trim())){
+             dialogmessage = "PLEASE ENTER ISSUE QUANTITY!!!";
+                    JOptionPane.showMessageDialog(null, dialogmessage,
+                            "ERROR!!", JOptionPane.ERROR_MESSAGE);
+        }else  if(ledgerid==0){
+             dialogmessage = "PLEASE SELECT LEDGER!!!";
+                    JOptionPane.showMessageDialog(null, dialogmessage,
+                            "ERROR!!", JOptionPane.ERROR_MESSAGE);
+        }else  if(itemvalue==0.0){
+             dialogmessage = "NO STOCK FOR SELECTED ITEM!!!";
+                    JOptionPane.showMessageDialog(null, dialogmessage,
+                            "ERROR!!", JOptionPane.ERROR_MESSAGE);
+        } else if(!pattern.ValidateNumeric(txtReq.getText().trim())){
+            dialogmessage = "INVALID REQUIRED QUANTITY!!!";
+                    JOptionPane.showMessageDialog(null, dialogmessage,
+                            "ERROR!!", JOptionPane.ERROR_MESSAGE);
+        }          
+       else if(!pattern.ValidateNumeric(txtIssue.getText().trim())){
+           dialogmessage = "INVALID ISSUE QUANTITY!!!";
+                    JOptionPane.showMessageDialog(null, dialogmessage,
+                            "ERROR!!", JOptionPane.ERROR_MESSAGE);
+                    
+       }
+        else{
        if(iss.equals("R")){
            
        
@@ -1074,7 +1160,7 @@ public class stockOut extends javax.swing.JInternalFrame {
             System.out.println("Error while validating :" + ex);
             JOptionPane.showMessageDialog(null, "GENERAL EXCEPTION", "WARNING!!!", JOptionPane.INFORMATION_MESSAGE);
         }
-        
+        }
     }//GEN-LAST:event_btnadditemActionPerformed
 
     private void btnupdateitemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnupdateitemActionPerformed
@@ -1082,15 +1168,60 @@ public class stockOut extends javax.swing.JInternalFrame {
         
         
         //first add to the total stock
+       Comboitem g3 =(Comboitem) categoryCombo.getSelectedItem();
+       catid=g3.getKey();
        Comboitem g1 =(Comboitem) itemCombo.getSelectedItem();
        itemid=g1.getKey();
        itemreceiptno=itemissueid.getText().trim();
+       Comboitem g2 =(Comboitem) comboLedger.getSelectedItem();
+       ledgerid=g2.getKey();
+         
+       
+         
+       
+       
+       issuequantity=Double.valueOf(txtIssue.getText().trim());
+       reqquantity=Double.valueOf(txtReq.getText().trim());
+       
         Double prevquantity=0.0,prevrate=0.0, totalamt=0.0,totalstockamount=0.0,totalstockquantity=0.0,updatestockamount=0.0,updatestockquantity=0.0;
+        
+         if(catid==0){
+            dialogmessage = "PLEASE SELECT CATEGORY!!!";
+                    JOptionPane.showMessageDialog(null, dialogmessage,
+                            "ERROR!!", JOptionPane.ERROR_MESSAGE);
+        }else  if(itemid==0){
+             dialogmessage = "PLEASE SELECT  ITEM NAME!!!";
+                    JOptionPane.showMessageDialog(null, dialogmessage,
+                            "ERROR!!", JOptionPane.ERROR_MESSAGE);
+        }else  if("".equals(txtReq.getText().trim())){
+             dialogmessage = "PLEASE ENTER REQUIRED QUANTITY!!!";
+                    JOptionPane.showMessageDialog(null, dialogmessage,
+                            "ERROR!!", JOptionPane.ERROR_MESSAGE);
+        }else  if("".equals(txtIssue.getText().trim())){
+             dialogmessage = "PLEASE ENTER ISSUE QUANTITY!!!";
+                    JOptionPane.showMessageDialog(null, dialogmessage,
+                            "ERROR!!", JOptionPane.ERROR_MESSAGE);
+        }else  if(ledgerid==0){
+             dialogmessage = "PLEASE SELECT LEDGER!!!";
+                    JOptionPane.showMessageDialog(null, dialogmessage,
+                            "ERROR!!", JOptionPane.ERROR_MESSAGE);
+        }else if(!pattern.ValidateNumeric(txtReq.getText().trim())){
+            dialogmessage = "INVALID REQUIRED QUANTITY!!!";
+                    JOptionPane.showMessageDialog(null, dialogmessage,
+                            "ERROR!!", JOptionPane.ERROR_MESSAGE);
+        }          
+       else if(!pattern.ValidateNumeric(txtIssue.getText().trim())){
+           dialogmessage = "INVALID ISSUE QUANTITY!!!";
+                    JOptionPane.showMessageDialog(null, dialogmessage,
+                            "ERROR!!", JOptionPane.ERROR_MESSAGE);
+                    
+       }else{
         ArrayList<Stocktable> d=db.getStock(itemid);
          for(Stocktable c:d){
              totalstockamount=Double.valueOf(c.getAmount());
              totalstockquantity=Double.valueOf(c.getQuantity());
         }
+         
          System.out.println(totalstockamount+"before update "+totalstockquantity);
         ArrayList<Stockoutitemtable> temp=db.getStockoutitem(itemreceiptno, itemid) ;
          for(Stockoutitemtable c:temp){
@@ -1106,17 +1237,12 @@ public class stockOut extends javax.swing.JInternalFrame {
          updatestockamount=totalstockamount+totalamt;
          updatestockquantity=totalstockquantity+prevquantity;
          System.out.println(updatestockamount+"  in"+updatestockamount);
-         Comboitem g2 =(Comboitem) comboLedger.getSelectedItem();
-       ledgerid=g2.getKey();
-         
-       
-         
-       
-       itemvalue=updatestockamount/updatestockquantity;
-       issuequantity=Double.valueOf(txtIssue.getText().trim());
-       reqquantity=Double.valueOf(txtReq.getText().trim());
-       
-       
+         itemvalue=updatestockamount/updatestockquantity;
+         if(itemvalue==0.0){
+             dialogmessage = "NO STOCK FOR SELECTED ITEM!!!";
+                    JOptionPane.showMessageDialog(null, dialogmessage,
+                            "ERROR!!", JOptionPane.ERROR_MESSAGE);
+        } else{
         db = new database();
         try {
             
@@ -1190,7 +1316,8 @@ public class stockOut extends javax.swing.JInternalFrame {
             System.out.println("Error while validating :" + ex);
             JOptionPane.showMessageDialog(null, "GENERAL EXCEPTION", "WARNING!!!", JOptionPane.INFORMATION_MESSAGE);
         }
-        
+         }
+       }
     }//GEN-LAST:event_btnupdateitemActionPerformed
 
     private void btnclearitemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnclearitemActionPerformed
@@ -1201,27 +1328,44 @@ public class stockOut extends javax.swing.JInternalFrame {
     private void btndeleteitemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btndeleteitemActionPerformed
         // TODO add your handling code here:
          Double prevquantity=0.0,prevrate=0.0, totalamt=0.0,totalstockamount=0.0,totalstockquantity=0.0,updatestockamount=0.0,updatestockquantity=0.0;
-       System.out.println(ID+" "+ID1);
-        String query = "delete from finsys.t_stockin_items where invoiceid='" + ID + "' and itemid='"+ID1+"'";
+        System.out.println(ID+" "+ID1);
+         String sMSGBOX_TITLE = "FINSYS version 1.0";
+        int reply = JOptionPane.showConfirmDialog(this, "Are you sure to want to delete this record?", sMSGBOX_TITLE, JOptionPane.YES_NO_OPTION,
+                    JOptionPane.WARNING_MESSAGE);
+            //System.out.println(reply);
+            if (reply == JOptionPane.YES_OPTION) {
+                if("".equals(ID)||"".equals(ID1)){
+                    dialogmessage = "PLEASE SELECT RECORD TO DELETE!!!";
+                    JOptionPane.showMessageDialog(null, dialogmessage,
+                            "ERROR!!", JOptionPane.ERROR_MESSAGE);
+                
+                }else{
+       
+                 String query = "delete from finsys.t_stockin_items where invoiceid='" + ID + "' and itemid='"+ID1+"'";
      
-        executeSqlQuery(query, "deleted");
+                executeSqlQuery(query, "deleted");
         
-         ArrayList<Stocktable> d=db.getStock(Integer.valueOf(ID1));
-            for(Stocktable c:d){
-             totalstockamount=Double.valueOf(c.getAmount());
-             totalstockquantity=Double.valueOf(c.getQuantity());
-            }
-            prevquantity=totalstockquantity+Double.valueOf(tempqty);
-            prevrate=totalstockamount+Double.valueOf(tempamt);
-            query = "update finsys.t_stock set quantity='" + prevquantity+ "',amount='" +prevrate+ "' where itemid='" +ID1+ "'";
-             PreparedStatement  pst=null;
-            try {
+                ArrayList<Stocktable> d=db.getStock(Integer.valueOf(ID1));
+                 for(Stocktable c:d){
+                    totalstockamount=Double.valueOf(c.getAmount());
+                     totalstockquantity=Double.valueOf(c.getQuantity());
+                }
+                    prevquantity=totalstockquantity+Double.valueOf(tempqty);
+                prevrate=totalstockamount+Double.valueOf(tempamt);
+                query = "update finsys.t_stock set quantity='" + prevquantity+ "',amount='" +prevrate+ "' where itemid='" +ID1+ "'";
+                PreparedStatement  pst=null;
+                try {
                 pst = data.conn.prepareStatement(query);
                  int flag = pst.executeUpdate();
                 
                  
-            } catch (SQLException ex) {
+                } catch (SQLException ex) {
                 Logger.getLogger(stockIn.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                }
+            }
+            else{
+                remove(reply);
             }
     }//GEN-LAST:event_btndeleteitemActionPerformed
 
@@ -1270,8 +1414,11 @@ public class stockOut extends javax.swing.JInternalFrame {
                         if(totalstockquantity!=null){
                             
                         itemstock.setText(String.valueOf(totalstockquantity));
+                        if("0.0".equals(String.valueOf(totalstockquantity))){
+                            ivalue.setText(String.valueOf(0.0));
+                        }else{
                         ivalue.setText(String.valueOf(totalstockamount/totalstockquantity));
-                        
+                        }
                         }
                         }
                        

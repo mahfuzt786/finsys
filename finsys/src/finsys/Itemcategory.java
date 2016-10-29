@@ -337,7 +337,11 @@ public class Itemcategory extends javax.swing.JInternalFrame {
 
        
         categoryname = txtcategoryname.getText().trim().toUpperCase();
-
+         if("".equals(categoryname)){
+             dialogmessage = "PLEASE ENTER CATEGORY NAME!!!";
+                    JOptionPane.showMessageDialog(null, dialogmessage,
+                            "ERROR!!", JOptionPane.ERROR_MESSAGE);
+        }else{
         db = new database();
         try {
 
@@ -375,6 +379,7 @@ public class Itemcategory extends javax.swing.JInternalFrame {
             System.out.println("Error while validating :" + ex);
             JOptionPane.showMessageDialog(null, "GENERAL EXCEPTION", "WARNING!!!", JOptionPane.INFORMATION_MESSAGE);
         }
+         }
     }//GEN-LAST:event_btnaddActionPerformed
 
     private void jtable_categorytableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtable_categorytableMouseClicked

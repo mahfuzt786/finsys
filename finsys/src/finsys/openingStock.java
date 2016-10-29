@@ -10,6 +10,9 @@ package finsys;
  * @author pc1
  */
 import java.sql.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import javax.swing.*;
 import java.util.*;
 import javax.swing.table.DefaultTableModel;
@@ -29,16 +32,20 @@ public class openingStock extends javax.swing.JInternalFrame {
     String dialogs;
     int dialogtype = JOptionPane.PLAIN_MESSAGE;
     database data = new database();
-    public String ID;
+    public String ID="";
     DefaultTableModel model;
     ArrayList<Itemtable> item;
-
+    PatternValidation pattern=new PatternValidation();
+    
     public openingStock() {
         initComponents();
         ReloadTable();
         db = new database();
         item = db.getItem();
-        
+         Date dt=new Date(); 
+         DateFormat y = new SimpleDateFormat("yyyy");
+          int year=Integer.valueOf(y.format(dt));
+          int i=year-10;
         System.out.println("Item Combobox");
         itemcom.addItem(new Comboitem(0,"Select Item"));
         for(Itemtable c:item){
@@ -61,7 +68,8 @@ public class openingStock extends javax.swing.JInternalFrame {
          month.addItem(new Comboitem(12,"December"));
          
          //for year combo
-         for(int k=2016;k<2080;k++){
+         yearcombo.addItem("-");
+         for(int k=i;k<=year;k++){
              
          yearcombo.addItem(k+"");
          }
@@ -389,7 +397,37 @@ public class openingStock extends javax.swing.JInternalFrame {
        String yr=(String)yearcombo.getSelectedItem();
        String q=qtytxt.getText().trim();
        String v=valtxt.getText().trim();
-    
+        if(itemid==0){
+            dialogmessage = "PLEASE SELECT ITEM NAME!!!";
+                    JOptionPane.showMessageDialog(null, dialogmessage,
+                            "ERROR!!", JOptionPane.ERROR_MESSAGE);
+        }else if(monid==0){
+            dialogmessage = "PLEASE SELECT MONTH!!!";
+                    JOptionPane.showMessageDialog(null, dialogmessage,
+                            "ERROR!!", JOptionPane.ERROR_MESSAGE);
+        }else  if("-".equals(yr)){
+             dialogmessage = "PLEASE SELECT YEAR!!!";
+                    JOptionPane.showMessageDialog(null, dialogmessage,
+                            "ERROR!!", JOptionPane.ERROR_MESSAGE);
+        }else  if("".equals(q)){
+             dialogmessage = "PLEASE ENTER QUANTITY!!!";
+                    JOptionPane.showMessageDialog(null, dialogmessage,
+                            "ERROR!!", JOptionPane.ERROR_MESSAGE);
+        }else  if("".equals(v)){
+             dialogmessage = "PLEASE ENTER VALUE!!!";
+                    JOptionPane.showMessageDialog(null, dialogmessage,
+                            "ERROR!!", JOptionPane.ERROR_MESSAGE);
+        }else if(!pattern.ValidateNumeric(q)){
+            dialogmessage = "INVALID  QUANTITY!!!";
+                    JOptionPane.showMessageDialog(null, dialogmessage,
+                            "ERROR!!", JOptionPane.ERROR_MESSAGE);
+        }          
+       else if(!pattern.ValidateNumeric(v)){
+           dialogmessage = "INVALID VALUE!!!";
+                    JOptionPane.showMessageDialog(null, dialogmessage,
+                            "ERROR!!", JOptionPane.ERROR_MESSAGE);
+                    
+       }else{
         db = new database();
         try {
 
@@ -429,6 +467,7 @@ public class openingStock extends javax.swing.JInternalFrame {
             System.out.println("Error while validating :" + ex);
             JOptionPane.showMessageDialog(null, "GENERAL EXCEPTION", "WARNING!!!", JOptionPane.INFORMATION_MESSAGE);
         }
+        }
     }//GEN-LAST:event_btnaddActionPerformed
 
     private void searchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchKeyReleased
@@ -439,9 +478,26 @@ public class openingStock extends javax.swing.JInternalFrame {
 
     private void btndeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btndeleteActionPerformed
         //delete
+         String sMSGBOX_TITLE = "FINSYS version 1.0";
+        int reply = JOptionPane.showConfirmDialog(this, "Are you sure to want to delete this record?", sMSGBOX_TITLE, JOptionPane.YES_NO_OPTION,
+                    JOptionPane.WARNING_MESSAGE);
+            //System.out.println(reply);
+            if (reply == JOptionPane.YES_OPTION) {
+                if("".equals(ID)){
+                    dialogmessage = "PLEASE SELECT RECORD TO DELETE!!!";
+                    JOptionPane.showMessageDialog(null, dialogmessage,
+                            "ERROR!!", JOptionPane.ERROR_MESSAGE);
+                
+                }else{
+      
         String query = "delete from finsys.t_openingstock where slno='" + ID + "'";
         executeSqlQuery(query, "deleted");
         ResetRecord();
+                }
+            }
+            else{
+                remove(reply);
+            }
     }//GEN-LAST:event_btndeleteActionPerformed
 
     private void itemtableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_itemtableMouseClicked
