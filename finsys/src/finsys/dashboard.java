@@ -376,7 +376,6 @@ public class dashboard extends javax.swing.JFrame {
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenuItem3 = new javax.swing.JMenuItem();
         jSeparator5 = new javax.swing.JPopupMenu.Separator();
-        jMenuItem11 = new javax.swing.JMenuItem();
         jMenuItem8 = new javax.swing.JMenuItem();
         jMenu_master = new javax.swing.JMenu();
         jMenuItem_uom = new javax.swing.JMenuItem();
@@ -633,14 +632,6 @@ public class dashboard extends javax.swing.JFrame {
         });
         jMenu8.add(jMenuItem3);
         jMenu8.add(jSeparator5);
-
-        jMenuItem11.setText("Item Values (Previous)");
-        jMenuItem11.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem11ActionPerformed1(evt);
-            }
-        });
-        jMenu8.add(jMenuItem11);
 
         jMenuItem8.setText("Opening Stock");
         jMenuItem8.addActionListener(new java.awt.event.ActionListener() {
@@ -905,10 +896,6 @@ public class dashboard extends javax.swing.JFrame {
         loadJInternalFrame(32);
     }//GEN-LAST:event_jMenuItem12ActionPerformed
 
-    private void jMenuItem11ActionPerformed1(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem11ActionPerformed1
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jMenuItem11ActionPerformed1
-
     private void jMenuItem8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem8ActionPerformed
         // TODO add your handling code here:
         loadJInternalFrame(33);
@@ -973,7 +960,6 @@ public class dashboard extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu9;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem11;
     private javax.swing.JMenuItem jMenuItem12;
     private javax.swing.JMenuItem jMenuItem13;
     private javax.swing.JMenuItem jMenuItem2;
