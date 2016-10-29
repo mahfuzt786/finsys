@@ -280,6 +280,14 @@ public class dashboard extends javax.swing.JFrame {
                     System.out.println("\nError :" + e);
                 }
                 break;
+                case 34:
+                try {
+                    backup bck = new backup();
+                    loadForm("Backup", bck);
+                } catch (Exception e) {
+                    System.out.println("\nError :" + e);
+                }
+                break;
 
 
         }
@@ -397,6 +405,9 @@ public class dashboard extends javax.swing.JFrame {
         jMenu6 = new javax.swing.JMenu();
         jMenuItem12 = new javax.swing.JMenuItem();
         jMenuItem13 = new javax.swing.JMenuItem();
+        jMenu10 = new javax.swing.JMenu();
+        jMenuItem9 = new javax.swing.JMenuItem();
+        jMenuItem10 = new javax.swing.JMenuItem();
         jMenu7 = new javax.swing.JMenu();
         jMenuItem_help = new javax.swing.JMenuItem();
         jMenuItem_help2 = new javax.swing.JMenuItem();
@@ -773,6 +784,21 @@ public class dashboard extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu6);
 
+        jMenu10.setText("Database");
+
+        jMenuItem9.setText("Backup");
+        jMenuItem9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem9ActionPerformed(evt);
+            }
+        });
+        jMenu10.add(jMenuItem9);
+
+        jMenuItem10.setText("Restore");
+        jMenu10.add(jMenuItem10);
+
+        jMenuBar1.add(jMenu10);
+
         jMenu7.setText("Help");
 
         jMenuItem_help.setIcon(new javax.swing.ImageIcon(getClass().getResource("/finsys/icons/Information_16x16.png"))); // NOI18N
@@ -901,6 +927,10 @@ public class dashboard extends javax.swing.JFrame {
         loadJInternalFrame(33);
     }//GEN-LAST:event_jMenuItem8ActionPerformed
 
+    private void jMenuItem9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem9ActionPerformed
+       loadJInternalFrame(34);
+    }//GEN-LAST:event_jMenuItem9ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -950,6 +980,7 @@ public class dashboard extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu10;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
@@ -960,6 +991,7 @@ public class dashboard extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu9;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem10;
     private javax.swing.JMenuItem jMenuItem12;
     private javax.swing.JMenuItem jMenuItem13;
     private javax.swing.JMenuItem jMenuItem2;
@@ -969,6 +1001,7 @@ public class dashboard extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem jMenuItem7;
     private javax.swing.JMenuItem jMenuItem8;
+    private javax.swing.JMenuItem jMenuItem9;
     private javax.swing.JMenuItem jMenuItem_calculator;
     private javax.swing.JMenuItem jMenuItem_category;
     private javax.swing.JMenuItem jMenuItem_costcenter;
