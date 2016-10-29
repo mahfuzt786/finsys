@@ -183,9 +183,9 @@ order by c.categoryid]]>
 				<subreportExpression class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "itemwise_subreport.jasper"]]></subreportExpression>
 			</subreport>
 			<textField>
-				<reportElement style="n" x="6" y="0" width="91" height="16"/>
+				<reportElement style="n" x="6" y="0" width="91" height="18"/>
 				<textElement verticalAlignment="Middle">
-					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+					<font size="6" isBold="true" pdfFontName="Helvetica-Bold"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{cat}]]></textFieldExpression>
 			</textField>

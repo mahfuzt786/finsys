@@ -105,7 +105,7 @@ order by i.itemid]]>
 			<textField>
 				<reportElement style="b" x="3" y="0" width="93" height="16"/>
 				<textElement>
-					<font size="8" isBold="true" isUnderline="false"/>
+					<font size="6" isBold="true" isUnderline="false"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{c}]]></textFieldExpression>
 			</textField>
@@ -115,12 +115,39 @@ order by i.itemid]]>
 			<line>
 				<reportElement x="497" y="0" width="1" height="16"/>
 			</line>
+			<line>
+				<reportElement x="449" y="0" width="1" height="16"/>
+			</line>
+			<line>
+				<reportElement x="390" y="0" width="1" height="16"/>
+			</line>
+			<line>
+				<reportElement x="326" y="0" width="1" height="16"/>
+			</line>
+			<line>
+				<reportElement x="276" y="0" width="1" height="16"/>
+			</line>
+			<line>
+				<reportElement x="226" y="0" width="1" height="16"/>
+			</line>
+			<line>
+				<reportElement x="176" y="0" width="1" height="16"/>
+			</line>
+			<line>
+				<reportElement x="127" y="0" width="1" height="16"/>
+			</line>
+			<line>
+				<reportElement x="96" y="0" width="1" height="16"/>
+			</line>
+			<line>
+				<reportElement x="0" y="0" width="1" height="16"/>
+			</line>
 		</band>
 	</pageHeader>
 	<detail>
 		<band height="25" splitType="Stretch">
 			<textField>
-				<reportElement style="n1" x="3" y="13" width="93" height="11"/>
+				<reportElement style="n1" x="3" y="3" width="93" height="21"/>
 				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{item}]]></textFieldExpression>
 			</textField>
@@ -170,37 +197,37 @@ order by i.itemid]]>
 				<textFieldExpression class="java.lang.String"><![CDATA[new String( $F{ostockqty}!=null ? $F{ostockqty}.toString() :"-" )]]></textFieldExpression>
 			</textField>
 			<line>
-				<reportElement x="96" y="-16" width="1" height="41"/>
-			</line>
-			<line>
-				<reportElement x="276" y="-16" width="1" height="41"/>
-			</line>
-			<line>
-				<reportElement x="226" y="-16" width="1" height="41"/>
-			</line>
-			<line>
-				<reportElement x="176" y="-16" width="1" height="41"/>
-			</line>
-			<line>
-				<reportElement x="390" y="-16" width="1" height="41"/>
-			</line>
-			<line>
-				<reportElement x="326" y="-16" width="1" height="41"/>
-			</line>
-			<line>
-				<reportElement x="449" y="-16" width="1" height="41"/>
-			</line>
-			<line>
-				<reportElement x="127" y="-16" width="1" height="41"/>
-			</line>
-			<line>
-				<reportElement x="0" y="-16" width="1" height="41"/>
-			</line>
-			<line>
-				<reportElement x="553" y="0" width="1" height="24"/>
+				<reportElement x="553" y="0" width="1" height="25"/>
 			</line>
 			<line>
 				<reportElement x="497" y="0" width="1" height="25"/>
+			</line>
+			<line>
+				<reportElement x="449" y="0" width="1" height="25"/>
+			</line>
+			<line>
+				<reportElement x="390" y="0" width="1" height="25"/>
+			</line>
+			<line>
+				<reportElement x="326" y="0" width="1" height="25"/>
+			</line>
+			<line>
+				<reportElement x="276" y="0" width="1" height="25"/>
+			</line>
+			<line>
+				<reportElement x="226" y="0" width="1" height="25"/>
+			</line>
+			<line>
+				<reportElement x="176" y="0" width="1" height="25"/>
+			</line>
+			<line>
+				<reportElement x="127" y="0" width="1" height="25"/>
+			</line>
+			<line>
+				<reportElement x="96" y="0" width="1" height="25"/>
+			</line>
+			<line>
+				<reportElement x="0" y="0" width="1" height="25"/>
 			</line>
 		</band>
 	</detail>
@@ -214,7 +241,7 @@ order by i.itemid]]>
 				<text><![CDATA[TOTAL :]]></text>
 			</staticText>
 			<line>
-				<reportElement x="0" y="23" width="553" height="1"/>
+				<reportElement x="0" y="23" width="554" height="1"/>
 			</line>
 			<line>
 				<reportElement x="1" y="1" width="553" height="1"/>
