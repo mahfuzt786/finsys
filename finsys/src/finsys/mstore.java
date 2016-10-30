@@ -347,9 +347,30 @@ public class mstore extends javax.swing.JInternalFrame {
 
     private void btnupdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnupdateActionPerformed
         // update
+        if(ID==null){
+            dialogmessage = "Please Select Record To Update!!!";
+                    JOptionPane.showMessageDialog(null,dialogmessage,
+                            "WARNING!!", JOptionPane.ERROR_MESSAGE);
+        }else if(txtms.getText().trim().equals("")){
+             dialogmessage = "Please Enter M/S!!!";
+                    JOptionPane.showMessageDialog(null,dialogmessage,
+                            "WARNING!!", JOptionPane.ERROR_MESSAGE);
+            
+        }else if(txtaddress.getText().trim().equals("")){
+            dialogmessage = "Please Enter Address!!!";
+                    JOptionPane.showMessageDialog(null,dialogmessage,
+                            "WARNING!!", JOptionPane.ERROR_MESSAGE);
+        
+        }else if(txtphone.getText().trim().equals("")){
+            dialogmessage = "Please Enter Phone No.!!!";
+                    JOptionPane.showMessageDialog(null,dialogmessage,
+                            "WARNING!!", JOptionPane.ERROR_MESSAGE);
+        
+        }else{
         String query = "update finsys.m_fromcompany set companyname='" + txtms.getText().trim().toUpperCase() + "',companyaddress='" + txtaddress.getText().trim().toUpperCase() + "',companyphone='" + txtphone.getText().trim().toUpperCase() + "' where companyid='" + ID + "'";
         executeSqlQuery(query, "updated");
         ResetRecord();
+        }
     }//GEN-LAST:event_btnupdateActionPerformed
 
     private void btnclearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnclearActionPerformed
@@ -434,9 +455,22 @@ public class mstore extends javax.swing.JInternalFrame {
 
     private void btndeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btndeleteActionPerformed
         //delete
+        String sMSGBOX_TITLE = "FINSYS version 1.0";
+         if(ID==null){
+            dialogmessage = "Please Select Record To Delete!!!";
+                    JOptionPane.showMessageDialog(null,dialogmessage,
+                            "WARNING!!", JOptionPane.ERROR_MESSAGE);
+        }else{
+              int reply = JOptionPane.showConfirmDialog(this, "Are you sure to want to delete this record?", sMSGBOX_TITLE, JOptionPane.YES_NO_OPTION,
+                    JOptionPane.WARNING_MESSAGE);
+            //System.out.println(reply);
+            if (reply == JOptionPane.YES_OPTION) {
         String query = "delete from finsys.m_fromcompany where companyid='" + ID + "'";
         executeSqlQuery(query, "deleted");
         ResetRecord();
+         }else{
+            remove(reply);
+            }}
     }//GEN-LAST:event_btndeleteActionPerformed
 
     private void searchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchKeyReleased

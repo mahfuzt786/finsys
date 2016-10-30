@@ -322,9 +322,26 @@ public class uom extends javax.swing.JInternalFrame {
 
     private void btnupdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnupdateActionPerformed
         // update
+         if(ID==null){
+            dialogmessage = "Please Select Record To Update";
+                    JOptionPane.showMessageDialog(null,dialogmessage,
+                            "WARNING!!", JOptionPane.ERROR_MESSAGE);
+        }else if(uomname.getText().trim().equals("")){
+             dialogmessage = "Please Enter UOM Name";
+                    JOptionPane.showMessageDialog(null,dialogmessage,
+                            "WARNING!!", JOptionPane.ERROR_MESSAGE);
+            
+        }else if(uomabbr.getText().trim().equals("")){
+            dialogmessage = "Please Enter UOM Abbreviation";
+                    JOptionPane.showMessageDialog(null,dialogmessage,
+                            "WARNING!!", JOptionPane.ERROR_MESSAGE);
+        
+        }else{
+             
         String query = "update finsys.t_uom set uomname='" + uomname.getText().toUpperCase() + "',uomabbr='" + uomabbr.getText().toUpperCase() + "' where uomcode='" + ID + "'";
         executeSqlQuery(query, "updated");
         ResetRecord();
+         }
     }//GEN-LAST:event_btnupdateActionPerformed
 
     private void btnclearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnclearActionPerformed
@@ -396,25 +413,25 @@ public class uom extends javax.swing.JInternalFrame {
     private void btndeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btndeleteActionPerformed
         //delete
          String sMSGBOX_TITLE = "FINSYS version 1.0";
+          if(ID==null){
+            dialogmessage = "Please Select Record To Delete";
+                    JOptionPane.showMessageDialog(null,dialogmessage,
+                            "WARNING!!", JOptionPane.WARNING_MESSAGE);
+        }else{
         int reply = JOptionPane.showConfirmDialog(this, "Are you sure to want to delete this record?", sMSGBOX_TITLE, JOptionPane.YES_NO_OPTION,
                     JOptionPane.WARNING_MESSAGE);
             //System.out.println(reply);
             if (reply == JOptionPane.YES_OPTION) {
-            
-           if(ID==null){
-            dialogmessage = "Please Select Record To Delete";
-                    JOptionPane.showMessageDialog(null,dialogmessage,
-                            "WARNING!!", JOptionPane.WARNING_MESSAGE);
-        }
-         else{
+           
         String query = "delete from finsys.t_uom where uomcode='" + ID + "'";
         executeSqlQuery(query, "deleted");
         ResetRecord();
-           }
+           
             }
             else{
                 remove(reply);
             }
+          }
     }//GEN-LAST:event_btndeleteActionPerformed
 
     private void searchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchKeyReleased

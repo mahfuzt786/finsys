@@ -479,25 +479,27 @@ public class openingStock extends javax.swing.JInternalFrame {
     private void btndeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btndeleteActionPerformed
         //delete
          String sMSGBOX_TITLE = "FINSYS version 1.0";
-        int reply = JOptionPane.showConfirmDialog(this, "Are you sure to want to delete this record?", sMSGBOX_TITLE, JOptionPane.YES_NO_OPTION,
-                    JOptionPane.WARNING_MESSAGE);
-            //System.out.println(reply);
-            if (reply == JOptionPane.YES_OPTION) {
-                if("".equals(ID)){
+         if("".equals(ID)){
                     dialogmessage = "PLEASE SELECT RECORD TO DELETE!!!";
                     JOptionPane.showMessageDialog(null, dialogmessage,
                             "ERROR!!", JOptionPane.ERROR_MESSAGE);
                 
                 }else{
+        int reply = JOptionPane.showConfirmDialog(this, "Are you sure to want to delete this record?", sMSGBOX_TITLE, JOptionPane.YES_NO_OPTION,
+                    JOptionPane.WARNING_MESSAGE);
+            //System.out.println(reply);
+            if (reply == JOptionPane.YES_OPTION) {
+                
       
         String query = "delete from finsys.t_openingstock where slno='" + ID + "'";
         executeSqlQuery(query, "deleted");
         ResetRecord();
-                }
+                
             }
             else{
                 remove(reply);
             }
+         }
     }//GEN-LAST:event_btndeleteActionPerformed
 
     private void itemtableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_itemtableMouseClicked
