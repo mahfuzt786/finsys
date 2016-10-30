@@ -142,7 +142,7 @@ order by c.categoryid]]>
 				<reportElement x="254" y="-3" width="1" height="52"/>
 			</line>
 			<textField>
-				<reportElement style="n" x="2" y="0" width="51" height="19"/>
+				<reportElement style="n" x="2" y="0" width="51" height="49"/>
 				<textElement>
 					<font size="8" isBold="true"/>
 				</textElement>

@@ -177,14 +177,14 @@ order by ir.issuedate]]>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{issue_returncode}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement style="n" x="397" y="10" width="54" height="10"/>
+				<reportElement style="n" x="447" y="10" width="54" height="10"/>
 				<textElement verticalAlignment="Middle">
 					<font size="8" isBold="false"/>
 				</textElement>
 				<text><![CDATA[ISSUE DATE :]]></text>
 			</staticText>
 			<textField>
-				<reportElement style="n" x="451" y="10" width="104" height="10"/>
+				<reportElement style="n" x="501" y="10" width="54" height="10"/>
 				<textElement>
 					<font size="8" isBold="true"/>
 				</textElement>
