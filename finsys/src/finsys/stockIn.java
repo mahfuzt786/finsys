@@ -990,7 +990,11 @@ public class stockIn extends javax.swing.JInternalFrame {
         Date c = challnodate.getDate();        
         
         Date p = purchasedate.getDate();        
-         if(companyid==0){
+        if("".equals(ID)){
+            dialogmessage = "PLEASE SELECT RECORD TO UPDATE!!!";
+                    JOptionPane.showMessageDialog(null, dialogmessage,
+                            "ERROR!!", JOptionPane.ERROR_MESSAGE);
+        }else if(companyid==0){
             dialogmessage = "PLEASE SELECT FROM M/S COMPANY!!!";
                     JOptionPane.showMessageDialog(null, dialogmessage,
                             "ERROR!!", JOptionPane.ERROR_MESSAGE);
@@ -1314,17 +1318,18 @@ public class stockIn extends javax.swing.JInternalFrame {
     private void btndeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btndeleteActionPerformed
         //delete
         String sMSGBOX_TITLE = "FINSYS version 1.0";
-        int reply = JOptionPane.showConfirmDialog(this, "Are you sure to want to delete this record?", sMSGBOX_TITLE, JOptionPane.YES_NO_OPTION,
-                    JOptionPane.WARNING_MESSAGE);
-            //System.out.println(reply);
-            if (reply == JOptionPane.YES_OPTION) {
-                if("".equals(ID)){
+         if("".equals(ID)){
                     dialogmessage = "PLEASE SELECT RECORD TO DELETE!!!";
                     JOptionPane.showMessageDialog(null, dialogmessage,
                             "ERROR!!", JOptionPane.ERROR_MESSAGE);
                 
                 }
-                else{
+         else{
+        int reply = JOptionPane.showConfirmDialog(this, "Are you sure to want to delete this record?", sMSGBOX_TITLE, JOptionPane.YES_NO_OPTION,
+                    JOptionPane.WARNING_MESSAGE);
+            //System.out.println(reply);
+            if (reply == JOptionPane.YES_OPTION) {
+               
                 
                 String query = "delete from finsys.t_stockin where invoiceid='" + ID + "'";
                 Double gross=0.0,qty=0.0;
@@ -1363,11 +1368,12 @@ public class stockIn extends javax.swing.JInternalFrame {
         
                  ResetRecord();
                 
-                }
+                
       } else {
                
                 remove(reply);
             }
+         }
        
     }//GEN-LAST:event_btndeleteActionPerformed
 
@@ -1476,7 +1482,11 @@ public class stockIn extends javax.swing.JInternalFrame {
        item_rate=rate.getText().trim();
        quantity=txtquantity.getText().trim();
        //validation
-        if(itemid==0){
+       if("".equals(ID1)){
+            dialogmessage = "Please Select Record To Update";
+                    JOptionPane.showMessageDialog(null,dialogmessage,
+                            "WARNING!!", JOptionPane.WARNING_MESSAGE);
+        }else if(itemid==0){
             dialogmessage = "PLEASE SELECT ITEM NAME!!!";
                     JOptionPane.showMessageDialog(null, dialogmessage,
                             "ERROR!!", JOptionPane.ERROR_MESSAGE);
@@ -1649,16 +1659,18 @@ public class stockIn extends javax.swing.JInternalFrame {
     private void btndeleteitemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btndeleteitemActionPerformed
         // TODO add your handling code here:
           String sMSGBOX_TITLE = "FINSYS version 1.0";
-        int reply = JOptionPane.showConfirmDialog(this, "Are you sure to want to delete this record?", sMSGBOX_TITLE, JOptionPane.YES_NO_OPTION,
-                    JOptionPane.WARNING_MESSAGE);
-            //System.out.println(reply);
-            if (reply == JOptionPane.YES_OPTION) {
-                if("".equals(ID1)|| "".equals(ID)){
+          if("".equals(ID1)|| "".equals(ID)){
                     dialogmessage = "PLEASE SELECT RECORD TO DELETE!!!";
                     JOptionPane.showMessageDialog(null, dialogmessage,
                             "ERROR!!", JOptionPane.ERROR_MESSAGE);
                 
-                }else{
+                }
+          else{
+        int reply = JOptionPane.showConfirmDialog(this, "Are you sure to want to delete this record?", sMSGBOX_TITLE, JOptionPane.YES_NO_OPTION,
+                    JOptionPane.WARNING_MESSAGE);
+            //System.out.println(reply);
+            if (reply == JOptionPane.YES_OPTION) {
+               
         Double prevquantity=0.0,prevrate=0.0, totalamt=0.0,totalstockamount=0.0,totalstockquantity=0.0,updatestockamount=0.0,updatestockquantity=0.0;
        
         String query = "delete from finsys.t_stockin_items where invoiceid='" + ID + "' and itemid='"+ID1+"'";
@@ -1682,12 +1694,13 @@ public class stockIn extends javax.swing.JInternalFrame {
             } catch (SQLException ex) {
                 Logger.getLogger(stockIn.class.getName()).log(Level.SEVERE, null, ex);
             }
-                }
+                
             }
             else {
                
                 remove(reply);
             }
+          }
     }//GEN-LAST:event_btndeleteitemActionPerformed
 
       public void setSelectedValue(JComboBox combobox,int value){

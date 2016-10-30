@@ -348,8 +348,12 @@ public class Soegroup extends javax.swing.JInternalFrame {
         // update
         Comboitem g =(Comboitem) jComboBox_soemain.getSelectedItem();
         int soemainid=g.getKey();
-      soename = txtsoename.getText().trim().toUpperCase();;
-      if(soemainid==0){
+      soename = txtsoename.getText().trim().toUpperCase();
+       if(ID==null){
+            dialogmessage = "Please Select Record To Update";
+                    JOptionPane.showMessageDialog(null,dialogmessage,
+                            "WARNING!!", JOptionPane.WARNING_MESSAGE);
+        }else if(soemainid==0){
              dialogmessage = "PLEASE SELECT SOE MAIN GROUP!!!";
                     JOptionPane.showMessageDialog(null, dialogmessage,
                             "ERROR!!", JOptionPane.ERROR_MESSAGE);
@@ -448,25 +452,25 @@ public class Soegroup extends javax.swing.JInternalFrame {
     private void btndeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btndeleteActionPerformed
         //delete
         String sMSGBOX_TITLE = "FINSYS version 1.0";
+         if(ID==null){
+            dialogmessage = "Please Select Record To Delete";
+                    JOptionPane.showMessageDialog(null,dialogmessage,
+                            "WARNING!!", JOptionPane.WARNING_MESSAGE);
+        }else{
         int reply = JOptionPane.showConfirmDialog(this, "Are you sure to want to delete this record?", sMSGBOX_TITLE, JOptionPane.YES_NO_OPTION,
                     JOptionPane.WARNING_MESSAGE);
             //System.out.println(reply);
             if (reply == JOptionPane.YES_OPTION) {
             
-         
-         if(ID==null){
-            dialogmessage = "Please Select Record To Delete";
-                    JOptionPane.showMessageDialog(null,dialogmessage,
-                            "WARNING!!", JOptionPane.WARNING_MESSAGE);
-        }
-         else{
+        
         String query = "delete from finsys.m_soegroup where soegroupid='" + ID + "'";
         executeSqlQuery(query, "deleted");
         ResetRecord();
-         }}
+         }
             else{
                 remove(reply);
             }
+         }
     }//GEN-LAST:event_btndeleteActionPerformed
 
     private void searchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchKeyReleased
