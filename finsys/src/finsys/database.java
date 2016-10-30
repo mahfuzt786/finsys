@@ -38,6 +38,24 @@ public class database {
             return false;
         }
     }
+    public Boolean logdetails(String logname, String dt) {
+        try {
+            String sql = "SELECT MAX(logid) as max FROM finsys.logdetails";
+            int id = getmax(sql);
+            System.out.println("logid: " + id);
+            pst = conn.prepareStatement("INSERT INTO finsys.logdetails(logid,logname,logdate) values(?,?,?)");
+
+            pst.setInt(1, id);
+            pst.setString(2, logname);
+            pst.setString(3, dt);
+            System.out.println("logid: " + id);
+            pst.executeUpdate();
+            return true;
+        } catch (Exception e) {
+            System.out.println("Error ::" + e);
+            return false;
+        }
+    }
 
     
     //INSERT FUNCTION FOR MASTER TABLE

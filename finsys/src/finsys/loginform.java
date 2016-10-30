@@ -5,6 +5,7 @@
  */
 package finsys;
 
+import java.text.DateFormat;
 import java.util.Date;
 import javax.swing.JOptionPane;
 import javax.swing.JRootPane;
@@ -21,6 +22,7 @@ public class loginform extends javax.swing.JFrame {
      */
     database db;
     static Date dt= new Date();
+    static String logindate = DateFormat.getDateTimeInstance().format(dt);
     public loginform() {
         initComponents();
         db=new database();
@@ -168,6 +170,7 @@ public class loginform extends javax.swing.JFrame {
                 dispose();
                 JOptionPane.showMessageDialog(null, "You have Successfully Logged In", "Success", JOptionPane.INFORMATION_MESSAGE);
                 //new dashboard().setVisible(true);
+                db.logdetails(jTextField_username.getText().toUpperCase(),logindate.trim());
                 new dashboard(jTextField_username.getText(),dt).setVisible(true);
             } else {
                 JOptionPane.showMessageDialog(null, "Login Failed", "Failed", JOptionPane.ERROR_MESSAGE);

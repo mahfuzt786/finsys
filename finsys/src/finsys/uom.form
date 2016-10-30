@@ -105,12 +105,12 @@
                           <Group type="102" attributes="0">
                               <Component id="btnadd" min="-2" pref="91" max="-2" attributes="0"/>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Component id="btnupdate" min="-2" pref="86" max="-2" attributes="0"/>
-                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Component id="btnclear" pref="80" max="32767" attributes="0"/>
+                              <Component id="btnupdate" min="-2" pref="90" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="btnclear" min="-2" pref="90" max="-2" attributes="0"/>
                           </Group>
-                          <Component id="uomname" max="32767" attributes="0"/>
-                          <Component id="uomabbr" max="32767" attributes="0"/>
+                          <Component id="uomabbr" pref="297" max="32767" attributes="0"/>
+                          <Component id="uomname" alignment="0" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace max="32767" attributes="0"/>
                   </Group>

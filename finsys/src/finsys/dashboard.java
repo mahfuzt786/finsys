@@ -12,6 +12,10 @@ import java.io.*;
 import java.text.DateFormat;
 import java.util.Date;
 import java.beans.PropertyVetoException;
+import java.util.ArrayList;
+import java.sql.*;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 
 /**
  *
@@ -27,15 +31,21 @@ public class dashboard extends javax.swing.JFrame {
      */// User Details
     static String sUser = "";
     static String sLogin = DateFormat.getDateTimeInstance().format(td);
+    database data = new database();
+    DefaultTableModel model;
 
     public dashboard() {
         initComponents();
+        ReloadTableStock();
+        ReloadTableLog();
         db = new database();
         setIcon();
     }
 
     public dashboard(String user, Date date) {
         initComponents();
+        ReloadTableStock();
+        ReloadTableLog();
         db = new database();
         setIcon();
         sUser = user;
@@ -49,6 +59,89 @@ public class dashboard extends javax.swing.JFrame {
                 UnloadWindow();
             }
         });
+    }
+
+    public ArrayList<logtable> getLogTable() {
+        ArrayList<logtable> logTable = new ArrayList<logtable>();
+        String query = "select * from finsys.logdetails order by logid desc";
+        try {
+            PreparedStatement pst = data.conn.prepareStatement(query);
+            ResultSet rs = pst.executeQuery();
+            logtable log;
+            while (rs.next()) {
+                log = new logtable(rs.getInt("logid"), rs.getString("logname"), rs.getString("logdate"));
+                logTable.add(log);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return logTable;
+    }
+
+    private void ReloadTableLog() {
+        ArrayList<logtable> logitemlist = getLogTable();
+        model = (DefaultTableModel) jtable_logtable.getModel();
+        model.setRowCount(0);
+        Object[] row = new Object[3];
+        for (int i = 0; i < logitemlist.size(); i++) {
+            row[0] = logitemlist.get(i).getLoginId();
+            row[1] = logitemlist.get(i).getLoginName();
+            row[2] = logitemlist.get(i).getLoginDate();
+
+            model.addRow(row);
+        }
+    }
+
+    public ArrayList<totalstocktable> getItemTable() {
+        ArrayList<totalstocktable> stockTable = new ArrayList<totalstocktable>();
+        String query;
+        query = "SELECT t_stock.quantity,t_stock.amount,  m_item.itemcode, m_item.itemname,m_itemcategory.categorycode, m_itemcategory.categoryname, m_itemtype.itemtypename,t_uom.uomabbr, t_uom.uomname FROM finsys.t_stock,finsys.m_item,finsys.m_itemcategory,finsys.t_uom,finsys.m_itemtype WHERE t_stock.itemid = m_item.itemid AND m_item.categoryid = m_itemcategory.categoryid AND m_item.itemtypeid = m_itemtype.itemtypeid AND t_uom.uomcode = m_item.uomcode";
+        try {
+            PreparedStatement pst = data.conn.prepareStatement(query);
+            ResultSet rs = pst.executeQuery();
+            totalstocktable totstock;
+            while (rs.next()) {
+                totstock = new totalstocktable(rs.getInt("quantity"),
+                        rs.getInt("amount"),
+                        rs.getString("itemcode"),
+                        rs.getString("itemname"),
+                        rs.getString("categorycode"),
+                        rs.getString("categoryname"),
+                        rs.getString("itemtypename"),
+                        rs.getString("uomabbr"),
+                        rs.getString("uomname"));
+                stockTable.add(totstock);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return stockTable;
+    }
+
+    private void ReloadTableStock() {
+        ArrayList<totalstocktable> stockitemlist = getItemTable();
+        model = (DefaultTableModel) jtable_itemtable.getModel();
+        model.setRowCount(0);
+        Object[] row = new Object[9];
+        for (int i = 0; i < stockitemlist.size(); i++) {
+            row[0] = stockitemlist.get(i).getItemCode();
+            row[1] = stockitemlist.get(i).getItemName();
+            row[2] = stockitemlist.get(i).getCategoryCode();
+            row[3] = stockitemlist.get(i).getCategoryName();
+            row[4] = stockitemlist.get(i).getUomName();
+            row[5] = stockitemlist.get(i).getUomAbbr();
+            row[6] = stockitemlist.get(i).getItemTypeName();
+            row[7] = stockitemlist.get(i).getAmt();
+            row[8] = stockitemlist.get(i).getQty();
+
+            model.addRow(row);
+        }
+    }
+
+    public void filter(String query) {
+        TableRowSorter<DefaultTableModel> tr = new TableRowSorter<>(model);
+        jtable_itemtable.setRowSorter(tr);
+        tr.setRowFilter(RowFilter.regexFilter(query));
     }
 
     protected void UnloadWindow() {
@@ -272,7 +365,7 @@ public class dashboard extends javax.swing.JFrame {
                     System.out.println("\nError :" + e);
                 }
                 break;
-                case 33:
+            case 33:
                 try {
                     openingStock ms = new openingStock();
                     loadForm(" openingStock", ms);
@@ -280,7 +373,7 @@ public class dashboard extends javax.swing.JFrame {
                     System.out.println("\nError :" + e);
                 }
                 break;
-                case 34:
+            case 34:
                 try {
                     backup bck = new backup();
                     loadForm("Backup", bck);
@@ -288,7 +381,6 @@ public class dashboard extends javax.swing.JFrame {
                     System.out.println("\nError :" + e);
                 }
                 break;
-
 
         }
 
@@ -379,9 +471,13 @@ public class dashboard extends javax.swing.JFrame {
         desktop = new javax.swing.JDesktopPane();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jtable_itemtable = new javax.swing.JTable();
+        searchitem = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jtable_logtable = new javax.swing.JTable();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem_exit = new javax.swing.JMenuItem();
@@ -607,33 +703,81 @@ public class dashboard extends javax.swing.JFrame {
 
         jTabbedPane1.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
 
+        jtable_itemtable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "ITEM CODE", "ITEM NAME", "CATEGORY CODE", "CATEGORY NAME", "UOM NAME", "UOM ABBR", "TYPE", "AMOUNT", "QUANTITY"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        jScrollPane2.setViewportView(jtable_itemtable);
+
+        searchitem.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                searchitemKeyReleased(evt);
+            }
+        });
+
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/finsys/icons/Search_16x16.png"))); // NOI18N
+        jLabel3.setText("Search : ");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 919, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 899, Short.MAX_VALUE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(searchitem, javax.swing.GroupLayout.PREFERRED_SIZE, 333, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 418, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(searchitem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 365, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         jTabbedPane1.addTab("Stock", new javax.swing.ImageIcon(getClass().getResource("/finsys/icons/Add_16x16.png")), jPanel1); // NOI18N
 
         jPanel4.setBorder(javax.swing.BorderFactory.createCompoundBorder());
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jtable_logtable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "LOG ID", "USERNAME", "LOGIN DATE AND TIME"
             }
-        ));
-        jScrollPane1.setViewportView(jTable1);
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Object.class, java.lang.String.class, java.lang.String.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(jtable_logtable);
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -641,8 +785,8 @@ public class dashboard extends javax.swing.JFrame {
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 899, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 513, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(396, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -990,8 +1134,14 @@ public class dashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem8ActionPerformed
 
     private void jMenuItem9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem9ActionPerformed
-       loadJInternalFrame(34);
+        loadJInternalFrame(34);
     }//GEN-LAST:event_jMenuItem9ActionPerformed
+
+    private void searchitemKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchitemKeyReleased
+        // TODO add your handling code here:
+        String query = searchitem.getText().toUpperCase();
+        filter(query);
+    }//GEN-LAST:event_searchitemKeyReleased
 
     /**
      * @param args the command line arguments
@@ -1041,6 +1191,7 @@ public class dashboard extends javax.swing.JFrame {
     private javax.swing.JInternalFrame jInternalFrame2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu10;
     private javax.swing.JMenu jMenu2;
@@ -1083,15 +1234,18 @@ public class dashboard extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JToolBar.Separator jSeparator1;
     private javax.swing.JToolBar.Separator jSeparator2;
     private javax.swing.JPopupMenu.Separator jSeparator3;
     private javax.swing.JPopupMenu.Separator jSeparator4;
     private javax.swing.JPopupMenu.Separator jSeparator5;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JToolBar jToolBar;
     private javax.swing.JLabel jdate;
+    private javax.swing.JTable jtable_itemtable;
+    private javax.swing.JTable jtable_logtable;
     private javax.swing.JLabel juser;
+    private javax.swing.JTextField searchitem;
     // End of variables declaration//GEN-END:variables
 }
