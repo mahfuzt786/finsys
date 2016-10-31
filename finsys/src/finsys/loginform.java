@@ -160,6 +160,19 @@ public class loginform extends javax.swing.JFrame {
 
     private void jButton_loginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_loginActionPerformed
         // TODO add your handling code here
+        /*CREATE TABLE finsys.logdetails
+(
+  logid integer NOT NULL,
+  logname character varying(40),
+  logdate timestamp with time zone DEFAULT now(),
+  logouttime timestamp with time zone,
+  CONSTRAINT pk_logdetails PRIMARY KEY (logid)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE finsys.logdetails
+  OWNER TO finsys;*/
         if (evt.getSource() == jButton_login) {
             char[] temp_pwd = jPasswordField_password.getPassword();
             String pwd = null;
@@ -170,8 +183,8 @@ public class loginform extends javax.swing.JFrame {
                 dispose();
                 JOptionPane.showMessageDialog(null, "You have Successfully Logged In", "Success", JOptionPane.INFORMATION_MESSAGE);
                 //new dashboard().setVisible(true);
-                db.logdetails(jTextField_username.getText().toUpperCase(),logindate.trim());
-                new dashboard(jTextField_username.getText(),dt).setVisible(true);
+                int logid=db.logdetails(jTextField_username.getText().toUpperCase(),logindate.trim());
+                new dashboard(jTextField_username.getText(),dt,logid).setVisible(true);
             } else {
                 JOptionPane.showMessageDialog(null, "Login Failed", "Failed", JOptionPane.ERROR_MESSAGE);
             }

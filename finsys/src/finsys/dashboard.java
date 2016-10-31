@@ -32,8 +32,8 @@ public class dashboard extends javax.swing.JFrame {
     static String sUser = "";
     static String sLogin = DateFormat.getDateTimeInstance().format(td);
     database data = new database();
-    DefaultTableModel model;
-
+    DefaultTableModel model,model1;
+    int logId=0;
     public dashboard() {
         initComponents();
         ReloadTableStock();
@@ -42,7 +42,7 @@ public class dashboard extends javax.swing.JFrame {
         setIcon();
     }
 
-    public dashboard(String user, Date date) {
+    public dashboard(String user, Date date,int logid) {
         initComponents();
         ReloadTableStock();
         ReloadTableLog();
@@ -52,6 +52,7 @@ public class dashboard extends javax.swing.JFrame {
         td = date;
         juser.setText(sUser);
         jdate.setText(sLogin);
+        logId=logid;
         this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         addWindowListener(new WindowAdapter() {
 
@@ -63,13 +64,13 @@ public class dashboard extends javax.swing.JFrame {
 
     public ArrayList<logtable> getLogTable() {
         ArrayList<logtable> logTable = new ArrayList<logtable>();
-        String query = "select * from finsys.logdetails order by logid desc";
+        String query = "select logid,logname,to_char(logdate,'dd-MM-yyyy hh:mm:ss AM')AS logdate,to_char(logouttime,'dd-MM-yyyy hh:mm:ss AM')AS logouttime from finsys.logdetails order by logid desc";
         try {
             PreparedStatement pst = data.conn.prepareStatement(query);
             ResultSet rs = pst.executeQuery();
             logtable log;
             while (rs.next()) {
-                log = new logtable(rs.getInt("logid"), rs.getString("logname"), rs.getString("logdate"));
+                log = new logtable(rs.getInt("logid"), rs.getString("logname"), rs.getString("logdate"),rs.getString("logouttime"));
                 logTable.add(log);
             }
         } catch (Exception e) {
@@ -82,12 +83,12 @@ public class dashboard extends javax.swing.JFrame {
         ArrayList<logtable> logitemlist = getLogTable();
         model = (DefaultTableModel) jtable_logtable.getModel();
         model.setRowCount(0);
-        Object[] row = new Object[3];
+        Object[] row = new Object[4];
         for (int i = 0; i < logitemlist.size(); i++) {
             row[0] = logitemlist.get(i).getLoginId();
             row[1] = logitemlist.get(i).getLoginName();
             row[2] = logitemlist.get(i).getLoginDate();
-
+            row[3]=logitemlist.get(i).getLogouttime();
             model.addRow(row);
         }
     }
@@ -120,8 +121,8 @@ public class dashboard extends javax.swing.JFrame {
 
     private void ReloadTableStock() {
         ArrayList<totalstocktable> stockitemlist = getItemTable();
-        model = (DefaultTableModel) jtable_itemtable.getModel();
-        model.setRowCount(0);
+        model1 = (DefaultTableModel) jtable_itemtable.getModel();
+        model1.setRowCount(0);
         Object[] row = new Object[9];
         for (int i = 0; i < stockitemlist.size(); i++) {
             row[0] = stockitemlist.get(i).getItemCode();
@@ -134,12 +135,12 @@ public class dashboard extends javax.swing.JFrame {
             row[7] = stockitemlist.get(i).getAmt();
             row[8] = stockitemlist.get(i).getQty();
 
-            model.addRow(row);
+            model1.addRow(row);
         }
     }
 
     public void filter(String query) {
-        TableRowSorter<DefaultTableModel> tr = new TableRowSorter<>(model);
+        TableRowSorter<DefaultTableModel> tr = new TableRowSorter<>(model1);
         jtable_itemtable.setRowSorter(tr);
         tr.setRowFilter(RowFilter.regexFilter(query));
     }
@@ -150,7 +151,10 @@ public class dashboard extends javax.swing.JFrame {
                     JOptionPane.WARNING_MESSAGE);
             System.out.println(reply);
             if (reply == JOptionPane.YES_OPTION) {
-
+                
+                    System.out.println("in yes"+logId);
+                    db.logout(logId);
+                
                 setVisible(false);
                 System.exit(0);
             } else {
@@ -714,13 +718,25 @@ public class dashboard extends javax.swing.JFrame {
             Class[] types = new Class [] {
                 java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class
             };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false, false, false
+            };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
             }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
         });
         jScrollPane2.setViewportView(jtable_itemtable);
 
+        searchitem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchitemActionPerformed(evt);
+            }
+        });
         searchitem.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 searchitemKeyReleased(evt);
@@ -766,11 +782,11 @@ public class dashboard extends javax.swing.JFrame {
 
             },
             new String [] {
-                "LOG ID", "USERNAME", "LOGIN DATE AND TIME"
+                "LOG ID", "USERNAME", "LOGIN DATE AND TIME", "LOGOUT DATE AND TIM"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Object.class, java.lang.String.class, java.lang.String.class
+                java.lang.Object.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -1139,9 +1155,23 @@ public class dashboard extends javax.swing.JFrame {
 
     private void searchitemKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchitemKeyReleased
         // TODO add your handling code here:
-        String query = searchitem.getText().toUpperCase();
+        String query = searchitem.getText().trim().toUpperCase();
+
         filter(query);
+        
     }//GEN-LAST:event_searchitemKeyReleased
+
+    public void executeSqlQuery(String query) {
+        try {
+            PreparedStatement pst = data.conn.prepareStatement(query);
+            
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+    private void searchitemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchitemActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_searchitemActionPerformed
 
     /**
      * @param args the command line arguments

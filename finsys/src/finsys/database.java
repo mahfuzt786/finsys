@@ -38,22 +38,41 @@ public class database {
             return false;
         }
     }
-    public Boolean logdetails(String logname, String dt) {
+    public int logdetails(String logname, String dt) {
         try {
             String sql = "SELECT MAX(logid) as max FROM finsys.logdetails";
             int id = getmax(sql);
             System.out.println("logid: " + id);
-            pst = conn.prepareStatement("INSERT INTO finsys.logdetails(logid,logname,logdate) values(?,?,?)");
+            pst = conn.prepareStatement("INSERT INTO finsys.logdetails(logid,logname) values(?,?)");
 
             pst.setInt(1, id);
             pst.setString(2, logname);
-            pst.setString(3, dt);
+           
             System.out.println("logid: " + id);
             pst.executeUpdate();
-            return true;
+            return id;
         } catch (Exception e) {
             System.out.println("Error ::" + e);
-            return false;
+            return 0;
+        }
+    }
+     public int logout(int id) {
+        try {
+           
+            System.out.println("logid: " + id);
+            pst = conn.prepareStatement("update finsys.logdetails set logouttime=? where logid=?");
+            
+           java.util.Date t=new java.util.Date();
+           
+            pst.setTimestamp(1,new java.sql.Timestamp(t.getTime()));
+            pst.setInt(2, id);
+           
+            System.out.println("logid: " + id);
+            pst.executeUpdate();
+            return id;
+        } catch (Exception e) {
+            System.out.println("Error ::" + e);
+            return 0;
         }
     }
 
