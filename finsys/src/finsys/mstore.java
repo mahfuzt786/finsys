@@ -29,13 +29,35 @@ public class mstore extends javax.swing.JInternalFrame {
     database data = new database();
     public String ID;
     DefaultTableModel model;
+    int ucode;
+    Logdetails m;
      PatternValidation pattern=new PatternValidation();
     /**
      * Creates new form ms
+     * @param usercode
      */
-    public mstore() {
+    public mstore(int usercode) {
         initComponents();
         ReloadTable();
+         btnadd.setVisible(false);
+        btnupdate.setVisible(false);
+        btndelete.setVisible(false);
+        ucode=usercode;
+         db=new database();
+       
+        Menu m=db.getPrivilege(usercode,19);
+        if(m.getAdd_p()==1){
+            btnadd.setVisible(true);
+            
+        }
+        if(m.getEdit_p()==1){
+            btnupdate.setVisible(true);
+           
+        }
+        if(m.getDelete_p()==1){
+            btndelete.setVisible(true);
+            
+        }
     }
 
     /**
@@ -369,6 +391,9 @@ public class mstore extends javax.swing.JInternalFrame {
         }else{
         String query = "update finsys.m_fromcompany set companyname='" + txtms.getText().trim().toUpperCase() + "',companyaddress='" + txtaddress.getText().trim().toUpperCase() + "',companyphone='" + txtphone.getText().trim().toUpperCase() + "' where companyid='" + ID + "'";
         executeSqlQuery(query, "updated");
+         m=new Logdetails();
+        int l=m.Initialisem(0,"m_fromcompany",Integer.valueOf(ID),"U",ucode,"");
+                   
         ResetRecord();
         }
     }//GEN-LAST:event_btnupdateActionPerformed
@@ -412,6 +437,7 @@ public class mstore extends javax.swing.JInternalFrame {
                 i.setMsaddress(address);
                 i.setMsphone(phone);
                 //System.out.println("values"+i);
+                int maxid=db.getmax("SELECT MAX(companyid) as max FROM finsys.m_fromcompany");
                 int result = db.insertms(i);
                 System.out.println(result);
                 if (result == 1) {
@@ -419,6 +445,9 @@ public class mstore extends javax.swing.JInternalFrame {
                     JOptionPane.showMessageDialog(null, dialogmessage,
                             "SUCCESSFULL!!", JOptionPane.INFORMATION_MESSAGE);
                     System.out.println("Record Added");
+                    m=new Logdetails();
+                   int l=m.Initialisem(0,"m_fromcompany",maxid,"A",ucode,"");
+                    
                     ResetRecord();
                     ReloadTable();
 
@@ -467,6 +496,9 @@ public class mstore extends javax.swing.JInternalFrame {
             if (reply == JOptionPane.YES_OPTION) {
         String query = "delete from finsys.m_fromcompany where companyid='" + ID + "'";
         executeSqlQuery(query, "deleted");
+         m=new Logdetails();
+        int l=m.Initialisem(0,"m_fromcompany",Integer.valueOf(ID),"D",ucode,"");
+        
         ResetRecord();
          }else{
             remove(reply);

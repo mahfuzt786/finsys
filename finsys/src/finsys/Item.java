@@ -31,17 +31,38 @@ public class Item extends javax.swing.JInternalFrame {
     int dialogtype = JOptionPane.PLAIN_MESSAGE;
     database data = new database();
     public String ID;
+    int ucode;
     ArrayList<Categorytable> category;
     DefaultTableModel model;
     ArrayList<uomtable> uom;
     ArrayList<Itemtypetable> itemtype;
+    Logdetails m;
     /**
      * Creates new form cost center
+     * @param usercode
      */
-    public Item() {
+    public Item(int usercode) {
         initComponents();
         ReloadTable();
-        db=new database();
+        btnadd.setVisible(false);
+        btnupdate.setVisible(false);
+        btndelete.setVisible(false);
+        ucode=usercode;
+         db=new database();
+       
+        Menu m=db.getPrivilege(usercode,10);
+        if(m.getAdd_p()==1){
+            btnadd.setVisible(true);
+            
+        }
+        if(m.getEdit_p()==1){
+            btnupdate.setVisible(true);
+           
+        }
+        if(m.getDelete_p()==1){
+            btndelete.setVisible(true);
+            
+        }
         category=db.getCategory();
         itemtype=db.getItemtype();
         uom=db.getUom();
@@ -220,12 +241,6 @@ public class Item extends javax.swing.JInternalFrame {
 
         org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, jComboBox_category, org.jdesktop.beansbinding.ELProperty.create("${selectedItem}"), jComboBox_category, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
-
-        jComboBox_category.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox_categoryActionPerformed(evt);
-            }
-        });
 
         jLabel5.setText("Type :");
 
@@ -448,6 +463,8 @@ public class Item extends javax.swing.JInternalFrame {
         else{
         String query = "update finsys.m_item set itemtypeid='" + iid+ "',categoryid='" + catid  + "',uomcode='" + uomid + "',itemname='" + itemname  + "' where itemid='" + ID + "'";
         executeSqlQuery(query, "updated");
+        m=new Logdetails();
+        int l=m.Initialisem(0,"m_item",Integer.valueOf(ID),"U",ucode,"");
         ResetRecord();
         
         }
@@ -501,6 +518,7 @@ public class Item extends javax.swing.JInternalFrame {
                 i.setItemname(itemname);
                 
                 //System.out.println("values"+i);
+                int maxid=db.getmax("SELECT MAX(itemid) as max FROM finsys.m_item");
                 int result = db.insertItem(i);
                 System.out.println(result);
                 if (result == 1) {
@@ -508,6 +526,8 @@ public class Item extends javax.swing.JInternalFrame {
                     JOptionPane.showMessageDialog(null, dialogmessage,
                             "SUCCESSFULL!!", JOptionPane.INFORMATION_MESSAGE);
                     System.out.println("Record Added");
+                    m=new Logdetails();
+                   int l=m.Initialisem(0,"m_item",maxid,"A",ucode,"");
                     ResetRecord();
                     ReloadTable();
 
@@ -564,7 +584,9 @@ public class Item extends javax.swing.JInternalFrame {
         
         String query = "delete from finsys.m_item where itemid='" + ID + "'";
         executeSqlQuery(query, "deleted");
-         ResetRecord();
+        m=new Logdetails();
+        int l=m.Initialisem(0,"m_item",Integer.valueOf(ID),"D",ucode,"");
+        ResetRecord();
          
             
             }
@@ -577,11 +599,6 @@ public class Item extends javax.swing.JInternalFrame {
     private void txtitemnameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtitemnameActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtitemnameActionPerformed
-
-    private void jComboBox_categoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox_categoryActionPerformed
-        // TODO add your handling code here:
-    
-    }//GEN-LAST:event_jComboBox_categoryActionPerformed
 
     private void searchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchKeyReleased
         // TODO add your handling code here:

@@ -7,6 +7,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import javax.swing.JOptionPane;
 public class database {
 
     Connection conn;
@@ -36,6 +37,23 @@ public class database {
         } catch (Exception e) {
             System.out.println("Error while validating" + e);
             return false;
+        }
+    }
+     public int getUsercode(String uname, String pwd) {
+        try {
+            pst = conn.prepareStatement("select * from finsys.mt_userlogin where userid=? and userpassword=? and enabled=1");
+       
+            pst.setString(1, uname);
+            pst.setString(2, pwd);
+            rs = pst.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("usercode");
+            } else {
+                return 0;
+            }
+        } catch (Exception e) {
+            System.out.println("Error while validating: in getusercode" + e);
+            return 0;
         }
     }
     public int logdetails(String logname, String dt) {
@@ -78,6 +96,8 @@ public class database {
 
     
     //INSERT FUNCTION FOR MASTER TABLE
+     
+     
     public int insertemp(Issue_item i) {
         int flag = 0;
         String sql;
@@ -832,4 +852,287 @@ public class database {
         }
         return iTable;
     }
+     
+        public ArrayList<Menu> getMenu(int usercode) {
+        ArrayList<Menu> m = new ArrayList<Menu>();
+        //Integer usercode, Integer menucode, Integer add_p, Integer edit_p, Integer delete_p, Integer tabid, String menuname;
+         String query = "select * "
+               
+                + " from finsys.mt_usermenu t inner join m_menu m on m.menucode=t.menucode "
+                 + "where t.usercode='"+usercode+"'";
+        try {
+            PreparedStatement pst = conn.prepareStatement(query);
+            ResultSet rs = pst.executeQuery();
+            Menu mm;
+            while (rs.next()) {
+              mm=new Menu(rs.getInt("usercode"),rs.getInt("menucode"),rs.getInt("add_p"),rs.getInt("edit_p"),rs.getInt("delete_p"),rs.getInt("tabid"),rs.getString("menuname"));
+              m.add(mm);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return m ;
+    }
+    public Menu getPrivilege(int usercode,int menucode) {
+        Menu mm=new Menu();
+        String query = "select * "
+               
+                + " from finsys.mt_usermenu t inner join m_menu m on m.menucode=t.menucode "
+                 + "where t.usercode='"+usercode+"'";
+        try {
+            PreparedStatement pst = conn.prepareStatement(query);
+            ResultSet rs = pst.executeQuery();
+            
+            while (rs.next()) {
+              mm=new Menu(rs.getInt("usercode"),rs.getInt("menucode"),rs.getInt("add_p"),rs.getInt("edit_p"),rs.getInt("delete_p"),rs.getInt("tabid"),rs.getString("menuname"));
+             
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return mm ;
+    }
+       
+      
+    public ArrayList<Usertable> getUser() {
+        ArrayList<Usertable> iTable = new ArrayList<Usertable>();
+        String query = "select * from finsys.mt_userlogin ";
+        try {
+            PreparedStatement pst = conn.prepareStatement(query);
+            ResultSet rs = pst.executeQuery();
+            Usertable iTab;
+            while (rs.next()) {
+                iTab = new Usertable(rs.getInt("usercode"),rs.getInt("enabled"),rs.getString("username"),rs.getString("userdescription"),
+                        rs.getString("userid"),rs.getString("userpassword"),rs.getString("entrydate"),rs.getString("userrole"));
+                iTable.add(iTab);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return iTable;
+    }
+    
+     public ArrayList<Usertable> getUser1(int usercode) {
+        ArrayList<Usertable> iTable = new ArrayList<Usertable>();
+        String query = "select * from finsys.mt_userlogin where usercode='"+usercode+"'";
+        try {
+            PreparedStatement pst = conn.prepareStatement(query);
+            ResultSet rs = pst.executeQuery();
+            Usertable iTab;
+            while (rs.next()) {
+                iTab = new Usertable(rs.getInt("usercode"),rs.getInt("enabled"),rs.getString("username"),rs.getString("userdescription"),
+                        rs.getString("userid"),rs.getString("userpassword"),rs.getString("entrydate"),rs.getString("userrole"));
+                iTable.add(iTab);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return iTable;
+    }
+     
+     public ArrayList<Menu> getPrivilege1(int usercode) {
+         ArrayList<Menu> mm=new ArrayList<Menu>();
+        String query = "select * "
+               
+                + " from finsys.mt_usermenu t inner join m_menu m on m.menucode=t.menucode "
+                 + "where t.usercode='"+usercode+"'";
+        try {
+            PreparedStatement pst = conn.prepareStatement(query);
+            ResultSet rs = pst.executeQuery();
+            Menu m;
+            while (rs.next()) {
+              m=new Menu(rs.getInt("usercode"),rs.getInt("menucode"),rs.getInt("add_p"),rs.getInt("edit_p"),rs.getInt("delete_p"),rs.getInt("tabid"),rs.getString("menuname"));
+             mm.add(m);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return mm ;
+    }
+     
+     public ArrayList<Menu> getPrivilege2(int usercode){
+      ArrayList<Menu> mm=new ArrayList<Menu>();
+        String query = "select * from finsys.m_menu t left outer join("
+                + " select * from finsys.mt_usermenu n "
+                + " left outer join finsys.mt_userlogin mm on mm.usercode=n.usercode "
+                 + "where n.usercode='"+usercode+"'"
+                + ")r1 on r1.menucode=t.menucode order by t.menucode";
+        try {
+            PreparedStatement pst = conn.prepareStatement(query);
+            ResultSet rs = pst.executeQuery();
+            Menu m;
+            while (rs.next()) {
+              m=new Menu(rs.getInt("usercode"),rs.getInt("menucode"),rs.getInt("add_p"),rs.getInt("edit_p"),rs.getInt("delete_p"),rs.getInt("tabid"),rs.getString("menuname"));
+             mm.add(m);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return mm ;
+     
+     }
+     
+     //assign menu
+       public int assignMenu(ArrayList<Menu> newmenu,int usercd ) {
+        int flag = 0;
+        String sql;
+        int iid,i;
+        
+        try {
+            sql = "delete FROM finsys.mt_usermenu where usercode='"+usercd+"'";
+            pst = conn.prepareStatement(sql);
+            if ((i=pst.executeUpdate()) == 1) {
+                System.out.println("User menu deleted!!"+usercd+"ii"+i);
+                } else {
+                System.out.println("User menu not deleted!!"+usercd+"ii"+i);
+                
+            }
+            
+                 pst = conn.prepareStatement("INSERT INTO finsys.mt_usermenu(usercode,menucode"
+                   +",add_p,edit_p,delete_p"
+           
+                + " ) values(?,?,"
+                +"?,?,?"
+         
+                +")");
+                for(Menu m:newmenu){
+                    pst.setInt(1,m.getUsercode() );
+           
+                    pst.setInt(2,m.getMenucode());
+                    pst.setInt(3,m.getAdd_p());
+                    pst.setInt(4,m.getEdit_p());
+                    pst.setInt(5,m.getDelete_p());
+                    flag = pst.executeUpdate();
+                }
+           
+           
+            return flag;
+                
+            
+            
+           
+        } catch (Exception e) {
+            System.out.println("Error while validating :" + e);
+            return flag;
+        }
+    }
+       
+       //enable
+       public int Enableuser(int usercode,int t) {
+        int flag = 0;
+        String sql;
+        int iid;
+        
+        try {
+            
+            pst = conn.prepareStatement("update finsys.mt_userlogin set enabled=? where usercode=?");
+
+            pst.setInt(1,t );
+            pst.setInt(2, usercode);
+            
+           
+            flag = pst.executeUpdate();
+            return flag;
+        } catch (Exception e) {
+            System.out.println("Error while validating :" + e);
+            return flag;
+        }
+    }
+       
+        public int insertUser(Usertable i) {
+        int flag = 0;
+        String sql;
+        int uomcode;
+        try {
+            sql = "SELECT MAX(usercode) as max FROM finsys.mt_userlogin";
+            uomcode = getmax(sql);
+            System.out.println("uomcode: " + uomcode);
+            pst = conn.prepareStatement("INSERT INTO finsys.mt_userlogin(usercode,username,userdescription,userid,userpassword,userrole) values(?,?,?,?,?,?)");
+
+            pst.setInt(1, uomcode);
+            pst.setString(2, i.getUsername());
+            pst.setString(3, i.getUserdescription());
+            pst.setString(4, i.getUserid());
+            pst.setString(5, i.getUserpassword());
+            pst.setString(6, i.getUserrole());
+            
+            System.out.println("uomcode1: " + uomcode);
+            flag = pst.executeUpdate();
+            return flag;
+        } catch (Exception e) {
+            System.out.println("Error while validating :" + e);
+            return flag;
+        }
+    }
+        
+    public int insertMasterlog(Masterlog i) {
+        int flag = 0;
+        String sql;
+        int slno;
+       
+        try {
+            sql = "SELECT MAX(slno) as max FROM finsys.t_tablelogdetails";
+            slno = getmax(sql);
+            System.out.println("slno: " + slno);
+            pst = conn.prepareStatement("INSERT INTO finsys.t_tablelogdetails(slno,tablename,uniquetableid,operation,usercode) values(?,?,?,?,?)");
+
+            pst.setInt(1, slno);
+            pst.setString(2, i.getTablename());
+            pst.setInt(3, i.getUniquetableid());
+            pst.setString(4, i.getOperation());
+            pst.setInt(5, i.getUsercode());
+            
+            
+           
+            flag = pst.executeUpdate();
+            return flag;
+        } catch (Exception e) {
+            System.out.println("Error while validating :" + e);
+            return flag;
+        }
+    }
+    
+     public int insertStocklog(Stocklog i) {
+        int flag = 0;
+        String sql;
+        int slno;
+       
+        try {
+            sql = "SELECT MAX(slno) as max FROM finsys.t_stocktablelogdetails";
+            slno = getmax(sql);
+            System.out.println("slno: " + slno);
+            pst = conn.prepareStatement("INSERT INTO finsys.t_stocktablelogdetails(slno,tablename,uniquetableid,operation,usercode,itemid) values(?,?,?,?,?,?)");
+
+            pst.setInt(1, slno);
+            pst.setString(2, i.getTablename());
+            pst.setString(3, i.getUniquetableid());
+            pst.setString(4, i.getOperation());
+            pst.setInt(5, i.getUsercode());
+            pst.setInt(6, i.getItemcode());
+            
+           
+            flag = pst.executeUpdate();
+            return flag;
+        } catch (Exception e) {
+            System.out.println("Error while validating :" + e);
+            return flag;
+        }
+    }
+     
+     public int getStoutslno(String d){
+         int s=0;
+        String query = "select * from finsys.t_issue_return where issue_returncode='"+d+"'";
+        try {
+            PreparedStatement pst = conn.prepareStatement(query);
+            ResultSet rs = pst.executeQuery();
+            Stockouttable cTab;
+            while (rs.next()) {
+                s=rs.getInt("slno");
+               
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return s;
+     }
 }

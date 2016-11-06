@@ -63,6 +63,8 @@ public class stockIn extends javax.swing.JInternalFrame {
     DefaultTableModel model1;
     ArrayList<Itemtable> item;
     ArrayList<Companytable> ms;
+    int ucode;
+    Logdetails m;
     //for update items
     String tempinvoiceid,tempitemid,tempquantity,temprate;
     //for items jpanel2
@@ -71,17 +73,36 @@ public class stockIn extends javax.swing.JInternalFrame {
 
     /**
      * Creates new form stock in
+     * @param usercode
      */
-    public stockIn() {
+    public stockIn(int usercode) {
         
         initComponents();
         ReloadTable();
         setEnabledAll(jPanel2,false);
-        
+        btnadd.setVisible(false);
+        btnupdate.setVisible(false);
+        btndelete.setVisible(false);
+        btnadditem.setVisible(false);
+        btnupdateitem.setVisible(false);
+        btndeleteitem.setVisible(false);
+        ucode=usercode;
          db=new database();
         ms=db.getCompany();
         item=db.getItem();
-        
+        Menu m=db.getPrivilege(usercode,15);
+        if(m.getAdd_p()==1){
+            btnadd.setVisible(true);
+            btnadditem.setVisible(true);
+        }
+        if(m.getEdit_p()==1){
+            btnupdate.setVisible(true);
+            btnupdateitem.setVisible(true);
+        }
+        if(m.getDelete_p()==1){
+            btndelete.setVisible(true);
+            btndeleteitem.setVisible(true);
+        }
       
          System.out.println("Line1");
         itemCombo.addItem(new Comboitem(0,"Select Item"));
@@ -1070,6 +1091,13 @@ public class stockIn extends javax.swing.JInternalFrame {
                      
                      + " where invoiceid='" + ID + "'";
                  executeSqlQuery(query, "updated");
+                  m=new Logdetails();
+                  ArrayList<Stockintable> f=db.getStockIn(ID);
+                  int j=0;
+                  for(Stockintable b:f){
+                      j=Integer.valueOf(b.getSlno());
+                  }
+                   int l=m.Initialisem(0,"t_stockin",j,"U",ucode,"");
                 ResetRecord();
                 ReloadTable();
                 ResetForm();
@@ -1214,7 +1242,7 @@ public class stockIn extends javax.swing.JInternalFrame {
                   i.setLess_per(less_per);
                   i.setTax_invoice_no(tax_invoice_no);
                   i.setTax_invoice_date(tax_date);
-
+                int maxid=db.getmax("SELECT MAX(slno) as max FROM finsys.t_stockin");
                 int result = db.insertStockIn(i);
                 System.out.println(result);
                 if (result == 1) {
@@ -1226,6 +1254,8 @@ public class stockIn extends javax.swing.JInternalFrame {
                     labelEntryDate.setText(today);
                     invoiceId.setText(invoiceno);
                     date.setText(today);
+                     m=new Logdetails();
+                   int l=m.Initialisem(0,"t_stockin",maxid,"A",ucode,"");
                     ResetRecord();
                     ReloadTable();
 
@@ -1333,6 +1363,13 @@ public class stockIn extends javax.swing.JInternalFrame {
                 String query = "delete from finsys.t_stockin where invoiceid='" + ID + "'";
                 Double gross=0.0,qty=0.0;
                 executeSqlQuery(query, "deleted");
+                ArrayList<Stockintable> f=db.getStockIn(ID);
+                int j=0;
+                  for(Stockintable b:f){
+                      j=Integer.valueOf(b.getSlno());
+                  }
+                 m=new Logdetails();
+                int l=m.Initialisem(0,"t_stockin",j,"D",ucode,"");
                 ArrayList<Stockinitemtable> sitemlist = getStockinitemtable();
        
                 Double prevquantity=0.0,prevrate=0.0, totalamt=0.0,totalstockamount=0.0,totalstockquantity=0.0,updatestockamount=0.0,updatestockquantity=0.0;
@@ -1442,7 +1479,8 @@ public class stockIn extends javax.swing.JInternalFrame {
                     JOptionPane.showMessageDialog(null, dialogmessage,
                             "SUCCESSFULL!!", JOptionPane.INFORMATION_MESSAGE);
                     System.out.println("Record Added");
-                    
+                     m=new Logdetails();
+                   int l=m.InitialiseS(0,"t_stockin_items",invid,"A",ucode,"",itemid);
                     ResetRecordItem();
                     ResetForm();
                     ReloadTableItem();
@@ -1566,6 +1604,8 @@ public class stockIn extends javax.swing.JInternalFrame {
              query = "update finsys.t_stock set quantity='" +( totalstockquantity+Double.valueOf(quantity))+ "',amount='" +(totalstockamount+Double.valueOf(item_rate)*Double.valueOf(quantity))+ "' where itemid='" +itemid+ "'";
                 pst = data.conn.prepareStatement(query);
                 flag = pst.executeUpdate();
+                 m=new Logdetails();
+                   int l=m.InitialiseS(0,"t_stockin_items",invid,"U",ucode,"",Integer.valueOf(ID1));
         ResetRecordItem();
         System.out.println("1");
          ResetForm();
@@ -1675,7 +1715,8 @@ public class stockIn extends javax.swing.JInternalFrame {
         String query = "delete from finsys.t_stockin_items where invoiceid='" + ID + "' and itemid='"+ID1+"'";
      
         executeSqlQuery(query, "deleted");
-        
+        m=new Logdetails();
+        int l=m.InitialiseS(0,"t_stockin_items",ID,"D",ucode,"",Integer.valueOf(ID1));
          ArrayList<Stocktable> d=db.getStock(Integer.valueOf(ID1));
             for(Stocktable c:d){
              totalstockamount=Double.valueOf(c.getAmount());

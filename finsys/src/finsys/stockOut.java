@@ -52,6 +52,8 @@ public class stockOut extends javax.swing.JInternalFrame {
     ArrayList<Ledgertable> led;
     ArrayList<Categorytable> cat;
     ArrayList<Costcentertable> cc;
+    int ucode;
+    Logdetails m;
     //for update items
     String tempinvoiceid,tempitemid,tempquantity,temprate,iss;
     //for items jpanel2
@@ -60,12 +62,33 @@ public class stockOut extends javax.swing.JInternalFrame {
     PatternValidation pattern=new PatternValidation();
     /**
      * Creates new form stock out
+     * @param usercode
      */
-    public stockOut() {
+    public stockOut(int usercode) {
         this.cat = new ArrayList<>();
         initComponents();
-        ReloadTable();
-        db=new database();
+        ReloadTable(); 
+        btnadd.setVisible(false);
+        btnupdate.setVisible(false);
+        btndelete.setVisible(false);
+         btnadditem.setVisible(false);
+        btnupdateitem.setVisible(false);
+        btndeleteitem.setVisible(false);
+         db=new database();
+       ucode=usercode;
+        Menu m=db.getPrivilege(usercode,17);
+        if(m.getAdd_p()==1){
+            btnadd.setVisible(true);
+            btnadditem.setVisible(true);
+        }
+        if(m.getEdit_p()==1){
+            btnupdate.setVisible(true);
+           btnupdateitem.setVisible(true);
+        }
+        if(m.getDelete_p()==1){
+            btndelete.setVisible(true);
+            btndeleteitem.setVisible(true);
+        }
         setEnabledAll(jPanel3,false);
         item=db.getItem();
         cc=db.getCC();
@@ -824,6 +847,10 @@ public class stockOut extends javax.swing.JInternalFrame {
                 
                 + " where issue_returncode='" + ID + "'";
         executeSqlQuery(query, "updated");
+      ;
+                  int j=db.getStoutslno(ID);
+                  
+                   int l=m.Initialisem(0,"t_issue_return",j,"U",ucode,"");
         ResetRecord();
         Refresh();
         ReloadTable();
@@ -874,6 +901,7 @@ public class stockOut extends javax.swing.JInternalFrame {
                i.setAcc_post(acc_post);
                i.setCostcenterid(ccid);
                i.setIssue_or_return(issue_or_return);
+               int maxid=db.getmax("SELECT MAX(slno) as max FROM finsys.t_issue_return");
                 int result = db.insertStockout(i);
                 System.out.println(result);
                 if (result == 1) {
@@ -881,6 +909,8 @@ public class stockOut extends javax.swing.JInternalFrame {
                     JOptionPane.showMessageDialog(null, dialogmessage,
                             "SUCCESSFULL!!", JOptionPane.INFORMATION_MESSAGE);
                     System.out.println("Record Added");
+                     m=new Logdetails();
+                   int l=m.Initialisem(0,"t_issue_return",maxid,"A",ucode,"");
                     ResetRecord();
                     ReloadTable();
 
@@ -948,7 +978,8 @@ public class stockOut extends javax.swing.JInternalFrame {
                
         String query = "delete from finsys.t_issue_return where issue_returncode='" + ID + "'";
         executeSqlQuery(query, "deleted");
-        
+        int j=db.getStoutslno(ID);
+      int l=m.Initialisem(0,"t_issue_return",j,"D",ucode,"");
          Double gross=0.0,qty=0.0,iva;
         
         ArrayList<Stockoutitemtable> sitemlist = getStockoutitemTable();
@@ -1132,6 +1163,8 @@ public class stockOut extends javax.swing.JInternalFrame {
                     JOptionPane.showMessageDialog(null, dialogmessage,
                             "SUCCESSFULL!!", JOptionPane.INFORMATION_MESSAGE);
                     System.out.println("Record Added");
+                     m=new Logdetails();
+                   int l=m.InitialiseS(0,"t_issue_items",issue_returncode,"A",ucode,"",itemid);
                     //ResetRecordItem();
                     comboLedger.setSelectedIndex(0);
                     txtReq.setText("");
@@ -1280,6 +1313,8 @@ public class stockOut extends javax.swing.JInternalFrame {
                
          query = "update finsys.t_issue_items set reqquantity='" + reqquantity+ "',issuequantity='" + issuequantity + "',ledgerid='"+ledgerid+"' where issue_returncode='" +itemreceiptno+ "' and itemid='" + ID1 + "'";
          executeSqlQuery(query, "updated");
+          m=new Logdetails();
+          int l=m.InitialiseS(0,"t_issue_items",itemreceiptno,"U",ucode,"",Integer.valueOf(ID1));
          ArrayList<Stocktable> d1=db.getStock(itemid);
          for(Stocktable c:d1){
              totalstockamount=Double.valueOf(c.getAmount());
@@ -1352,7 +1387,8 @@ public class stockOut extends javax.swing.JInternalFrame {
                  String query = "delete from finsys.t_stockin_items where invoiceid='" + ID + "' and itemid='"+ID1+"'";
      
                 executeSqlQuery(query, "deleted");
-        
+                 m=new Logdetails();
+          int l=m.InitialiseS(0,"t_issue_items",ID,"U",ucode,"",Integer.valueOf(ID1));
                 ArrayList<Stocktable> d=db.getStock(Integer.valueOf(ID1));
                  for(Stocktable c:d){
                     totalstockamount=Double.valueOf(c.getAmount());

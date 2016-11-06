@@ -5,6 +5,9 @@
  */
 package finsys;
 
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.text.DateFormat;
 import java.util.Date;
 import javax.swing.JOptionPane;
@@ -23,6 +26,8 @@ public class loginform extends javax.swing.JFrame {
     database db;
     static Date dt= new Date();
     static String logindate = DateFormat.getDateTimeInstance().format(dt);
+    MessageDigest md;
+    byte[] message;
     public loginform() {
         initComponents();
         db=new database();
@@ -157,34 +162,42 @@ public class loginform extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
+public String md5(String pwd){
+         try{
+      md=MessageDigest.getInstance("MD5");
+      message=md.digest(pwd.getBytes());
+      BigInteger number=new BigInteger(1,message);
+      String hashtext=number.toString(16);
+      while(hashtext.length()<32){
+          hashtext="0"+hashtext;
+          
+      }
+      return hashtext;
+    }
+   catch (NoSuchAlgorithmException ex) {
+       throw new RuntimeException(ex);
+           // ex.printStackTrace();
+        }
+    }
+    
     private void jButton_loginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_loginActionPerformed
         // TODO add your handling code here
-        /*CREATE TABLE finsys.logdetails
-(
-  logid integer NOT NULL,
-  logname character varying(40),
-  logdate timestamp with time zone DEFAULT now(),
-  logouttime timestamp with time zone,
-  CONSTRAINT pk_logdetails PRIMARY KEY (logid)
-)
-WITH (
-  OIDS=FALSE
-);
-ALTER TABLE finsys.logdetails
-  OWNER TO finsys;*/
+      
         if (evt.getSource() == jButton_login) {
             char[] temp_pwd = jPasswordField_password.getPassword();
             String pwd = null;
             
             pwd = String.copyValueOf(temp_pwd);
+            String hashpwd=md5(pwd);
             System.out.println("Username,Pwd:" + jTextField_username.getText() + "," + pwd);
-            if (db.checkLogin(jTextField_username.getText(), pwd)) {
+            if (db.checkLogin(jTextField_username.getText(), hashpwd)) {
                 dispose();
                 JOptionPane.showMessageDialog(null, "You have Successfully Logged In", "Success", JOptionPane.INFORMATION_MESSAGE);
                 //new dashboard().setVisible(true);
                 int logid=db.logdetails(jTextField_username.getText().toUpperCase(),logindate.trim());
-                new dashboard(jTextField_username.getText(),dt,logid).setVisible(true);
+                int ucode=db.getUsercode(jTextField_username.getText(), hashpwd);
+                System.out.println("Log id: "+logid+"Ucode: "+ucode);
+                new dashboard_new(jTextField_username.getText(),dt,logid,ucode).setVisible(true);
             } else {
                 JOptionPane.showMessageDialog(null, "Login Failed", "Failed", JOptionPane.ERROR_MESSAGE);
             }
