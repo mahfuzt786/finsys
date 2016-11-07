@@ -33,13 +33,34 @@ public class Ledger extends javax.swing.JInternalFrame {
     ArrayList<Soemaingrouptable> soemain;
     ArrayList<Soegrouptable> soe;
      DefaultTableModel model;
+     Logdetails m;
+     int ucode;
     /**
      * Creates new form cost center
+     * @param usercode
      */
-    public Ledger() {
+    public Ledger(int usercode) {
         initComponents();
-        ReloadTable();
-        db=new database();
+        ReloadTable(); 
+        btnadd.setVisible(false);
+        btnupdate.setVisible(false);
+        btndelete.setVisible(false);
+        ucode=usercode;
+         db=new database();
+       
+        Menu m=db.getPrivilege(usercode,14);
+        if(m.getAdd_p()==1){
+            btnadd.setVisible(true);
+            
+        }
+        if(m.getEdit_p()==1){
+            btnupdate.setVisible(true);
+           
+        }
+        if(m.getDelete_p()==1){
+            btndelete.setVisible(true);
+            
+        }
         soemain=db.getSoemain();
         soe=db.getSoe();
         jComboBox_soemain.addItem(new Comboitem(0,"Select SOE Main Group"));
@@ -299,11 +320,6 @@ public class Ledger extends javax.swing.JInternalFrame {
                 jtable_ledgerMouseClicked(evt);
             }
         });
-        jtable_ledger.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                jtable_ledgerKeyReleased(evt);
-            }
-        });
         jScrollPane1.setViewportView(jtable_ledger);
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/finsys/icons/Search_16x16.png"))); // NOI18N
@@ -432,6 +448,8 @@ public class Ledger extends javax.swing.JInternalFrame {
         ledgername = txtledger.getText().trim().toUpperCase();
         String query = "update finsys.m_ledger set soemaingroupid='" + catid + "',soegroupid='" + catid1+ "',ledgername='" + ledgername  + "' where ledgerid='" + ID + "'";
         executeSqlQuery(query, "updated");
+         m=new Logdetails();
+         int l=m.Initialisem(0,"m_ledger",Integer.valueOf(ID),"U",ucode,"");
         ResetRecord();
         
         }
@@ -471,6 +489,7 @@ public class Ledger extends javax.swing.JInternalFrame {
                 i.setSoegroupid(catid1);
                 i.setLedgername(ledgername);
                 //System.out.println("values"+i);
+                int maxid=db.getmax("SELECT MAX(ledgerid) as max FROM finsys.m_ledger");
                 int result = db.insertLedger(i);
                 System.out.println(result);
                 if (result == 1) {
@@ -478,6 +497,8 @@ public class Ledger extends javax.swing.JInternalFrame {
                     JOptionPane.showMessageDialog(null, dialogmessage,
                             "SUCCESSFULL!!", JOptionPane.INFORMATION_MESSAGE);
                     System.out.println("Record Added");
+                    m=new Logdetails();
+                   int l=m.Initialisem(0,"m_ledger",maxid,"A",ucode,"");
                     ResetRecord();
                     ReloadTable();
 
@@ -527,6 +548,8 @@ public class Ledger extends javax.swing.JInternalFrame {
        
         String query = "delete from finsys.m_ledger where ledgerid='" + ID + "'";
         executeSqlQuery(query, "deleted");
+        m=new Logdetails();
+        int l=m.Initialisem(0,"m_ledger",Integer.valueOf(ID),"D",ucode,"");
         ResetRecord();
          
             }
@@ -536,10 +559,6 @@ public class Ledger extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_btndeleteActionPerformed
    
-    private void jtable_ledgerKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtable_ledgerKeyReleased
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jtable_ledgerKeyReleased
-
     private void searchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchKeyReleased
         // TODO add your handling code here:
         String query=search.getText().toUpperCase();

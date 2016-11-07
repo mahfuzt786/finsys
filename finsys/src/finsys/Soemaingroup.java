@@ -29,12 +29,34 @@ public class Soemaingroup extends javax.swing.JInternalFrame {
     database data = new database();
     public String ID;
     DefaultTableModel model;
+    int ucode;
+    Logdetails m;
 
     /**
      * Creates new form cost center
+     * @param usercode
      */
-    public Soemaingroup() {
+    public Soemaingroup(int usercode) {
         initComponents();
+         btnadd.setVisible(false);
+        btnupdate.setVisible(false);
+        btndelete.setVisible(false);
+        ucode=usercode;
+         db=new database();
+       
+        Menu m=db.getPrivilege(usercode,9);
+        if(m.getAdd_p()==1){
+            btnadd.setVisible(true);
+            
+        }
+        if(m.getEdit_p()==1){
+            btnupdate.setVisible(true);
+           
+        }
+        if(m.getDelete_p()==1){
+            btndelete.setVisible(true);
+            
+        }
         ReloadTable();
     }
 
@@ -354,6 +376,9 @@ public class Soemaingroup extends javax.swing.JInternalFrame {
         else{
         String query = "update finsys.m_soemaingroup set soemaingroupcode='" + txtsoecode.getText().toUpperCase() + "',soemaingroupname='" + txtsoename.getText().toUpperCase() + "' where soemaingroupcode='" + ID + "'";
         executeSqlQuery(query, "updated");
+         m=new Logdetails();
+         int l=m.Initialisem(0,"m_soemaingroup",Integer.valueOf(ID),"U",ucode,"");
+                    
         ResetRecord();
         
         }
@@ -385,6 +410,7 @@ public class Soemaingroup extends javax.swing.JInternalFrame {
                 i.setSoemaingroupcode(soecode);
                 i.setSoemaingroupname(soename);
                 //System.out.println("values"+i);
+                int maxid=db.getmax("SELECT MAX(soemaingroupid) as max FROM finsys.m_soemaingroup");
                 int result = db.insertSoemaingroup(i);
                 System.out.println(result);
                 if (result == 1) {
@@ -392,6 +418,9 @@ public class Soemaingroup extends javax.swing.JInternalFrame {
                     JOptionPane.showMessageDialog(null, dialogmessage,
                             "SUCCESSFULL!!", JOptionPane.INFORMATION_MESSAGE);
                     System.out.println("Record Added");
+                     m=new Logdetails();
+                   int l=m.Initialisem(0,"m_soemaingroup",maxid,"A",ucode,"");
+                    
                     ResetRecord();
                     ReloadTable();
 
@@ -441,6 +470,8 @@ public class Soemaingroup extends javax.swing.JInternalFrame {
          
         String query = "delete from finsys.m_soemaingroup where soemaingroupcode='" + ID + "'";
         executeSqlQuery(query, "deleted");
+        m=new Logdetails();
+         int l=m.Initialisem(0,"m_soemaingroup",Integer.valueOf(ID),"D",ucode,"");
         ResetRecord();
          
             }

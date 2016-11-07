@@ -28,13 +28,34 @@ public class Itemcategory extends javax.swing.JInternalFrame {
     database data = new database();
     public String ID;
     DefaultTableModel model;
+    int ucode;
+    Logdetails m;
 
     /**
      * Creates new form cost center
      */
-    public Itemcategory() {
+    public Itemcategory(int usercode) {
         initComponents();
         ReloadTable();
+        btnadd.setVisible(false);
+        btnupdate.setVisible(false);
+        btndelete.setVisible(false);
+        ucode=usercode;
+         db=new database();
+       
+        Menu m=db.getPrivilege(usercode,5);
+        if(m.getAdd_p()==1){
+            btnadd.setVisible(true);
+            
+        }
+        if(m.getEdit_p()==1){
+            btnupdate.setVisible(true);
+           
+        }
+        if(m.getDelete_p()==1){
+            btndelete.setVisible(true);
+            
+        }
     }
 
     /**
@@ -323,6 +344,8 @@ public class Itemcategory extends javax.swing.JInternalFrame {
         else{
         String query = "update finsys.m_itemcategory set categoryname='" + txtcategoryname.getText().toUpperCase() + "' where categoryid='" + ID + "'";
         executeSqlQuery(query, "updated");
+         m=new Logdetails();
+        int l=m.Initialisem(0,"m_itemcategory",Integer.valueOf(ID),"U",ucode,"");
         ResetRecord();
         
         }
@@ -351,6 +374,7 @@ public class Itemcategory extends javax.swing.JInternalFrame {
                 
                 i.setCategoryname(categoryname);
                 //System.out.println("values"+i);
+                int maxid=db.getmax("SELECT MAX(categoryid) as max FROM finsys.m_itemcategory");
                 int result = db.insertCategory(i);
                 System.out.println(result);
                 if (result == 1) {
@@ -358,6 +382,8 @@ public class Itemcategory extends javax.swing.JInternalFrame {
                     JOptionPane.showMessageDialog(null, dialogmessage,
                             "SUCCESSFULL!!", JOptionPane.INFORMATION_MESSAGE);
                     System.out.println("Record Added");
+                     m=new Logdetails();
+                   int l=m.Initialisem(0,"m_itemcategory",maxid,"A",ucode,"");
                     ResetRecord();
                     ReloadTable();
 
@@ -407,6 +433,8 @@ public class Itemcategory extends javax.swing.JInternalFrame {
             
         String query = "delete from finsys.m_itemcategory where categoryid='" + ID + "'";
         executeSqlQuery(query, "deleted");
+        m=new Logdetails();
+        int l=m.Initialisem(0,"m_itemcategory",Integer.valueOf(ID),"D",ucode,"");
         ResetRecord();
          
             

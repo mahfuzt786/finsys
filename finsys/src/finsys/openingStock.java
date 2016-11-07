@@ -36,11 +36,28 @@ public class openingStock extends javax.swing.JInternalFrame {
     DefaultTableModel model;
     ArrayList<Itemtable> item;
     PatternValidation pattern=new PatternValidation();
-    
-    public openingStock() {
+    int ucode;
+    Logdetails mm;
+
+    public openingStock(int usercode) {
         initComponents();
         ReloadTable();
-        db = new database();
+        btnadd.setVisible(false);
+        ucode=usercode;
+        btndelete.setVisible(false);
+        
+         db=new database();
+       
+        Menu m=db.getPrivilege(usercode,33);
+        if(m.getAdd_p()==1){
+            btnadd.setVisible(true);
+            
+        }
+       
+        if(m.getDelete_p()==1){
+            btndelete.setVisible(true);
+            
+        }
         item = db.getItem();
          Date dt=new Date(); 
          DateFormat y = new SimpleDateFormat("yyyy");
@@ -446,6 +463,9 @@ public class openingStock extends javax.swing.JInternalFrame {
                     JOptionPane.showMessageDialog(null, dialogmessage,
                             "SUCCESSFULL!!", JOptionPane.INFORMATION_MESSAGE);
                     System.out.println("Record Added");
+                     mm=new Logdetails();
+                   int l=mm.Initialisem(0,"t_openingstock",itemid,"A",ucode,"");
+    
                     ResetRecord();
                     ReloadTable();
 
@@ -493,6 +513,9 @@ public class openingStock extends javax.swing.JInternalFrame {
       
         String query = "delete from finsys.t_openingstock where slno='" + ID + "'";
         executeSqlQuery(query, "deleted");
+         mm=new Logdetails();
+         int l=mm.Initialisem(0,"t_openingstock",Integer.valueOf(ID),"D",ucode,"");
+    
         ResetRecord();
                 
             }

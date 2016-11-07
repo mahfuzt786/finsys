@@ -28,13 +28,35 @@ public class uom extends javax.swing.JInternalFrame {
     database data = new database();
     public String ID;
     DefaultTableModel model;
+    int ucode;
+    Logdetails m;
 
     /**
      * Creates new form uom
+     * @param usercode
      */
-    public uom() {
+    public uom(int usercode) {
         initComponents();
         ReloadTable();
+        btnadd.setVisible(false);
+        btnupdate.setVisible(false);
+        btndelete.setVisible(false);
+        ucode=usercode;
+         db=new database();
+       
+        Menu m=db.getPrivilege(usercode,3);
+        if(m.getAdd_p()==1){
+            btnadd.setVisible(true);
+            
+        }
+        if(m.getEdit_p()==1){
+            btnupdate.setVisible(true);
+           
+        }
+        if(m.getDelete_p()==1){
+            btndelete.setVisible(true);
+            
+        }
     }
 
     /**
@@ -340,6 +362,9 @@ public class uom extends javax.swing.JInternalFrame {
              
         String query = "update finsys.t_uom set uomname='" + uomname.getText().toUpperCase() + "',uomabbr='" + uomabbr.getText().toUpperCase() + "' where uomcode='" + ID + "'";
         executeSqlQuery(query, "updated");
+        m=new Logdetails();
+        int l=m.Initialisem(0,"t_uom",Integer.valueOf(ID),"U",ucode,"");
+                   
         ResetRecord();
          }
     }//GEN-LAST:event_btnupdateActionPerformed
@@ -370,6 +395,7 @@ public class uom extends javax.swing.JInternalFrame {
                 i.setItemcode(Uomname);
                 i.setItemname(Uomabbr);
                 //System.out.println("values"+i);
+                int maxid=db.getmax("SELECT MAX(uomcode) as max FROM finsys.t_uom");
                 int result = db.insertemp(i);
                 System.out.println(result);
                 if (result == 1) {
@@ -377,6 +403,9 @@ public class uom extends javax.swing.JInternalFrame {
                     JOptionPane.showMessageDialog(null, dialogmessage,
                             "SUCCESSFULL!!", JOptionPane.INFORMATION_MESSAGE);
                     System.out.println("Record Added");
+                    m=new Logdetails();
+                   int l=m.Initialisem(0,"t_uom",maxid,"A",ucode,"");
+                    
                     ResetRecord();
                     ReloadTable();
 
@@ -425,6 +454,9 @@ public class uom extends javax.swing.JInternalFrame {
            
         String query = "delete from finsys.t_uom where uomcode='" + ID + "'";
         executeSqlQuery(query, "deleted");
+        m=new Logdetails();
+        int l=m.Initialisem(0,"t_uom",Integer.valueOf(ID),"D",ucode,"");
+        
         ResetRecord();
            
             }

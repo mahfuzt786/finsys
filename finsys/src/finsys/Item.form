@@ -220,9 +220,6 @@
               <BindingProperties>
                 <BindingProperty name="selectedItem" source="jComboBox_category" sourcePath="${selectedItem}" target="jComboBox_category" targetPath="selectedItem" updateStrategy="0" immediately="false"/>
               </BindingProperties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jComboBox_categoryActionPerformed"/>
-              </Events>
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;Comboitem&gt;"/>
               </AuxValues>

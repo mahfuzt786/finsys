@@ -28,12 +28,34 @@ public class Costcenter extends javax.swing.JInternalFrame {
     database data = new database();
     public String ID="";
     DefaultTableModel model;
+    Logdetails m;
+    int ucode;
 
     /**
      * Creates new form cost center
+     * @param usercode
      */
-    public Costcenter() {
+    public Costcenter(int usercode) {
         initComponents();
+        btnadd.setVisible(false);
+        btnupdate.setVisible(false);
+        btndelete.setVisible(false);
+        ucode=usercode;
+         db=new database();
+       
+        Menu m=db.getPrivilege(usercode,4);
+        if(m.getAdd_p()==1){
+            btnadd.setVisible(true);
+            
+        }
+        if(m.getEdit_p()==1){
+            btnupdate.setVisible(true);
+           
+        }
+        if(m.getDelete_p()==1){
+            btndelete.setVisible(true);
+            
+        }
         ReloadTable();
     }
 
@@ -344,6 +366,8 @@ public class Costcenter extends javax.swing.JInternalFrame {
         else{
         String query = "update finsys.m_costcenter set centercode='" + txtcentercode.getText().toUpperCase() + "',centername='" + txtcentername.getText().toUpperCase() + "' where centerid='" + ID + "'";
         executeSqlQuery(query, "updated");
+        m=new Logdetails();
+        int l=m.Initialisem(0,"m_costcenter",Integer.valueOf(ID),"U",ucode,"");
         ResetRecord();
         
         }
@@ -374,6 +398,7 @@ public class Costcenter extends javax.swing.JInternalFrame {
                 i.setCentercode(centercode);
                 i.setCentername(centername);
                 //System.out.println("values"+i);
+                int maxid=db.getmax("SELECT MAX(centerid) as max FROM finsys.m_costcenter");
                 int result = db.insertCostcenter(i);
                 System.out.println(result);
                 if (result == 1) {
@@ -381,6 +406,9 @@ public class Costcenter extends javax.swing.JInternalFrame {
                     JOptionPane.showMessageDialog(null, dialogmessage,
                             "SUCCESSFULL!!", JOptionPane.INFORMATION_MESSAGE);
                     System.out.println("Record Added");
+                    
+                   m=new Logdetails();
+                   int l=m.Initialisem(0,"m_costcenter",maxid,"A",ucode,"");
                     ResetRecord();
                     ReloadTable();
 
@@ -429,6 +457,8 @@ public class Costcenter extends javax.swing.JInternalFrame {
             
         
         String query = "delete from finsys.m_costcenter where centerid='" + ID + "'";
+        m=new Logdetails();
+        int l=m.Initialisem(0,"m_costcenter",Integer.valueOf(ID),"U",ucode,"");
         executeSqlQuery(query, "deleted");
         ResetRecord();
          

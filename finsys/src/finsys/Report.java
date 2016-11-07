@@ -9,6 +9,7 @@ package finsys;
  *
  * @author hp
  */
+import java.awt.Container;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -31,6 +32,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import javax.sql.DataSource;
+import javax.swing.JFrame;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
@@ -40,10 +42,11 @@ import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.xml.JRXmlLoader;
+import net.sf.jasperreports.view.JRViewer;
 import net.sf.jasperreports.view.JasperViewer;
 
 
-public class Report  {
+public class Report extends JFrame  {
     HttpServletRequest request;
     HttpServletResponse response;
     ServletOutputStream outstream;
@@ -53,6 +56,11 @@ public class Report  {
     String reportName="";
     String r="";
     String dt = new SimpleDateFormat("dd-MM-yyyy").format(new Date());
+    public Report() {
+        setExtendedState(MAXIMIZED_BOTH);
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+ 
+    }
     public void issue_slip(String s,String e) throws ParseException, JRException, IOException{
         Date st=UtilDate.convertStringToSqlDate("dd-MM-yyyy",s);
         Date et=UtilDate.convertStringToSqlDate("dd-MM-yyyy",e);
@@ -274,10 +282,13 @@ public void printreport(HashMap params) throws JRException, IOException{
     JasperDesign jd  = JRXmlLoader.load(dir+"/src/reports/"+reportName);
     JasperReport jr = JasperCompileManager.compileReport(dir+"/src/reports/"+reportName);
     JasperPrint  jp = JasperFillManager.fillReport(jr, params,db.conn);
-    JasperViewer.viewReport(jp,false);
+    //JasperViewer.viewReport(jp,false);
+    JRViewer viewer = new JRViewer(jp);
     byte[] pdfasbytes = JasperExportManager.exportReportToPdf(jp);
     JasperExportManager.exportReportToPdfStream(jp, output);  
-     
+     Container c = getContentPane();
+        c.add(viewer);
+        this.setVisible(true);
        
         output.flush();
         output.close();
