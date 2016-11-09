@@ -314,7 +314,7 @@ public class User extends javax.swing.JInternalFrame {
 
         jLabel11.setText("Password :");
 
-        rolecombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-", "A", "U" }));
+        rolecombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-", "Admin", "User" }));
 
         btnupdate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/finsys/icons/Edit_16x16.png"))); // NOI18N
         btnupdate.setText("update");
@@ -493,7 +493,7 @@ public class User extends javax.swing.JInternalFrame {
                 i.setUserid(userid);
                 i.setUsername(username);
                 i.setUserpassword(d);
-                i.setUserrole(role);
+                i.setUserrole(role.charAt(0)+"");
                
                 
                 //System.out.println("values"+i);

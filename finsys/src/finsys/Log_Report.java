@@ -65,6 +65,7 @@ public class Log_Report extends javax.swing.JInternalFrame {
         ostock = new javax.swing.JRadioButton();
         soutitem = new javax.swing.JRadioButton();
         sinitem = new javax.swing.JRadioButton();
+        user = new javax.swing.JRadioButton();
         btnadd = new javax.swing.JButton();
         btnclear = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
@@ -225,6 +226,15 @@ public class Log_Report extends javax.swing.JInternalFrame {
             }
         });
 
+        radiogroup.add(user);
+        user.setText("User");
+        user.setOpaque(false);
+        user.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                userActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -257,6 +267,7 @@ public class Log_Report extends javax.swing.JInternalFrame {
                         .addComponent(jSeparator1, javax.swing.GroupLayout.DEFAULT_SIZE, 1, Short.MAX_VALUE))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(user)
                             .addComponent(ledger)
                             .addComponent(soeg))
                         .addGap(0, 0, Short.MAX_VALUE))))
@@ -297,7 +308,9 @@ public class Log_Report extends javax.swing.JInternalFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(soutitem)
                     .addComponent(sinitem))
-                .addContainerGap(17, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(user)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         btnadd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/finsys/icons/Add_16x16.png"))); // NOI18N
@@ -413,35 +426,37 @@ public class Log_Report extends javax.swing.JInternalFrame {
         String enddate=oDateFormat.format(end);
         try {
             if(stockin.isSelected()){
-                table="t_stockin";
+                status=1;
             }else  if(stockout.isSelected()){
-                 table="t_issue_return";
+                 status=2;
             }else  if(uom.isSelected()){
-               table="t_uom";
+               status=3;
             }else  if(itype.isSelected()){
-                table="m_itemtype";
+               status=4;
             }else  if(icat.isSelected()){
-               table="m_itemcategory";
+               status=5;
             }else  if(item.isSelected()){
-                table="m_item";
+                status=6;
             }else  if(ms.isSelected()){
-                table="m_fromcompany";
+                status=7;
             }else  if(cc.isSelected()){
-               table="m_costcenter";
+               status=8;
             }else  if(soeg.isSelected()){
-                table="m_soegroup";
+                status=9;
             }else  if(soemg.isSelected()){
-                table="m_soemaingroup";
+                status=10;
             }else  if(ledger.isSelected()){
-                table="m_fromcompany";
+                status=11;
             }else  if(ostock.isSelected()){
-               table="t_openingstock";
+               status=12;
             }else  if(sinitem.isSelected()){
-                table="t_stockin_items";
+                status=13;
             }else  if(soutitem.isSelected()){
-                table="t_issue_items";
+               status=14;
+            }else  if(user.isSelected()){
+               status=15;
             }
-            r.filter_report(startdate,enddate,status);
+            r.log_report(startdate,enddate,status);
         } catch (ParseException|JRException|IOException  ex) {
             Logger.getLogger(Log_Report.class.getName()).log(Level.SEVERE, null, ex);
         } 
@@ -503,6 +518,10 @@ public class Log_Report extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_sinitemActionPerformed
 
+    private void userActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_userActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnadd;
@@ -534,6 +553,7 @@ public class Log_Report extends javax.swing.JInternalFrame {
     private org.jdesktop.swingx.JXDatePicker txtenddate;
     private org.jdesktop.swingx.JXDatePicker txtstartdate;
     private javax.swing.JRadioButton uom;
+    private javax.swing.JRadioButton user;
     // End of variables declaration//GEN-END:variables
 
 }

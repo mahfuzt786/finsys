@@ -263,7 +263,37 @@ public class Report extends JFrame  {
         params.put("invid", code);
         printreport(params);
     }
+      
          
+          public void log_report(String s,String e,int status) throws ParseException, JRException, IOException{
+              HashMap params= new HashMap();
+        Date st=UtilDate.convertStringToSqlDate("dd-MM-yyyy",s);
+        Date et=UtilDate.convertStringToSqlDate("dd-MM-yyyy",e);
+         
+        params.put("startdate",st);
+        params.put("enddate",et);
+        
+        switch(status){
+            case 1: r="Stockin_log";reportName="masterlogstockin.jrxml"; break;
+            case 2: r="Stockout_log";reportName="masterlogstockout.jrxml";break;
+            case 3: r="UOM_log";reportName="masterloguom.jrxml";break;
+            case 4: r="Iemtype_log";reportName="masterlogitype.jrxml";break;
+            case 5: r="Itemcategory_log";reportName="masterlogcat.jrxml";break;
+            case 6:r="Item_log";reportName="masterlogitem.jrxml";break;
+            case 7:r="MS_log";reportName="masterlogms.jrxml";break;
+            case 8: r="Costcenter_log";reportName="masterlogcc.jrxml";break;
+            case 9: r="Soegroup_log";reportName="masterlogsoegroup.jrxml";break;
+            case 10:r="Soemaingroup_log";reportName="masterlogsoemaingroup.jrxml";break;
+            case 11:r="Ledger_log";reportName="masterlogledger.jrxml";break;
+            case 12: r="Openingstock_log";reportName="masterlogostock.jrxml";break;
+            case 13: r="Stockinitems_log";reportName="masterlogstockinitems.jrxml";break;
+            case 14:r="Stockoutitems_log";reportName="masterlogstockoutitems.jrxml";break;
+           case 15:r="User_log";reportName="masterloguserlogin.jrxml";break;
+           
+        
+        }
+         printreport(params);
+    }
       
 public void printreport(HashMap params) throws JRException, IOException{
      output = new FileOutputStream(new File("E:/FINSYS/"+r+dt+".pdf"));
