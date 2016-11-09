@@ -177,7 +177,7 @@ public class Menumanagement extends javax.swing.JInternalFrame {
                 java.lang.Boolean.class, java.lang.Integer.class, java.lang.String.class, java.lang.Boolean.class, java.lang.Boolean.class, java.lang.Boolean.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
+                true, false, false, true, true, true
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -188,6 +188,7 @@ public class Menumanagement extends javax.swing.JInternalFrame {
                 return canEdit [columnIndex];
             }
         });
+        menutable.setOpaque(false);
         jScrollPane1.setViewportView(menutable);
         if (menutable.getColumnModel().getColumnCount() > 0) {
             menutable.getColumnModel().getColumn(0).setResizable(false);
@@ -215,7 +216,7 @@ public class Menumanagement extends javax.swing.JInternalFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 630, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 620, Short.MAX_VALUE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(submitbtn)
                         .addGap(0, 0, Short.MAX_VALUE)))
@@ -332,8 +333,7 @@ public class Menumanagement extends javax.swing.JInternalFrame {
                             .addGroup(jPanel4Layout.createSequentialGroup()
                                 .addComponent(disablebtn)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(enablebtn)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addComponent(enablebtn))
                             .addGroup(jPanel4Layout.createSequentialGroup()
                                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)

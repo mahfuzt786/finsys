@@ -226,6 +226,7 @@ public class User extends javax.swing.JInternalFrame {
                 return types [columnIndex];
             }
         });
+        usertable.setOpaque(false);
         usertable.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 usertableMouseClicked(evt);
