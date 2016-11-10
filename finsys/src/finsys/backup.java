@@ -5,9 +5,18 @@
  */
 package finsys;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 
 
@@ -34,6 +43,8 @@ public class backup extends javax.swing.JInternalFrame {
         browse = new javax.swing.JButton();
         backup = new javax.swing.JButton();
         msg = new javax.swing.JLabel();
+        status = new javax.swing.JScrollPane();
+        s = new javax.swing.JTextArea();
 
         setBorder(null);
         setClosable(true);
@@ -71,6 +82,10 @@ public class backup extends javax.swing.JInternalFrame {
         msg.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         msg.setText("**********");
 
+        s.setColumns(20);
+        s.setRows(5);
+        status.setViewportView(s);
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -78,6 +93,7 @@ public class backup extends javax.swing.JInternalFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(status, javax.swing.GroupLayout.DEFAULT_SIZE, 872, Short.MAX_VALUE)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(fileurl)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -85,7 +101,7 @@ public class backup extends javax.swing.JInternalFrame {
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(backup)
                         .addGap(18, 18, 18)
-                        .addComponent(msg, javax.swing.GroupLayout.DEFAULT_SIZE, 366, Short.MAX_VALUE)))
+                        .addComponent(msg, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
@@ -99,7 +115,9 @@ public class backup extends javax.swing.JInternalFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(backup)
                     .addComponent(msg))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(status, javax.swing.GroupLayout.DEFAULT_SIZE, 195, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -123,7 +141,9 @@ public class backup extends javax.swing.JInternalFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -135,13 +155,24 @@ public class backup extends javax.swing.JInternalFrame {
 
     private void browseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_browseActionPerformed
         JFileChooser fc= new JFileChooser();
-        fc.showOpenDialog(this);
+//        fc.showOpenDialog(this);
+        File j = null ;
         String date= new SimpleDateFormat("dd-MM-yyyy").format(new Date());
         try{
-            File f=fc.getSelectedFile();
-            path=f.getAbsolutePath();
+          
+
+
+fc.setCurrentDirectory(new java.io.File(".")); // start at application current directory
+fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+int returnVal = fc.showSaveDialog(this);
+if(returnVal == JFileChooser.APPROVE_OPTION) {
+     j = fc.getSelectedFile();
+}
+
+
+            path=j.getAbsolutePath();
             path=path.replace('\\','/');
-            path=path+"_"+date+".sql";
+            path=path+"/finsys.backup";
             fileurl.setText(path);
         }catch(Exception e){
             e.printStackTrace();
@@ -149,22 +180,63 @@ public class backup extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_browseActionPerformed
 
     private void backupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backupActionPerformed
-        Process p=null;
+
+ String fpath=fileurl.getText();
         msg.setText("");
-        try{
-            Runtime runtime=Runtime.getRuntime();
-            p=runtime.exec("D:/Program Files/PostgreSQL/9.6/bin/pg_dump.exe -i -h localhost -p 5432 -U postgres -F c -b -v -f"+path);
-            int processComplete=p.waitFor();
-            if(processComplete==0){
-                msg.setVisible(true);
-                msg.setText("Backup Successfully Created");
-            }else{
-                msg.setVisible(true);
-                msg.setText("Can't Create Backup !!");
-            }
-        }catch (Exception e){
-            e.printStackTrace();
+
+        Runtime rt = Runtime.getRuntime();
+    Process p;
+    ProcessBuilder pb;
+    rt = Runtime.getRuntime();
+    pb = new ProcessBuilder(
+            "C:\\Program Files (x86)\\PostgreSQL\\8.3\\bin\\pg_dump.exe",
+            "--host", "localhost",
+            "--port", "5432",
+            "--username", "postgres",
+            
+            "--format", "custom",
+            "--blobs",
+            "--verbose", "--file",fpath, "finsys");
+    try {
+        final Map<String, String> env = pb.environment();
+        env.put("PGPASSWORD", "postgres");
+        p = pb.start();
+        final BufferedReader r = new BufferedReader(
+                new InputStreamReader(p.getErrorStream()));
+        String line = r.readLine();
+        String temp="";
+        while (line != null) {
+            System.err.println(line);
+            
+            line = r.readLine();
+            temp=temp+line+"\n";
+           
+            
+            msg.setText("Please Wait...");
+            msg.setVisible(true);
         }
+        
+        r.close();
+        p.waitFor();
+        if (p.exitValue() == 0) {
+             msg.setText("Back Up completed!!");
+            msg.setVisible(true);                
+            System.out.println("Backup created successfully");
+                } else {
+            msg.setText("There is an error!!");
+            msg.setVisible(true);  
+                    System.out.println("There is an error");
+                }
+        s.setText(temp+"\nExit status: "+p.exitValue());
+        System.out.println(p.exitValue());
+
+    } catch (IOException | InterruptedException e) {
+        System.out.println(e.getMessage());
+    }
+
+           
+       
+
     }//GEN-LAST:event_backupActionPerformed
 
 
@@ -175,6 +247,8 @@ public class backup extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JLabel msg;
+    private javax.swing.JTextArea s;
+    private javax.swing.JScrollPane status;
     // End of variables declaration//GEN-END:variables
 
 }
