@@ -20,10 +20,10 @@ import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 
 
-public class backup extends javax.swing.JInternalFrame {
+public class restore extends javax.swing.JInternalFrame {
     String path=null;
     String filename;   
-    public backup() {
+    public restore() {
         initComponents();
         msg.setVisible(false);
     }
@@ -49,14 +49,14 @@ public class backup extends javax.swing.JInternalFrame {
         setBorder(null);
         setClosable(true);
         setForeground(java.awt.Color.white);
-        setTitle("Database Backup");
+        setTitle("Database Restore");
         setToolTipText("");
         setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/finsys/shivbari-23x23.png"))); // NOI18N
 
         jPanel1.setBackground(new java.awt.Color(153, 204, 255));
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Database Backup"));
+        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Database Restore"));
         jPanel3.setOpaque(false);
 
         fileurl.setEditable(false);
@@ -69,7 +69,7 @@ public class backup extends javax.swing.JInternalFrame {
             }
         });
 
-        backup.setText("Backup");
+        backup.setText("Restore");
         backup.setOpaque(false);
         backup.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -163,7 +163,7 @@ public class backup extends javax.swing.JInternalFrame {
 
 
 fc.setCurrentDirectory(new java.io.File(".")); // start at application current directory
-fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+
 int returnVal = fc.showSaveDialog(this);
 if(returnVal == JFileChooser.APPROVE_OPTION) {
      j = fc.getSelectedFile();
@@ -172,7 +172,7 @@ if(returnVal == JFileChooser.APPROVE_OPTION) {
 
             path=j.getAbsolutePath();
             path=path.replace('\\','/');
-            path=path+"/finsys.backup";
+            //path=path+"/finsys.backup";
             fileurl.setText(path);
         }catch(Exception e){
             e.printStackTrace();
@@ -189,14 +189,17 @@ if(returnVal == JFileChooser.APPROVE_OPTION) {
     ProcessBuilder pb;
     rt = Runtime.getRuntime();
     pb = new ProcessBuilder(
-            "C:\\Program Files (x86)\\PostgreSQL\\8.3\\bin\\pg_dump.exe",
+            "C:\\Program Files (x86)\\PostgreSQL\\8.3\\bin\\pg_restore.exe",
             "--host", "localhost",
             "--port", "5432",
             "--username", "postgres",
+            
            
-            "--format", "custom",
-            "--blobs",
-            "--verbose", "--file",fpath, "finsys");
+          
+            "--verbose",
+            "--dbname","f",
+            fpath 
+            );
     try {
         final Map<String, String> env = pb.environment();
         env.put("PGPASSWORD", "postgres");
@@ -219,9 +222,9 @@ if(returnVal == JFileChooser.APPROVE_OPTION) {
         r.close();
         p.waitFor();
         if (p.exitValue() == 0) {
-             msg.setText("Back Up completed!!");
+             msg.setText("Restore completed!!");
             msg.setVisible(true);                
-            System.out.println("Backup created successfully");
+            System.out.println("Restore created successfully");
                 } else {
             msg.setText("There is an error!!");
             msg.setVisible(true);  

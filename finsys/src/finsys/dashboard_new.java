@@ -486,6 +486,14 @@ class SomeAction extends AbstractAction
                     System.out.println("\nError :" + e);
                 }
                 break;
+                 case 35:
+                try {
+                    restore bck = new restore();
+                    loadForm("Restore", bck);
+                } catch (Exception e) {
+                    System.out.println("\nError :" + e);
+                }
+                break;
                 
             case 100:
                 try {
@@ -632,7 +640,6 @@ class SomeAction extends AbstractAction
         jMenuItem_notepad = new javax.swing.JMenuItem();
         Reportmenu = new javax.swing.JMenu();
         dbmenu = new javax.swing.JMenu();
-        jMenuItem9 = new javax.swing.JMenuItem();
         jMenuItem10 = new javax.swing.JMenuItem();
         jMenu7 = new javax.swing.JMenu();
         jMenuItem_help = new javax.swing.JMenuItem();
@@ -1015,14 +1022,6 @@ class SomeAction extends AbstractAction
 
         dbmenu.setText("Database");
 
-        jMenuItem9.setText("Backup");
-        jMenuItem9.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem9ActionPerformed(evt);
-            }
-        });
-        dbmenu.add(jMenuItem9);
-
         jMenuItem10.setText("Restore");
         jMenuItem10.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1094,10 +1093,6 @@ class SomeAction extends AbstractAction
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         runComponents("Notepad.exe");
     }//GEN-LAST:event_jButton4ActionPerformed
-
-    private void jMenuItem9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem9ActionPerformed
-        loadJInternalFrame(34);
-    }//GEN-LAST:event_jMenuItem9ActionPerformed
 
     private void searchitemKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchitemKeyReleased
         // TODO add your handling code here:
@@ -1195,7 +1190,6 @@ class SomeAction extends AbstractAction
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
-    private javax.swing.JMenuItem jMenuItem9;
     private javax.swing.JMenuItem jMenuItem_calculator;
     private javax.swing.JMenuItem jMenuItem_exit;
     private javax.swing.JMenuItem jMenuItem_help;
