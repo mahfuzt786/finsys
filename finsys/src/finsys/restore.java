@@ -197,7 +197,7 @@ if(returnVal == JFileChooser.APPROVE_OPTION) {
            
           
             "--verbose",
-            "--dbname","f",
+            "--dbname","finsys",
             fpath 
             );
     try {
