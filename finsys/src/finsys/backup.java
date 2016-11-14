@@ -189,7 +189,7 @@ if(returnVal == JFileChooser.APPROVE_OPTION) {
     ProcessBuilder pb;
     rt = Runtime.getRuntime();
     pb = new ProcessBuilder(
-            "C:\\Program Files (x86)\\PostgreSQL\\8.3\\bin\\pg_dump.exe",
+            "D:\\Program Files\\PostgreSQL\\9.6\\bin\\pg_dump.exe",
             "--host", "localhost",
             "--port", "5432",
             "--username", "postgres",
@@ -199,7 +199,7 @@ if(returnVal == JFileChooser.APPROVE_OPTION) {
             "--verbose", "--file",fpath, "finsys");
     try {
         final Map<String, String> env = pb.environment();
-        env.put("PGPASSWORD", "postgres");
+        env.put("PGPASSWORD", "rajiv   ");
         p = pb.start();
         final BufferedReader r = new BufferedReader(
                 new InputStreamReader(p.getErrorStream()));
