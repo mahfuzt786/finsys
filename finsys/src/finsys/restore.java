@@ -193,8 +193,8 @@ if(returnVal == JFileChooser.APPROVE_OPTION) {
             "--host", "localhost",
             "--port", "5432",
             "--username", "postgres",
-            
-           
+            "--schema","finsys",
+            "--clean",
           
             "--verbose",
             "--dbname","finsys",
