@@ -172,7 +172,7 @@ if(returnVal == JFileChooser.APPROVE_OPTION) {
 
             path=j.getAbsolutePath();
             path=path.replace('\\','/');
-            path=path+"/finsys.backup";
+            path=path+"/finsys_"+date+".backup";
             fileurl.setText(path);
         }catch(Exception e){
             e.printStackTrace();
@@ -188,6 +188,7 @@ if(returnVal == JFileChooser.APPROVE_OPTION) {
     Process p;
     ProcessBuilder pb;
     rt = Runtime.getRuntime();
+    //D:\\Program Files\\PostgreSQL\\9.6\\bin\\pg_dump.exe
     pb = new ProcessBuilder(
             "D:\\Program Files\\PostgreSQL\\9.6\\bin\\pg_dump.exe",
             "--host", "localhost",
@@ -200,6 +201,7 @@ if(returnVal == JFileChooser.APPROVE_OPTION) {
     try {
         final Map<String, String> env = pb.environment();
         env.put("PGPASSWORD", "rajiv   ");
+        //env.put("PGPASSWORD", "rajiv   ");
         p = pb.start();
         final BufferedReader r = new BufferedReader(
                 new InputStreamReader(p.getErrorStream()));

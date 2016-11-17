@@ -683,16 +683,18 @@ public class database {
         return iTable;
     }
            
-     public ArrayList<Itemtable> getItem() {
+    public ArrayList<Itemtable> getItem() {
         ArrayList<Itemtable> iTable = new ArrayList<Itemtable>();
-        String query = "select * from finsys.m_item";
+        //String query = "select * from finsys.m_item";
+        String query = "select * from finsys.m_item,finsys.m_itemtype,finsys.m_itemcategory,finsys.t_uom where m_item.itemtypeid = m_itemtype.itemtypeid AND m_item.categoryid = m_itemcategory.categoryid AND m_item.uomcode = t_uom.uomcode ORDER BY itemid DESC";
         try {
             PreparedStatement pst = conn.prepareStatement(query);
             ResultSet rs = pst.executeQuery();
             Itemtable iTab;
             while (rs.next()) {
-                iTab = new Itemtable(rs.getInt("categoryid"),rs.getInt("itemid"),rs.getInt("itemtypeid"),
-                        rs.getString("itemcode"),rs.getString("itemname"),rs.getString("uomcode"));
+                //iTab = new Itemtable(rs.getInt("categoryid"),rs.getInt("itemid"),rs.getInt("itemtypeid"),
+                //        rs.getString("itemcode"),rs.getString("itemname"),rs.getString("uomcode"));
+                iTab = new Itemtable(rs.getInt("categoryid"),rs.getString("categoryname"),rs.getString("itemtypename"),rs.getString("uomabbr"),rs.getInt("itemid"),rs.getInt("itemtypeid"), rs.getString("itemcode"), rs.getString("itemname"),rs.getString("uomcode") );
                 iTable.add(iTab);
             }
         } catch (Exception e) {
@@ -837,14 +839,17 @@ public class database {
     
      public ArrayList<Itemtable> getItem1(int catid) {
         ArrayList<Itemtable> iTable = new ArrayList<Itemtable>();
-        String query = "select * from finsys.m_item where categoryid='"+catid+"'";
+        //String query = "select * from finsys.m_item where categoryid='"+catid+"'";
+        String query = "select * from finsys.m_item,finsys.m_itemtype,finsys.m_itemcategory,finsys.t_uom where m_item.itemtypeid = m_itemtype.itemtypeid AND m_item.categoryid = m_itemcategory.categoryid AND m_item.uomcode = t_uom.uomcode AND m_item.categoryid='"+catid+"'";
         try {
             PreparedStatement pst = conn.prepareStatement(query);
             ResultSet rs = pst.executeQuery();
             Itemtable iTab;
             while (rs.next()) {
-                iTab = new Itemtable(rs.getInt("categoryid"),rs.getInt("itemid"),rs.getInt("itemtypeid"),
-                        rs.getString("itemcode"),rs.getString("itemname"),rs.getString("uomcode"));
+                //iTab = new Itemtable(rs.getInt("categoryid"),rs.getInt("itemid"),rs.getInt("itemtypeid"),
+                //        rs.getString("itemcode"),rs.getString("itemname"),rs.getString("uomcode"));
+                iTab = new Itemtable(rs.getInt("categoryid"),rs.getString("categoryname"),rs.getString("itemtypename"),rs.getString("uomabbr"),rs.getInt("itemid"),rs.getInt("itemtypeid"), rs.getString("itemcode"), rs.getString("itemname"),rs.getString("uomcode"));
+                
                 iTable.add(iTab);
             }
         } catch (Exception e) {

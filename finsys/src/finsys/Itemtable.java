@@ -12,9 +12,9 @@ package finsys;
 public class Itemtable {
   private int categoryid,itemid,itemtypeid; 
  
-  private String itemcode ,itemname,uomcode;
+  private String itemcode ,itemname,uomcode,category,itemtype,uom;
  
-    public Itemtable(int categoryid, int itemid, int ledgerid, String itemcode, String itemname, String uomcode) {
+    public Itemtable(int categoryid, String Category, String Itemtype, String Uom, int itemid, int ledgerid, String itemcode, String itemname, String uomcode) {
         this.categoryid = categoryid;
        
         this.itemid = itemid;
@@ -22,7 +22,9 @@ public class Itemtable {
         this.itemcode = itemcode;
         this.itemname = itemname;
         this.uomcode = uomcode;
-        
+        this.category=Category;
+        this.itemtype=Itemtype;
+        this.uom=Uom;
     }
     
      public Itemtable() {
@@ -33,9 +35,30 @@ public class Itemtable {
         this.itemcode = "";
         this.itemname = "";
         this.uomcode = "";
+        this.category="";
+        this.itemtype="";
+        this.uom="";
         
     }
-
+     
+    public String getCategory(){
+        return category;
+    }
+    public String getItemtype(){
+        return itemtype;
+    }
+    public String getUom(){
+        return uom;
+    }
+    public void setCategory(String Category){
+        this.category=Category;
+    }
+    public void setItemtype(String Itemtype){
+        this.itemtype=Itemtype;
+    }
+    public void setUom(String Uom){
+        this.uom=Uom;
+    }
     public int getCategoryid() {
         return categoryid;
     }

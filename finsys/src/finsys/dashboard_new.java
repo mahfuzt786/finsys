@@ -32,25 +32,25 @@ public class dashboard_new extends javax.swing.JFrame {
     static String sUser = "";
     static String sLogin = DateFormat.getDateTimeInstance().format(td);
     database data = new database();
-    DefaultTableModel model,model1;
-    int logId=0;
+    DefaultTableModel model, model1;
+    int logId = 0;
     ArrayList<Menu> m = new ArrayList<>();
-    static int usercode=0;
-   boolean m1=false,m2=false,m3=false,m4=false,m5=false;
-    ArrayList<JMenuItem> f=new ArrayList<JMenuItem>();
+    static int usercode = 0;
+    boolean m1 = false, m2 = false, m3 = false, m4 = false, m5 = false;
+    ArrayList<JMenuItem> f = new ArrayList<JMenuItem>();
+
     public dashboard_new() {
-        
+
         initComponents();
-    
-       
+
         ReloadTableStock();
         ReloadTableLog();
         db = new database();
-        
+
         setIcon();
     }
 
-    public dashboard_new(String user, Date date,int logid,int usercd) {
+    public dashboard_new(String user, Date date, int logid, int usercd) {
         initComponents();
         ReloadTableStock();
         ReloadTableLog();
@@ -60,85 +60,83 @@ public class dashboard_new extends javax.swing.JFrame {
         td = date;
         juser.setText(sUser);
         jdate.setText(sLogin);
-        logId=logid;
-        usercode=usercd;
-        m=db.getMenu(usercode);
+        logId = logid;
+        usercode = usercd;
+        m = db.getMenu(usercode);
         int i = 0;
         JMenuItem o;
-        JSeparator k=new JSeparator();
-        for ( Menu mm : m )
-        {
+        JSeparator k = new JSeparator();
+        for (Menu mm : m) {
             //stock menu
-            if(mm.getTabid()==2){
-            o=new JMenuItem( new SomeAction( mm.getMenuname(),mm.getMenucode() ) );
-            m2=true;
-            StockMenu.add(o);
-            i++;
-            StockMenu.add(k);
+            if (mm.getTabid() == 2) {
+                o = new JMenuItem(new SomeAction(mm.getMenuname(), mm.getMenucode()));
+                m2 = true;
+                StockMenu.add(o);
+                i++;
+                StockMenu.add(k);
             }
             //master menu
-             if(mm.getTabid()==3){
-            o=new JMenuItem( new SomeAction( mm.getMenuname(),mm.getMenucode() ) );
-           
-           m3=true;
-            jMenu_master.add(o);
-            i++;
-            jMenu_master.add(k);
+            if (mm.getTabid() == 3) {
+                o = new JMenuItem(new SomeAction(mm.getMenuname(), mm.getMenucode()));
+
+                m3 = true;
+                jMenu_master.add(o);
+                i++;
+                jMenu_master.add(k);
             }
-             //user management menu
-            if(mm.getTabid()==6){
-                System.out.println(mm.getMenuname()+mm.getMenucode());
-            o=new JMenuItem( new SomeAction( mm.getMenuname(),mm.getMenucode() ) );
-            m4=true;
-            Managemenu.add(o);
-            i++;
-            Managemenu.add(k);
+            //user management menu
+            if (mm.getTabid() == 6) {
+                System.out.println(mm.getMenuname() + mm.getMenucode());
+                o = new JMenuItem(new SomeAction(mm.getMenuname(), mm.getMenucode()));
+                m4 = true;
+                Managemenu.add(o);
+                i++;
+                Managemenu.add(k);
             }
-            
+
             //report
-            if(mm.getTabid()==4){
-                System.out.println(mm.getMenuname()+mm.getMenucode());
-            o=new JMenuItem( new SomeAction( mm.getMenuname(),mm.getMenucode() ) );
-            m1=true;
-            Reportmenu.add(o);
-            i++;
-            Reportmenu.add(k);
+            if (mm.getTabid() == 4) {
+                System.out.println(mm.getMenuname() + mm.getMenucode());
+                o = new JMenuItem(new SomeAction(mm.getMenuname(), mm.getMenucode()));
+                m1 = true;
+                Reportmenu.add(o);
+                i++;
+                Reportmenu.add(k);
             }
-            
-             //db
-            if(mm.getTabid()==5){
-                System.out.println(mm.getMenuname()+mm.getMenucode());
-            o=new JMenuItem( new SomeAction( mm.getMenuname(),mm.getMenucode() ) );
-            m5=true;
-            dbmenu.add(o);
-            i++;
-            dbmenu.add(k);
+
+            //db
+            if (mm.getTabid() == 5) {
+                System.out.println(mm.getMenuname() + mm.getMenucode());
+                o = new JMenuItem(new SomeAction(mm.getMenuname(), mm.getMenucode()));
+                m5 = true;
+                dbmenu.add(o);
+                i++;
+                dbmenu.add(k);
             }
-             
-             
-             System.out.println(m2+"and"+m3);
-            
+
+            System.out.println(m2 + "and" + m3);
+
         }
-        
-        if(m2==false){
-                 StockMenu.setVisible(false);
-             }
-             
-        if(m3==false){
-             jMenu_master.setVisible(false);
-             }
-        if(m1==false){
-             Reportmenu.setVisible(false);
-             }
-        if(m4==false){
-             Managemenu.setVisible(false);
-             }
-        
-        if(m5==false){
-             dbmenu.setVisible(false);
-             }
-         System.out.println("No. of menu: "+i);
-        
+
+        if (m2 == false) {
+            StockMenu.setVisible(false);
+        }
+
+        if (m3 == false) {
+            jMenu_master.setVisible(false);
+        }
+        if (m1 == false) {
+            Reportmenu.setVisible(false);
+        }
+        if (m4 == false) {
+            Managemenu.setVisible(false);
+        }
+
+        if (m5 == false) {
+            dbmenu.setVisible(false);
+        }
+        System.out.println("No. of menu: " + i);
+
         this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         addWindowListener(new WindowAdapter() {
 
@@ -156,7 +154,7 @@ public class dashboard_new extends javax.swing.JFrame {
             ResultSet rs = pst.executeQuery();
             logtable log;
             while (rs.next()) {
-                log = new logtable(rs.getInt("logid"), rs.getString("logname"), rs.getString("logdate"),rs.getString("logouttime"));
+                log = new logtable(rs.getInt("logid"), rs.getString("logname"), rs.getString("logdate"), rs.getString("logouttime"));
                 logTable.add(log);
             }
         } catch (Exception e) {
@@ -174,7 +172,7 @@ public class dashboard_new extends javax.swing.JFrame {
             row[0] = logitemlist.get(i).getLoginId();
             row[1] = logitemlist.get(i).getLoginName();
             row[2] = logitemlist.get(i).getLoginDate();
-            row[3]=logitemlist.get(i).getLogouttime();
+            row[3] = logitemlist.get(i).getLogouttime();
             model.addRow(row);
         }
     }
@@ -230,32 +228,33 @@ public class dashboard_new extends javax.swing.JFrame {
         jtable_itemtable.setRowSorter(tr);
         tr.setRowFilter(RowFilter.regexFilter(query));
     }
-class SomeAction extends AbstractAction
-{
-    Integer cd=0;
-    public SomeAction( String text,Integer menucode )
-    {
-        super( text );
-        
-        cd=menucode;
+
+    class SomeAction extends AbstractAction {
+
+        Integer cd = 0;
+
+        public SomeAction(String text, Integer menucode) {
+            super(text);
+
+            cd = menucode;
+        }
+
+        public void actionPerformed(ActionEvent e) {
+            loadJInternalFrame(cd);
+            //JOptionPane.showMessageDialog( null, "Action occured: " + getValue( NAME ) );
+        }
     }
-     
-    public void actionPerformed( ActionEvent e )
-    {
-        loadJInternalFrame(cd);
-        //JOptionPane.showMessageDialog( null, "Action occured: " + getValue( NAME ) );
-    }
-}
+
     protected void UnloadWindow() {
         try {
             int reply = JOptionPane.showConfirmDialog(this, "Are you sure to exit?", sMSGBOX_TITLE, JOptionPane.YES_NO_OPTION,
                     JOptionPane.WARNING_MESSAGE);
             System.out.println(reply);
             if (reply == JOptionPane.YES_OPTION) {
-                
-                    System.out.println("in yes"+logId);
-                    db.logout(logId);
-                
+
+                System.out.println("in yes" + logId);
+                db.logout(logId);
+
                 setVisible(false);
                 System.exit(0);
             } else {
@@ -267,6 +266,18 @@ class SomeAction extends AbstractAction
         }
 
     }// Close the Windows
+
+    protected void logOut() {
+        try {
+            System.out.println("Logout :" + logId);
+            db.logout(logId);
+            setVisible(false);
+            loginform login = new loginform();
+            login.setVisible(true);
+        } catch (Exception e) {
+        }
+
+    }
 
     private void loadJInternalFrame(int intWhich) {
         switch (intWhich) {
@@ -486,7 +497,7 @@ class SomeAction extends AbstractAction
                     System.out.println("\nError :" + e);
                 }
                 break;
-                 case 35:
+            case 35:
                 try {
                     restore bck = new restore();
                     loadForm("Restore", bck);
@@ -494,7 +505,7 @@ class SomeAction extends AbstractAction
                     System.out.println("\nError :" + e);
                 }
                 break;
-                
+
             case 100:
                 try {
                     Menumanagement bck = new Menumanagement(usercode);
@@ -503,7 +514,7 @@ class SomeAction extends AbstractAction
                     System.out.println("\nError :" + e);
                 }
                 break;
-                case 101:
+            case 101:
                 try {
                     User bck = new User(usercode);
                     loadForm("Backup", bck);
@@ -511,28 +522,26 @@ class SomeAction extends AbstractAction
                     System.out.println("\nError :" + e);
                 }
                 break;
-                case 102:
+            case 102:
                 try {
                     Log_Report bck = new Log_Report();
                     loadForm("Log Report", bck);
                 } catch (Exception e) {
                     System.out.println("\nError :" + e);
                 }
-                
+
                 break;
-                case 103:
+            case 103:
                 try {
-                    Resetpwd bck = new Resetpwd(usercode,sUser);
+                    Resetpwd bck = new Resetpwd(usercode, sUser);
                     loadForm("Log Report", bck);
                 } catch (Exception e) {
                     System.out.println("\nError :" + e);
                 }
-                
+
                 break;
 
         }
-        
-        
 
     }
 
@@ -631,6 +640,7 @@ class SomeAction extends AbstractAction
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
+        jMenuItem3 = new javax.swing.JMenuItem();
         jMenuItem_exit = new javax.swing.JMenuItem();
         StockMenu = new javax.swing.JMenu();
         jMenu_master = new javax.swing.JMenu();
@@ -929,8 +939,8 @@ class SomeAction extends AbstractAction
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 513, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(396, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 899, Short.MAX_VALUE)
+                .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -971,6 +981,14 @@ class SomeAction extends AbstractAction
             }
         });
         jMenu1.add(jMenuItem2);
+
+        jMenuItem3.setText("Logout");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem3);
 
         jMenuItem_exit.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F4, java.awt.event.InputEvent.ALT_MASK));
         jMenuItem_exit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/finsys/icons/Log Out_16x16.png"))); // NOI18N
@@ -1089,13 +1107,13 @@ class SomeAction extends AbstractAction
         String query = searchitem.getText().trim().toUpperCase();
 
         filter(query);
-        
+
     }//GEN-LAST:event_searchitemKeyReleased
 
     public void executeSqlQuery(String query) {
         try {
             PreparedStatement pst = data.conn.prepareStatement(query);
-            
+
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -1108,6 +1126,11 @@ class SomeAction extends AbstractAction
         // TODO add your handling code here:
         loadJInternalFrame(103);
     }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+        // TODO add your handling code here:
+        logOut();
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1172,6 +1195,7 @@ class SomeAction extends AbstractAction
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem_calculator;
