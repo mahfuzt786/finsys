@@ -74,7 +74,7 @@ public class Costcenter extends javax.swing.JInternalFrame {
     }
     public ArrayList<Costcentertable> getCostCenterTable() {
         ArrayList<Costcentertable> costTable = new ArrayList<Costcentertable>();
-        String query = "select * from finsys.m_costcenter";
+        String query = "select * from finsys.m_costcenter order by centerid desc";
         try {
             PreparedStatement pst = data.conn.prepareStatement(query);
             ResultSet rs = pst.executeQuery();

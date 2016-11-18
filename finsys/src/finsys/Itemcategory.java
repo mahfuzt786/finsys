@@ -64,7 +64,7 @@ public class Itemcategory extends javax.swing.JInternalFrame {
      */
     public ArrayList<Categorytable> getCategoryTable() {
         ArrayList<Categorytable> categoryTable = new ArrayList<Categorytable>();
-        String query = "select * from finsys.m_itemcategory";
+        String query = "select * from finsys.m_itemcategory order by categoryid desc";
         try {
             PreparedStatement pst = data.conn.prepareStatement(query);
             ResultSet rs = pst.executeQuery();

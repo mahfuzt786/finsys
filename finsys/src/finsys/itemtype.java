@@ -65,7 +65,7 @@ public class itemtype extends javax.swing.JInternalFrame {
      */
     public ArrayList<Itemtypetable> getItemtypeTable() {
         ArrayList<Itemtypetable> iTable = new ArrayList<Itemtypetable>();
-        String query = "select * from finsys.m_itemtype";
+        String query = "select * from finsys.m_itemtype order by itemtypeid desc";
         try {
             PreparedStatement pst = data.conn.prepareStatement(query);
             ResultSet rs = pst.executeQuery();

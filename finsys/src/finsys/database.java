@@ -594,13 +594,14 @@ public class database {
       
        public ArrayList<Ledgertable> getLedger() {
         ArrayList<Ledgertable> lTable = new ArrayList<Ledgertable>();
-        String query = "select * from finsys.m_ledger";
+        String query = "select * from finsys.m_ledger,finsys.m_soegroup,finsys.m_soemaingroup where m_ledger.soegroupid = m_soegroup.soegroupid AND m_ledger.soemaingroupid = m_soemaingroup.soemaingroupid";
         try {
             PreparedStatement pst = conn.prepareStatement(query);
             ResultSet rs = pst.executeQuery();
             Ledgertable lTab;
             while (rs.next()) {
-                lTab = new Ledgertable(rs.getInt("soemaingroupid"),rs.getInt("soegroupid"),rs.getInt("ledgerid"), rs.getString("ledgercode"), rs.getString("ledgername"));
+                //lTab = new Ledgertable(rs.getInt("soemaingroupid"),rs.getInt("soegroupid"),rs.getInt("ledgerid"), rs.getString("ledgercode"), rs.getString("ledgername"));
+                lTab = new Ledgertable(rs.getInt("soemaingroupid"),rs.getString("soemaingroupname"),rs.getInt("soegroupid"),rs.getString("soegroupname"),rs.getInt("ledgerid"), rs.getString("ledgercode"), rs.getString("ledgername"));
                 lTable.add(lTab);
             }
         } catch (Exception e) {

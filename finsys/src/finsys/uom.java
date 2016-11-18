@@ -65,7 +65,7 @@ public class uom extends javax.swing.JInternalFrame {
      */
     public ArrayList<uomtable> getUomTable() {
         ArrayList<uomtable> uomTable = new ArrayList<uomtable>();
-        String query = "select * from finsys.t_uom";
+        String query = "select * from finsys.t_uom order by uomcode desc";
         try {
             PreparedStatement pst = data.conn.prepareStatement(query);
             ResultSet rs = pst.executeQuery();
