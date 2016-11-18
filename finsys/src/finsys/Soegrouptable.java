@@ -9,23 +9,34 @@ package finsys;
  *
  * @author hp
  */
-public class Soegrouptable  {
+public class Soegrouptable {
+
     private int soemaingroupid;
     private int soegroupid;
-    private String soegroupcode,soegroupname;
+    private String soegroupcode, soegroupname, soemaingroupname;
 
-    public Soegrouptable(int soemaingroupid, int soegroupid, String soegroupcode, String soegroupname) {
+    public Soegrouptable(int soemaingroupid, String Soemaingroupname, int soegroupid, String soegroupcode, String soegroupname) {
         this.soemaingroupid = soemaingroupid;
         this.soegroupid = soegroupid;
         this.soegroupcode = soegroupcode;
         this.soegroupname = soegroupname;
+        this.soemaingroupname = Soemaingroupname;
     }
 
-   public Soegrouptable() {
+    public Soegrouptable() {
         this.soemaingroupid = 0;
         this.soegroupid = 0;
         this.soegroupcode = "";
         this.soegroupname = "";
+        this.soemaingroupname = "";
+    }
+
+    public String getSoemaingroupname() {
+        return soemaingroupname;
+    }
+
+    public void setSoemaingroupname(String Soemainname) {
+        this.soemaingroupname = Soemainname;
     }
 
     public int getSoemaingroupid() {
@@ -59,7 +70,5 @@ public class Soegrouptable  {
     public void setSoegroupname(String soegroupname) {
         this.soegroupname = soegroupname;
     }
-    
-    
-    
+
 }

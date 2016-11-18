@@ -75,7 +75,7 @@ public class Soemaingroup extends javax.swing.JInternalFrame {
     }
     public ArrayList<Soemaingrouptable> getCostCenterTable() {
         ArrayList<Soemaingrouptable> soeTable = new ArrayList<Soemaingrouptable>();
-        String query = "select * from finsys.m_soemaingroup";
+        String query = "select * from finsys.m_soemaingroup order by soemaingroupid desc";
         try {
             PreparedStatement pst = data.conn.prepareStatement(query);
             ResultSet rs = pst.executeQuery();
