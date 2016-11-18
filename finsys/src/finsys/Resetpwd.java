@@ -24,9 +24,8 @@ import javax.swing.table.TableRowSorter;
 
 public class Resetpwd extends javax.swing.JInternalFrame {
 
-   
     String oldp = "";
-  
+
     String pwd = "";
     String rpwd = "";
     String u;
@@ -36,53 +35,45 @@ public class Resetpwd extends javax.swing.JInternalFrame {
     String dialogs;
     int dialogtype = JOptionPane.PLAIN_MESSAGE;
     database data = new database();
-    public String ID="";
-    
+    public String ID = "";
+
     MessageDigest md;
     byte[] message;
     int ucode;
     Logdetails m;
-    
-    public Resetpwd(int usercode,String user) {
+
+    public Resetpwd(int usercode, String user) {
         initComponents();
-       
-       
-        u=user;
-      
-        ucode=usercode;
-         db=new database();
-      
-        
-       
+
+        u = user;
+
+        ucode = usercode;
+        db = new database();
+
     }
 
-   
-   
+    public String md5(String pwd) {
+        try {
+            md = MessageDigest.getInstance("MD5");
+            message = md.digest(pwd.getBytes());
+            BigInteger number = new BigInteger(1, message);
+            String hashtext = number.toString(16);
+            while (hashtext.length() < 32) {
+                hashtext = "0" + hashtext;
 
-   
-    public String md5(String pwd){
-         try{
-      md=MessageDigest.getInstance("MD5");
-      message=md.digest(pwd.getBytes());
-      BigInteger number=new BigInteger(1,message);
-      String hashtext=number.toString(16);
-      while(hashtext.length()<32){
-          hashtext="0"+hashtext;
-          
-      }
-      return hashtext;
-    }
-   catch (NoSuchAlgorithmException ex) {
-       throw new RuntimeException(ex);
-           // ex.printStackTrace();
+            }
+            return hashtext;
+        } catch (NoSuchAlgorithmException ex) {
+            throw new RuntimeException(ex);
+            // ex.printStackTrace();
         }
     }
-    
+
     public void executeSqlQuery(String query, String message) {
         try {
             PreparedStatement pst = data.conn.prepareStatement(query);
             if ((pst.executeUpdate()) == 1) {
-               
+
                 JOptionPane.showMessageDialog(null, "PASSWORD RESET SUCCESSFULLY");
             } else {
                 JOptionPane.showMessageDialog(null, "FAILURE");
@@ -93,9 +84,9 @@ public class Resetpwd extends javax.swing.JInternalFrame {
     }
 
     private void ResetRecord() {
-       
+
         old.setText("");
-       
+
         newp.setText("");
         newrp.setText("");
     }
@@ -148,13 +139,12 @@ public class Resetpwd extends javax.swing.JInternalFrame {
 
         jLabel9.setText("Old Password");
 
-        jLabel10.setText("New Repeat Password :");
+        jLabel10.setText("New Repeat Password");
 
-        jLabel11.setText("New Password :");
+        jLabel11.setText("New Password ");
 
         btnupdate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/finsys/icons/Key_16x16.png"))); // NOI18N
         btnupdate.setText("Reset");
-        btnupdate.setActionCommand("Reset");
         btnupdate.setOpaque(false);
         btnupdate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -169,24 +159,23 @@ public class Resetpwd extends javax.swing.JInternalFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jLabel10)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(newrp, javax.swing.GroupLayout.PREFERRED_SIZE, 269, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jLabel9)
-                        .addGap(53, 53, 53)
-                        .addComponent(old))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jLabel11)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(newp, javax.swing.GroupLayout.PREFERRED_SIZE, 269, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                        .addGap(125, 125, 125)
-                        .addComponent(btnupdate, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel10)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addComponent(btnupdate, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(btnclear, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(newrp, javax.swing.GroupLayout.PREFERRED_SIZE, 269, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel11)
+                            .addComponent(jLabel9))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnclear, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(14, 14, 14)))
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(old, javax.swing.GroupLayout.DEFAULT_SIZE, 269, Short.MAX_VALUE)
+                            .addComponent(newp))))
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
@@ -204,11 +193,11 @@ public class Resetpwd extends javax.swing.JInternalFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel10)
                     .addComponent(newrp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnclear)
                     .addComponent(btnupdate))
-                .addGap(201, 201, 201))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -217,24 +206,22 @@ public class Resetpwd extends javax.swing.JInternalFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 157, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 11, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -250,54 +237,49 @@ public class Resetpwd extends javax.swing.JInternalFrame {
 
     private void btnupdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnupdateActionPerformed
         // update
-       
-        rpwd=newrp.getText().trim().toUpperCase();
-        pwd=newp.getText().trim();
-        oldp=old.getText().trim();
 
-        if(ucode==0){
+        rpwd = newrp.getText().trim().toUpperCase();
+        pwd = newp.getText().trim();
+        oldp = old.getText().trim();
+
+        if (ucode == 0) {
             dialogmessage = "Please Login Again";
-            JOptionPane.showMessageDialog(null,dialogmessage,
-                "WARNING!!", JOptionPane.WARNING_MESSAGE);
-        }else if("".equals(oldp)){
-             dialogmessage = "PLEASE ENTER OLD PASSWORD!!!";
-                    JOptionPane.showMessageDialog(null, dialogmessage,
-                            "ERROR!!", JOptionPane.ERROR_MESSAGE);
-        }
-        else if("".equals(pwd)){
-             dialogmessage = "PLEASE ENTER NEW PASSWORD!!!";
-                    JOptionPane.showMessageDialog(null, dialogmessage,
-                            "ERROR!!", JOptionPane.ERROR_MESSAGE);
-        }
-        else if("".equals(rpwd)){
-             dialogmessage = "PLEASE ENTER NEW REPEAT PASSWORD!!!";
-                    JOptionPane.showMessageDialog(null, dialogmessage,
-                            "ERROR!!", JOptionPane.ERROR_MESSAGE);
-        }
-        else if(pwd.equals(rpwd)){
-             dialogmessage = "NEW PASSWORD AND REPEAT NEW PASSWORD DONOT MATCH!!!";
-                    JOptionPane.showMessageDialog(null, dialogmessage,
-                            "ERROR!!", JOptionPane.ERROR_MESSAGE);
-        }
-            else{
-                String hash=md5(pwd);
-                String hash1=md5(oldp);
-                if (db.checkLogin(u, hash1)) {
-                    String query = "update finsys.mt_userlogin set userpassword='" + hash + "' where usercode='" + ucode + "'";
+            JOptionPane.showMessageDialog(null, dialogmessage,
+                    "WARNING!!", JOptionPane.WARNING_MESSAGE);
+        } else if ("".equals(oldp)) {
+            dialogmessage = "PLEASE ENTER OLD PASSWORD!!!";
+            JOptionPane.showMessageDialog(null, dialogmessage,
+                    "ERROR!!", JOptionPane.ERROR_MESSAGE);
+        } else if ("".equals(pwd)) {
+            dialogmessage = "PLEASE ENTER NEW PASSWORD!!!";
+            JOptionPane.showMessageDialog(null, dialogmessage,
+                    "ERROR!!", JOptionPane.ERROR_MESSAGE);
+        } else if ("".equals(rpwd)) {
+            dialogmessage = "PLEASE ENTER NEW REPEAT PASSWORD!!!";
+            JOptionPane.showMessageDialog(null, dialogmessage,
+                    "ERROR!!", JOptionPane.ERROR_MESSAGE);
+        } else if (pwd.equals(rpwd)) {
+            dialogmessage = "NEW PASSWORD AND REPEAT NEW PASSWORD DONOT MATCH!!!";
+            JOptionPane.showMessageDialog(null, dialogmessage,
+                    "ERROR!!", JOptionPane.ERROR_MESSAGE);
+        } else {
+            String hash = md5(pwd);
+            String hash1 = md5(oldp);
+            if (db.checkLogin(u, hash1)) {
+                String query = "update finsys.mt_userlogin set userpassword='" + hash + "' where usercode='" + ucode + "'";
                 executeSqlQuery(query, "updated");
-                 m=new Logdetails();
-                int l=m.Initialisem(0,"mt_userlogin",ucode,"R",ucode,"");
+                m = new Logdetails();
+                int l = m.Initialisem(0, "mt_userlogin", ucode, "R", ucode, "");
                 ResetRecord();
-                }else{
+            } else {
                 dialogmessage = "WRONG OLD PASSWORD!!!";
-                    JOptionPane.showMessageDialog(null, dialogmessage,
-                            "ERROR!!", JOptionPane.ERROR_MESSAGE);
-                
-                }
-                
-                
+                JOptionPane.showMessageDialog(null, dialogmessage,
+                        "ERROR!!", JOptionPane.ERROR_MESSAGE);
+
             }
-        
+
+        }
+
     }//GEN-LAST:event_btnupdateActionPerformed
 
 

@@ -103,13 +103,13 @@ public class Item extends javax.swing.JInternalFrame {
     }
     public ArrayList<Itemtable> getItemTable() {
         ArrayList<Itemtable> iTable = new ArrayList<Itemtable>();
-        String query = "select * from finsys.m_item";
+        String query = "select * from finsys.m_item,finsys.m_itemtype,finsys.m_itemcategory,finsys.t_uom where m_item.itemtypeid = m_itemtype.itemtypeid AND m_item.categoryid = m_itemcategory.categoryid AND m_item.uomcode = t_uom.uomcode ORDER BY itemid DESC";
         try {
             PreparedStatement pst = data.conn.prepareStatement(query);
             ResultSet rs = pst.executeQuery();
             Itemtable iTab;
             while (rs.next()) {
-                iTab = new Itemtable(rs.getInt("categoryid"),rs.getInt("itemid"),rs.getInt("itemtypeid"), rs.getString("itemcode"), rs.getString("itemname"),rs.getString("uomcode") );
+                iTab = new Itemtable(rs.getInt("categoryid"),rs.getString("categoryname"),rs.getString("itemtypename"),rs.getString("uomabbr"),rs.getInt("itemid"),rs.getInt("itemtypeid"), rs.getString("itemcode"), rs.getString("itemname"),rs.getString("uomcode") );
                 
                 iTable.add(iTab);
             }
@@ -124,13 +124,12 @@ public class Item extends javax.swing.JInternalFrame {
         ArrayList<Itemtable> subcatitemlist = getItemTable();
          model = (DefaultTableModel) jtable_subcattable.getModel();
         model.setRowCount(0);
-        Object[] row = new Object[5];
+        Object[] row = new Object[4];
         for (int i = 0; i < subcatitemlist.size(); i++) {
-            row[0] = subcatitemlist.get(i).getCategoryid();
-            row[1] = subcatitemlist.get(i).getItemtypeid();
-            row[2] = subcatitemlist.get(i).getItemid();
-            row[3] = subcatitemlist.get(i).getItemname();
-            row[4] = subcatitemlist.get(i).getUomcode();
+            row[0] = subcatitemlist.get(i).getCategoryid()+" - "+subcatitemlist.get(i).getCategory();
+            row[1] = subcatitemlist.get(i).getItemtypeid()+" - "+subcatitemlist.get(i).getItemtype();
+            row[2] = subcatitemlist.get(i).getItemid()+" - "+subcatitemlist.get(i).getItemname();
+            row[3] = subcatitemlist.get(i).getUomcode()+" - "+subcatitemlist.get(i).getUom();
             
             model.addRow(row);
         }
@@ -188,6 +187,7 @@ public class Item extends javax.swing.JInternalFrame {
         jLabel1 = new javax.swing.JLabel();
         search = new javax.swing.JTextField();
         btndelete = new javax.swing.JButton();
+        jLabel4 = new javax.swing.JLabel();
 
         setBorder(null);
         setClosable(true);
@@ -270,12 +270,12 @@ public class Item extends javax.swing.JInternalFrame {
                         .addComponent(txtitemname)
                         .addComponent(jComboBox_itemtype, 0, 280, Short.MAX_VALUE)
                         .addComponent(jComboBox_category, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addGap(0, 255, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(jComboBox_category, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -307,14 +307,14 @@ public class Item extends javax.swing.JInternalFrame {
 
             },
             new String [] {
-                "Category ID", "Item Type ID", "Item ID", "Item Name", "UOM"
+                "Category", "Item Type ", "Item", "UOM"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.String.class, java.lang.Object.class
+                java.lang.Object.class, java.lang.Object.class, java.lang.String.class, java.lang.Object.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -350,6 +350,12 @@ public class Item extends javax.swing.JInternalFrame {
             }
         });
 
+        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(153, 0, 153));
+        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel4.setText("** SELECT A ROW TO EDIT OR DELETE **");
+        jLabel4.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -357,26 +363,29 @@ public class Item extends javax.swing.JInternalFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 817, Short.MAX_VALUE)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(search, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGap(18, 18, 18)
                         .addComponent(btndelete, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 259, Short.MAX_VALUE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
+            .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+            .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(search, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btndelete))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 291, Short.MAX_VALUE)
-                .addGap(22, 22, 22))
+                .addComponent(jLabel4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 283, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -385,10 +394,10 @@ public class Item extends javax.swing.JInternalFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -397,20 +406,18 @@ public class Item extends javax.swing.JInternalFrame {
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(27, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         bindingGroup.bind();
@@ -556,14 +563,22 @@ public class Item extends javax.swing.JInternalFrame {
         //Display selected row in textbox
         int i = jtable_subcattable.getSelectedRow();
         TableModel model = jtable_subcattable.getModel();
-        setSelectedValue(jComboBox_category,Integer.valueOf(model.getValueAt(i, 0).toString()));
+        String cat = model.getValueAt(i, 0).toString();
+        String item = model.getValueAt(i, 1).toString();
+        String itm = model.getValueAt(i, 2).toString();
+        String unit = model.getValueAt(i, 3).toString();
+        String[] splitcat=cat.split("\\s+");
+        String[] splititem=item.split("\\s+");
+        String[] splititemname=itm.split("\\s+");
+        String[] splituom=unit.split("\\s+");
+        setSelectedValue(jComboBox_category,Integer.valueOf(splitcat[0]));
        
-        setSelectedValue(jComboBox_itemtype,Integer.valueOf(model.getValueAt(i, 1).toString()));
-        setSelectedValue(jComboBox_uom,Integer.valueOf(model.getValueAt(i, 4).toString()));
+        setSelectedValue(jComboBox_itemtype,Integer.valueOf(splititem[0]));
+        setSelectedValue(jComboBox_uom,Integer.valueOf(splituom[0]));
         //jComboBox_category.setSelectedItem(model.getValueAt(i, 0).toString());
-        txtitemname.setText(model.getValueAt(i, 3).toString());
+        txtitemname.setText(itm.substring(4));
         
-        ID = model.getValueAt(i, 2).toString();
+        ID = splititemname[0];
     }//GEN-LAST:event_jtable_subcattableMouseClicked
 
     private void btndeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btndeleteActionPerformed
@@ -631,6 +646,7 @@ public class Item extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;

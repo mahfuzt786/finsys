@@ -12,12 +12,14 @@ package finsys;
 public class Ledgertable  {
     
     private int ledgerid,soegroupid , soemaingroupid;
-    private String ledgercode,ledgername ;
+    private String ledgercode,ledgername,soe,soemain ;
 
-    public Ledgertable( int soemaingroupid,int soegroupid, int ledgerid, String ledgercode, String ledgername) {
+    public Ledgertable( int soemaingroupid,String Soe,int soegroupid, String Soemain, int ledgerid, String ledgercode, String ledgername) {
         this.ledgerid = ledgerid;
         this.soegroupid = soegroupid;
+        this.soe = Soe;
         this.soemaingroupid = soemaingroupid;
+        this.soemain = Soemain;
         this.ledgercode = ledgercode;
         this.ledgername = ledgername;
     }
@@ -28,6 +30,20 @@ public class Ledgertable  {
         this.soemaingroupid = 0;
         this.ledgercode = "";
         this.ledgername = "";
+        this.soe = "";
+        this.soemain = "";
+    }
+    public String getSoe(){
+        return soe;
+    }
+    public void setSoe(String SOE){
+        this.soe=SOE;
+    }
+    public String getSoemain(){
+        return soemain;
+    }
+    public void setSoemain(String SOEMAIN){
+        this.soemain=SOEMAIN;
     }
 
     public int getLedgerid() {

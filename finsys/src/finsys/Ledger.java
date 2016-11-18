@@ -19,10 +19,10 @@ import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
 public class Ledger extends javax.swing.JInternalFrame {
-    
+
     String soemaingroup = "";
     String soegroup = "";
-    String ledgername="";
+    String ledgername = "";
     database db;
     Ledgertable i = new Ledgertable();
     String dialogmessage;
@@ -32,46 +32,47 @@ public class Ledger extends javax.swing.JInternalFrame {
     public String ID;
     ArrayList<Soemaingrouptable> soemain;
     ArrayList<Soegrouptable> soe;
-     DefaultTableModel model;
-     Logdetails m;
-     int ucode;
+    DefaultTableModel model;
+    Logdetails m;
+    int ucode;
+
     /**
      * Creates new form cost center
+     *
      * @param usercode
      */
     public Ledger(int usercode) {
         initComponents();
-        ReloadTable(); 
+        ReloadTable();
         btnadd.setVisible(false);
         btnupdate.setVisible(false);
         btndelete.setVisible(false);
-        ucode=usercode;
-         db=new database();
-       
-        Menu m=db.getPrivilege(usercode,14);
-        if(m.getAdd_p()==1){
+        ucode = usercode;
+        db = new database();
+
+        Menu m = db.getPrivilege(usercode, 14);
+        if (m.getAdd_p() == 1) {
             btnadd.setVisible(true);
-            
+
         }
-        if(m.getEdit_p()==1){
+        if (m.getEdit_p() == 1) {
             btnupdate.setVisible(true);
-           
+
         }
-        if(m.getDelete_p()==1){
+        if (m.getDelete_p() == 1) {
             btndelete.setVisible(true);
-            
+
         }
-        soemain=db.getSoemain();
-        soe=db.getSoe();
-        jComboBox_soemain.addItem(new Comboitem(0,"Select SOE Main Group"));
-        jComboBox_soe.addItem(new Comboitem(0,"Select SOE Group"));
-        for(Soemaingrouptable c:soemain){
-           // Comboitem combo =new Comboitem(c.getCategorycode(),c.getCategoryname());
-            jComboBox_soemain.addItem(new Comboitem(c.getSoemaingroupid(),c.getSoemaingroupname()));
+        soemain = db.getSoemain();
+        soe = db.getSoe();
+        jComboBox_soemain.addItem(new Comboitem(0, "Select SOE Main Group"));
+        jComboBox_soe.addItem(new Comboitem(0, "Select SOE Group"));
+        for (Soemaingrouptable c : soemain) {
+            // Comboitem combo =new Comboitem(c.getCategorycode(),c.getCategoryname());
+            jComboBox_soemain.addItem(new Comboitem(c.getSoemaingroupid(), c.getSoemaingroupname()));
         }
-       
-        
-          //checking
+
+        //checking
         jComboBox_soemain.addItemListener(new ItemListener() {
             //
             // Listening if a new items of the combo box has been selected.
@@ -82,30 +83,27 @@ public class Ledger extends javax.swing.JInternalFrame {
                 // The item affected by the event.
                 Object item = event.getItem();
                 jComboBox_soe.removeAllItems();
-                jComboBox_soe.addItem(new Comboitem(0,"Select SOE Group"));
+                jComboBox_soe.addItem(new Comboitem(0, "Select SOE Group"));
                 System.out.println("Affected items: " + item.toString());
                 if (event.getStateChange() == ItemEvent.SELECTED) {
-                     Comboitem g =(Comboitem) jComboBox_soemain.getSelectedItem();
-                     int catid=g.getKey();
-                     db=new database();
-                     soe=db.getSoe1(catid);
-                     
-                     for(Soegrouptable c:soe){
-          
-                             jComboBox_soe.addItem(new Comboitem(c.getSoegroupid(),c.getSoegroupname()));
-                     }
-     
-                   
+                    Comboitem g = (Comboitem) jComboBox_soemain.getSelectedItem();
+                    int catid = g.getKey();
+                    db = new database();
+                    soe = db.getSoe1(catid);
+
+                    for (Soegrouptable c : soe) {
+
+                        jComboBox_soe.addItem(new Comboitem(c.getSoegroupid(), c.getSoegroupname()));
+                    }
+
                 }
 
                 if (event.getStateChange() == ItemEvent.DESELECTED) {
-                     jComboBox_soe.setSelectedIndex(0);
+                    jComboBox_soe.setSelectedIndex(0);
                 }
             }
         });
 
-        
-      
     }
 
     /**
@@ -114,18 +112,18 @@ public class Ledger extends javax.swing.JInternalFrame {
      */
     public ArrayList<Ledgertable> getLedgerTable() {
         ArrayList<Ledgertable> costTable = new ArrayList<Ledgertable>();
-        String query = "select * from finsys.m_ledger";
+        String query = "select * from finsys.m_ledger,finsys.m_soegroup,finsys.m_soemaingroup where m_ledger.soegroupid = m_soegroup.soegroupid AND m_ledger.soemaingroupid = m_soemaingroup.soemaingroupid order by m_ledger.ledgerid desc";
         try {
             PreparedStatement pst = data.conn.prepareStatement(query);
             ResultSet rs = pst.executeQuery();
             Ledgertable subitemTab;
             while (rs.next()) {
-                subitemTab = new Ledgertable(rs.getInt("soemaingroupid"),rs.getInt("soegroupid"),rs.getInt("ledgerid"), rs.getString("ledgercode"), rs.getString("ledgername"));
-                
+                subitemTab = new Ledgertable(rs.getInt("soemaingroupid"), rs.getString("soemaingroupname"), rs.getInt("soegroupid"), rs.getString("soegroupname"), rs.getInt("ledgerid"), rs.getString("ledgercode"), rs.getString("ledgername"));
+
                 costTable.add(subitemTab);
             }
         } catch (Exception e) {
-            System.out.println("Exception"+e);
+            System.out.println("Exception" + e);
             e.printStackTrace();
         }
         return costTable;
@@ -135,13 +133,12 @@ public class Ledger extends javax.swing.JInternalFrame {
         ArrayList<Ledgertable> subcatitemlist = getLedgerTable();
         model = (DefaultTableModel) jtable_ledger.getModel();
         model.setRowCount(0);
-        Object[] row = new Object[5];
+        Object[] row = new Object[4];
         for (int i = 0; i < subcatitemlist.size(); i++) {
-            row[0] = subcatitemlist.get(i).getSoemaingroupid();
-            row[1] = subcatitemlist.get(i).getSoegroupid();
-            row[2] = subcatitemlist.get(i).getLedgerid();
-            row[3] = subcatitemlist.get(i).getLedgercode();
-            row[4] = subcatitemlist.get(i).getLedgername();
+            row[0] = subcatitemlist.get(i).getSoemaingroupid() + " - " + subcatitemlist.get(i).getSoe();
+            row[1] = subcatitemlist.get(i).getSoegroupid() + " - " + subcatitemlist.get(i).getSoemain();
+            row[2] = subcatitemlist.get(i).getLedgerid() + " - " + subcatitemlist.get(i).getLedgercode();
+            row[3] = subcatitemlist.get(i).getLedgername();
             model.addRow(row);
         }
     }
@@ -194,6 +191,7 @@ public class Ledger extends javax.swing.JInternalFrame {
         jLabel1 = new javax.swing.JLabel();
         search = new javax.swing.JTextField();
         btndelete = new javax.swing.JButton();
+        jLabel27 = new javax.swing.JLabel();
 
         setBorder(null);
         setClosable(true);
@@ -297,14 +295,14 @@ public class Ledger extends javax.swing.JInternalFrame {
 
             },
             new String [] {
-                "SOE Main Group ID", "SOE Group ID", "Ledger ID", "Ledger Code", "Ledger Name"
+                "SOE Main Group (ID & NAME)", "SOE Group (ID & NAME)", "Ledger ID & CODE", "Ledger Name"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.String.class, java.lang.String.class
+                java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -340,6 +338,12 @@ public class Ledger extends javax.swing.JInternalFrame {
             }
         });
 
+        jLabel27.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        jLabel27.setForeground(new java.awt.Color(153, 0, 153));
+        jLabel27.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel27.setText("** SELECT A ROW TO EDIT OR DELETE **");
+        jLabel27.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -348,27 +352,30 @@ public class Ledger extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 535, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 709, Short.MAX_VALUE)
+                        .addContainerGap())
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(search)
-                        .addGap(18, 18, 18)
-                        .addComponent(btndelete, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(9, 9, 9))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btndelete, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(9, 9, 9))))
+            .addComponent(jLabel27, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+            .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(search, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btndelete))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 282, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jLabel27)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 263, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -378,8 +385,8 @@ public class Ledger extends javax.swing.JInternalFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -396,7 +403,7 @@ public class Ledger extends javax.swing.JInternalFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -410,49 +417,45 @@ public class Ledger extends javax.swing.JInternalFrame {
 
     private void btnupdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnupdateActionPerformed
         // update
-        Comboitem g =(Comboitem) jComboBox_soemain.getSelectedItem();
-        int catid=g.getKey();
-        
-        Comboitem g1 =(Comboitem) jComboBox_soe.getSelectedItem();
-        int catid1=g1.getKey();
-        
-        if(ID==null){
+        Comboitem g = (Comboitem) jComboBox_soemain.getSelectedItem();
+        int catid = g.getKey();
+
+        Comboitem g1 = (Comboitem) jComboBox_soe.getSelectedItem();
+        int catid1 = g1.getKey();
+
+        if (ID == null) {
             dialogmessage = "Please Select Record To Update";
-                    JOptionPane.showMessageDialog(null,dialogmessage,
-                            "WARNING!!", JOptionPane.WARNING_MESSAGE);
-        }else if(catid==0){
-             dialogmessage = "PLEASE SELECT SOE MAIN GROUP !!!";
-                    JOptionPane.showMessageDialog(null, dialogmessage,
-                            "ERROR!!", JOptionPane.ERROR_MESSAGE);
-        }else  if(catid1==0){
-             dialogmessage = "PLEASE SELECT SOE GROUP!!!";
-                    JOptionPane.showMessageDialog(null, dialogmessage,
-                            "ERROR!!", JOptionPane.ERROR_MESSAGE);
-        }else  if("".equals(ledgername)){
-             dialogmessage = "PLEASE ENTER LEDGER NAME!!!";
-                    JOptionPane.showMessageDialog(null, dialogmessage,
-                            "ERROR!!", JOptionPane.ERROR_MESSAGE);
-        }else{
-        if(ID==null){
+            JOptionPane.showMessageDialog(null, dialogmessage,
+                    "WARNING!!", JOptionPane.WARNING_MESSAGE);
+        } else if (catid == 0) {
+            dialogmessage = "PLEASE SELECT SOE MAIN GROUP !!!";
+            JOptionPane.showMessageDialog(null, dialogmessage,
+                    "ERROR!!", JOptionPane.ERROR_MESSAGE);
+        } else if (catid1 == 0) {
+            dialogmessage = "PLEASE SELECT SOE GROUP!!!";
+            JOptionPane.showMessageDialog(null, dialogmessage,
+                    "ERROR!!", JOptionPane.ERROR_MESSAGE);
+        } else if (null==ledgername) {
+            //"".equals(ledgername)
+            dialogmessage = "PLEASE ENTER LEDGER NAME!!!";
+            JOptionPane.showMessageDialog(null, dialogmessage,
+                    "ERROR!!", JOptionPane.ERROR_MESSAGE);
+        } else if (ID == null) {
             dialogmessage = "Please Select Record To Update";
-                    JOptionPane.showMessageDialog(null,dialogmessage,
-                            "WARNING!!", JOptionPane.WARNING_MESSAGE);
-        }
-       
-        else if( catid==0 && catid1==0 && ledgername.equals("")){
+            JOptionPane.showMessageDialog(null, dialogmessage,
+                    "WARNING!!", JOptionPane.WARNING_MESSAGE);
+        } else if (catid == 0 && catid1 == 0 && ledgername.equals("")) {
             dialogmessage = "Empty Record!!!";
-                    JOptionPane.showMessageDialog(null,dialogmessage,
-                            "WARNING!!", JOptionPane.WARNING_MESSAGE);
-        }
-        else{
-        ledgername = txtledger.getText().trim().toUpperCase();
-        String query = "update finsys.m_ledger set soemaingroupid='" + catid + "',soegroupid='" + catid1+ "',ledgername='" + ledgername  + "' where ledgerid='" + ID + "'";
-        executeSqlQuery(query, "updated");
-         m=new Logdetails();
-         int l=m.Initialisem(0,"m_ledger",Integer.valueOf(ID),"U",ucode,"");
-        ResetRecord();
-        
-        }
+            JOptionPane.showMessageDialog(null, dialogmessage,
+                    "WARNING!!", JOptionPane.WARNING_MESSAGE);
+        } else {
+            ledgername = txtledger.getText().trim().toUpperCase();
+            String query = "update finsys.m_ledger set soemaingroupid='" + catid + "',soegroupid='" + catid1 + "',ledgername='" + ledgername + "' where ledgerid='" + ID + "'";
+            executeSqlQuery(query, "updated");
+            m = new Logdetails();
+            int l = m.Initialisem(0, "m_ledger", Integer.valueOf(ID), "U", ucode, "");
+            ResetRecord();
+
         }
     }//GEN-LAST:event_btnupdateActionPerformed
 
@@ -461,65 +464,64 @@ public class Ledger extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnclearActionPerformed
 
     private void btnaddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnaddActionPerformed
-       
 
-        Comboitem g =(Comboitem) jComboBox_soemain.getSelectedItem();
-        int catid=g.getKey();
-        Comboitem g1 =(Comboitem) jComboBox_soe.getSelectedItem();
-        int catid1=g1.getKey();
+        Comboitem g = (Comboitem) jComboBox_soemain.getSelectedItem();
+        int catid = g.getKey();
+        Comboitem g1 = (Comboitem) jComboBox_soe.getSelectedItem();
+        int catid1 = g1.getKey();
         ledgername = txtledger.getText().trim().toUpperCase();
-         if(catid==0){
-             dialogmessage = "PLEASE SELECT SOE MAIN GROUP !!!";
-                    JOptionPane.showMessageDialog(null, dialogmessage,
-                            "ERROR!!", JOptionPane.ERROR_MESSAGE);
-        }else  if(catid1==0){
-             dialogmessage = "PLEASE SELECT SOE GROUP!!!";
-                    JOptionPane.showMessageDialog(null, dialogmessage,
-                            "ERROR!!", JOptionPane.ERROR_MESSAGE);
-        }else  if("".equals(ledgername)){
-             dialogmessage = "PLEASE ENTER LEDGER NAME!!!";
-                    JOptionPane.showMessageDialog(null, dialogmessage,
-                            "ERROR!!", JOptionPane.ERROR_MESSAGE);
-        }else{
-        db = new database();
-        try {
+        if (catid == 0) {
+            dialogmessage = "PLEASE SELECT SOE MAIN GROUP !!!";
+            JOptionPane.showMessageDialog(null, dialogmessage,
+                    "ERROR!!", JOptionPane.ERROR_MESSAGE);
+        } else if (catid1 == 0) {
+            dialogmessage = "PLEASE SELECT SOE GROUP!!!";
+            JOptionPane.showMessageDialog(null, dialogmessage,
+                    "ERROR!!", JOptionPane.ERROR_MESSAGE);
+        } else if ("".equals(ledgername)) {
+            dialogmessage = "PLEASE ENTER LEDGER NAME!!!";
+            JOptionPane.showMessageDialog(null, dialogmessage,
+                    "ERROR!!", JOptionPane.ERROR_MESSAGE);
+        } else {
+            db = new database();
+            try {
 
-            if (!(catid==0) && !(catid1==0)&& !ledgername.equals("")) {
-                i.setSoemaingroupid(catid);
-                i.setSoegroupid(catid1);
-                i.setLedgername(ledgername);
-                //System.out.println("values"+i);
-                int maxid=db.getmax("SELECT MAX(ledgerid) as max FROM finsys.m_ledger");
-                int result = db.insertLedger(i);
-                System.out.println(result);
-                if (result == 1) {
-                    dialogmessage = "LEDGER ADDED SUCCESSFULLY";
-                    JOptionPane.showMessageDialog(null, dialogmessage,
-                            "SUCCESSFULL!!", JOptionPane.INFORMATION_MESSAGE);
-                    System.out.println("Record Added");
-                    m=new Logdetails();
-                   int l=m.Initialisem(0,"m_ledger",maxid,"A",ucode,"");
-                    ResetRecord();
-                    ReloadTable();
+                if (!(catid == 0) && !(catid1 == 0) && !ledgername.equals("")) {
+                    i.setSoemaingroupid(catid);
+                    i.setSoegroupid(catid1);
+                    i.setLedgername(ledgername);
+                    //System.out.println("values"+i);
+                    int maxid = db.getmax("SELECT MAX(ledgerid) as max FROM finsys.m_ledger");
+                    int result = db.insertLedger(i);
+                    System.out.println(result);
+                    if (result == 1) {
+                        dialogmessage = "LEDGER ADDED SUCCESSFULLY";
+                        JOptionPane.showMessageDialog(null, dialogmessage,
+                                "SUCCESSFULL!!", JOptionPane.INFORMATION_MESSAGE);
+                        System.out.println("Record Added");
+                        m = new Logdetails();
+                        int l = m.Initialisem(0, "m_ledger", maxid, "A", ucode, "");
+                        ResetRecord();
+                        ReloadTable();
+
+                    } else {
+                        dialogmessage = "Failed To Insert";
+                        JOptionPane.showMessageDialog(null, "Failed To Insert in DataBase",
+                                "WARNING!!", JOptionPane.WARNING_MESSAGE);
+
+                    }
 
                 } else {
-                    dialogmessage = "Failed To Insert";
-                    JOptionPane.showMessageDialog(null, "Failed To Insert in DataBase",
-                            "WARNING!!", JOptionPane.WARNING_MESSAGE);
+                    dialogmessage = "Empty Record !!!";
+                    dialogtype = JOptionPane.WARNING_MESSAGE;
+                    JOptionPane.showMessageDialog(null, dialogmessage, dialogs, dialogtype);
 
                 }
 
-            } else {
-                dialogmessage = "Empty Record !!!";
-                dialogtype = JOptionPane.WARNING_MESSAGE;
-                JOptionPane.showMessageDialog(null, dialogmessage, dialogs, dialogtype);
-
+            } catch (Exception ex) {
+                System.out.println("Error while validating :" + ex);
+                JOptionPane.showMessageDialog(null, "GENERAL EXCEPTION", "WARNING!!!", JOptionPane.INFORMATION_MESSAGE);
             }
-
-        } catch (Exception ex) {
-            System.out.println("Error while validating :" + ex);
-            JOptionPane.showMessageDialog(null, "GENERAL EXCEPTION", "WARNING!!!", JOptionPane.INFORMATION_MESSAGE);
-        }
         }
     }//GEN-LAST:event_btnaddActionPerformed
 
@@ -527,63 +529,66 @@ public class Ledger extends javax.swing.JInternalFrame {
         //Display selected row in textbox
         int i = jtable_ledger.getSelectedRow();
         TableModel model = jtable_ledger.getModel();
-        setSelectedValue(jComboBox_soemain,Integer.valueOf(model.getValueAt(i, 0).toString()));
-        setSelectedValue(jComboBox_soe,Integer.valueOf(model.getValueAt(i, 1).toString()));
-        txtledger.setText(model.getValueAt(i, 4).toString());
-        ID = model.getValueAt(i, 2).toString();
+        String SoeMain = model.getValueAt(i, 0).toString();
+        String[] splitSoemain = SoeMain.split("\\s+");
+        setSelectedValue(jComboBox_soemain, Integer.valueOf(splitSoemain[0]));
+        String Soe = model.getValueAt(i, 1).toString();
+        String[] splitSoe = Soe.split("\\s+");
+        setSelectedValue(jComboBox_soe, Integer.valueOf(splitSoe[0]));
+        txtledger.setText(model.getValueAt(i, 3).toString());
+        String ledgerID = model.getValueAt(i, 2).toString();
+        String[] splitLedgerid = ledgerID.split("\\s+");
+        ID = splitLedgerid[0];
     }//GEN-LAST:event_jtable_ledgerMouseClicked
 
     private void btndeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btndeleteActionPerformed
         //delete
         String sMSGBOX_TITLE = "FINSYS version 1.0";
-        if(ID==null){
+        if (ID == null) {
             dialogmessage = "Please Select Record To Delete";
-                    JOptionPane.showMessageDialog(null,dialogmessage,
-                            "WARNING!!", JOptionPane.WARNING_MESSAGE);
-        }else{
-        int reply = JOptionPane.showConfirmDialog(this, "Are you sure to want to delete this record?", sMSGBOX_TITLE, JOptionPane.YES_NO_OPTION,
+            JOptionPane.showMessageDialog(null, dialogmessage,
+                    "WARNING!!", JOptionPane.WARNING_MESSAGE);
+        } else {
+            int reply = JOptionPane.showConfirmDialog(this, "Are you sure to want to delete this record?", sMSGBOX_TITLE, JOptionPane.YES_NO_OPTION,
                     JOptionPane.WARNING_MESSAGE);
             //System.out.println(reply);
             if (reply == JOptionPane.YES_OPTION) {
-       
-        String query = "delete from finsys.m_ledger where ledgerid='" + ID + "'";
-        executeSqlQuery(query, "deleted");
-        m=new Logdetails();
-        int l=m.Initialisem(0,"m_ledger",Integer.valueOf(ID),"D",ucode,"");
-        ResetRecord();
-         
-            }
-            else{
+
+                String query = "delete from finsys.m_ledger where ledgerid='" + ID + "'";
+                executeSqlQuery(query, "deleted");
+                m = new Logdetails();
+                int l = m.Initialisem(0, "m_ledger", Integer.valueOf(ID), "D", ucode, "");
+                ResetRecord();
+
+            } else {
                 remove(reply);
             }
         }
     }//GEN-LAST:event_btndeleteActionPerformed
-   
+
     private void searchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchKeyReleased
         // TODO add your handling code here:
-        String query=search.getText().toUpperCase();
+        String query = search.getText().toUpperCase();
         filter(query);
     }//GEN-LAST:event_searchKeyReleased
-    
-  
-    
-     public void filter(String query){
-        TableRowSorter<DefaultTableModel> tr=new TableRowSorter<DefaultTableModel>(model);
+
+    public void filter(String query) {
+        TableRowSorter<DefaultTableModel> tr = new TableRowSorter<DefaultTableModel>(model);
         jtable_ledger.setRowSorter(tr);
         tr.setRowFilter(RowFilter.regexFilter(query));
     }
-    public void setSelectedValue(JComboBox combobox,int value){
-            Comboitem item;
-            for(int i=0;i<combobox.getItemCount();i++){
-                item=(Comboitem)combobox.getItemAt(i);
-                if(item.getKey()==value){
-                    combobox.setSelectedIndex(i);
-                    break;
-                }
+
+    public void setSelectedValue(JComboBox combobox, int value) {
+        Comboitem item;
+        for (int i = 0; i < combobox.getItemCount(); i++) {
+            item = (Comboitem) combobox.getItemAt(i);
+            if (item.getKey() == value) {
+                combobox.setSelectedIndex(i);
+                break;
             }
+        }
     }
-    
-    
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnadd;
@@ -594,6 +599,7 @@ public class Ledger extends javax.swing.JInternalFrame {
     private javax.swing.JComboBox<Comboitem> jComboBox_soemain;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel27;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
