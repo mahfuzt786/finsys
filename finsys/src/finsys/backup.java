@@ -22,10 +22,14 @@ import javax.swing.JFileChooser;
 
 public class backup extends javax.swing.JInternalFrame {
     String path=null;
-    String filename;   
-    public backup() {
+    String filename; 
+    int uid;
+    Logdetails m;
+
+    public backup(int usercode) {
         initComponents();
         msg.setVisible(false);
+        uid=usercode;
     }
 
     /**
@@ -224,6 +228,8 @@ if(returnVal == JFileChooser.APPROVE_OPTION) {
              msg.setText("Back Up completed!!");
             msg.setVisible(true);                
             System.out.println("Backup created successfully");
+            int l=m.Initialisem(0,"m_backup",0,"Backup",uid,"");
+         
                 } else {
             msg.setText("There is an error!!");
             msg.setVisible(true);  

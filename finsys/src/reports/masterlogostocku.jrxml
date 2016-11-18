@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="masterlogostock" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="head" fontName="Times New Roman" fontSize="15" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold"/>
+	<style name="n" fontName="Times New Roman" fontSize="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="b" fontName="Times New Roman" fontSize="12" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold"/>
+	<parameter name="startdate" class="java.util.Date"/>
+	<parameter name="enddate" class="java.util.Date"/>
+	<parameter name="ucode" class="java.lang.Integer"/>
+	<queryString>
+		<![CDATA[select c.itemid,c.mnth||'-'||c.yr as u,i.itemname as d,u.username||', '||u.userdescription as username,to_char(l.entrydate,'dd-MM-yyyy hh:mm:ss AM')as entrydate,
+(case when l.operation='A' then 'Add' when l.operation='U' then 'Update' when l.operation='D' then 'Delete' when l.operation='R' then 'Reset Password' else ' ' end) as operation     from finsys.t_tablelogdetails l
+inner join finsys.t_openingstock c on c.itemid=l.uniquetableid
+inner join finsys.m_item i on i.itemid=c.itemid
+inner join mt_userlogin u on u.usercode=l.usercode
+where l.tablename='t_openingstock' and  l.entrydate>=$P{startdate} and l.entrydate<=$P{enddate} and l.usercode=$P{ucode}]]>
+	</queryString>
+	<field name="itemid" class="java.lang.Integer"/>
+	<field name="u" class="java.lang.String"/>
+	<field name="d" class="java.lang.String"/>
+	<field name="username" class="java.lang.String"/>
+	<field name="entrydate" class="java.lang.String"/>
+	<field name="operation" class="java.lang.String"/>
+	<title>
+		<band height="80" splitType="Stretch">
+			<staticText>
+				<reportElement style="b" x="0" y="15" width="555" height="15"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Opening Stock Log Details]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="n" x="0" y="30" width="555" height="16"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="false"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[new SimpleDateFormat("dd/MM/yyyy").format($P{startdate})+"  To  "+new SimpleDateFormat("dd/MM/yyyy").format($P{enddate})]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="head" x="0" y="1" width="555" height="14"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[SIBBARI TEA ESTATE, SIVASAGAR]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="b" x="2" y="48" width="312" height="19"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["Table : t_openingstock"]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement x="0" y="67" width="555" height="12"/>
+			</rectangle>
+			<line>
+				<reportElement x="196" y="67" width="1" height="13"/>
+			</line>
+			<line>
+				<reportElement x="322" y="67" width="1" height="13"/>
+			</line>
+			<line>
+				<reportElement x="418" y="67" width="1" height="12"/>
+			</line>
+			<staticText>
+				<reportElement style="b" x="323" y="67" width="95" height="11"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Date]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="b" x="419" y="67" width="136" height="11"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Operation]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="b" x="0" y="67" width="119" height="13"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[User]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="n" x="397" y="52" width="54" height="10"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[DATE :]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="n" x="451" y="52" width="104" height="10"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[new SimpleDateFormat("dd/MM/yyyy").format(new Date())]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="b" x="197" y="69" width="125" height="11"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Opening Stock Item]]></text>
+			</staticText>
+			<line>
+				<reportElement x="119" y="67" width="1" height="11"/>
+			</line>
+			<staticText>
+				<reportElement style="b" x="119" y="67" width="77" height="13"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Month-Year]]></text>
+			</staticText>
+		</band>
+	</title>
+	<detail>
+		<band height="27" splitType="Stretch">
+			<rectangle>
+				<reportElement x="0" y="0" width="555" height="26"/>
+			</rectangle>
+			<line>
+				<reportElement x="196" y="0" width="1" height="26"/>
+			</line>
+			<line>
+				<reportElement x="418" y="-2" width="1" height="28"/>
+			</line>
+			<line>
+				<reportElement x="322" y="0" width="1" height="26"/>
+			</line>
+			<textField>
+				<reportElement style="n" x="2" y="0" width="117" height="27"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{username}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="n" x="197" y="0" width="125" height="26"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{d}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="n" x="323" y="0" width="95" height="26"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{entrydate}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="n" x="419" y="19" width="136" height="7"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{operation}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="n" x="429" y="0" width="126" height="26"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{operation}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="119" y="1" width="1" height="26"/>
+			</line>
+			<textField>
+				<reportElement style="n" x="120" y="1" width="77" height="26"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{u}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="12">
+			<textField>
+				<reportElement x="532" y="1" width="23" height="11"/>
+				<textElement>
+					<font fontName="Times New Roman" size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Integer"><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+</jasperReport>
