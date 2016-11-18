@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="masterlogstockinitems" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="head" fontName="Times New Roman" fontSize="15" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold"/>
+	<style name="n" fontName="Times New Roman" fontSize="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="b" fontName="Times New Roman" fontSize="12" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold"/>
+	<parameter name="startdate" class="java.util.Date"/>
+	<parameter name="enddate" class="java.util.Date"/>
+	<parameter name="ucode" class="java.lang.Integer"/>
+	<queryString>
+		<![CDATA[select c.invoiceid,f.companyname,i.itemname as u,u.username||', '||u.userdescription as username,to_char(l.entrydate,'dd-MM-yyyy hh:mm:ss AM')as entrydate,
+(case when l.operation='A' then 'Add' when l.operation='U' then 'Update' when l.operation='D' then 'Delete' when l.operation='R' then 'Reset Password' else ' ' end) as operation     from finsys.t_stocktablelogdetails l
+inner join finsys.t_stockin c on c.invoiceid=l.uniquetableid
+inner join finsys.m_fromcompany f on f.companyid=c.from_company_id
+inner join finsys.m_item i on i.itemid=l.itemid
+inner join finsys.mt_userlogin u on u.usercode=l.usercode
+where l.tablename='t_stockin_items' and  l.entrydate>=$P{startdate} and l.entrydate<=$P{enddate} and l.usercode=$P{ucode}
+order by c.invoiceid]]>
+	</queryString>
+	<field name="invoiceid" class="java.lang.String"/>
+	<field name="companyname" class="java.lang.String"/>
+	<field name="u" class="java.lang.String"/>
+	<field name="username" class="java.lang.String"/>
+	<field name="entrydate" class="java.lang.String"/>
+	<field name="operation" class="java.lang.String"/>
+	<title>
+		<band height="90" splitType="Stretch">
+			<staticText>
+				<reportElement style="b" x="0" y="15" width="555" height="15"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Stock Out Items Log Details]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="n" x="0" y="30" width="555" height="16"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="false"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[new SimpleDateFormat("dd/MM/yyyy").format($P{startdate})+"  To  "+new SimpleDateFormat("dd/MM/yyyy").format($P{enddate})]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="head" x="0" y="1" width="555" height="14"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[SIBBARI TEA ESTATE, SIVASAGAR]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="b" x="2" y="48" width="312" height="19"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["Table : t_issue_items"]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement x="0" y="67" width="555" height="23"/>
+			</rectangle>
+			<line>
+				<reportElement x="97" y="67" width="1" height="23"/>
+			</line>
+			<line>
+				<reportElement x="409" y="67" width="1" height="23"/>
+			</line>
+			<line>
+				<reportElement x="502" y="67" width="1" height="23"/>
+			</line>
+			<staticText>
+				<reportElement style="b" x="409" y="67" width="93" height="21"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Date]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="b" x="505" y="67" width="50" height="21"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Operation]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="b" x="0" y="67" width="97" height="21"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[User]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="n" x="397" y="52" width="54" height="10"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[DATE :]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="n" x="451" y="52" width="104" height="10"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[new SimpleDateFormat("dd/MM/yyyy").format(new Date())]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="b" x="98" y="67" width="102" height="21"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Invoice Id]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="b" x="304" y="66" width="105" height="22"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[M/S Company]]></text>
+			</staticText>
+			<line>
+				<reportElement x="303" y="67" width="1" height="23"/>
+			</line>
+			<line>
+				<reportElement x="200" y="67" width="1" height="23"/>
+			</line>
+			<staticText>
+				<reportElement style="b" x="203" y="67" width="100" height="21"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Item]]></text>
+			</staticText>
+		</band>
+	</title>
+	<detail>
+		<band height="27" splitType="Stretch">
+			<rectangle>
+				<reportElement x="0" y="0" width="555" height="26"/>
+			</rectangle>
+			<line>
+				<reportElement x="97" y="0" width="1" height="26"/>
+			</line>
+			<line>
+				<reportElement x="409" y="1" width="1" height="26"/>
+			</line>
+			<textField>
+				<reportElement style="n" x="2" y="0" width="95" height="27"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{username}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="n" x="203" y="1" width="100" height="24"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["  "+ $F{u}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="n" x="412" y="0" width="90" height="26"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{entrydate}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="n" x="505" y="0" width="50" height="26"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{operation}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="502" y="1" width="1" height="25"/>
+			</line>
+			<line>
+				<reportElement x="303" y="0" width="1" height="26"/>
+			</line>
+			<textField>
+				<reportElement style="n" x="98" y="1" width="102" height="24"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["  "+$F{invoiceid}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="n" x="303" y="2" width="106" height="24"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["  "+$F{companyname}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="200" y="-2" width="1" height="27"/>
+			</line>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="12">
+			<textField>
+				<reportElement x="532" y="1" width="23" height="11"/>
+				<textElement>
+					<font fontName="Times New Roman" size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Integer"><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+</jasperReport>

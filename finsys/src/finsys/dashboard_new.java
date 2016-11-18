@@ -480,7 +480,7 @@ class SomeAction extends AbstractAction
                 break;
             case 34:
                 try {
-                    backup bck = new backup();
+                    backup bck = new backup(usercode);
                     loadForm("Backup", bck);
                 } catch (Exception e) {
                     System.out.println("\nError :" + e);
@@ -488,7 +488,7 @@ class SomeAction extends AbstractAction
                 break;
                  case 35:
                 try {
-                    restore bck = new restore();
+                    restore bck = new restore(usercode);
                     loadForm("Restore", bck);
                 } catch (Exception e) {
                     System.out.println("\nError :" + e);
@@ -529,6 +529,16 @@ class SomeAction extends AbstractAction
                 }
                 
                 break;
+                case 104:
+                try {
+                    Log_Report_Filter bck = new Log_Report_Filter();
+                    loadForm("Filter Log Report", bck);
+                } catch (Exception e) {
+                    System.out.println("\nError :" + e);
+                }
+                
+                break;
+                
 
         }
         

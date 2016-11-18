@@ -22,10 +22,13 @@ import javax.swing.JFileChooser;
 
 public class restore extends javax.swing.JInternalFrame {
     String path=null;
-    String filename;   
-    public restore() {
+    String filename; 
+    int uid;
+    Logdetails m;
+    public restore(int usercode) {
         initComponents();
         msg.setVisible(false);
+        uid=usercode;
     }
 
     /**
@@ -225,6 +228,8 @@ if(returnVal == JFileChooser.APPROVE_OPTION) {
              msg.setText("Restore completed!!");
             msg.setVisible(true);                
             System.out.println("Restore created successfully");
+            int l=m.Initialisem(0,"m_restore",0,"Restore",uid,"");
+         
                 } else {
             msg.setText("There is an error!!");
             msg.setVisible(true);  

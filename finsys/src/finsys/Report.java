@@ -328,5 +328,34 @@ public void printreport(HashMap params) throws JRException, IOException{
 
 }
 
+   public void log_reportu(String s,String e,int status,int ucode) throws ParseException, JRException, IOException{
+              HashMap params= new HashMap();
+        Date st=UtilDate.convertStringToSqlDate("dd-MM-yyyy",s);
+        Date et=UtilDate.convertStringToSqlDate("dd-MM-yyyy",e);
+         
+        params.put("startdate",st);
+        params.put("enddate",et);
+        params.put("ucode",ucode);
+        switch(status){
+            case 1: r="Stockin_log";reportName="masterlogstockinu.jrxml"; break;
+            case 2: r="Stockout_log";reportName="masterlogstockoutu.jrxml";break;
+            case 3: r="UOM_log";reportName="masterloguomu.jrxml";break;
+            case 4: r="Iemtype_log";reportName="masterlogitypeu.jrxml";break;
+            case 5: r="Itemcategory_log";reportName="masterlogcatu.jrxml";break;
+            case 6:r="Item_log";reportName="masterlogitemu.jrxml";break;
+            case 7:r="MS_log";reportName="masterlogmsu.jrxml";break;
+            case 8: r="Costcenter_log";reportName="masterlogccu.jrxml";break;
+            case 9: r="Soegroup_log";reportName="masterlogsoegroupu.jrxml";break;
+            case 10:r="Soemaingroup_log";reportName="masterlogsoemaingroupu.jrxml";break;
+            case 11:r="Ledger_log";reportName="masterlogledgeru.jrxml";break;
+            case 12: r="Openingstock_log";reportName="masterlogostocku.jrxml";break;
+            case 13: r="Stockinitems_log";reportName="masterlogstockinitemsu.jrxml";break;
+            case 14:r="Stockoutitems_log";reportName="masterlogstockoutitemsu.jrxml";break;
+           case 15:r="User_log";reportName="masterloguserloginu.jrxml";break;
+           
+        
+        }
+         printreport(params);
+    }
   
 }
