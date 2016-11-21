@@ -66,6 +66,9 @@ public class Log_Report extends javax.swing.JInternalFrame {
         soutitem = new javax.swing.JRadioButton();
         sinitem = new javax.swing.JRadioButton();
         user = new javax.swing.JRadioButton();
+        backup = new javax.swing.JRadioButton();
+        restore = new javax.swing.JRadioButton();
+        c = new javax.swing.JRadioButton();
         btnadd = new javax.swing.JButton();
         btnclear = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
@@ -235,6 +238,33 @@ public class Log_Report extends javax.swing.JInternalFrame {
             }
         });
 
+        radiogroup.add(backup);
+        backup.setText("Backup");
+        backup.setOpaque(false);
+        backup.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                backupActionPerformed(evt);
+            }
+        });
+
+        radiogroup.add(restore);
+        restore.setText("Restore");
+        restore.setOpaque(false);
+        restore.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                restoreActionPerformed(evt);
+            }
+        });
+
+        radiogroup.add(c);
+        c.setText("Count");
+        c.setOpaque(false);
+        c.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -262,11 +292,14 @@ public class Log_Report extends javax.swing.JInternalFrame {
                                         .addComponent(itype, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addComponent(item, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                     .addComponent(ostock)
-                                    .addComponent(soutitem))))
+                                    .addComponent(soutitem)
+                                    .addComponent(backup)
+                                    .addComponent(c))))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jSeparator1, javax.swing.GroupLayout.DEFAULT_SIZE, 1, Short.MAX_VALUE))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(restore)
                             .addComponent(user)
                             .addComponent(ledger)
                             .addComponent(soeg))
@@ -309,8 +342,17 @@ public class Log_Report extends javax.swing.JInternalFrame {
                     .addComponent(soutitem)
                     .addComponent(sinitem))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(user)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(user)
+                    .addComponent(backup))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(restore))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(c)
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
 
         btnadd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/finsys/icons/Add_16x16.png"))); // NOI18N
@@ -403,7 +445,7 @@ public class Log_Report extends javax.swing.JInternalFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 367, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 380, Short.MAX_VALUE)
         );
 
         pack();
@@ -455,6 +497,12 @@ public class Log_Report extends javax.swing.JInternalFrame {
                status=14;
             }else  if(user.isSelected()){
                status=15;
+            }else  if(backup.isSelected()){
+               status=16;
+            }else  if(restore.isSelected()){
+               status=17;
+            }else  if(c.isSelected()){
+               status=18;
             }
             r.log_report(startdate,enddate,status);
         } catch (ParseException|JRException|IOException  ex) {
@@ -522,10 +570,24 @@ public class Log_Report extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_userActionPerformed
 
+    private void backupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backupActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_backupActionPerformed
+
+    private void restoreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_restoreActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_restoreActionPerformed
+
+    private void cActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JRadioButton backup;
     private javax.swing.JButton btnadd;
     private javax.swing.JButton btnclear;
+    private javax.swing.JRadioButton c;
     private javax.swing.JRadioButton cc;
     private javax.swing.JRadioButton icat;
     private javax.swing.JRadioButton item;
@@ -542,6 +604,7 @@ public class Log_Report extends javax.swing.JInternalFrame {
     private javax.swing.JRadioButton ms;
     private javax.swing.JRadioButton ostock;
     private javax.swing.ButtonGroup radiogroup;
+    private javax.swing.JRadioButton restore;
     private javax.swing.JRadioButton returnradio4;
     private javax.swing.JRadioButton returnradio5;
     private javax.swing.JRadioButton sinitem;

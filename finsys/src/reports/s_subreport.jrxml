@@ -66,34 +66,40 @@ order by i.itemid]]>
 	<field name="soutq" class="java.math.BigDecimal"/>
 	<field name="soutv" class="java.math.BigDecimal"/>
 	<variable name="closeq" class="java.math.BigDecimal">
-		<variableExpression><![CDATA[$F{ostockqty}.add( $F{stockinq} ).subtract( $F{soutq} )]]></variableExpression>
+		<variableExpression><![CDATA[($F{ostockqty}!=null?$F{ostockqty}:new BigDecimal(0)) .add((
+    $F{stockinq}!=null?$F{stockinq}:new BigDecimal(0))
+    .subtract($F{soutq}!=null?$F{soutq}:new BigDecimal(0)))]]></variableExpression>
 	</variable>
 	<variable name="closev" class="java.math.BigDecimal">
-		<variableExpression><![CDATA[$F{ostockvalue}.add( $F{stockinv} ).subtract( $F{soutv} )]]></variableExpression>
+		<variableExpression><![CDATA[($F{ostockvalue}!=null?$F{ostockvalue}:new BigDecimal(0)) .add( ($F{stockinv}!=null?$F{stockinv}:new BigDecimal(0)
+   ) .subtract($F{soutv}!=null?$F{soutv}:new BigDecimal(0)))]]></variableExpression>
 	</variable>
 	<variable name="ostockqty_1" class="java.math.BigDecimal" calculation="Sum">
-		<variableExpression><![CDATA[$F{ostockqty}]]></variableExpression>
+		<variableExpression><![CDATA[$F{ostockqty}!=null?$F{ostockqty}:new BigDecimal(0)]]></variableExpression>
 	</variable>
 	<variable name="ostockvalue_1" class="java.math.BigDecimal" calculation="Sum">
-		<variableExpression><![CDATA[$F{ostockvalue}]]></variableExpression>
+		<variableExpression><![CDATA[$F{ostockvalue}!=null?$F{ostockvalue}:new BigDecimal(0)]]></variableExpression>
 	</variable>
 	<variable name="stockinq_1" class="java.math.BigDecimal" calculation="Sum">
-		<variableExpression><![CDATA[$F{stockinq}]]></variableExpression>
+		<variableExpression><![CDATA[$F{stockinq}!=null?$F{stockinq}:new BigDecimal(0)]]></variableExpression>
 	</variable>
 	<variable name="stockinv_1" class="java.math.BigDecimal" calculation="Sum">
-		<variableExpression><![CDATA[$F{stockinv}]]></variableExpression>
+		<variableExpression><![CDATA[$F{stockinv}!=null?$F{stockinv}:new BigDecimal(0)]]></variableExpression>
 	</variable>
 	<variable name="soutq_1" class="java.math.BigDecimal" calculation="Sum">
-		<variableExpression><![CDATA[$F{soutq}]]></variableExpression>
+		<variableExpression><![CDATA[$F{soutq}!=null?$F{soutq}:new BigDecimal(0)]]></variableExpression>
 	</variable>
 	<variable name="soutv_1" class="java.math.BigDecimal" calculation="Sum">
-		<variableExpression><![CDATA[$F{soutv}]]></variableExpression>
+		<variableExpression><![CDATA[$F{soutv}!=null?$F{soutv}:new BigDecimal(0)]]></variableExpression>
 	</variable>
 	<variable name="closeq_1" class="java.math.BigDecimal" calculation="Sum">
-		<variableExpression><![CDATA[$F{ostockqty}.add( $F{stockinq} ).subtract( $F{soutq} )]]></variableExpression>
+		<variableExpression><![CDATA[($F{ostockqty}!=null?$F{ostockqty}:new BigDecimal(0)) .add((
+    $F{stockinq}!=null?$F{stockinq}:new BigDecimal(0))
+    .subtract($F{soutq}!=null?$F{soutq}:new BigDecimal(0)))]]></variableExpression>
 	</variable>
 	<variable name="closev_1" class="java.math.BigDecimal" calculation="Sum">
-		<variableExpression><![CDATA[$F{ostockvalue}.add( $F{stockinv} ).subtract( $F{soutv} )]]></variableExpression>
+		<variableExpression><![CDATA[($F{ostockvalue}!=null?$F{ostockvalue}:new BigDecimal(0)) .add( ($F{stockinv}!=null?$F{stockinv}:new BigDecimal(0)
+   ) .subtract($F{soutv}!=null?$F{soutv}:new BigDecimal(0)))]]></variableExpression>
 	</variable>
 	<background>
 		<band splitType="Stretch"/>

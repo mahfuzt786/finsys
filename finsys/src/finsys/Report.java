@@ -289,6 +289,9 @@ public class Report extends JFrame  {
             case 13: r="Stockinitems_log";reportName="masterlogstockinitems.jrxml";break;
             case 14:r="Stockoutitems_log";reportName="masterlogstockoutitems.jrxml";break;
            case 15:r="User_log";reportName="masterloguserlogin.jrxml";break;
+           case 16:r="Backup_log";reportName="masterlogbackup.jrxml";break;
+           case 17:r="Restore_log";reportName="masterlogrestore.jrxml";break;
+           case 18:r="Count_log";reportName="masterlogcount.jrxml";break;
            
         
         }
@@ -337,21 +340,24 @@ public void printreport(HashMap params) throws JRException, IOException{
         params.put("enddate",et);
         params.put("ucode",ucode);
         switch(status){
-            case 1: r="Stockin_log";reportName="masterlogstockinu.jrxml"; break;
-            case 2: r="Stockout_log";reportName="masterlogstockoutu.jrxml";break;
-            case 3: r="UOM_log";reportName="masterloguomu.jrxml";break;
-            case 4: r="Iemtype_log";reportName="masterlogitypeu.jrxml";break;
-            case 5: r="Itemcategory_log";reportName="masterlogcatu.jrxml";break;
-            case 6:r="Item_log";reportName="masterlogitemu.jrxml";break;
-            case 7:r="MS_log";reportName="masterlogmsu.jrxml";break;
-            case 8: r="Costcenter_log";reportName="masterlogccu.jrxml";break;
-            case 9: r="Soegroup_log";reportName="masterlogsoegroupu.jrxml";break;
-            case 10:r="Soemaingroup_log";reportName="masterlogsoemaingroupu.jrxml";break;
-            case 11:r="Ledger_log";reportName="masterlogledgeru.jrxml";break;
-            case 12: r="Openingstock_log";reportName="masterlogostocku.jrxml";break;
-            case 13: r="Stockinitems_log";reportName="masterlogstockinitemsu.jrxml";break;
-            case 14:r="Stockoutitems_log";reportName="masterlogstockoutitemsu.jrxml";break;
-           case 15:r="User_log";reportName="masterloguserloginu.jrxml";break;
+            case 1: r="Stockinuser_log";reportName="masterlogstockinu.jrxml"; break;
+            case 2: r="Stockoutuser_log";reportName="masterlogstockoutu.jrxml";break;
+            case 3: r="UOMuser_log";reportName="masterloguomu.jrxml";break;
+            case 4: r="Iemtypeuser_log";reportName="masterlogitypeu.jrxml";break;
+            case 5: r="Itemcategoryuser_log";reportName="masterlogcatu.jrxml";break;
+            case 6:r="Itemuser_log";reportName="masterlogitemu.jrxml";break;
+            case 7:r="MSuser_log";reportName="masterlogmsu.jrxml";break;
+            case 8: r="Costcenteruser_log";reportName="masterlogccu.jrxml";break;
+            case 9: r="Soegroupuser_log";reportName="masterlogsoegroupu.jrxml";break;
+            case 10:r="Soemaingroupuser_log";reportName="masterlogsoemaingroupu.jrxml";break;
+            case 11:r="Ledgeruser_log";reportName="masterlogledgeru.jrxml";break;
+            case 12: r="Openingstockuser_log";reportName="masterlogostocku.jrxml";break;
+            case 13: r="Stockinitemsuser_log";reportName="masterlogstockinitemsu.jrxml";break;
+            case 14:r="Stockoutitemsuser_log";reportName="masterlogstockoutitemsu.jrxml";break;
+           case 15:r="User_loguser";reportName="masterloguserloginu.jrxml";break;
+           case 16:r="Backupuser_log";reportName="masterlogbackupu.jrxml";break;
+           case 17:r="Restoreuser_log";reportName="masterlogrestoreu.jrxml";break;
+           case 18:r="Countuser_log";reportName="masterlogcountu.jrxml";break;
            
         
         }
