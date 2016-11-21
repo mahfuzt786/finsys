@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="masterlogcount" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="head" fontName="Times New Roman" fontSize="15" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold"/>
+	<style name="n" fontName="Times New Roman" fontSize="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="b" fontName="Times New Roman" fontSize="12" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold"/>
+	<parameter name="startdate" class="java.util.Date"/>
+	<parameter name="enddate" class="java.util.Date"/>
+	<queryString>
+		<![CDATA[select distinct l.usercode, u.username||', '||u.userdescription as username,
+R1.a,
+R2.u,R3.d,R4.res,R5.restore,R6.back,R7.a1,R8.u1,R9.d1
+   from finsys.t_tablelogdetails l
+ left outer join(select t1.usercode,(case when count(slno)>0 then count(slno) else 0 end)  as a
+
+ from finsys.t_tablelogdetails t1 where t1.operation='A' group by t1.usercode)R1 on R1.usercode=l.usercode
+left outer join(select t2.usercode,count(slno) as u
+
+ from finsys.t_tablelogdetails t2 where t2.operation='U' group by t2.usercode)R2 on R2.usercode=l.usercode
+left outer join(select t3.usercode, count(slno)  as d
+
+ from finsys.t_tablelogdetails t3 where t3.operation='D' group by t3.usercode)R3 on R3.usercode=l.usercode
+left outer join(select t4.usercode,count(slno) as res
+
+from finsys.t_tablelogdetails t4 where t4.operation='R' group by t4.usercode)R4 on R4.usercode=l.usercode
+left outer join(select t5.usercode,count(slno) as restore
+
+from finsys.t_tablelogdetails t5 where t5.operation='Restore' group by t5.usercode)R5 on R5.usercode=l.usercode
+
+
+left outer join(select t6.usercode,count(slno) as back
+
+from finsys.t_tablelogdetails t6 where t6.operation='Backup' group by t6.usercode)R6 on R6.usercode=l.usercode
+left outer join(select t7.usercode,count(slno) as a1
+
+from finsys.t_stocktablelogdetails t7 where t7.operation='A' group by t7.usercode)R7 on R7.usercode=l.usercode
+left outer join(select t8.usercode,count(slno) as u1
+
+from finsys.t_stocktablelogdetails t8 where t8.operation='U' group by t8.usercode)R8 on R8.usercode=l.usercode
+left outer join(select t9.usercode,count(slno) as d1
+
+from finsys.t_stocktablelogdetails t9 where t9.operation='D' group by t9.usercode)R9 on R9.usercode=l.usercode
+
+
+
+inner join finsys.mt_userlogin u on u.usercode=l.usercode
+where l.entrydate>=$P{startdate} and l.entrydate<=$P{enddate}
+order by l.usercode]]>
+	</queryString>
+	<field name="usercode" class="java.lang.Integer"/>
+	<field name="username" class="java.lang.String"/>
+	<field name="a" class="java.math.BigDecimal"/>
+	<field name="u" class="java.math.BigDecimal"/>
+	<field name="d" class="java.math.BigDecimal"/>
+	<field name="res" class="java.lang.Long"/>
+	<field name="restore" class="java.lang.Long"/>
+	<field name="back" class="java.lang.Long"/>
+	<field name="a1" class="java.math.BigDecimal"/>
+	<field name="u1" class="java.math.BigDecimal"/>
+	<field name="d1" class="java.math.BigDecimal"/>
+	<variable name="vadd1" class="java.math.BigDecimal">
+		<variableExpression><![CDATA[($F{a}!=null?$F{a}:new BigDecimal(0)
+).add
+    (($F{a1}!=null?$F{a1}:new BigDecimal(0)))]]></variableExpression>
+	</variable>
+	<variable name="vup" class="java.math.BigDecimal">
+		<variableExpression><![CDATA[($F{u}!=null?$F{u}:new BigDecimal(0)
+).add
+    (($F{u1}!=null?$F{u1}:new BigDecimal(0)))]]></variableExpression>
+	</variable>
+	<variable name="vdel" class="java.math.BigDecimal">
+		<variableExpression><![CDATA[($F{d}!=null?$F{d}:new BigDecimal(0)
+).add
+    (($F{d1}!=null?$F{d1}:new BigDecimal(0)))]]></variableExpression>
+	</variable>
+	<title>
+		<band height="80" splitType="Stretch">
+			<staticText>
+				<reportElement style="b" x="0" y="15" width="555" height="15"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Count Log Details]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="n" x="0" y="30" width="555" height="16"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="false"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[new SimpleDateFormat("dd/MM/yyyy").format($P{startdate})+"  To  "+new SimpleDateFormat("dd/MM/yyyy").format($P{enddate})]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="head" x="0" y="1" width="555" height="14"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[SIBBARI TEA ESTATE, SIVASAGAR]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="0" y="67" width="555" height="12"/>
+			</rectangle>
+			<line>
+				<reportElement x="194" y="67" width="1" height="13"/>
+			</line>
+			<line>
+				<reportElement x="418" y="67" width="1" height="13"/>
+			</line>
+			<line>
+				<reportElement x="482" y="67" width="1" height="12"/>
+			</line>
+			<staticText>
+				<reportElement style="b" x="418" y="67" width="63" height="11"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Restore]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="b" x="482" y="67" width="73" height="11"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Reset Password]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="b" x="0" y="67" width="194" height="13"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[User]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="n" x="397" y="52" width="54" height="10"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[DATE :]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="n" x="451" y="52" width="104" height="10"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[new SimpleDateFormat("dd/MM/yyyy").format(new Date())]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="b" x="196" y="67" width="53" height="11"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Add]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="b" x="249" y="67" width="50" height="11"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Update]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="b" x="301" y="67" width="55" height="11"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Delete]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="b" x="357" y="67" width="60" height="11"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Backup]]></text>
+			</staticText>
+			<line>
+				<reportElement x="299" y="67" width="1" height="13"/>
+			</line>
+			<line>
+				<reportElement x="356" y="66" width="1" height="13"/>
+			</line>
+			<line>
+				<reportElement x="249" y="67" width="1" height="11"/>
+			</line>
+		</band>
+	</title>
+	<detail>
+		<band height="21" splitType="Stretch">
+			<rectangle>
+				<reportElement x="0" y="0" width="555" height="20"/>
+			</rectangle>
+			<line>
+				<reportElement x="356" y="0" width="1" height="20"/>
+			</line>
+			<textField>
+				<reportElement style="n" x="12" y="0" width="182" height="20"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{username}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="299" y="0" width="1" height="20"/>
+			</line>
+			<textField>
+				<reportElement style="n" x="194" y="0" width="55" height="20"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$V{vadd1}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="194" y="0" width="1" height="20"/>
+			</line>
+			<textField>
+				<reportElement style="n" x="418" y="1" width="63" height="19"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Long"><![CDATA[$F{restore}!=null?$F{restore}:new Long(0)]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="n" x="356" y="0" width="61" height="20"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Long"><![CDATA[$F{back}!=null?$F{back}:new Long(0)]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="n" x="483" y="0" width="72" height="20"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Long"><![CDATA[$F{res}!=null?$F{res}:new Long(0)]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="n" x="250" y="0" width="49" height="20"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$V{vup}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="n" x="301" y="1" width="55" height="19"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$V{vdel}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="249" y="0" width="1" height="20"/>
+			</line>
+			<line>
+				<reportElement x="418" y="0" width="1" height="20"/>
+			</line>
+			<line>
+				<reportElement x="482" y="1" width="1" height="20"/>
+			</line>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="12">
+			<textField>
+				<reportElement x="532" y="1" width="23" height="11"/>
+				<textElement>
+					<font fontName="Times New Roman" size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Integer"><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+</jasperReport>
