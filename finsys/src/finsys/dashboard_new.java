@@ -540,16 +540,15 @@ public class dashboard_new extends javax.swing.JFrame {
                 }
 
                 break;
-                case 104:
+            case 104:
                 try {
                     Log_Report_Filter bck = new Log_Report_Filter();
                     loadForm("Filter Log Report", bck);
                 } catch (Exception e) {
                     System.out.println("\nError :" + e);
                 }
-                
+
                 break;
-                
 
         }
 
