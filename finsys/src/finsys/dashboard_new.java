@@ -930,7 +930,7 @@ public class dashboard_new extends javax.swing.JFrame {
 
             },
             new String [] {
-                "LOG ID", "USERNAME", "LOGIN DATE AND TIME", "LOGOUT DATE AND TIM"
+                "LOG ID", "USERNAME", "LOGIN DATE AND TIME", "LOGOUT DATE AND TIME"
             }
         ) {
             Class[] types = new Class [] {

@@ -78,6 +78,9 @@ database db;
         user = new javax.swing.JRadioButton();
         uid = new javax.swing.JComboBox<>();
         jLabel5 = new javax.swing.JLabel();
+        backup = new javax.swing.JRadioButton();
+        restore = new javax.swing.JRadioButton();
+        c = new javax.swing.JRadioButton();
         btnadd = new javax.swing.JButton();
         btnclear = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
@@ -249,45 +252,76 @@ database db;
 
         jLabel5.setText("Select User");
 
+        radiogroup.add(backup);
+        backup.setText("Backup");
+        backup.setOpaque(false);
+        backup.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                backupActionPerformed(evt);
+            }
+        });
+
+        radiogroup.add(restore);
+        restore.setText("Restore");
+        restore.setOpaque(false);
+        restore.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                restoreActionPerformed(evt);
+            }
+        });
+
+        radiogroup.add(c);
+        c.setText("Count");
+        c.setOpaque(false);
+        c.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1)
-                .addGap(18, 18, 18)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(icat)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(stockin)
-                            .addComponent(uom)
-                            .addComponent(ms)
-                            .addComponent(sinitem))
-                        .addGap(89, 89, 89)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(soemg)
-                            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(cc, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(stockout)
-                                .addComponent(itype, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(item, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(ostock)
-                            .addComponent(soutitem)))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(user)
-                            .addComponent(ledger)
-                            .addComponent(soeg))
-                        .addGap(208, 208, 208)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jSeparator1, javax.swing.GroupLayout.DEFAULT_SIZE, 1, Short.MAX_VALUE))
-            .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(25, 25, 25)
                 .addComponent(jLabel5)
                 .addGap(18, 18, 18)
                 .addComponent(uid, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(restore)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(icat)
+                            .addComponent(ledger)
+                            .addComponent(soeg)
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(stockin)
+                                    .addComponent(uom)
+                                    .addComponent(ms)
+                                    .addComponent(sinitem)
+                                    .addComponent(user))
+                                .addGap(89, 89, 89)
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(backup)
+                                    .addComponent(soemg)
+                                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(cc, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(stockout)
+                                        .addComponent(itype, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(item, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(ostock)
+                                    .addComponent(soutitem)
+                                    .addComponent(c))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jSeparator1, javax.swing.GroupLayout.DEFAULT_SIZE, 1, Short.MAX_VALUE))))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -295,12 +329,13 @@ database db;
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(uid, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel5))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(18, 18, Short.MAX_VALUE)
                         .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(91, 91, 91))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel1)
                             .addComponent(stockin)
@@ -330,8 +365,14 @@ database db;
                             .addComponent(soutitem)
                             .addComponent(sinitem))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(user)
-                        .addContainerGap())))
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(user)
+                            .addComponent(backup))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(restore)
+                            .addComponent(c))
+                        .addContainerGap(17, Short.MAX_VALUE))))
         );
 
         btnadd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/finsys/icons/Add_16x16.png"))); // NOI18N
@@ -392,14 +433,14 @@ database db;
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(btnadd, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(btnclear, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(btnclear, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(12, 12, 12)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -407,13 +448,13 @@ database db;
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(18, 18, 18)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnclear)
                     .addComponent(btnadd))
-                .addGap(112, 112, 112))
+                .addGap(142, 142, 142))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -424,9 +465,7 @@ database db;
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 398, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 438, Short.MAX_VALUE)
         );
 
         pack();
@@ -484,44 +523,18 @@ database db;
                status=14;
             }else  if(user.isSelected()){
                status=15;
+            }else  if(backup.isSelected()){
+               status=16;
+            }else  if(restore.isSelected()){
+               status=17;
+            }else  if(c.isSelected()){
+               status=18;
             }
             r.log_reportu(startdate,enddate,status,ucode);
         } catch (ParseException|JRException|IOException  ex) {
             Logger.getLogger(Log_Report_Filter.class.getName()).log(Level.SEVERE, null, ex);
         } 
     }//GEN-LAST:event_btnaddActionPerformed
-
-    private void itemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_itemActionPerformed
-
-    private void icatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_icatActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_icatActionPerformed
-
-    private void msActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_msActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_msActionPerformed
-
-    private void stockinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_stockinActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_stockinActionPerformed
-
-    private void itypeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itypeActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_itypeActionPerformed
-
-    private void ccActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ccActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_ccActionPerformed
-
-    private void soegActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_soegActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_soegActionPerformed
-
-    private void soemgActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_soemgActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_soemgActionPerformed
 
     private void returnradio4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_returnradio4ActionPerformed
         // TODO add your handling code here:
@@ -531,30 +544,76 @@ database db;
         // TODO add your handling code here:
     }//GEN-LAST:event_returnradio5ActionPerformed
 
-    private void ledgerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ledgerActionPerformed
+    private void restoreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_restoreActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_ledgerActionPerformed
+    }//GEN-LAST:event_restoreActionPerformed
 
-    private void ostockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ostockActionPerformed
+    private void backupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backupActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_ostockActionPerformed
-
-    private void soutitemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_soutitemActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_soutitemActionPerformed
-
-    private void sinitemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sinitemActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_sinitemActionPerformed
+    }//GEN-LAST:event_backupActionPerformed
 
     private void userActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_userActionPerformed
 
+    private void sinitemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sinitemActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_sinitemActionPerformed
+
+    private void soutitemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_soutitemActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_soutitemActionPerformed
+
+    private void ostockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ostockActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ostockActionPerformed
+
+    private void ledgerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ledgerActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ledgerActionPerformed
+
+    private void soemgActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_soemgActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_soemgActionPerformed
+
+    private void soegActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_soegActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_soegActionPerformed
+
+    private void ccActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ccActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ccActionPerformed
+
+    private void msActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_msActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_msActionPerformed
+
+    private void icatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_icatActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_icatActionPerformed
+
+    private void itemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_itemActionPerformed
+
+    private void itypeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itypeActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_itypeActionPerformed
+
+    private void stockinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_stockinActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_stockinActionPerformed
+
+    private void cActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JRadioButton backup;
     private javax.swing.JButton btnadd;
     private javax.swing.JButton btnclear;
+    private javax.swing.JRadioButton c;
     private javax.swing.JRadioButton cc;
     private javax.swing.JRadioButton icat;
     private javax.swing.JRadioButton item;
@@ -573,6 +632,7 @@ database db;
     private javax.swing.JRadioButton ms;
     private javax.swing.JRadioButton ostock;
     private javax.swing.ButtonGroup radiogroup;
+    private javax.swing.JRadioButton restore;
     private javax.swing.JRadioButton returnradio4;
     private javax.swing.JRadioButton returnradio5;
     private javax.swing.JRadioButton sinitem;
