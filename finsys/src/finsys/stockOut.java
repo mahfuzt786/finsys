@@ -131,7 +131,8 @@ public class stockOut extends javax.swing.JInternalFrame {
     public ArrayList<Stockouttable> getStockoutTable() {
         
         ArrayList<Stockouttable> sTable = new ArrayList<Stockouttable>();
-        String query = "select issue_returncode,acc_post,issueamt_value,receiptno,transportation_amt,issue_or_return,costcenterid,slno , to_char(issuedate,'dd-MM-yyyy') as issuedate from finsys.t_issue_return";
+        //String query = "select issue_returncode,acc_post,issueamt_value,receiptno,transportation_amt,issue_or_return,costcenterid,slno , to_char(issuedate,'dd-MM-yyyy') as issuedate from finsys.t_issue_return";
+        String query = "SELECT t_issue_return.issue_returncode,t_issue_return.acc_post,t_issue_return.issueamt_value,t_issue_return.receiptno,t_issue_return.transportation_amt,t_issue_return.issue_or_return,t_issue_return.costcenterid,t_issue_return.slno,to_char(t_issue_return.issuedate,'dd-MM-yyyy') as issuedate, m_costcenter.centerid, m_costcenter.centername from finsys.t_issue_return,finsys.m_costcenter where t_issue_return.costcenterid = m_costcenter.centerid order by t_issue_return.slno desc";
         try {
             PreparedStatement pst = data.conn.prepareStatement(query);
             ResultSet rs = pst.executeQuery();
@@ -139,7 +140,7 @@ public class stockOut extends javax.swing.JInternalFrame {
             while (rs.next()) {
             
                 sTab = new Stockouttable(rs.getString("issue_returncode"), rs.getString("acc_post"), rs.getString("issuedate"),
-               rs.getString("receiptno"), rs.getString("issue_or_return"), rs.getInt("costcenterid"),rs.getDouble("issueamt_value"),rs.getDouble("transportation_amt") );
+               rs.getString("receiptno"), rs.getString("issue_or_return"), rs.getInt("costcenterid"),rs.getString("centername"),rs.getDouble("issueamt_value"),rs.getDouble("transportation_amt") );
                 sTable.add(sTab);
             }
         } catch (Exception e) {
@@ -152,15 +153,15 @@ public class stockOut extends javax.swing.JInternalFrame {
     public ArrayList<Stockoutitemtable> getStockoutitemTable() {
          
         ArrayList<Stockoutitemtable> sTable = new ArrayList<Stockoutitemtable>();
-        String query = "select * from finsys.t_issue_items inner join finsys.m_item on m_item.itemid=finsys.t_issue_items.itemid where issue_returncode='"+ID+"'";
+        //String query = "select * from finsys.t_issue_items inner join finsys.m_item on m_item.itemid=finsys.t_issue_items.itemid where issue_returncode='"+ID+"'";
+        String query = "select * from finsys.t_issue_items,finsys.m_itemcategory,finsys.m_ledger,finsys.m_item where m_itemcategory.categoryid = m_item.categoryid AND m_ledger.ledgerid = t_issue_items.ledgerid AND m_item.itemid = t_issue_items.itemid AND t_issue_items.issue_returncode='"+ID+"'";
         try {
             PreparedStatement pst = data.conn.prepareStatement(query);
             ResultSet rs = pst.executeQuery();
             Stockoutitemtable sTab;
             while (rs.next()) {
                 
-                sTab = new Stockoutitemtable(rs.getString("issue_returncode"),rs.getString("itemcode"),rs.getString("itemname"),rs.getInt("itemid"), rs.getInt("ledgerid"),
-               rs.getDouble("reqquantity"), rs.getDouble("issuequantity"), rs.getDouble("itemvalue"),rs.getInt("categoryid") );
+                sTab = new Stockoutitemtable(rs.getString("categoryname"),rs.getString("ledgername"),rs.getString("issue_returncode"),rs.getString("itemcode"),rs.getString("itemname"),rs.getInt("itemid"), rs.getInt("ledgerid"),rs.getDouble("reqquantity"), rs.getDouble("issuequantity"), rs.getDouble("itemvalue"),rs.getInt("categoryid"));
                 sTable.add(sTab);
             }
         } catch (Exception e) {
@@ -180,7 +181,7 @@ public class stockOut extends javax.swing.JInternalFrame {
             row[1] = sitemlist.get(i).getIssue_or_return();
             row[2] = sitemlist.get(i).getIssuedate();
             row[3] = sitemlist.get(i).getAcc_post();
-            row[4] = sitemlist.get(i).getCostcenterid();
+            row[4] = sitemlist.get(i).getCostcenterid()+" - "+sitemlist.get(i).getCentername();
 
 
             model.addRow(row);
@@ -198,20 +199,20 @@ public class stockOut extends javax.swing.JInternalFrame {
         
   
         
-        Object[] row = new Object[9];
+        Object[] row = new Object[8];
        
         for (int i = 0; i < sitemlist.size(); i++) {
-            row[0] = sitemlist.get(i).getCategoryid();
-            row[1] = sitemlist.get(i).getLedgerid();
-            row[2]=sitemlist.get(i).getItemid();
-            row[3]=sitemlist.get(i).getItemcode();
-            row[4] = sitemlist.get(i).getItemname();
-           
-            row[5] = sitemlist.get(i).getReqquantity();
-            row[6] = sitemlist.get(i).getIssuequantity();
+            row[0] = sitemlist.get(i).getCategoryid()+" : "+sitemlist.get(i).getCategoryname();
+            row[1] = sitemlist.get(i).getLedgerid()+" : "+sitemlist.get(i).getLedgername();
+            row[2]=sitemlist.get(i).getItemid()+" : "+sitemlist.get(i).getItemcode();
             
-            row[7] = sitemlist.get(i).getItemvalue();
-             row[8] = sitemlist.get(i).getItemvalue()*sitemlist.get(i).getIssuequantity();
+            row[3] = sitemlist.get(i).getItemname();
+           
+            row[4] = sitemlist.get(i).getReqquantity();
+            row[5] = sitemlist.get(i).getIssuequantity();
+            
+            row[6] = sitemlist.get(i).getItemvalue();
+             row[7] = sitemlist.get(i).getItemvalue()*sitemlist.get(i).getIssuequantity();
             
             TOTALITEMS+=1;
             TOTALGROSS+=sitemlist.get(i).getItemvalue()*sitemlist.get(i).getIssuequantity();
@@ -572,14 +573,14 @@ public class stockOut extends javax.swing.JInternalFrame {
 
             },
             new String [] {
-                "Category ID", "Ledger ID", "Item ID", "Item Code", "Item Name", "Required Qty.", "Issued Qty.", "Item Value", "Total Value"
+                "Category", "Ledger", "Item", "Item Name", "Required Qty.", "Issued Qty.", "Item Value", "Total Value"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -967,8 +968,9 @@ public class stockOut extends javax.swing.JInternalFrame {
         //GLOBAL INVOICE ID
         issue_returncode=(mod.getValueAt(i, 0).toString()).trim();
         //from company
-        
-        setSelectedValue(comboCC,Integer.valueOf((mod.getValueAt(i, 4).toString()).trim()));
+        String cc = (mod.getValueAt(i, 4).toString()).trim();
+        String[] splitcc = cc.split("\\s+");
+        setSelectedValue(comboCC,Integer.valueOf(splitcc[0]));
         acc.setSelectedItem(mod.getValueAt(i, 3).toString().trim());
         ir.setSelectedItem(mod.getValueAt(i, 1).toString().trim());
         issueId.setText(issue_returncode);
@@ -1063,16 +1065,21 @@ public class stockOut extends javax.swing.JInternalFrame {
         //GLOBAL INVOICE ID
       
         //from company
+        String CAT = (mod1.getValueAt(i, 0).toString()).trim();
+        String[] splitcat = CAT.split("\\s+");
+        setSelectedValue(categoryCombo,Integer.valueOf(splitcat[0]));
+        String ITEM = (mod1.getValueAt(i, 2).toString()).trim();
+        String[] splititem = ITEM.split("\\s+");
+        setSelectedValue(itemCombo,Integer.valueOf(splititem[0]));
+        String LED = (mod1.getValueAt(i, 1).toString()).trim();
+        String[] splitled = LED.split("\\s+");
+        setSelectedValue(comboLedger,Integer.valueOf(splitled[0]));
         
-        setSelectedValue(categoryCombo,Integer.valueOf((mod1.getValueAt(i, 0).toString()).trim()));
-        setSelectedValue(itemCombo,Integer.valueOf((mod1.getValueAt(i, 2).toString()).trim()));
-        setSelectedValue(comboLedger,Integer.valueOf((mod1.getValueAt(i, 1).toString()).trim()));
-        
-        txtReq.setText(mod1.getValueAt(i, 5).toString().trim());
-        txtIssue.setText(mod1.getValueAt(i, 6).toString().trim());
+        txtReq.setText(mod1.getValueAt(i, 4).toString().trim());
+        txtIssue.setText(mod1.getValueAt(i, 5).toString().trim());
         
              db=new database();
-                      ArrayList<Stocktable> d=db.getStock(Integer.valueOf((mod1.getValueAt(i, 2).toString()).trim()));
+                      ArrayList<Stocktable> d=db.getStock(Integer.valueOf(splititem[0]));
          for(Stocktable c:d){
              totalstockamount=Double.valueOf(c.getAmount());
              totalstockquantity=Double.valueOf(c.getQuantity());
@@ -1086,9 +1093,9 @@ public class stockOut extends javax.swing.JInternalFrame {
             itemstock.setText("**********");
             ivalue.setText("**********");
          }
-        ID1 = mod1.getValueAt(i, 2).toString();
-        tempqty=mod1.getValueAt(i, 6).toString();
-        tempamt=mod1.getValueAt(i, 8).toString();
+        ID1 = splititem[0];
+        tempqty=mod1.getValueAt(i, 5).toString();
+        tempamt=mod1.getValueAt(i, 7).toString();
        
     }//GEN-LAST:event_tableitemMouseClicked
 

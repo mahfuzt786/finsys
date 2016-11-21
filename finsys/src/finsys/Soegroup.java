@@ -82,13 +82,13 @@ public class Soegroup extends javax.swing.JInternalFrame {
     }
     public ArrayList<Soegrouptable> getSoeTable() {
         ArrayList<Soegrouptable> soeTable = new ArrayList<Soegrouptable>();
-        String query = "select * from finsys.m_soegroup";
+        String query = "select * from finsys.m_soegroup,finsys.m_soemaingroup WHERE m_soegroup.soemaingroupid = m_soemaingroup.soemaingroupid order by m_soegroup.soegroupid desc";
         try {
             PreparedStatement pst = data.conn.prepareStatement(query);
             ResultSet rs = pst.executeQuery();
             Soegrouptable subitemTab;
             while (rs.next()) {
-                subitemTab = new Soegrouptable(rs.getInt("soemaingroupid"),rs.getInt("soegroupid"), rs.getString("soegroupcode"), rs.getString("soegroupname"));
+                subitemTab = new Soegrouptable(rs.getInt("soemaingroupid"),rs.getString("soemaingroupname"),rs.getInt("soegroupid"), rs.getString("soegroupcode"), rs.getString("soegroupname"));
                 
                 soeTable.add(subitemTab);
             }
@@ -103,12 +103,11 @@ public class Soegroup extends javax.swing.JInternalFrame {
         ArrayList<Soegrouptable> subcatitemlist = getSoeTable();
         model = (DefaultTableModel) jtable_soetable.getModel();
         model.setRowCount(0);
-        Object[] row = new Object[4];
+        Object[] row = new Object[3];
         for (int i = 0; i < subcatitemlist.size(); i++) {
-            row[0] = subcatitemlist.get(i).getSoemaingroupid();
-            row[1] = subcatitemlist.get(i).getSoegroupid();
-            row[2] = subcatitemlist.get(i).getSoegroupcode();
-            row[3] = subcatitemlist.get(i).getSoegroupname();
+            row[0] = subcatitemlist.get(i).getSoemaingroupid()+" - "+subcatitemlist.get(i).getSoemaingroupname();
+            row[1] = subcatitemlist.get(i).getSoegroupid()+" - "+subcatitemlist.get(i).getSoegroupcode();
+            row[2] = subcatitemlist.get(i).getSoegroupname();
             model.addRow(row);
         }
     }
@@ -255,14 +254,14 @@ public class Soegroup extends javax.swing.JInternalFrame {
 
             },
             new String [] {
-                "SOE Main Group ID", "SOE Group ID", "SOE Group Code", "SOE Group Name"
+                "SOE Main Group ( ID & NAME)", "SOE Group ( ID & CODE )", "SOE Group Name"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Object.class, java.lang.Object.class, java.lang.String.class, java.lang.String.class
+                java.lang.Object.class, java.lang.Object.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -479,10 +478,14 @@ public class Soegroup extends javax.swing.JInternalFrame {
         //Display selected row in textbox
         int i = jtable_soetable.getSelectedRow();
         TableModel model = jtable_soetable.getModel();
-        setSelectedValue(jComboBox_soemain,Integer.valueOf(model.getValueAt(i, 0).toString()));
+        String soemainId = model.getValueAt(i, 0).toString();
+        String[] splitsoemainId = soemainId.split("\\s+");
+        setSelectedValue(jComboBox_soemain,Integer.valueOf(splitsoemainId[0]));
         //jComboBox_category.setSelectedItem(model.getValueAt(i, 0).toString());
-        txtsoename.setText(model.getValueAt(i, 3).toString());
-        ID = model.getValueAt(i, 1).toString();
+        txtsoename.setText(model.getValueAt(i, 2).toString());
+        String soeId = model.getValueAt(i, 1).toString();
+        String[] splitsoeId = soeId.split("\\s+");
+        ID = splitsoeId[0];
     }//GEN-LAST:event_jtable_soetableMouseClicked
 
     private void btndeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btndeleteActionPerformed

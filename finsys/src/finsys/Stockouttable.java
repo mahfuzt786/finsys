@@ -11,11 +11,11 @@ package finsys;
  */
 public class Stockouttable {
     
-    private String issue_returncode ,acc_post,issuedate,receiptno,issue_or_return ;
+    private String issue_returncode ,acc_post,issuedate,receiptno,issue_or_return,centername ;
     int costcenterid  ;
     private Double issueamt_value,transportation_amt ;
 
-    public Stockouttable(String issue_returncode, String acc_post, String issuedate, String receiptno, String issue_or_return, int costcenterid, Double issueamt_value, Double transportation_amt) {
+    public Stockouttable(String issue_returncode, String acc_post, String issuedate, String receiptno, String issue_or_return, int costcenterid,String Centername, Double issueamt_value, Double transportation_amt) {
         this.issue_returncode = issue_returncode;
         this.acc_post = acc_post;
         this.issuedate = issuedate;
@@ -24,6 +24,7 @@ public class Stockouttable {
         this.costcenterid = costcenterid;
         this.issueamt_value = issueamt_value;
         this.transportation_amt = transportation_amt;
+        this.centername = Centername;
     }
 
     public Stockouttable() {
@@ -36,8 +37,16 @@ public class Stockouttable {
         this.costcenterid = 0;
         this.issueamt_value = 0.0;
         this.transportation_amt = 0.0;
+        this.centername = "";
     }
-
+    public String getCentername(){
+        return centername;
+    }
+    
+    public void setCentername(String Cname){
+        this.centername = Cname;
+    }
+    
     public String getIssue_returncode() {
         return issue_returncode;
     }
