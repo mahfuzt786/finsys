@@ -560,7 +560,7 @@ public class Menumanagement extends javax.swing.JInternalFrame {
         assigned=db.assignMenu(newmenu, tousercode);
         if(assigned==1){
             JOptionPane.showMessageDialog(null,"Menu assigned successfully!!!",
-                            "WARNING!!", JOptionPane.INFORMATION_MESSAGE);
+                            "SUCCESS!!", JOptionPane.INFORMATION_MESSAGE);
             Reset();
         }
     }//GEN-LAST:event_submitbtnActionPerformed

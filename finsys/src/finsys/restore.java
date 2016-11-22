@@ -19,16 +19,17 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 
-
 public class restore extends javax.swing.JInternalFrame {
-    String path=null;
-    String filename; 
+
+    String path = null;
+    String filename;
     int uid;
     Logdetails m;
+
     public restore(int usercode) {
         initComponents();
         msg.setVisible(false);
-        uid=usercode;
+        uid = usercode;
     }
 
     /**
@@ -157,96 +158,91 @@ public class restore extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void browseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_browseActionPerformed
-        JFileChooser fc= new JFileChooser();
+        JFileChooser fc = new JFileChooser();
 //        fc.showOpenDialog(this);
-        File j = null ;
-        String date= new SimpleDateFormat("dd-MM-yyyy").format(new Date());
-        try{
-          
+        File j = null;
+        String date = new SimpleDateFormat("dd-MM-yyyy").format(new Date());
+        try {
 
+            fc.setCurrentDirectory(new java.io.File(".")); // start at application current directory
 
-fc.setCurrentDirectory(new java.io.File(".")); // start at application current directory
+            int returnVal = fc.showSaveDialog(this);
+            if (returnVal == JFileChooser.APPROVE_OPTION) {
+                j = fc.getSelectedFile();
+            }
 
-int returnVal = fc.showSaveDialog(this);
-if(returnVal == JFileChooser.APPROVE_OPTION) {
-     j = fc.getSelectedFile();
-}
-
-
-            path=j.getAbsolutePath();
-            path=path.replace('\\','/');
+            path = j.getAbsolutePath();
+            path = path.replace('\\', '/');
             //path=path+"/finsys.backup";
             fileurl.setText(path);
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }//GEN-LAST:event_browseActionPerformed
 
     private void backupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backupActionPerformed
 
- String fpath=fileurl.getText();
+        String fpath = fileurl.getText();
         msg.setText("");
 
         Runtime rt = Runtime.getRuntime();
-    Process p;
-    ProcessBuilder pb;
-    rt = Runtime.getRuntime();
-    //D:\\Program Files\\PostgreSQL\\9.6\\bin\\pg_restore.exe
-    pb = new ProcessBuilder(
-            "D:\\Program Files\\PostgreSQL\\9.6\\bin\\pg_restore.exe",
-            "--host", "localhost",
-            "--port", "5432",
-            "--username", "postgres",
-            "--schema","finsys",
-            "--clean",
-          
-            "--verbose",
-            "--dbname","finsys",
-            fpath 
-            );
-    try {
-        final Map<String, String> env = pb.environment();
-        env.put("PGPASSWORD", "rajiv   ");
-        //env.put("PGPASSWORD", "rajiv   ");
-        p = pb.start();
-        final BufferedReader r = new BufferedReader(
-                new InputStreamReader(p.getErrorStream()));
-        String line = r.readLine();
-        String temp="";
-        while (line != null) {
-            System.err.println(line);
-            
-            line = r.readLine();
-            temp=temp+line+"\n";
-           
-            
-            msg.setText("Please Wait...");
-            msg.setVisible(true);
+        Process p;
+        ProcessBuilder pb;
+        rt = Runtime.getRuntime();
+        //D:\\Program Files\\PostgreSQL\\9.6\\bin\\pg_restore.exe
+        pb = new ProcessBuilder(
+                "C:\\Program Files (x86)\\PostgreSQL\\9.5\\bin\\pg_restore.exe",
+                // "D:\\Program Files\\PostgreSQL\\9.6\\bin\\pg_restore.exe",
+                "--host", "localhost",
+                "--port", "5432",
+                "--username", "postgres",
+                "--schema", "finsys",
+                "--clean",
+                "--verbose",
+                "--dbname", "finsys",
+                fpath
+        );
+        try {
+            final Map<String, String> env = pb.environment();
+            env.put("PGPASSWORD", "postgres");
+            //env.put("PGPASSWORD", "rajiv   ");
+            m = new Logdetails();
+            int l = m.Initialisem(0, "m_restore", 0, "Restore", uid, "");
+
+            p = pb.start();
+            final BufferedReader r = new BufferedReader(
+                    new InputStreamReader(p.getErrorStream()));
+            String line = r.readLine();
+            String temp = "";
+            while (line != null) {
+                System.err.println(line);
+
+                line = r.readLine();
+                temp = temp + line + "\n";
+
+                msg.setText("Please Wait...");
+                msg.setVisible(true);
+            }
+
+            r.close();
+            p.waitFor();
+            if (p.exitValue() == 0) {
+                msg.setText("Restore completed!!");
+                msg.setVisible(true);
+                System.out.println("Restore created successfully");
+
+            } else {
+                msg.setText("There is an error!!");
+                msg.setVisible(true);
+                System.out.println("There is an error");
+            }
+            s.setText(temp + "\nExit status: " + p.exitValue());
+            System.out.println(p.exitValue());
+
+        } catch (IOException | InterruptedException e) {
+            System.out.println(e.getMessage());
         }
-        
-        r.close();
-        p.waitFor();
-        if (p.exitValue() == 0) {
-             msg.setText("Restore completed!!");
-            msg.setVisible(true);                
-            System.out.println("Restore created successfully");
-            m=new Logdetails();
-            int l=m.Initialisem(0,"m_restore",0,"Restore",uid,"");
-         
-                } else {
-            msg.setText("There is an error!!");
-            msg.setVisible(true);  
-                    System.out.println("There is an error");
-                }
-        s.setText(temp+"\nExit status: "+p.exitValue());
-        System.out.println(p.exitValue());
 
-    } catch (IOException | InterruptedException e) {
-        System.out.println(e.getMessage());
-    }
-
-           
-       
 
     }//GEN-LAST:event_backupActionPerformed
 

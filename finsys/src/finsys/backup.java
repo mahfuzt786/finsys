@@ -239,6 +239,63 @@ public class backup extends javax.swing.JInternalFrame {
         } catch (IOException | InterruptedException e) {
             System.out.println(e.getMessage());
         }
+/*
+    Process p;
+    ProcessBuilder pb;
+    rt = Runtime.getRuntime();
+    //D:\\Program Files\\PostgreSQL\\9.6\\bin\\pg_dump.exe
+    pb = new ProcessBuilder(
+            "C:\\Program Files (x86)\\PostgreSQL\\9.5\\bin\\pg_dump.exe",
+           // "D:\\Program Files\\PostgreSQL\\9.6\\bin\\pg_dump.exe",
+            "--host", "localhost",
+            "--port", "5432",
+            "--username", "postgres",
+           
+            "--format", "custom",
+            "--blobs",
+            "--verbose", "--file",fpath, "finsys");
+    try {
+        final Map<String, String> env = pb.environment();
+        env.put("PGPASSWORD", "postgres");
+        //env.put("PGPASSWORD", "rajiv   ");
+           m = new Logdetails();
+            int l=m.Initialisem(0,"m_backup",0,"Backup",uid,"");
+         
+        p = pb.start();
+        final BufferedReader r = new BufferedReader(
+                new InputStreamReader(p.getErrorStream()));
+        String line = r.readLine();
+        String temp="";
+        while (line != null) {
+            System.err.println(line);
+            
+            line = r.readLine();
+            temp=temp+line+"\n";
+           
+            
+            msg.setText("Please Wait...");
+            msg.setVisible(true);
+        }
+        
+        r.close();
+        p.waitFor();
+        if (p.exitValue() == 0) {
+             msg.setText("Back Up completed!!");
+            msg.setVisible(true);                
+            System.out.println("Backup created successfully");
+         
+                } else {
+            msg.setText("There is an error!!");
+            msg.setVisible(true);  
+                    System.out.println("There is an error");
+                }
+        s.setText(temp+"\nExit status: "+p.exitValue());
+        System.out.println(p.exitValue());
+
+    } catch (IOException | InterruptedException e) {
+        System.out.println(e.getMessage());
+    }
+*/
 
 
     }//GEN-LAST:event_backupActionPerformed
