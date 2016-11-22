@@ -19,17 +19,17 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 
-
 public class backup extends javax.swing.JInternalFrame {
-    String path=null;
-    String filename; 
+
+    String path = null;
+    String filename;
     int uid;
     Logdetails m;
 
     public backup(int usercode) {
         initComponents();
         msg.setVisible(false);
-        uid=usercode;
+        uid = usercode;
     }
 
     /**
@@ -158,92 +158,88 @@ public class backup extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void browseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_browseActionPerformed
-        JFileChooser fc= new JFileChooser();
+        JFileChooser fc = new JFileChooser();
 //        fc.showOpenDialog(this);
-        File j = null ;
-        String date= new SimpleDateFormat("dd-MM-yyyy").format(new Date());
-        try{
-          
+        File j = null;
+        String date = new SimpleDateFormat("dd-MM-yyyy").format(new Date());
+        try {
 
+            fc.setCurrentDirectory(new java.io.File(".")); // start at application current directory
+            fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+            int returnVal = fc.showSaveDialog(this);
+            if (returnVal == JFileChooser.APPROVE_OPTION) {
+                j = fc.getSelectedFile();
+            }
 
-fc.setCurrentDirectory(new java.io.File(".")); // start at application current directory
-fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-int returnVal = fc.showSaveDialog(this);
-if(returnVal == JFileChooser.APPROVE_OPTION) {
-     j = fc.getSelectedFile();
-}
-
-
-            path=j.getAbsolutePath();
-            path=path.replace('\\','/');
-            path=path+"/finsys_"+date+".backup";
+            path = j.getAbsolutePath();
+            path = path.replace('\\', '/');
+            path = path + "/finsys_" + date + ".backup";
             fileurl.setText(path);
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }//GEN-LAST:event_browseActionPerformed
 
     private void backupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backupActionPerformed
 
- String fpath=fileurl.getText();
+        String fpath = fileurl.getText();
         msg.setText("");
 
         Runtime rt = Runtime.getRuntime();
-    Process p;
-    ProcessBuilder pb;
-    rt = Runtime.getRuntime();
-    //D:\\Program Files\\PostgreSQL\\9.6\\bin\\pg_dump.exe
-    pb = new ProcessBuilder(
-            "D:\\Program Files\\PostgreSQL\\9.6\\bin\\pg_dump.exe",
-            "--host", "localhost",
-            "--port", "5432",
-            "--username", "postgres",
-           
-            "--format", "custom",
-            "--blobs",
-            "--verbose", "--file",fpath, "finsys");
-    try {
-        final Map<String, String> env = pb.environment();
-        env.put("PGPASSWORD", "rajiv   ");
-        //env.put("PGPASSWORD", "rajiv   ");
-        p = pb.start();
-        final BufferedReader r = new BufferedReader(
-                new InputStreamReader(p.getErrorStream()));
-        String line = r.readLine();
-        String temp="";
-        while (line != null) {
-            System.err.println(line);
-            
-            line = r.readLine();
-            temp=temp+line+"\n";
-           
-            
-            msg.setText("Please Wait...");
-            msg.setVisible(true);
+        Process p;
+        ProcessBuilder pb;
+        rt = Runtime.getRuntime();
+        //D:\\Program Files\\PostgreSQL\\9.6\\bin\\pg_dump.exe
+        pb = new ProcessBuilder(
+                "D:\\Program Files\\PostgreSQL\\9.6\\bin\\pg_dump.exe",
+                "--host", "localhost",
+                "--port", "5432",
+                "--username", "postgres",
+                "--format", "custom",
+                "--blobs",
+                "--verbose", "--file", fpath, "finsys");
+        try {
+            /////
+            m = new Logdetails();
+            int l = m.Initialisem(0, "m_backup", 0, "Backup", uid, "");
+            /////
+            final Map<String, String> env = pb.environment();
+            env.put("PGPASSWORD", "rajiv   ");
+            //env.put("PGPASSWORD", "rajiv   ");
+            p = pb.start();
+            final BufferedReader r = new BufferedReader(
+                    new InputStreamReader(p.getErrorStream()));
+            String line = r.readLine();
+            String temp = "";
+            while (line != null) {
+                System.err.println(line);
+
+                line = r.readLine();
+                temp = temp + line + "\n";
+
+                msg.setText("Please Wait...");
+                msg.setVisible(true);
+            }
+
+            r.close();
+            p.waitFor();
+
+            if (p.exitValue() == 0) {
+                msg.setText("Back Up completed!!");
+                msg.setVisible(true);
+                System.out.println("Backup created successfully");
+            } else {
+                msg.setText("There is an error!!");
+                msg.setVisible(true);
+                System.out.println("There is an error");
+            }
+            s.setText(temp + "\nExit status: " + p.exitValue());
+            System.out.println(p.exitValue());
+
+        } catch (IOException | InterruptedException e) {
+            System.out.println(e.getMessage());
         }
-        
-        r.close();
-        p.waitFor();
-        if (p.exitValue() == 0) {
-             msg.setText("Back Up completed!!");
-            msg.setVisible(true);                
-            System.out.println("Backup created successfully");
-            int l=m.Initialisem(0,"m_backup",0,"Backup",uid,"");
-         
-                } else {
-            msg.setText("There is an error!!");
-            msg.setVisible(true);  
-                    System.out.println("There is an error");
-                }
-        s.setText(temp+"\nExit status: "+p.exitValue());
-        System.out.println(p.exitValue());
 
-    } catch (IOException | InterruptedException e) {
-        System.out.println(e.getMessage());
-    }
-
-           
-       
 
     }//GEN-LAST:event_backupActionPerformed
 

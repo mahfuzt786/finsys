@@ -230,6 +230,7 @@ if(returnVal == JFileChooser.APPROVE_OPTION) {
              msg.setText("Restore completed!!");
             msg.setVisible(true);                
             System.out.println("Restore created successfully");
+            m=new Logdetails();
             int l=m.Initialisem(0,"m_restore",0,"Restore",uid,"");
          
                 } else {
