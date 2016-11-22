@@ -194,7 +194,8 @@ if(returnVal == JFileChooser.APPROVE_OPTION) {
     rt = Runtime.getRuntime();
     //D:\\Program Files\\PostgreSQL\\9.6\\bin\\pg_dump.exe
     pb = new ProcessBuilder(
-            "D:\\Program Files\\PostgreSQL\\9.6\\bin\\pg_dump.exe",
+            "C:\\Program Files (x86)\\PostgreSQL\\9.5\\bin\\pg_dump.exe",
+           // "D:\\Program Files\\PostgreSQL\\9.6\\bin\\pg_dump.exe",
             "--host", "localhost",
             "--port", "5432",
             "--username", "postgres",
@@ -204,8 +205,11 @@ if(returnVal == JFileChooser.APPROVE_OPTION) {
             "--verbose", "--file",fpath, "finsys");
     try {
         final Map<String, String> env = pb.environment();
-        env.put("PGPASSWORD", "rajiv   ");
+        env.put("PGPASSWORD", "postgres");
         //env.put("PGPASSWORD", "rajiv   ");
+           m = new Logdetails();
+            int l=m.Initialisem(0,"m_backup",0,"Backup",uid,"");
+         
         p = pb.start();
         final BufferedReader r = new BufferedReader(
                 new InputStreamReader(p.getErrorStream()));
@@ -228,7 +232,6 @@ if(returnVal == JFileChooser.APPROVE_OPTION) {
              msg.setText("Back Up completed!!");
             msg.setVisible(true);                
             System.out.println("Backup created successfully");
-            int l=m.Initialisem(0,"m_backup",0,"Backup",uid,"");
          
                 } else {
             msg.setText("There is an error!!");

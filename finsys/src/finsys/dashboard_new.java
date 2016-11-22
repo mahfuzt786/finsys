@@ -106,7 +106,7 @@ public class dashboard_new extends javax.swing.JFrame {
 
             //db
             if (mm.getTabid() == 5) {
-                System.out.println(mm.getMenuname() + mm.getMenucode());
+                System.out.println("db"+mm.getMenuname() + mm.getMenucode());
                 o = new JMenuItem(new SomeAction(mm.getMenuname(), mm.getMenucode()));
                 m5 = true;
                 dbmenu.add(o);

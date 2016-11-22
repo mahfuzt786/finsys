@@ -193,7 +193,9 @@ if(returnVal == JFileChooser.APPROVE_OPTION) {
     rt = Runtime.getRuntime();
     //D:\\Program Files\\PostgreSQL\\9.6\\bin\\pg_restore.exe
     pb = new ProcessBuilder(
-            "D:\\Program Files\\PostgreSQL\\9.6\\bin\\pg_restore.exe",
+             "C:\\Program Files (x86)\\PostgreSQL\\9.5\\bin\\pg_restore.exe",
+           
+           // "D:\\Program Files\\PostgreSQL\\9.6\\bin\\pg_restore.exe",
             "--host", "localhost",
             "--port", "5432",
             "--username", "postgres",
@@ -206,8 +208,11 @@ if(returnVal == JFileChooser.APPROVE_OPTION) {
             );
     try {
         final Map<String, String> env = pb.environment();
-        env.put("PGPASSWORD", "rajiv   ");
+        env.put("PGPASSWORD", "postgres");
         //env.put("PGPASSWORD", "rajiv   ");
+         m = new Logdetails();
+            int l=m.Initialisem(0,"m_restore",0,"Restore",uid,"");
+         
         p = pb.start();
         final BufferedReader r = new BufferedReader(
                 new InputStreamReader(p.getErrorStream()));
@@ -230,8 +235,7 @@ if(returnVal == JFileChooser.APPROVE_OPTION) {
              msg.setText("Restore completed!!");
             msg.setVisible(true);                
             System.out.println("Restore created successfully");
-            int l=m.Initialisem(0,"m_restore",0,"Restore",uid,"");
-         
+           
                 } else {
             msg.setText("There is an error!!");
             msg.setVisible(true);  

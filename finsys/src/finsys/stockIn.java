@@ -235,7 +235,7 @@ public class stockIn extends javax.swing.JInternalFrame {
 
     public ArrayList<Stockinitemtable> getStockinitemtable() {
         ArrayList<Stockinitemtable> sTable = new ArrayList<Stockinitemtable>();
-        String query = "select t.invoiceid,t.itemid,t.item_rate,t.quantity ,m.itemcode,m.itemname,(t.item_rate*t.quantity) as grossvalue"
+        String query = "select t.invoiceid,t.itemid,t.item_rate,t.quantity ,m.itemcode,m.itemname,round((t.item_rate*t.quantity),2) as grossvalue"
                
                 + " from finsys.t_stockin_items t inner join m_item m on m.itemid=t.itemid where t.invoiceid='"+invoiceId.getText().trim()+"' order by t.itemid desc";
         try {
