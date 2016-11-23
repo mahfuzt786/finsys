@@ -191,8 +191,8 @@ public class restore extends javax.swing.JInternalFrame {
         rt = Runtime.getRuntime();
         //D:\\Program Files\\PostgreSQL\\9.6\\bin\\pg_restore.exe
         pb = new ProcessBuilder(
-                "C:\\Program Files (x86)\\PostgreSQL\\9.5\\bin\\pg_restore.exe",
-                // "D:\\Program Files\\PostgreSQL\\9.6\\bin\\pg_restore.exe",
+                //"C:\\Program Files (x86)\\PostgreSQL\\9.5\\bin\\pg_restore.exe",
+                "D:\\Program Files\\PostgreSQL\\9.6\\bin\\pg_restore.exe",
                 "--host", "localhost",
                 "--port", "5432",
                 "--username", "postgres",
@@ -204,10 +204,8 @@ public class restore extends javax.swing.JInternalFrame {
         );
         try {
             final Map<String, String> env = pb.environment();
-            env.put("PGPASSWORD", "postgres");
-            //env.put("PGPASSWORD", "rajiv   ");
-            m = new Logdetails();
-            int l = m.Initialisem(0, "m_restore", 0, "Restore", uid, "");
+            //env.put("PGPASSWORD", "postgres");
+            env.put("PGPASSWORD", "rajiv   ");
 
             p = pb.start();
             final BufferedReader r = new BufferedReader(
@@ -230,6 +228,9 @@ public class restore extends javax.swing.JInternalFrame {
                 msg.setText("Restore completed!!");
                 msg.setVisible(true);
                 System.out.println("Restore created successfully");
+
+                m = new Logdetails();
+                int l = m.Initialisem(0, "m_restore", 0, "Restore", uid, "");
 
             } else {
                 msg.setText("There is an error!!");
