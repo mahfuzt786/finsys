@@ -160,7 +160,7 @@ public class stockOut extends javax.swing.JInternalFrame {
             ResultSet rs = pst.executeQuery();
             Stockoutitemtable sTab;
             while (rs.next()) {
-                
+                System.out.println("itemvalue"+rs.getDouble("itemvalue"));
                 sTab = new Stockoutitemtable(rs.getString("categoryname"),rs.getString("ledgername"),rs.getString("issue_returncode"),rs.getString("itemcode"),rs.getString("itemname"),rs.getInt("itemid"), rs.getInt("ledgerid"),rs.getDouble("reqquantity"), rs.getDouble("issuequantity"), rs.getDouble("itemvalue"),rs.getInt("categoryid"));
                 sTable.add(sTab);
             }
@@ -212,7 +212,7 @@ public class stockOut extends javax.swing.JInternalFrame {
             row[5] = sitemlist.get(i).getIssuequantity();
             
             row[6] = sitemlist.get(i).getItemvalue();
-             row[7] = sitemlist.get(i).getItemvalue()*sitemlist.get(i).getIssuequantity();
+             row[7] = Math.round(sitemlist.get(i).getItemvalue()*sitemlist.get(i).getIssuequantity()*100.0)/100.0;
             
             TOTALITEMS+=1;
             TOTALGROSS+=sitemlist.get(i).getItemvalue()*sitemlist.get(i).getIssuequantity();
@@ -223,7 +223,7 @@ public class stockOut extends javax.swing.JInternalFrame {
        
         
         totalitems.setText(TOTALITEMS+"");
-        grandtotal.setText(TOTALGROSS+"");
+        grandtotal.setText(Math.round(TOTALGROSS*100.0)/100.0+"");
       
         
         

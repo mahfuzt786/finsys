@@ -11,8 +11,10 @@ package finsys;
  */
 import java.awt.Component;
 import java.awt.Container;
+import java.math.RoundingMode;
 import java.sql.*;
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import javax.swing.*;
@@ -129,7 +131,7 @@ public class stockIn extends javax.swing.JInternalFrame {
      */
     public ArrayList<Stockintable> getStockintable() {
         ArrayList<Stockintable> sTable = new ArrayList<Stockintable>();
-        String query = "select t.slno,t.invoiceno,t.total_amt_value,to_char(t.entrydate,'dd-MM-yyyy') AS entrydate ,t.transportation_amt,t.less_per,t.from_company_id "
+        String query = "select t.slno,t.invoiceno,t.total_amt_value,to_char(t.entrydate,'dd-MM-yyyy') AS entrydate ,round(t.transportation_amt,2) as transportation_amt,t.less_per,t.from_company_id "
                 + ",t.tax_invoice_no ,to_char(t.tax_invoice_date,'dd-MM-yyyy')AS tax_invoice_date ,t.challan_no ,to_char(t.challan_date,'dd-MM-yyyy') AS challan_date,t.purchase_order_no,to_char(t.purchase_order_date,'dd-MM-yyyy') AS purchase_order_date,"
                 + "t.vat_per,invoiceid,t.total_gross_amt ,m.companyname"
                 + " from finsys.t_stockin t inner join m_fromcompany m on m.companyid=t.from_company_id order by t.slno desc";
@@ -282,16 +284,18 @@ public class stockIn extends javax.swing.JInternalFrame {
             
             model1.addRow(row);
         }
-        
-        TOTALLESS=((Double.valueOf(l)/100)*TOTALGROSS);
-        TOTALVAT=(Double.valueOf(v)/100)*TOTALGROSS;
-        TRANSPORT=Double.valueOf(t);
-        TOTALAMOUNT=(TOTALGROSS+TOTALVAT+TRANSPORT)-TOTALLESS;
+        double g=10.127865;
+        System.out.println(Math.round(g*100.0)/100.0);
+        TOTALGROSS=Math.round(TOTALGROSS*100.0)/100.0;
+        TOTALLESS=Math.round((Double.valueOf(l)/100)*TOTALGROSS*100.0)/100.0;
+        TOTALVAT=Math.round((Double.valueOf(v)/100)*TOTALGROSS*100.0)/100.0;
+        TRANSPORT=Math.round(Double.valueOf(t)*100.0)/100.0;
+        TOTALAMOUNT=((TOTALGROSS+TOTALVAT+TRANSPORT)-TOTALLESS);
         totalitems.setText(TOTALITEMS+"");
         labelGross.setText(TOTALGROSS+"");
         labelvat.setText(TOTALVAT+"");
         labelless.setText(TOTALLESS+"");
-        labeltran.setText(TRANSPORT+"");
+        labeltran.setText(t);
         labelTotal.setText(TOTALAMOUNT+"");
         
         
@@ -1118,6 +1122,7 @@ public class stockIn extends javax.swing.JInternalFrame {
                   }
                    int l=m.Initialisem(0,"t_stockin",j,"U",ucode,"");
                 ResetRecord();
+                ResetRecordItem();
                 ReloadTable();
                 ResetForm();
          } catch (ParseException ex) {
@@ -1276,6 +1281,7 @@ public class stockIn extends javax.swing.JInternalFrame {
                      m=new Logdetails();
                    int l=m.Initialisem(0,"t_stockin",maxid,"A",ucode,"");
                     ResetRecord();
+                    ResetRecordItem();
                     ReloadTable();
 
                 } else {
