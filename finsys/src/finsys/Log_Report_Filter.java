@@ -22,20 +22,21 @@ import net.sf.jasperreports.engine.JRException;
 import java.util.Date;
 
 public class Log_Report_Filter extends javax.swing.JInternalFrame {
-ArrayList<Usertable> u;
-database db;
+
+    ArrayList<Usertable> u;
+    database db;
+
     public Log_Report_Filter() {
         initComponents();
-         db=new database();
-         u = db.getUser();
-        Date dt=new Date(); 
-        
-        uid.addItem(new Comboitem(0,"Select User"));
-        for(Usertable c:u){
-            uid.addItem(new Comboitem(c.getUsercode(),c.getUsername()));
+        db = new database();
+        u = db.getUser();
+        Date dt = new Date();
+
+        uid.addItem(new Comboitem(0, "Select User"));
+        for (Usertable c : u) {
+            uid.addItem(new Comboitem(c.getUsercode(), c.getUsername()));
         }
     }
-
 
     private void ResetRecord() {
         txtstartdate.setDate(null);
@@ -476,64 +477,63 @@ database db;
     }//GEN-LAST:event_btnclearActionPerformed
 
     private void btnaddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnaddActionPerformed
-         Report r=new Report();
-        Date tx = txtstartdate.getDate();  
-        Date end=txtenddate.getDate();
-        int status=0;
+        Report r = new Report();
+        Date tx = txtstartdate.getDate();
+        Date end = txtenddate.getDate();
+        int status = 0;
         DateFormat oDateFormat = new SimpleDateFormat("dd-MM-yyyy");
-      String table="";
-      Comboitem g1=(Comboitem) uid.getSelectedItem();
-                     int ucode=g1.getKey();
+        String table = "";
+        Comboitem g1 = (Comboitem) uid.getSelectedItem();
+        int ucode = g1.getKey();
         String tax_date = oDateFormat.format(tx);
-        System.out.println("Formated :"+tax_date);
-        String startdate=oDateFormat.format(tx);
-        String enddate=oDateFormat.format(end);
-        try {  
-            if(ucode==0){
-                JOptionPane.showMessageDialog(null,"Please Select User !!!",
-                            "ERROR!!", JOptionPane.ERROR_MESSAGE);
+        System.out.println("Formated :" + tax_date);
+        String startdate = oDateFormat.format(tx);
+        String enddate = oDateFormat.format(end);
+        try {
+            if (ucode == 0) {
+                JOptionPane.showMessageDialog(null, "Please Select User !!!",
+                        "ERROR!!", JOptionPane.ERROR_MESSAGE);
+            } else if (stockin.isSelected()) {
+                status = 1;
+            } else if (stockout.isSelected()) {
+                status = 2;
+            } else if (uom.isSelected()) {
+                status = 3;
+            } else if (itype.isSelected()) {
+                status = 4;
+            } else if (icat.isSelected()) {
+                status = 5;
+            } else if (item.isSelected()) {
+                status = 6;
+            } else if (ms.isSelected()) {
+                status = 7;
+            } else if (cc.isSelected()) {
+                status = 8;
+            } else if (soeg.isSelected()) {
+                status = 9;
+            } else if (soemg.isSelected()) {
+                status = 10;
+            } else if (ledger.isSelected()) {
+                status = 11;
+            } else if (ostock.isSelected()) {
+                status = 12;
+            } else if (sinitem.isSelected()) {
+                status = 13;
+            } else if (soutitem.isSelected()) {
+                status = 14;
+            } else if (user.isSelected()) {
+                status = 15;
+            } else if (backup.isSelected()) {
+                status = 16;
+            } else if (restore.isSelected()) {
+                status = 17;
+            } else if (c.isSelected()) {
+                status = 18;
             }
-            else if(stockin.isSelected()){
-                status=1;
-            }else  if(stockout.isSelected()){
-                 status=2;
-            }else  if(uom.isSelected()){
-               status=3;
-            }else  if(itype.isSelected()){
-               status=4;
-            }else  if(icat.isSelected()){
-               status=5;
-            }else  if(item.isSelected()){
-                status=6;
-            }else  if(ms.isSelected()){
-                status=7;
-            }else  if(cc.isSelected()){
-               status=8;
-            }else  if(soeg.isSelected()){
-                status=9;
-            }else  if(soemg.isSelected()){
-                status=10;
-            }else  if(ledger.isSelected()){
-                status=11;
-            }else  if(ostock.isSelected()){
-               status=12;
-            }else  if(sinitem.isSelected()){
-                status=13;
-            }else  if(soutitem.isSelected()){
-               status=14;
-            }else  if(user.isSelected()){
-               status=15;
-            }else  if(backup.isSelected()){
-               status=16;
-            }else  if(restore.isSelected()){
-               status=17;
-            }else  if(c.isSelected()){
-               status=18;
-            }
-            r.log_reportu(startdate,enddate,status,ucode);
-        } catch (ParseException|JRException|IOException  ex) {
+            r.log_reportu(startdate, enddate, status, ucode);
+        } catch (ParseException | JRException | IOException ex) {
             Logger.getLogger(Log_Report_Filter.class.getName()).log(Level.SEVERE, null, ex);
-        } 
+        }
     }//GEN-LAST:event_btnaddActionPerformed
 
     private void returnradio4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_returnradio4ActionPerformed
