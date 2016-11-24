@@ -290,7 +290,7 @@ public class stockIn extends javax.swing.JInternalFrame {
         TOTALLESS=Math.round((Double.valueOf(l)/100)*TOTALGROSS*100.0)/100.0;
         TOTALVAT=Math.round((Double.valueOf(v)/100)*TOTALGROSS*100.0)/100.0;
         TRANSPORT=Math.round(Double.valueOf(t)*100.0)/100.0;
-        TOTALAMOUNT=((TOTALGROSS+TOTALVAT+TRANSPORT)-TOTALLESS);
+        TOTALAMOUNT=Math.round(((TOTALGROSS+TOTALVAT+TRANSPORT)-TOTALLESS)*100.0)/100.0;
         totalitems.setText(TOTALITEMS+"");
         labelGross.setText(TOTALGROSS+"");
         labelvat.setText(TOTALVAT+"");
