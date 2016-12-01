@@ -9,6 +9,7 @@ import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import javax.swing.JOptionPane;
 import javax.swing.JRootPane;
@@ -28,10 +29,34 @@ public class loginform extends javax.swing.JFrame {
     static String logindate = DateFormat.getDateTimeInstance().format(dt);
     MessageDigest md;
     byte[] message;
+    int a,b;
+    ArrayList<logtable> logTable;
+    ArrayList<active_log> cTable ;
+       
     public loginform() {
         initComponents();
+        String sql="SELECT COUNT(slno) as active FROM active_log.first_active";
+         int d;  
         db=new database();
-         JRootPane rootPane = this.getRootPane();
+        b=db.getactive(sql);
+        if(b==0){
+        a=db.insertActivationdate();
+        }
+            System.out.println(db.getDateTamperlog()+"2: "+db.getDateTamper()+"3: "+db.getDays());
+            if(db.getDateTamperlog()){
+            JOptionPane.showMessageDialog(null, "Cannot open application.System Date Changed", "Failed", JOptionPane.ERROR_MESSAGE);
+            System.exit(0);
+            }else if(db.getDateTamper()){
+            JOptionPane.showMessageDialog(null, "Cannot open application.System Date Changed", "Failed", JOptionPane.ERROR_MESSAGE);
+            System.exit(0);
+            }
+            else if(db.getDays()>30){
+             JOptionPane.showMessageDialog(null, "Cannot open application.Trial Period Over", "Failed", JOptionPane.ERROR_MESSAGE);
+             System.exit(0);
+           
+            }
+        
+        JRootPane rootPane = this.getRootPane();
         rootPane.setDefaultButton(jButton_login);
     }
 
@@ -189,7 +214,7 @@ public String md5(String pwd){
             
             pwd = String.copyValueOf(temp_pwd);
             String hashpwd=md5(pwd);
-            System.out.println("Username,Pwd:" + jTextField_username.getText() + "," + pwd);
+            System.out.println("Username,Pwd:" + jTextField_username.getText() + "," + hashpwd);
             if (db.checkLogin(jTextField_username.getText(), hashpwd)) {
                 dispose();
                 JOptionPane.showMessageDialog(null, "You have Successfully Logged In", "Success", JOptionPane.INFORMATION_MESSAGE);

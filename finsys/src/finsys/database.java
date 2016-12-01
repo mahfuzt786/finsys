@@ -20,15 +20,16 @@ public class database {
         try {
             Class.forName("org.postgresql.Driver");
             conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/finsys", "finsys", "finsys");
-            pst = conn.prepareStatement("select * from finsys.mt_userlogin where userid=? and userpassword=?");
-        } catch (Exception e) {
+           } catch (Exception e) {
             System.out.println(e);
         }
     }
-//CHECKING LOGINN CREDENTIALS
+//CHECKING LOGIN CREDENTIALS
 
     public Boolean checkLogin(String uname, String pwd) {
         try {
+             pst = conn.prepareStatement("select * from finsys.mt_userlogin where userid=? and userpassword=?");
+        
             pst.setString(1, uname);
             pst.setString(2, pwd);
             rs = pst.executeQuery();
@@ -38,7 +39,7 @@ public class database {
                 return false;
             }
         } catch (Exception e) {
-            System.out.println("Error while validating" + e);
+            System.out.println("Error while validating in checklogin" + e);
             return false;
         }
     }
@@ -73,6 +74,14 @@ public class database {
 
             System.out.println("logid: " + id);
             pst.executeUpdate();
+            pst = conn.prepareStatement("INSERT INTO active_log.logdetails(logid,logname) values(?,?)");
+
+            pst.setInt(1, id);
+            pst.setString(2, logname);
+
+            System.out.println("logid: " + id);
+            pst.executeUpdate();
+            
             return id;
         } catch (Exception e) {
             System.out.println("Error ::" + e);
@@ -93,6 +102,15 @@ public class database {
 
             System.out.println("logid: " + id);
             pst.executeUpdate();
+            pst = conn.prepareStatement("update active_log.logdetails set logouttime=? where logid=?");
+
+           
+            pst.setTimestamp(1, new java.sql.Timestamp(t.getTime()));
+            pst.setInt(2, id);
+
+            System.out.println("logid: " + id);
+            pst.executeUpdate();
+            
             return id;
         } catch (Exception e) {
             System.out.println("Error ::" + e);
@@ -1110,4 +1128,135 @@ public class database {
         }
         return s;
     }
+    
+    
+     public int insertActivationdate() {
+        int flag = 0;
+        String sql;
+        int slno,count;
+        try {
+            sql="SELECT COUNT(slno) as active FROM active_log.first_active";
+            count=getactive(sql);
+            if(count==0){
+            sql = "SELECT MAX(slno) as max FROM active_log.first_active";
+            slno = getmax(sql);
+            pst = conn.prepareStatement("INSERT INTO active_log.first_active(slno) values(?)");
+
+            pst.setInt(1, slno);
+                   flag = pst.executeUpdate();
+            
+            }
+            return flag;
+        } catch (Exception e) {
+            System.out.println("Error while validating :" + e);
+            return flag;
+        }
+    }
+     
+     public int getactive(String sql) {
+        int count = 0;
+        try {
+            pst = conn.prepareStatement(sql);
+
+            System.out.println("in getmax" + sql);
+            rs = pst.executeQuery();
+            if (rs.next()) {
+
+                count = rs.getInt("active");
+                
+
+            } 
+            return count;
+        } catch (Exception e) {
+            System.out.println("Error in max uom" + e);
+            return count;
+        }
+
+    }
+     
+      public ArrayList<active_log> getActive() {
+        ArrayList<active_log> cTable = new ArrayList<active_log>();
+        String query = "select * from active_log.first_active";
+        try {
+            PreparedStatement pst = conn.prepareStatement(query);
+            ResultSet rs = pst.executeQuery();
+            active_log cTab;
+            while (rs.next()) {
+                cTab = new active_log(rs.getInt("slno"), rs.getString("initial_date"));
+                cTable.add(cTab);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return cTable;
+    }
+     
+      public ArrayList<logtable> getLogTableA() {
+        ArrayList<logtable> logTable = new ArrayList<logtable>();
+        String query = "select logid,logname,to_char(logdate,'dd-MM-yyyy hh:mm:ss AM')AS logdate,to_char(logouttime,'dd-MM-yyyy hh:mm:ss AM')AS logouttime from active_log.logdetails order by logid desc";
+        try {
+            PreparedStatement pst = conn.prepareStatement(query);
+            ResultSet rs = pst.executeQuery();
+            logtable log;
+            while (rs.next()) {
+                log = new logtable(rs.getInt("logid"), rs.getString("logname"), rs.getString("logdate"), rs.getString("logouttime"));
+                logTable.add(log);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return logTable;
+    }
+//select  now()<=max(logdate) as g from finsys.logdetails
+     
+       public boolean getDateTamper() {
+        boolean st=false;
+        String query = "select  now()<=max(logdate) as g  from active_log.logdetails ";
+        try {
+            PreparedStatement pst = conn.prepareStatement(query);
+            ResultSet rs = pst.executeQuery();
+            logtable log;
+            while (rs.next()) {
+                st=rs.getBoolean("g");
+               }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return st;
+    }
+       
+    public boolean getDateTamperlog() {
+        boolean st=false;
+        String query = "select  now()<=max(initial_date) as g  from active_log.first_active ";
+        try {
+            PreparedStatement pst = conn.prepareStatement(query);
+            ResultSet rs = pst.executeQuery();
+            logtable log;
+            while (rs.next()) {
+                st=rs.getBoolean("g");
+               }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return st;
+    }
+    
+    //select  now()-initial_date as g from active_log.first_active
+    
+     public int getDays() {
+        int st=0;
+        String query = "select  DATE_PART('day', now() - initial_date) as g  from active_log.first_active ";
+        try {
+            PreparedStatement pst = conn.prepareStatement(query);
+            ResultSet rs = pst.executeQuery();
+            logtable log;
+            while (rs.next()) {
+                st=rs.getInt("g");
+               }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return st;
+    }
+   
 }
