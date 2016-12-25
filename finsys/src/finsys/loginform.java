@@ -6,6 +6,8 @@
 package finsys;
 
 import java.math.BigInteger;
+import java.net.URL;
+import java.net.URLConnection;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.DateFormat;
@@ -35,6 +37,17 @@ public class loginform extends javax.swing.JFrame {
        
     public loginform() {
         initComponents();
+        try{
+            URL url=new URL("http://google.com");
+            URLConnection conn=url.openConnection();
+            conn.connect();
+            JOptionPane.showMessageDialog(null, "Internet Connected", "Connected", JOptionPane.INFORMATION_MESSAGE);
+            
+        }catch(Exception e){
+            
+        JOptionPane.showMessageDialog(null, "Sorry,No Internet Connection!!!", "Failed", JOptionPane.ERROR_MESSAGE);
+        System.exit(0);  
+        }
         String sql="SELECT COUNT(slno) as active FROM active_log.first_active";
          int d;  
         db=new database();

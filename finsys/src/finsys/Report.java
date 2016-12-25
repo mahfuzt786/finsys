@@ -33,6 +33,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import javax.sql.DataSource;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
@@ -299,7 +300,19 @@ public class Report extends JFrame  {
     }
       
 public void printreport(HashMap params) throws JRException, IOException{
-     output = new FileOutputStream(new File("E:/FINSYS/"+r+dt+".pdf"));
+    File file = new File("C:\\FINSYS");
+     if (!file.exists()) {
+            if (file.mkdir()) {
+                System.out.println("Folder is created!");
+            } else {
+                System.out.println("Failed to create Folder!");
+                JOptionPane.showMessageDialog(null,"Failed to create Folder!",
+                            "ERROR!!", JOptionPane.ERROR_MESSAGE);
+       
+            }
+        }
+
+     output = new FileOutputStream(new File("C:/FINSYS/"+r+dt+".pdf"));
         ArrayList al = new ArrayList();
         String m=new String();
        
