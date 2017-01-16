@@ -134,7 +134,7 @@ public class stockIn extends javax.swing.JInternalFrame {
         String query = "select t.slno,t.invoiceno,t.total_amt_value,to_char(t.entrydate,'dd-MM-yyyy') AS entrydate ,round(t.transportation_amt,2) as transportation_amt,t.less_per,t.from_company_id "
                 + ",t.tax_invoice_no ,to_char(t.tax_invoice_date,'dd-MM-yyyy')AS tax_invoice_date ,t.challan_no ,to_char(t.challan_date,'dd-MM-yyyy') AS challan_date,t.purchase_order_no,to_char(t.purchase_order_date,'dd-MM-yyyy') AS purchase_order_date,"
                 + "t.vat_per,invoiceid,t.total_gross_amt ,m.companyname"
-                + " from finsys.t_stockin t inner join m_fromcompany m on m.companyid=t.from_company_id order by t.slno desc";
+                + " from finsys.t_stockin t inner join finsys.m_fromcompany m on m.companyid=t.from_company_id order by t.slno desc";
         try {
             PreparedStatement pst = data.conn.prepareStatement(query);
             ResultSet rs = pst.executeQuery();
@@ -239,7 +239,7 @@ public class stockIn extends javax.swing.JInternalFrame {
         ArrayList<Stockinitemtable> sTable = new ArrayList<Stockinitemtable>();
         String query = "select t.invoiceid,t.itemid,t.item_rate,t.quantity ,m.itemcode,m.itemname,round((t.item_rate*t.quantity),2) as grossvalue"
                
-                + " from finsys.t_stockin_items t inner join m_item m on m.itemid=t.itemid where t.invoiceid='"+invoiceId.getText().trim()+"' order by t.itemid desc";
+                + " from finsys.t_stockin_items t inner join finsys.m_item m on m.itemid=t.itemid where t.invoiceid='"+invoiceId.getText().trim()+"' order by t.itemid desc";
         try {
             PreparedStatement pst = data.conn.prepareStatement(query);
             ResultSet rs = pst.executeQuery();

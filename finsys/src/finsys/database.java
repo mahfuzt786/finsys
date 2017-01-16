@@ -864,7 +864,7 @@ public class database {
         ArrayList<Menu> m = new ArrayList<Menu>();
         //Integer usercode, Integer menucode, Integer add_p, Integer edit_p, Integer delete_p, Integer tabid, String menuname;
         String query = "select * "
-                + " from finsys.mt_usermenu t inner join m_menu m on m.menucode=t.menucode "
+                + " from finsys.mt_usermenu t inner join finsys.m_menu m on m.menucode=t.menucode "
                 + "where t.usercode='" + usercode + "'";
         try {
             PreparedStatement pst = conn.prepareStatement(query);
@@ -883,7 +883,7 @@ public class database {
     public Menu getPrivilege(int usercode, int menucode) {
         Menu mm = new Menu();
         String query = "select * "
-                + " from finsys.mt_usermenu t inner join m_menu m on m.menucode=t.menucode "
+                + " from finsys.mt_usermenu t inner join finsys.m_menu m on m.menucode=t.menucode "
                 + "where t.usercode='" + usercode + "'";
         try {
             PreparedStatement pst = conn.prepareStatement(query);
@@ -938,7 +938,7 @@ public class database {
     public ArrayList<Menu> getPrivilege1(int usercode) {
         ArrayList<Menu> mm = new ArrayList<Menu>();
         String query = "select * "
-                + " from finsys.mt_usermenu t inner join m_menu m on m.menucode=t.menucode "
+                + " from finsys.mt_usermenu t inner join finsys.m_menu m on m.menucode=t.menucode "
                 + "where t.usercode='" + usercode + "'";
         try {
             PreparedStatement pst = conn.prepareStatement(query);
