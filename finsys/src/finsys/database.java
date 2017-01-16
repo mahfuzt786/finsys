@@ -20,7 +20,7 @@ public class database {
         try {
             Class.forName("org.postgresql.Driver");
             //conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/finsys", "finsys", "finsys");
-            conn = DriverManager.getConnection("jdbc:postgresql://pg-f5e9854.mahfuzt786-393a.aivencloud.com:23795/finsys?user=avnadmin&password=rf7r1qr059ur3fw3&sslmode=require");
+            conn = DriverManager.getConnection("jdbc:postgresql://pg-f5e9854.mahfuzt786-393a.aivencloud.com:23795/defaultdb?user=avnadmin&password=rf7r1qr059ur3fw3&sslmode=require");
            } catch (Exception e) {
             System.out.println(e);
         }
