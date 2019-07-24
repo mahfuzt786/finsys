@@ -1,2 +1,4 @@
 # java-mr2
-bagan
+Stock and Employee Record for a business/organization.
+
+Done in Java, Postgress
