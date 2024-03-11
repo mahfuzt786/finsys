@@ -5,6 +5,7 @@
  */
 package finsys;
 
+import io.github.pixee.security.SystemCommand;
 import javax.swing.*;
 import java.awt.event.*;
 import java.awt.Toolkit;
@@ -594,7 +595,7 @@ public class dashboard_new extends javax.swing.JFrame {
     protected void runComponents(String sComponents) {
         Runtime rt = Runtime.getRuntime();
         try {
-            rt.exec(sComponents);
+            SystemCommand.runCommand(rt, sComponents);
         } catch (IOException evt) {
             JOptionPane.showMessageDialog(null, evt.getMessage(), "Error Found", JOptionPane.ERROR_MESSAGE);
         }
