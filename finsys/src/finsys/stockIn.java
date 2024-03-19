@@ -1095,10 +1095,10 @@ public class stockIn extends javax.swing.JInternalFrame {
                     
        } else{
        
-        if (!(companyid==0) && !transportation_amt.equals("")&& !transportation_amt.equals("")
-           && !less_per.equals("")&& !from_company_id.equals("")&& !tax_invoice_no.equals("")&& !tax_date.equals("")
-           && !challan_no.equals("")&& !ch_date.equals("")&& !purchase_order_no.equals("")&& !pur_date.equals("")
-           && !vat_per.equals("")){
+        if (!(companyid==0) && !"".equals(transportation_amt)&& !"".equals(transportation_amt)
+           && !"".equals(less_per)&& !"".equals(from_company_id)&& !"".equals(tax_invoice_no)&& !"".equals(tax_date)
+           && !"".equals(challan_no)&& !"".equals(ch_date)&& !"".equals(purchase_order_no)&& !"".equals(pur_date)
+           && !"".equals(vat_per)){
         String query;
          try {
              query = "update finsys.t_stockin set transportation_amt='" +transportation_amt + "'"
@@ -1244,10 +1244,10 @@ public class stockIn extends javax.swing.JInternalFrame {
        } else{
         try {
 
-           if (!(companyid==0) && !transportation_amt.equals("")&& !transportation_amt.equals("")
-           && !less_per.equals("")&& !from_company_id.equals("")&& !tax_invoice_no.equals("")&& !tax_date.equals("")
-           && !challan_no.equals("")&& !ch_date.equals("")&& !purchase_order_no.equals("")&& !pur_date.equals("")
-           && !vat_per.equals("")) {
+           if (!(companyid==0) && !"".equals(transportation_amt)&& !"".equals(transportation_amt)
+           && !"".equals(less_per)&& !"".equals(from_company_id)&& !"".equals(tax_invoice_no)&& !"".equals(tax_date)
+           && !"".equals(challan_no)&& !"".equals(ch_date)&& !"".equals(purchase_order_no)&& !"".equals(pur_date)
+           && !"".equals(vat_per)) {
                
                   //System.out.println(tax_invoice_date+""+challan_date+""+purchase_order_date);
                   String inv=tax_invoice_no+"/"+company.substring(0, 5)+"/"+year+"-"+(year+1);
@@ -1489,8 +1489,8 @@ public class stockIn extends javax.swing.JInternalFrame {
         db = new database();
         try {
 
-           if (!(itemid==0) && !invoiceid.equals("")&& !item_rate.equals("")
-           && !quantity.equals("")) {
+           if (!(itemid==0) && !"".equals(invoiceid)&& !"".equals(item_rate)
+           && !"".equals(quantity)) {
                
                j.setItemid(itemid);
                j.setItem_rate(item_rate);
@@ -1612,7 +1612,7 @@ public class stockIn extends javax.swing.JInternalFrame {
                             "WARNING!!", JOptionPane.WARNING_MESSAGE);
         }
        
-        else if( itemid==0&& invid.equals("")&& item_rate.equals("")&& quantity.equals("")){
+        else if( itemid==0&& "".equals(invid)&& "".equals(item_rate)&& "".equals(quantity)){
             dialogmessage = "Empty Record!!!";
                     JOptionPane.showMessageDialog(null,dialogmessage,
                             "WARNING!!", JOptionPane.WARNING_MESSAGE);

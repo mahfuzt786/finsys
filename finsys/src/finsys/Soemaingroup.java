@@ -378,7 +378,7 @@ public class Soemaingroup extends javax.swing.JInternalFrame {
                     JOptionPane.showMessageDialog(null,dialogmessage,
                             "WARNING!!", JOptionPane.WARNING_MESSAGE);
         }
-        else if(txtsoecode.getText().trim().equals("") && txtsoename.getText().trim().equals("")){
+        else if("".equals(txtsoecode.getText().trim()) && "".equals(txtsoename.getText().trim())){
             dialogmessage = "Empty Record!!!";
                     JOptionPane.showMessageDialog(null,dialogmessage,
                             "WARNING!!", JOptionPane.WARNING_MESSAGE);
@@ -416,7 +416,7 @@ public class Soemaingroup extends javax.swing.JInternalFrame {
         db = new database();
         try {
 
-            if (!soecode.equals("") && !soename.equals("")) {
+            if (!"".equals(soecode) && !"".equals(soename)) {
                 i.setSoemaingroupcode(soecode);
                 i.setSoemaingroupname(soename);
                 //System.out.println("values"+i);

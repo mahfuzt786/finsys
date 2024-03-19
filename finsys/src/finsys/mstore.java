@@ -382,17 +382,17 @@ public class mstore extends javax.swing.JInternalFrame {
             dialogmessage = "Please Select Record To Update!!!";
                     JOptionPane.showMessageDialog(null,dialogmessage,
                             "WARNING!!", JOptionPane.ERROR_MESSAGE);
-        }else if(txtms.getText().trim().equals("")){
+        }else if("".equals(txtms.getText().trim())){
              dialogmessage = "Please Enter M/S!!!";
                     JOptionPane.showMessageDialog(null,dialogmessage,
                             "WARNING!!", JOptionPane.ERROR_MESSAGE);
             
-        }else if(txtaddress.getText().trim().equals("")){
+        }else if("".equals(txtaddress.getText().trim())){
             dialogmessage = "Please Enter Address!!!";
                     JOptionPane.showMessageDialog(null,dialogmessage,
                             "WARNING!!", JOptionPane.ERROR_MESSAGE);
         
-        }else if(txtphone.getText().trim().equals("")){
+        }else if("".equals(txtphone.getText().trim())){
             dialogmessage = "Please Enter Phone No.!!!";
                     JOptionPane.showMessageDialog(null,dialogmessage,
                             "WARNING!!", JOptionPane.ERROR_MESSAGE);

@@ -348,7 +348,7 @@ public class itemtype extends javax.swing.JInternalFrame {
                     JOptionPane.showMessageDialog(null,dialogmessage,
                             "WARNING!!", JOptionPane.WARNING_MESSAGE);
         }
-        else if( txtitemtype.getText().trim().equals("")){
+        else if( "".equals(txtitemtype.getText().trim())){
             dialogmessage = "Empty Record!!!";
                     JOptionPane.showMessageDialog(null,dialogmessage,
                             "WARNING!!", JOptionPane.WARNING_MESSAGE);
@@ -380,7 +380,7 @@ public class itemtype extends javax.swing.JInternalFrame {
         db = new database();
         try {
 
-            if ( !itemtypename.equals("")) {
+            if ( !"".equals(itemtypename)) {
 //                String categorycode=categoryname.substring(0, 2);
 //                categorycode+=
                 

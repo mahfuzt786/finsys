@@ -857,8 +857,8 @@ public class stockOut extends javax.swing.JInternalFrame {
                     JOptionPane.showMessageDialog(null, dialogmessage,
                             "ERROR!!", JOptionPane.ERROR_MESSAGE);
         }else{
-        if (!(ccid==0) && !issue_or_return.equals("-")
-           && !acc_post.equals("-")){
+        if (!(ccid==0) && !"-".equals(issue_or_return)
+           && !"-".equals(acc_post)){
         String query;
         query = "update finsys.t_issue_return set acc_post='" +acc_post + "'"
                 + ",issue_or_return='" +issue_or_return+ "'"
@@ -917,7 +917,7 @@ public class stockOut extends javax.swing.JInternalFrame {
         db = new database();
         try {
 
-            if (!acc_post.equals("-") && !issue_or_return.equals("-")&& !(ccid==0)) {
+            if (!"-".equals(acc_post) && !"-".equals(issue_or_return)&& !(ccid==0)) {
                i.setAcc_post(acc_post);
                i.setCostcenterid(ccid);
                i.setIssue_or_return(issue_or_return);
@@ -1158,7 +1158,7 @@ public class stockOut extends javax.swing.JInternalFrame {
                     
        }
         else{
-       if(iss.equals("R")){
+       if("R".equals(iss)){
            
        
        issuequantity=-issuequantity;
@@ -1174,7 +1174,7 @@ public class stockOut extends javax.swing.JInternalFrame {
                     JOptionPane.showMessageDialog(null,dialogmessage,
                             "WARNING!!", JOptionPane.WARNING_MESSAGE);
         }else
-            if (!(itemid==0)&& !(itemvalue==0.0)&& !(issuequantity==0.0)&&!(ledgerid==0)&&!(reqquantity==0.0) &&!issue_returncode.equals("")) {
+            if (!(itemid==0)&& !(itemvalue==0.0)&& !(issuequantity==0.0)&&!(ledgerid==0)&&!(reqquantity==0.0) &&!"".equals(issue_returncode)) {
                j.setItemid(itemid);
                j.setIssuequantity(issuequantity);
                j.setItemvalue(itemvalue);
@@ -1294,7 +1294,7 @@ public class stockOut extends javax.swing.JInternalFrame {
              totalamt=c.getIssuequantity()*c.getItemvalue();
              prevquantity=c.getIssuequantity();
         }
-          if(iss.equals("R")){
+          if("R".equals(iss)){
             
        totalamt=-totalamt;
        prevquantity=-prevquantity;
@@ -1347,7 +1347,7 @@ public class stockOut extends javax.swing.JInternalFrame {
              totalstockquantity=Double.valueOf(c.getQuantity());
         }
           System.out.println(totalstockamount+"  after update "+totalstockquantity);
-           if(iss.equals("R")){
+           if("R".equals(iss)){
             
        totalamt=-totalamt;
        issuequantity=-issuequantity;

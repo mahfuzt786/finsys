@@ -398,7 +398,7 @@ public class Soegroup extends javax.swing.JInternalFrame {
                             "WARNING!!", JOptionPane.WARNING_MESSAGE);
         }
        
-        else if( soemainid==0 && soename.equals("")){
+        else if( soemainid==0 && "".equals(soename)){
             dialogmessage = "Empty Record!!!";
                     JOptionPane.showMessageDialog(null,dialogmessage,
                             "WARNING!!", JOptionPane.WARNING_MESSAGE);
@@ -436,7 +436,7 @@ public class Soegroup extends javax.swing.JInternalFrame {
         db = new database();
         try {
 
-            if (!(soemainid==0) && !soename.equals("")) {
+            if (!(soemainid==0) && !"".equals(soename)) {
                 i.setSoemaingroupid(soemainid);
                 i.setSoegroupname(soename);
                 //System.out.println("values"+i);
