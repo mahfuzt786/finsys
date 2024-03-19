@@ -357,12 +357,12 @@ public class uom extends javax.swing.JInternalFrame {
             dialogmessage = "Please Select Record To Update";
                     JOptionPane.showMessageDialog(null,dialogmessage,
                             "WARNING!!", JOptionPane.ERROR_MESSAGE);
-        }else if(uomname.getText().trim().equals("")){
+        }else if("".equals(uomname.getText().trim())){
              dialogmessage = "Please Enter UOM Name";
                     JOptionPane.showMessageDialog(null,dialogmessage,
                             "WARNING!!", JOptionPane.ERROR_MESSAGE);
             
-        }else if(uomabbr.getText().trim().equals("")){
+        }else if("".equals(uomabbr.getText().trim())){
             dialogmessage = "Please Enter UOM Abbreviation";
                     JOptionPane.showMessageDialog(null,dialogmessage,
                             "WARNING!!", JOptionPane.ERROR_MESSAGE);
@@ -400,7 +400,7 @@ public class uom extends javax.swing.JInternalFrame {
         db = new database();
         try {
 
-            if (!Uomname.equals("") && !Uomabbr.equals("")) {
+            if (!"".equals(Uomname) && !"".equals(Uomabbr)) {
                 i.setItemcode(Uomname);
                 i.setItemname(Uomabbr);
                 //System.out.println("values"+i);

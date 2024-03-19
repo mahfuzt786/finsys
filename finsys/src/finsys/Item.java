@@ -462,7 +462,7 @@ public class Item extends javax.swing.JInternalFrame {
                             "WARNING!!", JOptionPane.WARNING_MESSAGE);
         }
        
-        else if( catid==0&& uomid==0 && iid==0 && itemname.equals("")){
+        else if( catid==0&& uomid==0 && iid==0 && "".equals(itemname)){
             dialogmessage = "Empty Record!!!";
                     JOptionPane.showMessageDialog(null,dialogmessage,
                             "WARNING!!", JOptionPane.WARNING_MESSAGE);
@@ -517,7 +517,7 @@ public class Item extends javax.swing.JInternalFrame {
         db = new database();
         try {
 
-            if( !(catid==0)  && !(uomid==0) && !(iid==0) && !itemname.equals("")) {
+            if( !(catid==0)  && !(uomid==0) && !(iid==0) && !"".equals(itemname)) {
                 i.setCategoryid(g.getKey());
                
                 i.setItemtypeid(iid);

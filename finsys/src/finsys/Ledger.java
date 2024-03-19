@@ -444,7 +444,7 @@ public class Ledger extends javax.swing.JInternalFrame {
             dialogmessage = "Please Select Record To Update";
             JOptionPane.showMessageDialog(null, dialogmessage,
                     "WARNING!!", JOptionPane.WARNING_MESSAGE);
-        } else if (catid == 0 && catid1 == 0 && ledgername.equals("")) {
+        } else if (catid == 0 && catid1 == 0 && "".equals(ledgername)) {
             dialogmessage = "Empty Record!!!";
             JOptionPane.showMessageDialog(null, dialogmessage,
                     "WARNING!!", JOptionPane.WARNING_MESSAGE);
@@ -486,7 +486,7 @@ public class Ledger extends javax.swing.JInternalFrame {
             db = new database();
             try {
 
-                if (!(catid == 0) && !(catid1 == 0) && !ledgername.equals("")) {
+                if (!(catid == 0) && !(catid1 == 0) && !"".equals(ledgername)) {
                     i.setSoemaingroupid(catid);
                     i.setSoegroupid(catid1);
                     i.setLedgername(ledgername);

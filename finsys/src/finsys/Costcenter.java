@@ -359,7 +359,7 @@ public class Costcenter extends javax.swing.JInternalFrame {
 
     private void btnupdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnupdateActionPerformed
         // update
-        if(ID.equals("")){
+        if("".equals(ID)){
             dialogmessage = "Please Select Record To Update";
                     JOptionPane.showMessageDialog(null,dialogmessage,
                             "WARNING!!", JOptionPane.WARNING_MESSAGE);
@@ -404,7 +404,7 @@ public class Costcenter extends javax.swing.JInternalFrame {
         db = new database();
         try {
 
-            if (!centercode.equals("") && !centername.equals("")) {
+            if (!"".equals(centercode) && !"".equals(centername)) {
                 i.setCentercode(centercode);
                 i.setCentername(centername);
                 //System.out.println("values"+i);

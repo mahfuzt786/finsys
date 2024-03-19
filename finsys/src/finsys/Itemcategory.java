@@ -344,7 +344,7 @@ public class Itemcategory extends javax.swing.JInternalFrame {
                     JOptionPane.showMessageDialog(null,dialogmessage,
                             "WARNING!!", JOptionPane.WARNING_MESSAGE);
         }
-        else if( txtcategoryname.getText().trim().equals("")){
+        else if( "".equals(txtcategoryname.getText().trim())){
             dialogmessage = "Empty Record!!!";
                     JOptionPane.showMessageDialog(null,dialogmessage,
                             "WARNING!!", JOptionPane.WARNING_MESSAGE);
@@ -376,7 +376,7 @@ public class Itemcategory extends javax.swing.JInternalFrame {
         db = new database();
         try {
 
-            if ( !categoryname.equals("")) {
+            if ( !"".equals(categoryname)) {
 //                String categorycode=categoryname.substring(0, 2);
 //                categorycode+=
                 
