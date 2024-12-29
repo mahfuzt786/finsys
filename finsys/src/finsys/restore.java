@@ -5,6 +5,7 @@
  */
 package finsys;
 
+import io.github.pixee.security.BoundedLineReader;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
@@ -210,12 +211,12 @@ public class restore extends javax.swing.JInternalFrame {
             p = pb.start();
             final BufferedReader r = new BufferedReader(
                     new InputStreamReader(p.getErrorStream()));
-            String line = r.readLine();
+            String line = BoundedLineReader.readLine(r, 5_000_000);
             String temp = "";
             while (line != null) {
                 System.err.println(line);
 
-                line = r.readLine();
+                line = BoundedLineReader.readLine(r, 5_000_000);
                 temp = temp + line + "\n";
 
                 msg.setText("Please Wait...");
